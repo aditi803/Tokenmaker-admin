@@ -22,11 +22,7 @@ import { loginUser, socialLogin } from "../../store/actions";
 
 // import images
 import profile from "assets/images/profile-img.png";
-<<<<<<< HEAD
-import logo from "assets/images/logo.svg";
-=======
 import logo from "assets/images/blockTech.jpg";
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
 
 //Import config
 import { facebook, google } from "../../config";
@@ -109,13 +105,6 @@ const Login = props => {
                     <Col xs={7}>
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Welcome Back !</h5>
-<<<<<<< HEAD
-                        <p>Sign in to continue to Skote.</p>
-                      </div>
-                    </Col>
-                    <Col className="col-5 align-self-end">
-                      <img src={profile} alt="" className="img-fluid" />
-=======
                         <p>Sign in to continue to BlockTechBrew.</p>
                       </div>
                     </Col>
@@ -123,7 +112,6 @@ const Login = props => {
                       <img style={{
                         width: '100%', height: '69px'
    }} src={profile} alt="" className="img-fluid" />
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                     </Col>
                   </Row>
                 </div>
@@ -136,12 +124,8 @@ const Login = props => {
                             src={logo}
                             alt=""
                             className="rounded-circle"
-<<<<<<< HEAD
-                            height="34"
-=======
                             height="69px"
                             width="100%"
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                           />
                         </span>
                       </div>

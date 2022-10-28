@@ -120,11 +120,6 @@ const SidebarContent = props => {
               </ul>
             </li>
 
-<<<<<<< HEAD
-            <li className="menu-title">{props.t("Apps")}</li>
-
-            <li>
-=======
             <li className="menu-title">{props.t("CMS MANAGER")}</li>
             <li>
               <Link to="/#" className="has-arrow">
@@ -153,7 +148,6 @@ const SidebarContent = props => {
               </ul>
             </li>
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/calendar" >
                 <i className="bx bx-calendar"></i>
                 <span>{props.t("Calendar")}</span>
@@ -255,11 +249,7 @@ const SidebarContent = props => {
                   <Link to="/email-read">{props.t("Read Email")} </Link>
                 </li>
                 <li>
-<<<<<<< HEAD
-                  <Link to="/#" className="has-arrow">                    
-=======
                   <Link to="/#" className="has-arrow">
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                     <span key="t-email-templates">{props.t("Templates")}</span>
                   </Link>
                   <ul className="sub-menu">
@@ -352,13 +342,8 @@ const SidebarContent = props => {
                   <Link to="/contacts-profile">{props.t("Profile")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-=======
             </li> */}
             {/* 
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bxs-detail" />
@@ -375,13 +360,8 @@ const SidebarContent = props => {
                   <Link to="/blog-details">{props.t("Blog Details")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-=======
             </li> */}
             {/* 
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
             <li>
               <Link to="/#">
                 <span className="badge rounded-pill bg-success float-end" key="t-new">New</span>
@@ -402,21 +382,12 @@ const SidebarContent = props => {
                   </ul>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li className="menu-title">Pages</li>
-            <li>
-              <Link to="/#" className="has-arrow">
-                <i className="bx bx-user-circle"></i>                
-=======
             </li> */}
 
             {/* <li className="menu-title">Pages</li>
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-user-circle"></i>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                 <span>{props.t("Authentication")}</span>
               </Link>
               <ul className="sub-menu">
@@ -479,13 +450,8 @@ const SidebarContent = props => {
                   </Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-            <li>
-=======
             </li> */}
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-file"></i>
                 <span>{props.t("Utility")}</span>
@@ -516,19 +482,11 @@ const SidebarContent = props => {
                   <Link to="/pages-500">{props.t("Error 500")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li className="menu-title">{props.t("Components")}</li>
-
-            <li>
-=======
             </li> */}
 
             {/* <li className="menu-title">{props.t("Components")}</li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-tone" />
                 <span>{props.t("UI Elements")}</span>
@@ -583,19 +541,11 @@ const SidebarContent = props => {
                 <li>
                   <Link to="/ui-placeholders">{props.t("Placeholders")}</Link>
                 </li>
-<<<<<<< HEAD
-                {/* <li>
-                    <Link to="/ui-sweet-alert">
-                      {props.t("Sweet-Alert")}
-                    </Link>
-                  </li> */}
-=======
                 <li>
                   <Link to="/ui-sweet-alert">
                     {props.t("Sweet-Alert")}
                   </Link>
                 </li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                 <li>
                   <Link to="/ui-tabs-accordions">
                     {props.t("Tabs & Accordions")}
@@ -635,15 +585,9 @@ const SidebarContent = props => {
                   </Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li>
-=======
             </li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" >
                 <i className="bx bxs-eraser"></i>
                 <span className="badge rounded-pill bg-danger float-end">
@@ -683,19 +627,11 @@ const SidebarContent = props => {
                 </li>
                 <li>
                   <Link to="/form-mask">{props.t("Form Mask")}</Link>
-<<<<<<< HEAD
-                </li>                
-              </ul>
-            </li>
-
-            <li>
-=======
                 </li>
               </ul>
             </li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-list-ul"></i>
                 <span>{props.t("Tables")}</span>
@@ -719,15 +655,9 @@ const SidebarContent = props => {
                   <Link to="/tables-dragndrop">{props.t("Drag & Drop Table")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li>
-=======
             </li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow ">
                 <i className="bx bxs-bar-chart-alt-2"></i>
                 <span>{props.t("Charts")}</span>
@@ -759,15 +689,9 @@ const SidebarContent = props => {
                   <Link to="/re-charts">{props.t("Re Chart")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li>
-=======
             </li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-aperture"></i>
                 <span>{props.t("Icons")}</span>
@@ -788,15 +712,9 @@ const SidebarContent = props => {
                   <Link to="/icons-fontawesome">{props.t("Font awesome")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li>
-=======
             </li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-map"></i>
                 <span>{props.t("Maps")}</span>
@@ -812,15 +730,9 @@ const SidebarContent = props => {
                   <Link to="/maps-leaflet">{props.t("Leaflet Maps")}</Link>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-
-            <li>
-=======
             </li> */}
 
             {/* <li>
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-share-alt"></i>
                 <span>{props.t("Multi Level")}</span>
@@ -843,11 +755,7 @@ const SidebarContent = props => {
                   </ul>
                 </li>
               </ul>
-<<<<<<< HEAD
-            </li>
-=======
             </li> */}
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
           </ul>
         </div>
       </SimpleBar>

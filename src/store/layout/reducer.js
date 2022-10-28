@@ -26,11 +26,7 @@ import {
 
 const INIT_STATE = {
   layoutType: layoutTypes.VERTICAL,
-<<<<<<< HEAD
-  layoutModeType: layoutModeTypes.LIGHT,
-=======
   layoutModeType: localStorage.getItem('mode') || layoutModeTypes.LIGHT,
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
   layoutWidth: layoutWidthTypes.FLUID,
   leftSideBarTheme: leftSideBarThemeTypes.DARK,
   leftSideBarThemeImage: leftBarThemeImageTypes.NONE,

@@ -30,16 +30,11 @@ function* registerUser({ payload: { user } }) {
       const response = yield call(postJwtRegister, "/post-jwt-register", user)
       yield put(registerUserSuccessful(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
-<<<<<<< HEAD
       console.log('ctrfyguhijovgfgyjhukj');
       
       const response = yield call(postFakeRegister, user)
       yield put(registerUserSuccessful(response))
     console.log(response,'wsdefrtgyhuijok');
-=======
-      const response = yield call(postFakeRegister, user)
-      yield put(registerUserSuccessful(response))
->>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
     }
   } catch (error) {
     console.log("There was an error registering: ", error)
