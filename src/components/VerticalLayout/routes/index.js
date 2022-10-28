@@ -179,13 +179,14 @@ import ContactsProfile from "../../../pages/Contacts/ContactsProfile/contacts-pr
 import LandingPageFAQs from "pages/Landing-Page-FAQs"
 import LandingPageBanner from "pages/Landing-Page-Banner"
 import LandingPageSteps from "pages/Landing-Page-Steps"
+import LandingPageStart from "pages/Landing-Page-Start"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
   { path: "/landing-page-faqs", component: LandingPageFAQs },
   { path: "/landing-page-banner", component: LandingPageBanner },
   { path: "/landing-page-steps", component: LandingPageSteps },
-   { path: "/dashboard-saas", component: DashboardSaas },
+  { path: "/landing-page-start", component: LandingPageStart },
   { path: "/dashboard-crypto", component: DashboardCrypto },
   { path: "/blog", component: Blog },
   { path: "/dashboard-job", component: DashboardJob },

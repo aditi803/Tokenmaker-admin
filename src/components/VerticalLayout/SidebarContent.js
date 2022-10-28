@@ -134,7 +134,7 @@ const SidebarContent = props => {
                   <Link to="/landing-page-steps">{props.t("Steps")}</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard-crypto">{props.t("Start Now")}</Link>
+                  <Link to="/landing-page-start">{props.t("Start Now")}</Link>
                 </li>
                 <li>
                   <Link to="/blog">{props.t("Features")}</Link>
