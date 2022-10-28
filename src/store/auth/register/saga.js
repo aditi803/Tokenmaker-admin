@@ -31,6 +31,7 @@ function* registerUser({ payload: { user } }) {
       yield put(registerUserSuccessful(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
       console.log('ctrfyguhijovgfgyjhukj');
+      
       const response = yield call(postFakeRegister, user)
       yield put(registerUserSuccessful(response))
     console.log(response,'wsdefrtgyhuijok');
