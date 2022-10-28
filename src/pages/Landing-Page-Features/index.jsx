@@ -4,24 +4,18 @@ import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
-import Button from './Button';
-
-
-function LandingPageCustomDeveloper(props) {
-     document.title = "BlockTechBrew - Landing Page Custom Devloper"
+function LandingPageFeatures(props) {
+     document.title = "BlockTechBrew - Landing Page Features"
      return (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
                          <Breadcrumbs
                               title={props.t("Landing-Page")}
-                              breadcrumbItem={props.t("Custom-Devloper")}
+                              breadcrumbItem={props.t("Features")}
                          />
                          <Row>
-                              <Heading />
-                         </Row>
-                         <Row>
-                              <Button />
+                              <Heading/>
                          </Row>
                         
                     </Container>
@@ -29,7 +23,7 @@ function LandingPageCustomDeveloper(props) {
           </React.Fragment>
      )
 }
-LandingPageCustomDeveloper.propTypes = {
+LandingPageFeatures.propTypes = {
      t: PropTypes.any
 };
-export default withTranslation()(LandingPageCustomDeveloper);
+export default withTranslation()(LandingPageFeatures);

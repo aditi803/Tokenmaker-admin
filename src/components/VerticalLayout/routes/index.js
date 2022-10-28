@@ -180,6 +180,8 @@ import LandingPageFAQs from "pages/Landing-Page-FAQs"
 import LandingPageBanner from "pages/Landing-Page-Banner"
 import LandingPageSteps from "pages/Landing-Page-Steps"
 import LandingPageStart from "pages/Landing-Page-Start"
+import LandingPageCustomDeveloper from "pages/Landing-Page-CustomDevloper"
+import LandingPageFeatures from "pages/Landing-Page-Features"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -187,7 +189,8 @@ const authProtectedRoutes = [
   { path: "/landing-page-banner", component: LandingPageBanner },
   { path: "/landing-page-steps", component: LandingPageSteps },
   { path: "/landing-page-start", component: LandingPageStart },
-  { path: "/dashboard-crypto", component: DashboardCrypto },
+  { path: "/landing-page-custom-developer", component: LandingPageCustomDeveloper },
+  { path: "/landing-page-features", component: LandingPageFeatures },
   { path: "/blog", component: Blog },
   { path: "/dashboard-job", component: DashboardJob },
 
