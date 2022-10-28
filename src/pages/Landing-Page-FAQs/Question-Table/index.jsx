@@ -11,17 +11,17 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import { useState } from "react";
 import { EditOutlined } from "@mui/icons-material";
 
-const SortableItem = SortableElement(({ value, i, editHandler, edit }) => <Row className='mb-5'><Col lg='1'>{i + 1}</Col><Col lg='3'>{edit == i ? <textarea value={value.Question} onChange={(e) => editHandler(i, { Question: e.target.value })} /> : value.Question}</Col><Col lg='6'>{value.Answer}</Col></Row>);
+const SortableItem = SortableElement(({ value, i, editHandler, edit }) =><><Col lg='1'>{i + 1}</Col><Col lg='3'>{edit == i ? <textarea value={value.Question} onChange={(e) => editHandler(i, { Question: e.target.value })} /> : value.Question}</Col><Col lg='6'>{value.Answer}</Col></>);
 const SortableList = SortableContainer(({ items, editHandler, edit, toggleEdit }) => {
      return (
-          <Col lg="12">
+          <React.Fragment>
                {items.map((value, index) => (
-                    // <Row key={index} className='mb-5'>
-                         <SortableItem key={index} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                         // {/* <Col lg='2'><span onClick={() => toggleEdit(edit === index ? undefined : index)}><EditOutlined /></span></Col> */}
-                    // {/* </Row> */}
+                    <Row key={index} className='mb-5'>
+                    <SortableItem key={index} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
+                    <Col lg='2'><span onClick={() => toggleEdit(edit === index ? undefined : index)}><EditOutlined /></span></Col>
+                    </Row>
                ))}
-          </Col>
+          </React.Fragment>
      );
 });
 export default function QuestionTable() {
@@ -66,11 +66,9 @@ export default function QuestionTable() {
      }
      return (
           <React.Fragment>
-               <Card>
-                    <CardHeader>
-                         <Row><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'Questions'}</Col><Col lg='6' className="">{'Answers'}</Col></Row>
-                    </CardHeader>
+               <Card className='mt-5'>
                     <CardBody>
+                         <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'Questions'}</Col><Col lg='6' className="">{'Answers'}</Col></Row>
                          <SortableList items={items} edit={edit} toggleEdit={toggleEdit} editHandler={editHandler} onSortEnd={onSortEnd} />
                     </CardBody>
                </Card>
