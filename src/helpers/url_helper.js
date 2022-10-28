@@ -1,8 +1,15 @@
 //REGISTER
+<<<<<<< HEAD
 export const POST_FAKE_REGISTER = "https://tokendetails.herokuapp.com/user/register";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "https://tokendetails.herokuapp.com/user/login";
+=======
+export const POST_FAKE_REGISTER = "/post-fake-register";
+
+//LOGIN
+export const POST_FAKE_LOGIN = "/post-fake-login";
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";
 export const POST_FAKE_PASSWORD_FORGET = "/fake-forget-pwd";
 export const POST_FAKE_JWT_PASSWORD_FORGET = "/jwt-forget-pwd";

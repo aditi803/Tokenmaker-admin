@@ -5,10 +5,17 @@ import { Switch, BrowserRouter as Router } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Import Routes all
+<<<<<<< HEAD
 import { authProtectedRoutes, publicRoutes } from "./routes";
 
 // Import all middleware
 import Authmiddleware from "./routes/route";
+=======
+import { authProtectedRoutes, publicRoutes } from "./components/VerticalLayout/routes";
+
+// Import all middleware
+import Authmiddleware from "./components/VerticalLayout/routes/route";
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
 
 // layouts Format
 import VerticalLayout from "./components/VerticalLayout/";

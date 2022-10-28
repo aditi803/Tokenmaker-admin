@@ -17,7 +17,11 @@ const isUserAuthenticated = () => {
 // Register Method
 const postFakeRegister = data => {
   return axios
+<<<<<<< HEAD
     .put(url.POST_FAKE_REGISTER, data)
+=======
+    .post(url.POST_FAKE_REGISTER, data)
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
     .then(response => {
       if (response.status >= 200 || response.status <= 299) return response.data;
       throw response.data;
@@ -30,14 +34,22 @@ const postFakeRegister = data => {
             message = "Sorry! the page you are looking for could not be found";
             break;
           case 500:
+<<<<<<< HEAD
             message ="Sorry! something went wrong, please contact our support team";
+=======
+            message =
+              "Sorry! something went wrong, please contact our support team";
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
             break;
           case 401:
             message = "Invalid credentials";
             break;
+<<<<<<< HEAD
           case 409:
             message = "Email Already In Use";
             break;
+=======
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
           default:
             message = err[1];
             break;
@@ -48,6 +60,7 @@ const postFakeRegister = data => {
 };
 
 // Login Method
+<<<<<<< HEAD
 const postFakeLogin = data => {
   return axios.post(url.POST_FAKE_LOGIN, data).then(response=>{
   if (response.status >= 200 || response.status <= 299) return response.data;
@@ -74,6 +87,9 @@ const postFakeLogin = data => {
   throw message;
 });
 }
+=======
+const postFakeLogin = data => post(url.POST_FAKE_LOGIN, data);
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
 
 // postForgetPwd
 const postFakeForgetPwd = data => post(url.POST_FAKE_PASSWORD_FORGET, data);

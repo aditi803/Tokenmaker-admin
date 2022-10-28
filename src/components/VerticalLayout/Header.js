@@ -34,6 +34,10 @@ import {
   toggleLeftmenu,
   changeSidebarType,
 } from "../../store/actions";
+<<<<<<< HEAD
+=======
+import LayoutModeChangeButton from 'components/Common/LayoutModeChangeButton';
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
 
 const Header = props => {
   const [search, setsearch] = useState(false);
@@ -256,11 +260,19 @@ const Header = props => {
 
                       <Col sm={5}>
                         <div>
+<<<<<<< HEAD
                           <img
                             src={megamenuImg}
                             alt=""
                             className="img-fluid mx-auto d-block"
                           />
+=======
+                          {/* <img
+                            src={megamenuImg}
+                            alt=""
+                            className="img-fluid mx-auto d-block"
+                          /> */}
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                         </div>
                       </Col>
                     </Row>
@@ -308,7 +320,12 @@ const Header = props => {
                 </form>
               </div>
             </div>
+<<<<<<< HEAD
 
+=======
+            <i className="fa-sharp fa-solid fa-sun-bright"></i>
+            <LayoutModeChangeButton />
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
             <LanguageDropdown />
 
             <Dropdown
@@ -388,7 +405,11 @@ const Header = props => {
             <ProfileMenu />
 
             <div
+<<<<<<< HEAD
                onClick={() => {
+=======
+              onClick={() => {
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                 props.showRightSidebarAction(!props.showRightSidebar);
               }}
               className="dropdown d-inline-block"

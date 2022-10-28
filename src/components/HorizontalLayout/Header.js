@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 
+=======
+import LayoutModeChangeButton from "components/Common/LayoutModeChangeButton";
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
@@ -212,6 +216,10 @@ const Header = props => {
                       </Col>
                     </Row>
                   </Col>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
                   <Col sm={4}>
                     <Row>
                       <Col sm={6}>
@@ -296,9 +304,13 @@ const Header = props => {
                 </form>
               </div>
             </div>
+<<<<<<< HEAD
 
             <LanguageDropdown />
 
+=======
+            <LanguageDropdown />
+>>>>>>> 2f20071ab1e769f7e9fec3f8339307b5e69b4bd7
             <Dropdown
               className="d-none d-lg-inline-block ms-1"
               isOpen={socialDrp}
