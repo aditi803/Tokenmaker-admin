@@ -4,8 +4,8 @@ import { Container, Row } from 'reactstrap'
 import QuestionTable from './Question-Table'
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { withTranslation } from 'react-i18next';
-// import Heading from './Heading';
-// import Content from './Content';
+import Heading from './Heading';
+import Content from './Content';
 function LandingPageFAQs(props) {
      document.title = "BlockTechBrew - Landing Page FAQs"
      return (
@@ -16,10 +16,10 @@ function LandingPageFAQs(props) {
                               title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("FAQs")}
                          />
-                         {/* <Row>
+                         <Row>
                               <Heading />
                               <Content/>
-                         </Row> */}
+                         </Row>
                          <Row>
                               <QuestionTable />
                          </Row>
