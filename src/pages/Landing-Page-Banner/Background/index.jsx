@@ -25,7 +25,7 @@ function Background() {
                </Row>
                <Row>
                     <Col>
-                         <label className="btn btn-primary" style={{width:'200px'}}>
+                         <label className="btn btn-primary" style={{width:'200px',marginTop:'10px'}}>
                               Update<input type="file" onChange={handleChange} style={{ width: '0px', height: '0px', overflow: 'hidden' }} />
                          </label>
                     </Col>
