@@ -1,7 +1,7 @@
 image: node:16
 
 options:
- max-time: 10
+ max-time: 20
 pipelines:
   branches:
     master:
