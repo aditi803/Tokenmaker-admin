@@ -1,5 +1,5 @@
-import React from 'react'
-import { Col, Container, Row } from 'reactstrap';
+import React, { useState } from 'react'
+import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -7,6 +7,10 @@ import Heading from './Heading';
 import StepsTable from './StepsTable';
 function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
+     const [data, setData] = useState({ Heading: 'Create your token in just a few easy steps:', headingColor: 'black' });
+     const handleChange = (e) => {
+          console.log(data);
+     }
      return (
           <React.Fragment>
                <div className="page-content">
@@ -16,10 +20,13 @@ function LandingPageSteps(props) {
                               breadcrumbItem={props.t("Steps")}
                          />
                          <Row>
-                              <Heading />
+                              <Heading data={data} setData={setData} />
+                              <div className='row '>
+                                   <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', margin :'auto',marginTop:'15px' }}>Update</Button>
+                              </div>
                          </Row>
                          <Row className='mt-5'>
-                              <StepsTable/>
+                              <StepsTable />
                          </Row>
                     </Container>
                </div>

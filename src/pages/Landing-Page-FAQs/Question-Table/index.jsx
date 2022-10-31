@@ -5,25 +5,34 @@ import {
      Col,
      Row,
 } from "reactstrap";
-// import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import React from 'react';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+// import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { useState } from "react";
-import { EditOutlined } from "@mui/icons-material";
+import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 
-const SortableItem = SortableElement(({ value, i, editHandler, edit }) =><><Col lg='1'>{i + 1}</Col><Col lg='3'>{edit == i ? <textarea value={value.Question} onChange={(e) => editHandler(i, { Question: e.target.value })} /> : value.Question}</Col><Col lg='6'>{value.Answer}</Col></>);
-const SortableList = SortableContainer(({ items, editHandler, edit, toggleEdit }) => {
+
+const Item = ({ value, i, editHandler, edit }) => {
+
+     return (
+          <>
+               <Col lg='1'>{i + 1}</Col>
+               <Col lg='3'>{edit == i ? <textarea className="w-100" value={value.Question} onChange={(e) => editHandler(i, { Question: e.target.value })} /> : value.Question}</Col>
+               <Col lg='6'>{edit == i ? <textarea className="w-100" value={value.Answer} onChange={(e) => editHandler(i, { Answer: e.target.value })} /> : value.Answer}</Col>
+          </>
+     )
+}
+const List = ({ items, editHandler, edit, toggleEdit, deleteHandler }) => {
      return (
           <React.Fragment>
                {items.map((value, index) => (
                     <Row key={index} className='mb-5'>
-                    <SortableItem key={index} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                    <Col lg='2'><span onClick={() => toggleEdit(edit === index ? undefined : index)}><EditOutlined /></span></Col>
+                         <Item key={index} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
+                         <Col lg='2'><span onClick={() => toggleEdit(edit === index ? undefined : index)}><EditOutlined /></span><span className="ms-3" onClick={() => deleteHandler(index)}><DeleteSharp /></span></Col>
                     </Row>
                ))}
           </React.Fragment>
      );
-});
+}
 export default function QuestionTable() {
      const [edit, setEdit] = useState(undefined);
      const [items, setItems] = useState([
@@ -52,13 +61,18 @@ export default function QuestionTable() {
                Answer: `None: there is no central authority which can make people trust your token more Ownable: The token will have an owner who will act as admin and be able to conduct different actions such as mining, burning...`
           }
      ]);
+     const addHandler = () => {
+          setItems(prev => [...prev, { Question: '', Answer: '' }]);
+          setEdit(items.length);
+     }
      const onSortEnd = ({ oldIndex, newIndex }) => {
           setItems(Items => arrayMove(Items, oldIndex, newIndex));
-          // console.log(Items);
      };
      const editHandler = (index, value) => {
-          console.log(index, value);
           setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
+     };
+     const deleteHandler = (index) => {
+          setItems(Items => Items.filter((item, i) => i !== index));
      };
      const toggleEdit = (i) => {
           console.log(i);
@@ -68,8 +82,9 @@ export default function QuestionTable() {
           <React.Fragment>
                <Card className='mt-5'>
                     <CardBody>
-                         <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'Questions'}</Col><Col lg='6' className="">{'Answers'}</Col></Row>
-                         <SortableList items={items} edit={edit} toggleEdit={toggleEdit} editHandler={editHandler} onSortEnd={onSortEnd} />
+                         <Row className="justify-content-end"><button className="btn btn-primary" onClick={addHandler} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row>
+                         <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'Questions'}</Col><Col lg='6' className="">{'Answers'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
+                         <List items={items} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
                     </CardBody>
                </Card>
           </React.Fragment>
