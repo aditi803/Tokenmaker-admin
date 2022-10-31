@@ -35,7 +35,7 @@ export const logoutUserSuccess = () => {
   }
 }
 
-export const apiError = error => {
+export const  apiError = error => {
   return {
     type: API_ERROR,
     payload: error,
