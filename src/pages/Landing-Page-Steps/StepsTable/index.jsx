@@ -7,9 +7,9 @@ import {
 } from "reactstrap";
 import React from 'react';
 import { useState } from "react";
-import { EditOutlined } from "@mui/icons-material";
+import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 
-const Item = ({ item, index, editHandler }) => {
+const Item = ({ item, index, editHandler, deleteHandler }) => {
      const [edit, setEdit] = useState(false);
 
      return (
@@ -17,17 +17,17 @@ const Item = ({ item, index, editHandler }) => {
                <Col lg='1'>{item.sno}</Col>
                <Col lg='3'>{edit ? <textarea value={item.title} onChange={(e) => editHandler(index, { title: e.target.value })} /> : item.title}</Col>
                <Col lg='6'>{edit ? <textarea value={item.content} onChange={(e) => editHandler(index, { content: e.target.value })} /> : item.content}</Col>
-               <Col lg='2'><span onClick={() => setEdit(prev => !prev)}><EditOutlined /></span></Col>
+               <Col lg='2'><span onClick={() => setEdit(prev => !prev)}><EditOutlined /></span><span className="ms-3" onClick={() => deleteHandler(index)}><DeleteSharp /></span></Col>
           </Row>
      )
 }
 
-const List = ({ items, editHandler }) => {
+const List = ({ items, editHandler, deleteHandler }) => {
 
      return (
           <Col lg="12">
                {items.map((item, index) => (
-                    <Item key={index} item={item} index={index} editHandler={editHandler} />
+                    <Item key={index} item={item} index={index} editHandler={editHandler} deleteHandler={deleteHandler} />
                ))}
           </Col>
      );
@@ -59,7 +59,9 @@ export default function StepsTable() {
      const editHandler = (index, value) => {
           setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
      };
-
+     const deleteHandler = (index) => {
+          setItems(Items => Items.filter((item, i) => i !== index));
+     };
      return (
           <React.Fragment>
                <Card>
@@ -67,7 +69,7 @@ export default function StepsTable() {
                          <Row><Col lg='1' >{'Step No.'}</Col><Col lg='3' >{'Title'}</Col><Col lg='6' >{'Content'}</Col><Col lg='2' >{'Action'}</Col></Row>
                     </CardHeader>
                     <CardBody>
-                         <List items={items}  editHandler={editHandler}/>
+                         <List items={items} editHandler={editHandler} deleteHandler={deleteHandler} />
                     </CardBody>
                </Card>
           </React.Fragment>
