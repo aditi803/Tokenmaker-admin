@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Row, Col, CardBody, Card, Alert, Container, Input, Label, Form, FormFeedback } from "reactstrap";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Formik Validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -15,12 +18,12 @@ import { Link } from "react-router-dom";
 
 // import images
 import profileImg from "../../assets/images/profile-img.png";
-import logoImg from "../../assets/images/logo.svg";
+import logoImg from "../../assets/images/blockTech.jpg";
 
 const Register = props => {
 
   //meta title
-  document.title = "Register | Skote - React Admin & Dashboard Template";
+  document.title = "Register |  React Admin & Dashboard Template";
 
   const dispatch = useDispatch();
 
@@ -72,7 +75,7 @@ const Register = props => {
                     <Col className="col-7">
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Free Register</h5>
-                        <p>Get your free Skote account now.</p>
+                        <p>Get your free account now.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -86,6 +89,7 @@ const Register = props => {
                       <div className="avatar-md profile-user-wid mb-4">
                         <span className="avatar-title rounded-circle bg-light">
                           <img
+                            style={{width:'100%',height:'100%'}}
                             src={logoImg}
                             alt=""
                             className="rounded-circle"
@@ -178,14 +182,14 @@ const Register = props => {
                         </button>
                       </div>
 
-                      <div className="mt-4 text-center">
+                      {/* <div className="mt-4 text-center">
                         <p className="mb-0">
                           By registering you agree to the Skote{" "}
                           <Link to="#" className="text-primary">
                             Terms of Use
                           </Link>
                         </p>
-                      </div>
+                      </div> */}
                     </Form>
                   </div>
                 </CardBody>
@@ -199,14 +203,15 @@ const Register = props => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()} Crafted with{" "}
+                  <i className="mdi mdi-heart text-danger" /> by <a href="https://blocktechbrew.com" target="_blank" rel="noreferrer" >Blocktech Brew</a>
                 </p>
               </div>
             </Col>
           </Row>
         </Container>
       </div>
+      <ToastContainer />
     </React.Fragment>
   );
 };

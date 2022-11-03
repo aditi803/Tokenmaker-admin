@@ -10,6 +10,9 @@ import {
   postFakeRegister,
   postJwtRegister,
 } from "../../../helpers/fakebackend_helper"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // initialize relavant method of both Auth
 const fireBaseBackend = getFirebaseBackend()
@@ -31,9 +34,13 @@ function* registerUser({ payload: { user } }) {
       yield put(registerUserSuccessful(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
       console.log('ctrfyguhijovgfgyjhukj');
+      console.log(user);
       
       const response = yield call(postFakeRegister, user)
-      yield put(registerUserSuccessful(response))
+      if (response.success == 1) {
+        yield put(registerUserSuccessful(response))
+toast('Register Successful')
+      }
     console.log(response,'wsdefrtgyhuijok');
     }
   } catch (error) {

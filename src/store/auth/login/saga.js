@@ -1,5 +1,8 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Login Redux States
 import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from "./actionTypes";
 import { apiError, loginSuccess, logoutUserSuccess } from "./actions";
@@ -12,12 +15,14 @@ import {
   postSocialLogin,
 } from "../../../helpers/fakebackend_helper";
 
+
+
 const fireBaseBackend = getFirebaseBackend();
 
 function* loginUser({ payload: { user, history } }) {
   try {
     if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-      const response = yield call(
+      const response = yield call(  
         fireBaseBackend.loginUser,
         user.email,
         user.password
@@ -29,13 +34,20 @@ function* loginUser({ payload: { user, history } }) {
         password: user.password,
       });
       localStorage.setItem("authUser", JSON.stringify(response));
-      yield put(loginSuccess(response));
+  
+       yield put(loginSuccess(response));
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
       const response = yield call(postFakeLogin, {
         email: user.email,
         password: user.password,
       });
-      console.log(response);
+      if (response.success == 1) {
+        // yield put(loginSuccess(response))
+        toast("Successfully Login");
+        console.log(response);       
+      }
+   
+
       localStorage.setItem("authUser", JSON.stringify(response));
       yield put(loginSuccess(response));
     }
@@ -86,5 +98,6 @@ function* authSaga() {
   yield takeLatest(SOCIAL_LOGIN, socialLogin);
   yield takeEvery(LOGOUT_USER, logoutUser);
 }
+
 
 export default authSaga;

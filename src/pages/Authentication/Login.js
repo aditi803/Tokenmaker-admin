@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { withRouter, Link } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Formik validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -31,7 +33,7 @@ import { RestoreFromTrash } from "@mui/icons-material";
 const Login = props => {
 
   //meta title
-  document.title = "Login | Skote - React Admin & Dashboard Template";
+  document.title = "Login |  React Admin & Dashboard Template";
 
   const dispatch = useDispatch();
 
@@ -40,16 +42,16 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email:  '',
-      password: '',
+      email: '',
+      password:'',
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values,{resetForm}) => {
-      const response=dispatch(loginUser(values, props.history));
-    resetForm(values='')
+    onSubmit: (values, { resetForm }) => {
+      dispatch(loginUser(values, props.history));
+      resetForm(values='');
     }
   });
 
@@ -59,6 +61,7 @@ const Login = props => {
 
   const signIn = (res, type) => {
     if (type === "google" && res) {
+
       const postData = {
         name: res.profileObj.name,
         email: res.profileObj.email,
@@ -113,7 +116,7 @@ const Login = props => {
                     <Col className="col-5 align-self-end">
                       <img style={{
                         width: '100%', height: '69px'
-   }} src={profile} alt="" className="img-fluid" />
+                      }} src={profile} alt="" className="img-fluid" />
                     </Col>
                   </Row>
                 </div>
@@ -181,7 +184,7 @@ const Login = props => {
                         ) : null}
                       </div>
 
-                      <div className="form-check">
+                      {/* <div className="form-check">
                         <input
                           type="checkbox"
                           className="form-check-input"
@@ -193,7 +196,7 @@ const Login = props => {
                         >
                           Remember me
                         </label>
-                      </div>
+                      </div> */}
 
                       <div className="mt-3 d-grid">
                         <button
@@ -204,10 +207,10 @@ const Login = props => {
                         </button>
                       </div>
 
-                      <div className="mt-4 text-center">
-                        <h5 className="font-size-14 mb-3">Sign in with</h5>
+                      {/* <div className="mt-4 text-center"> */}
+                      {/* <h5 className="font-size-14 mb-3">Sign in with</h5> */}
 
-                        <ul className="list-inline">
+                      {/* <ul className="list-inline">
                           <li className="list-inline-item">
                             <FacebookLogin
                               appId={facebook.APP_ID}
@@ -223,29 +226,29 @@ const Login = props => {
                                 </Link>
                               )}
                             />
-                          </li>
-                          {/*<li className="list-inline-item">*/}
-                          {/*  <TwitterLogin*/}
-                          {/*    loginUrl={*/}
-                          {/*      "http://localhost:4000/api/v1/auth/twitter"*/}
-                          {/*    }*/}
-                          {/*    onSuccess={this.twitterResponse}*/}
-                          {/*    onFailure={this.onFailure}*/}
-                          {/*    requestTokenUrl={*/}
-                          {/*      "http://localhost:4000/api/v1/auth/twitter/revers"*/}
-                          {/*    }*/}
-                          {/*    showIcon={false}*/}
-                          {/*    tag={"div"}*/}
-                          {/*  >*/}
-                          {/*    <a*/}
-                          {/*      href=""*/}
-                          {/*      className="social-list-item bg-info text-white border-info"*/}
-                          {/*    >*/}
-                          {/*      <i className="mdi mdi-twitter"/>*/}
-                          {/*    </a>*/}
-                          {/*  </TwitterLogin>*/}
-                          {/*</li>*/}
-                          <li className="list-inline-item">
+                          </li> */}
+                      {/*<li className="list-inline-item">*/}
+                      {/*  <TwitterLogin*/}
+                      {/*    loginUrl={*/}
+                      {/*      "http://localhost:4000/api/v1/auth/twitter"*/}
+                      {/*    }*/}
+                      {/*    onSuccess={this.twitterResponse}*/}
+                      {/*    onFailure={this.onFailure}*/}
+                      {/*    requestTokenUrl={*/}
+                      {/*      "http://localhost:4000/api/v1/auth/twitter/revers"*/}
+                      {/*    }*/}
+                      {/*    showIcon={false}*/}
+                      {/*    tag={"div"}*/}
+                      {/*  >*/}
+                      {/*    <a*/}
+                      {/*      href=""*/}
+                      {/*      className="social-list-item bg-info text-white border-info"*/}
+                      {/*    >*/}
+                      {/*      <i className="mdi mdi-twitter"/>*/}
+                      {/*    </a>*/}
+                      {/*  </TwitterLogin>*/}
+                      {/*</li>*/}
+                      {/* <li className="list-inline-item">
                             <GoogleLogin
                               clientId={google.CLIENT_ID}
                               render={renderProps => (
@@ -262,14 +265,14 @@ const Login = props => {
                             />
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
 
-                      <div className="mt-4 text-center">
+                      {/* <div className="mt-4 text-center">
                         <Link to="/forgot-password" className="text-muted">
                           <i className="mdi mdi-lock me-1" />
                           Forgot your password?
                         </Link>
-                      </div>
+                      </div> */}
                     </Form>
                   </div>
                 </CardBody>
@@ -283,14 +286,15 @@ const Login = props => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()}  Crafted with{" "}
+                  <i className="mdi mdi-heart text-danger" /> by <a href="https://blocktechbrew.com" target="_blank" rel="noreferrer" >Blocktech Brew</a>
                 </p>
               </div>
             </Col>
           </Row>
         </Container>
       </div>
+      <ToastContainer/>
     </React.Fragment>
   );
 };

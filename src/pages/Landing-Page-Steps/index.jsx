@@ -9,6 +9,12 @@ function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
      const [data, setData] = useState({ Heading: 'Create your token in just a few easy steps:', headingColor: 'black' });
      const handleChange = (e) => {
+          const confirmMessage = prompt("if you want to changes please confirm with yes or y") 
+          if (confirmMessage == 'yes' || confirmMessage == 'y') {
+               
+          } else {
+               
+          }
           console.log(data);
      }
      return (

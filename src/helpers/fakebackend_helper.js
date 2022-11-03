@@ -1,4 +1,6 @@
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
 
@@ -28,15 +30,19 @@ const postFakeRegister = data => {
         switch (err.response.status) {
           case 404:
             message = "Sorry! the page you are looking for could not be found";
+            toast.error("Sorry! the page you are looking for could not be found")
             break;
           case 500:
-            message ="Sorry! something went wrong, please contact our support team";
+            message = "Sorry! something went wrong, please contact our support team";
+            toast.error("Sorry! something went wrong, please contact our support team")
             break;
           case 401:
             message = "Invalid credentials";
+            toast.error("Invalid credentials")
             break;
           case 409:
             message = "Email Already In Use";
+            toast.error("Email Already In Use")
             break;
           default:
             message = err[1];
@@ -49,33 +55,33 @@ const postFakeRegister = data => {
 
 // Login Method
 const postFakeLogin = data => {
-  return axios.post(url.POST_FAKE_LOGIN, data).then(response=>{
-  if (response.status >= 200 || response.status <= 299) {
-    console.log('vtvgbhnjm');
-    return response.data};
-  
-  throw response.data;
-}).catch(err => {
-  let message;
-  if (err.response && err.response.status) {
-    switch (err.response.status) {
-      case 404:
-        message = "Please Register Sir!";
-        break;
-      case 500:
-        message =
-          "Sorry! something went wrong, please contact our support team";
-        break;
-      case 401:
-        message = "Invalid credentials";
-        break;
-      default:
-        message = err[1];
-        break;
+  return axios.post(url.POST_FAKE_LOGIN, data).then(response => {
+    if (response.status >= 200 || response.status <= 299) {  return response.data };
+    throw response.data;
+  }).catch(err => {
+    let message;
+    if (err.response && err.response.status) {
+      switch (err.response.status) {
+        case 404:
+          message = "Please Register Sir!";
+          toast.error("Please Register Sir!")
+          break;
+        case 500:
+          message =
+            "Sorry! something went wrong, please contact our support team";
+          toast.error("Sorry! something went wrong, please contact our support team")
+          break;
+        case 401:
+          message = "Invalid credentials";
+          toast.error("Invalid credentials")
+          break;
+        default:
+          message = err[1];
+          break;
+      }
     }
-  }
-  throw message;
-});
+    throw message;
+  });
 }
 
 // postForgetPwd
@@ -100,13 +106,16 @@ const postJwtRegister = (url, data) => {
         switch (err.response.status) {
           case 404:
             message = "Sorry! the page you are looking for could not be found";
+            // toast("Sorry! the page you are looking for could not be found")
             break;
           case 500:
             message =
               "Sorry! something went wrong, please contact our support team";
+            // toast("Sorry! something went wrong, please contact our support team")
             break;
           case 401:
             message = "Invalid credentials";
+            // toast.error("Invalid credentials")
             break;
           default:
             message = err[1];

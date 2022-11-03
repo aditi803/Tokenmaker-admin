@@ -19,11 +19,15 @@ function LandingPageBanner(props) {
          setItems(authUser);
      }, []);
      const handleChange = async (e) => {
-          e.preventDefault();
+          const confirmMessage = prompt("if you want to changes please confirm with yes or y")
+          if (confirmMessage == 'yes' || confirmMessage == 'y') {
+               e.preventDefault();
           const response = await axios.put('http://localhost:3010/cms/banner', { heading:data.heading
      ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage},
           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}});
           console.log(response.data);
+          } 
+          
      }
 
      return (
@@ -38,8 +42,8 @@ function LandingPageBanner(props) {
                               <Col lg='8'>
                                    <Heading data={data} setData={setData} />
                                    <Content data={data} setData={setData} />
+                                   < ButtonComp data={data} setData={setData}/>
                                    <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
-
                               </Col>
                               <Col lg='4'>
                                    <Background data={data} setData={setData}/>
