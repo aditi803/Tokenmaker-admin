@@ -99,6 +99,7 @@ function* fetchProductDetail({ productId }) {
 function* fetchOrders() {
   try {
     const response = yield call(getOrders);
+    console.log(response);
     yield put(getOrdersSuccess(response));
   } catch (error) {
     yield put(getOrdersFail(error));

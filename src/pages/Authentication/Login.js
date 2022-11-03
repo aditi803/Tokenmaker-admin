@@ -26,6 +26,7 @@ import logo from "assets/images/blockTech.jpg";
 
 //Import config
 import { facebook, google } from "../../config";
+import { RestoreFromTrash } from "@mui/icons-material";
 
 const Login = props => {
 
@@ -39,15 +40,16 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "admin@themesbrand.com" || '',
-      password: "123456" || '',
+      email:  '',
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {
-      dispatch(loginUser(values, props.history));
+    onSubmit: (values,{resetForm}) => {
+      const response=dispatch(loginUser(values, props.history));
+    resetForm(values='')
     }
   });
 

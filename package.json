@@ -34,6 +34,7 @@
     "firebase": "^9.9.1",
     "formik": "^2.2.9",
     "google-maps-react": "^2.0.6",
+    "handlebars": "^4.7.7",
     "i18next": "^21.8.14",
     "i18next-browser-languagedetector": "^6.1.4",
     "leaflet": "^1.7.1",

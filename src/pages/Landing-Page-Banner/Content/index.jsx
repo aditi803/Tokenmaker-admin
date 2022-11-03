@@ -13,7 +13,7 @@ function Content(props) {
                     <h3>Content</h3>
                     <TextField className='w-100' value={content} onChange={(e) => {
                          setContent(e.target.value);
-                         setData({ ...data, Content: e.target.value })
+                         setData({ ...data, content: e.target.value })
                          console.log(data);
                     }} />
                </Col>

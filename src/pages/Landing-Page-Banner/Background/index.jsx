@@ -2,7 +2,8 @@ import React from 'react'
 import { useState } from 'react';
 import { Col, Row } from 'reactstrap'
 
-function Background() {
+function Background(props) {
+     const { data, setData } = props;
      const [background, setBackground] = useState('https://tokenmaker.block-brew.com/static/media/Background-V1.1-1.8da2fcfd43ac80268eb2.png');
      const handleChange = (e) => {
           let files = e.target.files;
@@ -12,7 +13,7 @@ function Background() {
 
                reader.onloadend = function () {
                     console.log(this.result);
-                    setBackground(this.result);
+                    setData({...data,backgroundImage:this.result});
                }
           }
      }

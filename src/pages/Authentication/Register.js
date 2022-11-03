@@ -38,8 +38,9 @@ const Register = props => {
       username: Yup.string().required("Please Enter Your Username"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values,{resetForm}) => {
       dispatch(registerUser(values));
+      resetForm(values='');
     }
   });
 

@@ -50,7 +50,10 @@ const postFakeRegister = data => {
 // Login Method
 const postFakeLogin = data => {
   return axios.post(url.POST_FAKE_LOGIN, data).then(response=>{
-  if (response.status >= 200 || response.status <= 299) return response.data;
+  if (response.status >= 200 || response.status <= 299) {
+    console.log('vtvgbhnjm');
+    return response.data};
+  
   throw response.data;
 }).catch(err => {
   let message;
