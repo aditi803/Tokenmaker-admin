@@ -4,6 +4,8 @@ import {
   REGISTER_USER_FAILED,
 } from "./actionTypes"
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const registerUser = user => {
   return {
     type: REGISTER_USER,
@@ -13,6 +15,7 @@ export const registerUser = user => {
 
 export const registerUserSuccessful = user => {
   return {
+    
     type: REGISTER_USER_SUCCESSFUL,
     payload: user,
   }
