@@ -7,6 +7,7 @@ import Heading from './Heading';
 import Content from './Content';
 import Background from './Background';
 import axios from 'axios';
+import ButtonComp from 'pages/Landing-Page-Banner/Button';
 
 function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
@@ -26,8 +27,7 @@ function LandingPageBanner(props) {
      ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage},
           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}});
           console.log(response.data);
-          } 
-          
+          }      
      }
 
      return (
@@ -42,7 +42,7 @@ function LandingPageBanner(props) {
                               <Col lg='8'>
                                    <Heading data={data} setData={setData} />
                                    <Content data={data} setData={setData} />
-                                   < ButtonComp data={data} setData={setData}/>
+                                   <ButtonComp data={data} setData={setData}/>
                                    <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
                               </Col>
                               <Col lg='4'>
