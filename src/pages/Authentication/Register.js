@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useN } from "react";
 import { Row, Col, CardBody, Card, Alert, Container, Input, Label, Form, FormFeedback } from "reactstrap";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,7 +14,7 @@ import { registerUser, apiError } from "../../store/actions";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 // import images
 import profileImg from "../../assets/images/profile-img.png";
@@ -26,7 +26,7 @@ const Register = props => {
   document.title = "Register |  React Admin & Dashboard Template";
 
   const dispatch = useDispatch();
-
+  const history = useHistory()
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
@@ -43,6 +43,7 @@ const Register = props => {
     }),
     onSubmit: (values) => {
       dispatch(registerUser(values));
+      history.push('/login')
     }
   });
 
@@ -88,7 +89,7 @@ const Register = props => {
                       <div className="avatar-md profile-user-wid mb-4">
                         <span className="avatar-title rounded-circle bg-light">
                           <img
-                            style={{width:'100%',height:'100%'}}
+                            style={{ width: '100%', height: '100%' }}
                             src={logoImg}
                             alt=""
                             className="rounded-circle"

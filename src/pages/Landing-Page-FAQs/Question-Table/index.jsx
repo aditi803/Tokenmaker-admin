@@ -97,7 +97,6 @@ export default function QuestionTable() {
           setItems(Items => arrayMove(Items, oldIndex, newIndex));
      };
      const editHandler = (index, value) => {
-
           setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
      };
      const deleteHandler = (index) => {
@@ -156,7 +155,7 @@ export default function QuestionTable() {
 
                <Modal show={show1} onHide={handleClose1}>
                     <Modal.Header closeButton>
-                         <Modal.Title>FAQ</Modal.Title>
+                         <Modal.Title>Edit-Faq-Qus/Ans</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
