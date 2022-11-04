@@ -38,6 +38,7 @@ function LandingPageSteps(props) {
                          setItems(authUser);
                     }).catch(err => {
                          console.log(err);
+                         console.log('ghjtfg');
                     })
 
           }
