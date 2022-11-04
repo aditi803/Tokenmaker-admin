@@ -1,5 +1,5 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects"
-
+import React from 'react'
 //Account Redux states
 import { REGISTER_USER } from "./actionTypes"
 import { registerUserSuccessful, registerUserFailed } from "./actions"
@@ -12,6 +12,8 @@ import {
 } from "../../../helpers/fakebackend_helper"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link,Route } from "react-router-dom";
+import { replace } from "lodash"
 
 
 // initialize relavant method of both Auth
@@ -19,6 +21,7 @@ const fireBaseBackend = getFirebaseBackend()
 
 // Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user } }) {
+
   console.log("using the following url for registration: ")
   try {
     console.log("Trying to register user (within try block)")
@@ -39,7 +42,14 @@ function* registerUser({ payload: { user } }) {
       const response = yield call(postFakeRegister, user)
       if (response.success == 1) {
         yield put(registerUserSuccessful(response))
-toast('Register Successful')
+        toast('Register Successful');
+        async function hrefChange() {
+       window.location.href = '/login'
+        }
+        hrefChange();
+      } else {
+        <Route replace to='/register' />
+
       }
     console.log(response,'wsdefrtgyhuijok');
     }

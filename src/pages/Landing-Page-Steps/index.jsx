@@ -5,16 +5,21 @@ import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import StepsTable from './StepsTable';
+import axios from 'axios';
 function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
      const [data, setData] = useState({ Heading: 'Create your token in just a few easy steps:', headingColor: 'black' });
-     const handleChange = (e) => {
-          const confirmMessage = prompt("if you want to changes please confirm with yes or y") 
-          if (confirmMessage == 'yes' || confirmMessage == 'y') {
-               
-          } else {
-               
-          }
+     const handleChange =async (e) => {
+     const response=await  axios.put('https://tokenmaker-apis.block-brew.com/cms/faq', {
+          heading: data.heading, headingColor: data.headingColor,
+          contentColor: data.contentColor,contenty:data.content
+     }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
+               if (result.success == 1) {
+                    alert('Updated Successfully');
+               }
+          }).catch((err) => {
+               alert('Cannot Update');
+          });        
           console.log(data);
      }
      return (

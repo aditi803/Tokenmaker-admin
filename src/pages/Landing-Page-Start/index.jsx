@@ -21,8 +21,6 @@ function LandingPageStart(props) {
       }, []);
 
       const handleChange = (e) => {
-           const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-           if (confirmMessage == 'yes' || confirmMessage == 'y') {
                 e.preventDefault();
           axios.put('https://tokenmaker-apis.block-brew.com/cms/startsection', { buttonText:data.buttonText
       ,buttonColor:data.buttonColor, buttonBackgroundColor:data.buttonBackgroundColor,heading:data.heading
@@ -36,7 +34,7 @@ function LandingPageStart(props) {
                alert('Cannot Update');
                console.log(err)
            });
-           } 
+            
            
       }
      return (

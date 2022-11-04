@@ -63,8 +63,8 @@ const postFakeLogin = data => {
     if (err.response && err.response.status) {
       switch (err.response.status) {
         case 404:
-          message = "Please Register Sir!";
-          toast.error("Please Register Sir!")
+          message = "Please Register !";
+          toast.error("Please Register !")
           break;
         case 500:
           message =

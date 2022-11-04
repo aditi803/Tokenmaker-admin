@@ -11,23 +11,27 @@ import ButtonComp from 'pages/Landing-Page-Banner/Button';
 
 function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
-     const [data, setData] = useState({ heading: 'Automatic Token Maker', headingColor: 'white', content: 'You’re looking for a solution to create your own token on the blockchain?Blocktech Brew has you covered: we will help you generate a token automatically, and deploy it in a matter of minutes.',
-      contentColor: 'white' ,backgroundImage:'https://tokenmaker.block-brew.com/static/media/Background-V1.1-1.8da2fcfd43ac80268eb2.png'});
+     const [data, setData] = useState('');
      const [items, setItems] = useState({});
 
      useEffect(() => {
-         const authUser=JSON.parse(localStorage.getItem('authUser'));
-         setItems(authUser);
+          const getData= async()=>{
+               const response = await axios.get('https://tokenmaker-apis.block-brew.com/cms/bannerdetails');
+               setData(response.data.msg);
+               console.log(data);
+              const authUser=JSON.parse(localStorage.getItem('authUser'));
+              setItems(authUser);
+          }
+          getData();
+          
      }, []);
      const handleChange = async (e) => {
-          const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-          if (confirmMessage == 'yes' || confirmMessage == 'y') {
                e.preventDefault();
           const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', { heading:data.heading
      ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage},
           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}});
           console.log(response.data);
-          }      
+                
      }
 
      return (
