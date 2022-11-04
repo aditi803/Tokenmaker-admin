@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Col, Label, Row } from 'reactstrap'
 
 function Heading(props) {
-     const [heading, setHeading] = useState('FAQ');
+     const [heading, setHeading] = useState('');
      const { data, setData } = props;
-     const [color, setColor] = useState('black')
+     const [color, setColor] = useState('')
      return (
           <Row>
                <Col lg='8'>

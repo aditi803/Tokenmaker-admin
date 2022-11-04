@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from "prop-types";
 import { Container, Row, Button } from 'reactstrap'
 import QuestionTable from './Question-Table'
@@ -33,30 +33,50 @@ function LandingPageFAQs(props) {
                                    alert('Cannot Update');
                               });         
           }
-          return (
-               <React.Fragment>
-                    <div className="page-content">
-                         <Container fluid>
-                              <Breadcrumbs
-                                   title={props.t("Landing-Page")}
-                                   breadcrumbItem={props.t("FAQs")}
-                              />
-                              <Row>
-                                   <Heading data={data} setData={setData} />
-                                   <Content data={data} setData={setData} />
-                                   <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
-                              </Row>
-                              <Row>
-                                   <QuestionTable />
-                              </Row>
-                         </Container>
-                    </div>
-               </React.Fragment>
-          )
-     };
 
-     LandingPageFAQs.propTypes = {
-          t: PropTypes.any
-     };
+     }
 
-     export default withTranslation()(LandingPageFAQs);
+     const [data, setData] = useState([])
+     useEffect(() => {
+          const getData = () => {
+               axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
+                    .then((result) => {
+                         setData(result.data.msg);
+                         // console.log(result.data.msg,"Faq details");
+                         const authUser = JSON.parse(localStorage.getItem('authUser'));
+                         setItems(authUser);
+                    }).catch(err => {
+                         console.log(err);
+                    })
+
+          }
+          getData();
+
+     }, []);
+     return (
+          <React.Fragment>
+               <div className="page-content">
+                    <Container fluid>
+                         <Breadcrumbs
+                              title={props.t("Landing-Page")}
+                              breadcrumbItem={props.t("FAQs")}
+                         />
+                         <Row>
+                              <Heading data={data} setData={setData} />
+                              <Content data={data} setData={setData} />
+                              <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
+                         </Row>
+                         <Row>
+                              <QuestionTable data={data} setData={setData} />
+                         </Row>
+                    </Container>
+               </div>
+          </React.Fragment>
+     )
+};
+
+LandingPageFAQs.propTypes = {
+     t: PropTypes.any
+};
+
+export default withTranslation()(LandingPageFAQs);

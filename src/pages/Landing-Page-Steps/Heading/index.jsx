@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Col, Label, Row } from 'reactstrap'
 
 function Heading(props) {
-     const [heading, setHeading] = useState('Create your token in just a few easy steps:');
+     const [heading, setHeading] = useState('');
      const { data, setData } = props;
-     const [color, setColor] = useState('black')
+     const [color, setColor] = useState('')
      return (
           <Row className='mt-5'>
                <Col lg='8'>

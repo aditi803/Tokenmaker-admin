@@ -3,10 +3,10 @@ import { TextField } from '@mui/material'
 import { Col, Row } from 'reactstrap';
 import axios from 'axios';
 function Heading(props) {
-     const [heading, setHeading] = useState('Need a custom development ?');
+     const [heading, setHeading] = useState('');
      const { data, setData } = props;
-     const [background, setBackground] = useState('#383838');
-     const [color, setColor] = useState('white')
+     const [background, setBackground] = useState('');
+     const [color, setColor] = useState('')
      return (
           <Row className='mt-5'>
                <Col lg='4'>

@@ -26,6 +26,24 @@ function LandingPageSteps(props) {
           });        
           console.log(response);
      }
+     // const [items, setItems] = useState([])
+     // const [data, setData] = useState([])
+     useEffect(() => {
+          const getData = () => {
+               axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
+                    .then((result) => {
+                         setData(result.data.msg);
+                         // console.log(result.data.msg, "step details");
+                         const authUser = JSON.parse(localStorage.getItem('authUser'));
+                         setItems(authUser);
+                    }).catch(err => {
+                         console.log(err);
+                    })
+
+          }
+          getData();
+
+     }, []);
      return (
           <React.Fragment>
                <div className="page-content">
@@ -41,7 +59,7 @@ function LandingPageSteps(props) {
                               </div>
                          </Row>
                          <Row className='mt-5'>
-                              <StepsTable />
+                              <StepsTable data={data} setData={setData} />
                          </Row>
                     </Container>
                </div>

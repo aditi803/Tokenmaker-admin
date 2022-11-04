@@ -4,7 +4,7 @@ import { Col, Row } from 'reactstrap'
 
 function Background(props) {
      const { data, setData } = props;
-     const [background, setBackground] = useState('https://tokenmaker.block-brew.com/static/media/Background-V1.1-1.8da2fcfd43ac80268eb2.png');
+     const [background, setBackground] = useState('');
      const handleChange = (e) => {
           let files = e.target.files;
           if (!files.length) {
@@ -21,7 +21,7 @@ function Background(props) {
           <Row className='mt-5'>
                <Row>
                     <Col>
-                         <img src={background} alt="" height={'230px'} width={'200px'} />
+                         <img src={data.backgroundImage} alt="" height={'230px'} width={'200px'} />
                     </Col>
                </Row>
                <Row>

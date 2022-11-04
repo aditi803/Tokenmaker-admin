@@ -23,10 +23,10 @@ const Item = ({ value, i, editHandler, edit }) => {
      )
 }
 
-const List = ({ items, editHandler, edit, toggleEdit, deleteHandler,show1 }) => {
+const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler,show1 }) => {
      return (
           <React.Fragment>
-               {items.map((value, index) => (
+               {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
                          <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => deleteHandler(index)}><DeleteSharp /></span></Col>
@@ -35,49 +35,12 @@ const List = ({ items, editHandler, edit, toggleEdit, deleteHandler,show1 }) => 
           </React.Fragment>
      );
 }
-export default function FeatureList() {
+export default function FeatureList(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
+     const { data, setData } = props
      const [items, setItems] = useState([
-          {
-               sno: '1',
-               title: 'ERC20 / BEP20 Compliant',
-               content: "Your Token will be completely compliant with the specification and will work with any wallet anywhere on the planet. It will have a name, a symbol, and an amount in decimals."
-          },
-          {
-               sno: '2',
-               title: 'Verified Source Code',
-               content: "Your contract code will be automatically published and verified."
-          },
-          {
-               sno: '3',
-               title: 'Burnable Token',
-               content: "Make your token burnable to give you the option to control supply and boost your asset's price when needed"
-          },
-          {
-               sno: '4',
-               title: 'Mintable Token',
-               content: "Choose the mint option if you want to be able to generate more tokens later on"
-          },
-            {
-               sno: '5',
-                 title: 'Pausable',
-                 content: "If you want to make sure token is not traded till a given date, just use the pause feature."
-          },
-          {
-               sno: '6',
-               title: 'Ownable Access',
-               content: "Own your Token and control minting function (mint new tokens, end minting...) Role Based Access Set up roles for your Token (Admin, Minter) and give control to whoever you want."
-          },
-          {
-               sno: '7',
-               title: 'Control your supply',
-               content: "Choose between fixed, capped or unlimited token supply."
-          }, {
-               sno: '8',
-               title: 'Recover lost tokens',
-               content: "No need to worry about lost tokens sent to your Smart Contracts by mistake. Our recovery feature got you covered!"
-          }
+          
      ]);
 
      const [faq, setFaq] = useState({ title: '', content: '' })
@@ -119,7 +82,7 @@ export default function FeatureList() {
                     <CardBody>
                          {/* <Row className="justify-content-end"><button className="btn btn-primary" onClick={() => setShow(true)} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row> */}
                          <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
-                         <List show1={show1} items={items} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
+                         <List show1={show1} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
 
                     </CardBody>
                </Card>

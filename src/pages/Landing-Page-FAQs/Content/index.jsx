@@ -5,9 +5,9 @@ import { Col, Row } from 'reactstrap'
 
 function Content(props) {
      
-     const [content, setContent] = useState("As a leader in the field of Blockchain coding, Blocktech Brew not only teaches you how to make tokens, smart contracts and more, but also offers you tools like this token generator that allows you to save time and deploy tokens automatically");
+     const [content, setContent] = useState("");
      const { data, setData } = props;
-     const [color, setColor] = useState('black')
+     const [color, setColor] = useState('')
      return (
           <Row className='mt-5'>
                <Col lg='8'>

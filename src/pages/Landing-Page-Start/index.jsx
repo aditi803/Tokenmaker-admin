@@ -10,15 +10,7 @@ import axios from 'axios';
 function LandingPageStart(props) {
      document.title = "BlockTechBrew - Landing Page Start"
 
-     const [data, setData] = useState({ heading: 'Ready to deploy your token ?', 
-     headingColor: 'white'
-     , backgroundColor: '#33d3d2',buttonText: 'Start now',
-      buttonColor: 'white', buttonBackgroundColor: '#f50058' });
      const [items, setItems] = useState({});
-     useEffect(() => {
-          const authUser=JSON.parse(localStorage.getItem('authUser'));
-          setItems(authUser);
-      }, []);
 
       const handleChange = (e) => {
                 e.preventDefault();
@@ -36,7 +28,25 @@ function LandingPageStart(props) {
            });
             
            
-      }
+     }
+     
+     const [data, setData] = useState([])
+     useEffect(() => {
+          const getData = () => {
+               axios.get("https://tokenmaker-apis.block-brew.com/cms/startsectiondetails")
+                    .then((result) => {
+                         setData(result.data.msg);
+                         console.log(result.data.msg, "start details");
+                         const authUser = JSON.parse(localStorage.getItem('authUser'));
+                         setItems(authUser);
+                    }).catch(err => {
+                         console.log(err);
+                    })
+
+          }
+          getData();
+
+     }, []);
      return (
           <React.Fragment>
                <div className="page-content">

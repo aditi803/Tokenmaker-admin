@@ -3,10 +3,10 @@ import { TextField } from '@mui/material'
 import { Col, Row } from 'reactstrap';
 
 function Heading(props) {
-     const [heading, setHeading] = useState('Ready to deploy your token ?');
+     const [heading, setHeading] = useState('');
      const { data, setData } = props;
-     const [background, setBackground] = useState('#33d3d2');
-     const [color, setColor] = useState('white')
+     const [background, setBackground] = useState('');
+     const [color, setColor] = useState('')
    
      return (
           <Row className='mt-5'>

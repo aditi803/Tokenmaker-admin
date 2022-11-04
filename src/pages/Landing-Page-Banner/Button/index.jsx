@@ -3,10 +3,10 @@ import { TextField } from '@mui/material'
 import { Col, Row } from 'reactstrap';
 
 function ButtonComp(props) {
-     const [text, setText] = useState('Contact us');
+     const [text, setText] = useState('');
      const { data, setData } = props;
-     const [background, setBackground] = useState('#f50058');
-     const [color, setColor] = useState('Black')
+     const [background, setBackground] = useState('');
+     const [color, setColor] = useState('')
   return (
        <Row className='mt-5'>
             <Col lg='4'>
