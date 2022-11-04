@@ -65,7 +65,7 @@ export default function QuestionTable() {
           }
      ]);
      const [faq, setFaq] = useState({ Question: '', Answer: '' })
-     const[show1,setShow1]=useState(false)
+     const [show1, setShow1] = useState(false)
      const handleClose = () => setShow(false);
      const handleClose1 = () => setShow1(false);
 
@@ -97,7 +97,9 @@ export default function QuestionTable() {
           setItems(Items => arrayMove(Items, oldIndex, newIndex));
      };
      const editHandler = (index, value) => {
-          setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
+          handleClose1()
+           setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
+          // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { Question: faq.Question, Answer: faq.Answer })
      };
      const deleteHandler = (index) => {
           setItems(Items => Items.filter((item, i) => i !== index));
@@ -113,8 +115,8 @@ export default function QuestionTable() {
                     <CardBody>
                          <Row className="justify-content-end"><button className="btn btn-primary" onClick={() => setShow(true)} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row>
                          <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'Questions'}</Col><Col lg='6' className="">{'Answer'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
-                      <List items={items} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
-                    
+                         <List items={items} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
+
                     </CardBody>
                </Card>
 
@@ -163,13 +165,13 @@ export default function QuestionTable() {
                               <div className="form-group">
                                    <label htmlFor="Question">Question</label>
 
-                                   <input type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, Question: e.target.value }) }} id="Question" aria-describedby="emailHelp" placeholder="Question...." />
+                                   <input type="text" className="form-control" value={edit >= 0 ? items[edit].Question : ''} onChange={(e) => { console.log(items[edit]); setFaq({ ...faq, Question: e.target.value }); setItems(items.map((ele,i)=>{return edit===i?{...ele,Question:e.target.value}:ele}))}} id="Question" aria-describedby="emailHelp" placeholder="Question...." />
                                    {/* <small id="emailHelp" className="form-text text-muted"></small> */}
                               </div>
                               <div className="form-group">
 
                                    <label htmlFor="Answers">Answer</label>
-                                   <textarea rows='5' type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, Answer: e.target.value }) }} id="Answers" placeholder="Answers" />
+                                   <textarea rows='5' type="text" className="form-control" value={edit >= 0 ? items[edit].Answer : ''} onChange={(e) => { setFaq({ ...faq, Answer: e.target.value }); setItems(items.map((ele, i) => { return edit === i ? { ...ele, Answer: e.target.value } : ele })) }} id="Answers" placeholder="Answers" />
                               </div>
                               {/* <div className="form-group form-check">
                                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
@@ -182,7 +184,7 @@ export default function QuestionTable() {
                          <Button variant="secondary" onClick={handleClose1}>
                               Close
                          </Button>
-                         <Button variant="primary" onClick={addHandler}>
+                         <Button variant="primary" onClick={editHandler}>
                               Save Changes
                          </Button >
                     </Modal.Footer>
