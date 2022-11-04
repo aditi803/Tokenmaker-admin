@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
@@ -8,11 +8,15 @@ import StepsTable from './StepsTable';
 import axios from 'axios';
 function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
-     const [data, setData] = useState({ Heading: 'Create your token in just a few easy steps:', headingColor: 'black' });
+     const [data, setData] = useState({ heading: 'Create your token in just a few easy steps:', headingColor: 'black' });
+     const [items, setItems] = useState({});
+     useEffect(() => {
+          const authUser=JSON.parse(localStorage.getItem('authUser'));
+          setItems(authUser);
+      }, []);
      const handleChange =async (e) => {
-     const response=await  axios.put('https://tokenmaker-apis.block-brew.com/cms/faq', {
+     const response=await axios.put('http://localhost:3010/cms/stepdata', {
           heading: data.heading, headingColor: data.headingColor,
-          contentColor: data.contentColor,contenty:data.content
      }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                if (result.success == 1) {
                     alert('Updated Successfully');
@@ -20,7 +24,7 @@ function LandingPageSteps(props) {
           }).catch((err) => {
                alert('Cannot Update');
           });        
-          console.log(data);
+          console.log(response);
      }
      return (
           <React.Fragment>

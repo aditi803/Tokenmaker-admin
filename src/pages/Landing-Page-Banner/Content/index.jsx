@@ -11,7 +11,7 @@ function Content(props) {
           <Row className='mt-5'>
                <Col lg='8'>
                     <h3>Content</h3>
-                    <TextField className='w-100' value={content} onChange={(e) => {
+                    <TextField className='w-100' value={data.content} onChange={(e) => {
                          setContent(e.target.value);
                          setData({ ...data, content: e.target.value })
                          console.log(data);
@@ -19,7 +19,7 @@ function Content(props) {
                </Col>
                <Col lg='4'>
                     <h3>Content color</h3>
-                    <TextField className='w-100' value={color} onChange={(e) => {
+                    <TextField className='w-100' value={data.contentColor} onChange={(e) => {
                          setColor(e.target.value)
                     
                          setData({ ...data, contentColor: e.target.value });

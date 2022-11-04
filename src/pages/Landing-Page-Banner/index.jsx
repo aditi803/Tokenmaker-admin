@@ -11,27 +11,30 @@ import ButtonComp from 'pages/Landing-Page-Banner/Button';
 
 function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
-     const [data, setData] = useState('');
+     const [data, setData] = useState({});
      const [items, setItems] = useState({});
 
      useEffect(() => {
-          const getData= async()=>{
-               const response = await axios.get('https://tokenmaker-apis.block-brew.com/cms/bannerdetails');
-               setData(response.data.msg);
-               console.log(data);
-              const authUser=JSON.parse(localStorage.getItem('authUser'));
-              setItems(authUser);
+          const getData =() =>{
+               axios.get('https://tokenmaker-apis.block-brew.com/cms/bannerdetails').then(result=>{
+                    setData(result.data.msg);
+                    console.log(result.data.msg);
+                   const authUser=JSON.parse(localStorage.getItem('authUser'));
+                   setItems(authUser);
+               }).catch(err=>{
+                    console.log(err);
+               })     
           }
           getData();
           
      }, []);
+
      const handleChange = async (e) => {
                e.preventDefault();
           const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', { heading:data.heading
      ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage},
           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}});
-          console.log(response.data);
-                
+          console.log(response.data);              
      }
 
      return (

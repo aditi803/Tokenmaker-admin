@@ -20,8 +20,6 @@ function LandingPageFAQs(props) {
      }, []);
 
                const handleChange = (e) => {
-                    const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-                    if (confirmMessage == 'yes' || confirmMessage == 'y') {
                          e.preventDefault();
                          axios.put('https://tokenmaker-apis.block-brew.com/cms/faq', {
                               heading: data.heading, headingColor: data.headingColor,
@@ -33,9 +31,7 @@ function LandingPageFAQs(props) {
                                    }
                               }).catch((err) => {
                                    alert('Cannot Update');
-                              });
-                    }
-               
+                              });         
           }
           return (
                <React.Fragment>
