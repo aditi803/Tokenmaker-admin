@@ -103,10 +103,10 @@ const Item = ({ value, i, editHandler, edit }) => {
      )
 }
 
-const List = ({ items, editHandler, edit, toggleEdit, deleteHandler, show1,setShow2,show2 ,setDeleteIndex}) => {
+const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1,setShow2,show2 ,setDeleteIndex}) => {
      return (
           <React.Fragment>
-               {items.map((value, index) => (
+               {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
                          <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => { setShow2(!show2);  setDeleteIndex(index);} }><DeleteSharp /></span></Col>
@@ -115,30 +115,13 @@ const List = ({ items, editHandler, edit, toggleEdit, deleteHandler, show1,setSh
           </React.Fragment>
      );
 }
-export default function StepsTable() {
+export default function StepsTable(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
+     const {data, setData} = props
+
      const [items, setItems] = useState([
-          {
-               sno: '1',
-               title: 'Install MetasMask',
-               content: "If you don't have it yet, please make sure to install MetaMask or any of the supported wallets"
-          },
-          {
-               sno: '2',
-               title: 'Deposit cryto on your wallet',
-               content: "Make sure you have enough crypto available to pay for Smart Contract creation"
-          },
-          {
-               sno: '3',
-               title: 'Fill-out Token details',
-               content: "We need basic information (Token Name, Symbol) and eventually more depending on the complexity of your Token"
-          },
-          {
-               sno: '4',
-               title: 'Deploy your Token',
-               content: "That's it, you're good to go! Confirm transaction on MetaMask and your Token will be ready in a matter of minutes."
-          }
+          
      ]);
 
      const [faq, setFaq] = useState({ title: '', content: '' })
@@ -184,7 +167,7 @@ export default function StepsTable() {
                     <CardBody>
                          {/* <Row className="justify-content-end"><button className="btn btn-primary" onClick={() => setShow(true)} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row> */}
                          <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
-                         <List show1={show1} show2 ={show2} setDeleteIndex={setDeleteIndex} setShow2={setShow2} items={items} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
+                         <List show1={show1} show2 ={show2} setDeleteIndex={setDeleteIndex} setShow2={setShow2} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
 
                     </CardBody>
                </Card>

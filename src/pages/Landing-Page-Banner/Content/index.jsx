@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { Col, Row } from 'reactstrap'
 
 function Content(props) {
-     const [content, setContent] = useState('You’re looking for a solution to create your own token on the blockchain?Blocktech Brew has you covered: we will help you generate a token automatically, and deploy it in a matter of minutes.');
+     const [content, setContent] = useState('');
      const { data, setData } = props;
-     const [color, setColor] = useState('white')
+     const [color, setColor] = useState('')
      return (
           <Row className='mt-5'>
                <Col lg='8'>
                     <h3>Content</h3>
-                    <TextField className='w-100' value={content} onChange={(e) => {
+                    <TextField className='w-100' value={data.content} onChange={(e) => {
                          setContent(e.target.value);
                          setData({ ...data, content: e.target.value })
                          console.log(data);
@@ -19,7 +19,7 @@ function Content(props) {
                </Col>
                <Col lg='4'>
                     <h3>Content color</h3>
-                    <TextField className='w-100' value={color} onChange={(e) => {
+                    <TextField className='w-100' value={data.contentColor} onChange={(e) => {
                          setColor(e.target.value)
                     
                          setData({ ...data, contentColor: e.target.value });

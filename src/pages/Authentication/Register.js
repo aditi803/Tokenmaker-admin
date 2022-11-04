@@ -42,10 +42,8 @@ const Register = props => {
       password: Yup.string().required("Please Enter Your Password"),
     }),
     onSubmit: (values,{resetForm}) => {
-    
-        dispatch(registerUser(values))
-      // history.push('/login')   
-        resetForm(values="")
+      dispatch(registerUser(values));
+      resetForm(values='');
     }
   });
 
