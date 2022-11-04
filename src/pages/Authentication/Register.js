@@ -44,7 +44,6 @@ const Register = props => {
     onSubmit: (values,{resetForm}) => {
       dispatch(registerUser(values));
       resetForm(values='');
-      history.push('/login')
     }
   });
 

@@ -1,10 +1,11 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Col, Container, Row,Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import ButtonComp from './Button';
+import axios from 'axios';
 
 
 function LandingPageCustomDeveloper(props) {
@@ -14,28 +15,28 @@ function LandingPageCustomDeveloper(props) {
       buttonBackgroundColor: '#f50058',backgroundColor:'green' })
      const[items,setItems]=useState({});
 
-     // useEffect(() => {
-     //      const authUser=JSON.parse(localStorage.getItem('authUser'));
-     //      setItems(authUser);
-     //  }, []);
+     useEffect(() => {
+          const authUser=JSON.parse(localStorage.getItem('authUser'));
+          setItems(authUser);
+      }, []);
 
-     //  const handleChange = (e) => {
-     //       const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-     //       if (confirmMessage == 'yes' || confirmMessage == 'y') {
-     //            e.preventDefault();
-     //      axios.put('http://localhost:3010/cms/customdetails', { buttonText:data.buttonText
-     //  ,buttonColor:data.buttonColor, buttonBackgroundColor:data.buttonBackgroundColor,heading:data.heading,headingColor:data.headingColor,
-     // backgroundColor:data.backgroundColor},
-     //       { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
-     //           if(result.success==1){
-     //                alert('Updated Successfully');
-     //           }
-     //       }).catch((err) => {
-     //           alert('Cannot Update');
-     //       });
-     //       } 
+      const handleChange = (e) => {
+           const confirmMessage = prompt("if you want to changes please confirm with yes or y")
+           if (confirmMessage == 'yes' || confirmMessage == 'y') {
+                e.preventDefault();
+          axios.put('https://tokenmaker-apis.block-brew.com/cms/custom', { buttonText:data.buttonText
+      ,buttonColor:data.buttonColor, buttonBackgroundColor:data.buttonBackgroundColor,heading:data.heading,headingColor:data.headingColor,
+     backgroundColor:data.backgroundColor},
+           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
+               if(result.success==1){
+                    alert('Updated Successfully');
+               }
+           }).catch((err) => {
+               alert('Cannot Update');
+           });
+           } 
            
-     //  }
+      }
      return (
           <React.Fragment>
                <div className="page-content">

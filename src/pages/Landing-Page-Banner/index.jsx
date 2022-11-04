@@ -23,7 +23,7 @@ function LandingPageBanner(props) {
           const confirmMessage = prompt("if you want to changes please confirm with yes or y")
           if (confirmMessage == 'yes' || confirmMessage == 'y') {
                e.preventDefault();
-          const response = await axios.put('http://localhost:3010/cms/banner', { heading:data.heading
+          const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', { heading:data.heading
      ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage},
           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}});
           console.log(response.data);

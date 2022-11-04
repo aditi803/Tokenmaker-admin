@@ -1,24 +1,44 @@
-import React,{useState} from 'react'
-import { Col, Container, Row,Button } from 'reactstrap';
+import React, { useState,useEffect } from 'react'
+import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import ButtonComp from './Button';
+import axios from 'axios';
 
 function LandingPageStart(props) {
      document.title = "BlockTechBrew - Landing Page Start"
-     
-const [data, setData] = useState({ Heading: 'Ready to deploy your token ?', headingColor: 'white', headingBackground: '#33d3d2', buttonText: 'Start now', buttonTextColor: 'white', buttonBackgroundColor: '#f50058' });
-     const handleChange = (e) => {
-          const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-          if (confirmMessage == 'yes' || confirmMessage == 'y') {
 
-          } else {
+     const [data, setData] = useState({ heading: 'Ready to deploy your token ?', 
+     headingColor: 'white'
+     , backgroundColor: '#33d3d2',buttonText: 'Start now',
+      buttonColor: 'white', buttonBackgroundColor: '#f50058' });
+     const [items, setItems] = useState({});
+     useEffect(() => {
+          const authUser=JSON.parse(localStorage.getItem('authUser'));
+          setItems(authUser);
+      }, []);
 
-          }
-          console.log(data);
-     }
+      const handleChange = (e) => {
+           const confirmMessage = prompt("if you want to changes please confirm with yes or y")
+           if (confirmMessage == 'yes' || confirmMessage == 'y') {
+                e.preventDefault();
+          axios.put('https://tokenmaker-apis.block-brew.com/cms/startsection', { buttonText:data.buttonText
+      ,buttonColor:data.buttonColor, buttonBackgroundColor:data.buttonBackgroundColor,heading:data.heading
+      ,headingColor:data.headingColor,
+     backgroundColor:data.backgroundColor},
+           { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
+               if(result.success==1){
+                    alert('Updated Successfully');
+               }
+           }).catch((err) => {
+               alert('Cannot Update');
+               console.log(err)
+           });
+           } 
+           
+      }
      return (
           <React.Fragment>
                <div className="page-content">
@@ -39,7 +59,7 @@ const [data, setData] = useState({ Heading: 'Ready to deploy your token ?', head
                     </Container>
                </div>
           </React.Fragment>
-     )    
+     )
 }
 LandingPageStart.propTypes = {
      t: PropTypes.any

@@ -12,9 +12,9 @@ function Heading(props) {
           <Row className='mt-5'>
                <Col lg='4'>
                     <h3>Heading</h3>
-                    <TextField className='w-100' value={data.Heading} onChange={(e) => {
+                    <TextField className='w-100' value={data.heading} onChange={(e) => {
                          setHeading(e.target.value);
-                         setData({ ...data, Heading: e.target.value })
+                         setData({ ...data, heading: e.target.value })
                          console.log(data);
                     }} />
                </Col>
@@ -28,9 +28,9 @@ function Heading(props) {
                </Col>
                <Col lg='4'>
                     <h3>Background</h3>
-                    <TextField className='w-100' value={data.headingBackground} onChange={(e) => {
+                    <TextField className='w-100' value={data.backgroundColor} onChange={(e) => {
                          setColor(e.target.value);
-                         setData({ ...data, headingBackground: e.target.value })
+                         setData({ ...data, backgroundColor: e.target.value })
                          console.log(data);
                     }} />
                </Col>

@@ -19,9 +19,9 @@ function ButtonComp(props) {
             </Col>
             <Col lg='4'>
                  <h3>Button Text color</h3>
-                 <TextField className='w-100' value={data.buttonTextColor} onChange={(e) => {
+                 <TextField className='w-100' value={data.buttonColor} onChange={(e) => {
                       setColor(e.target.value);
-                      setData({ ...data, buttonTextColor: e.target.value })
+                      setData({ ...data, buttonColor: e.target.value })
                       console.log(data);
                  }} />
             </Col>
