@@ -14,10 +14,6 @@ function LandingPageFAQs(props) {
           heading: 'FAQ', headingColor: 'black', content: 'As a leader in the field of Blockchain coding, Blocktech Brew not only teaches you how to make tokens, smart contracts and more, but also offers you tools like this token generator that allows you to save time and deploy tokens automatically', contentColor: 'black'
      })
      const [items,setItems]=useState({})
-     useEffect(() => {
-          const authUser = JSON.parse(localStorage.getItem('authUser'));
-          setItems(authUser);
-     }, []);
 
                const handleChange = (e) => {
                          e.preventDefault();
@@ -33,15 +29,12 @@ function LandingPageFAQs(props) {
                                    alert('Cannot Update');
                               });         
           }
-
-     }
-
-     const [data, setData] = useState([])
      useEffect(() => {
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
                     .then((result) => {
                          setData(result.data.msg);
+                         console.log('ok');
                          // console.log(result.data.msg,"Faq details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
