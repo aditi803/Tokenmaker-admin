@@ -28,6 +28,7 @@ import logo from "assets/images/blockTech.jpg";
 
 //Import config
 import { facebook, google } from "../../config";
+import { RestoreFromTrash } from "@mui/icons-material";
 
 const Login = props => {
 

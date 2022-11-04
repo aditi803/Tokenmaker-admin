@@ -13,7 +13,7 @@ function Heading(props) {
                     <h3>Heading</h3>
                     <TextField className='w-100' value={heading} onChange={(e) => {
                          setHeading(e.target.value);
-                         setData({ ...data, Heading: e.target.value })
+                         setData({ ...data, heading: e.target.value })
                     console.log(data);}} />
                </Col>
                <Col lg='4'>

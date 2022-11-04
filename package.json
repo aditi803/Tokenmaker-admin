@@ -34,6 +34,7 @@
     "firebase": "^9.9.1",
     "formik": "^2.2.9",
     "google-maps-react": "^2.0.6",
+    "handlebars": "^4.7.7",
     "i18next": "^21.8.14",
     "i18next-browser-languagedetector": "^6.1.4",
     "leaflet": "^1.7.1",
@@ -106,7 +107,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build --max_old_space_size=8000 build",
+    "build": "react-scripts build --max_old_space_size=4096 build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\"",

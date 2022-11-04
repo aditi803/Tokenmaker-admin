@@ -1,12 +1,9 @@
 //import Images
-import avatar2 from "../../assets/images/users/avatar-2.jpg";
-import avatar3 from "../../assets/images/users/avatar-3.jpg";
-import avatar8 from "../../assets/images/users/avatar-8.jpg";
-import avatar5 from "../../assets/images/users/avatar-5.jpg";
+import avatar2 from "../../assets/images/users/avatar-1.jpg";
+import avatar3 from "../../assets/images/users/avatar-1.jpg";
+import avatar8 from "../../assets/images/users/avatar-1.jpg";
+import avatar5 from "../../assets/images/users/avatar-1.jpg";
 import avatar1 from "../../assets/images/users/avatar-1.jpg";
-import blog1 from "../../assets/images/crypto/blog/img-1.jpg";
-import blog2 from "../../assets/images/crypto/blog/img-2.jpg";
-import blog3 from "../../assets/images/crypto/blog/img-3.jpg";
 
 const wallet = {
   id: "#SK0234",
@@ -654,7 +651,7 @@ const icoLandingTeam = [
 
 const blogs = [
   {
-    imgUrl: blog1,
+    imgUrl: "blog1",
     tag: "Cryptocurrency",
     date: "04 Mar, 2020",
     title: "Donec pede justo, fringilla vele",
@@ -662,14 +659,14 @@ const blogs = [
       "If several languages coalesce, the grammar of the resulting language",
   },
   {
-    imgUrl: blog2,
+    imgUrl: "blog2",
     tag: "Cryptocurrency",
     date: "12 Feb, 2020",
     title: "Aenean ut eros et nisl",
     desc: "Everyone realizes why a new common language would be desirable",
   },
   {
-    imgUrl: blog3,
+    imgUrl: "blog3",
     tag: "Cryptocurrency",
     date: "06 Jan, 2020",
     title: "In turpis, pellentesque posuere",

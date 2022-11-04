@@ -9,17 +9,33 @@ import ButtonComp from './Button';
 
 function LandingPageCustomDeveloper(props) {
      document.title = "BlockTechBrew - Landing Page Custom Devloper"
-     const [data, setData] = useState({ Heading: 'Ready to deploy your token ?', headingColor: 'white', headingBackground: '#383838', buttonText: 'Contact us', buttonTextColor: 'Black', buttonBackgroundColor: '#f50058' })
-     
-     const handleChange = (e) => {
-          const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-          if (confirmMessage == 'yes' || confirmMessage == 'y') {
+     const [data, setData] = useState({ heading: 'Ready to deploy your token ?', headingColor: 'white',
+      buttonText: 'Contact us', buttonColor: 'Black', 
+      buttonBackgroundColor: '#f50058',backgroundColor:'green' })
+     const[items,setItems]=useState({});
 
-          } else {
+     // useEffect(() => {
+     //      const authUser=JSON.parse(localStorage.getItem('authUser'));
+     //      setItems(authUser);
+     //  }, []);
 
-          }
-          console.log(data);
-     }
+     //  const handleChange = (e) => {
+     //       const confirmMessage = prompt("if you want to changes please confirm with yes or y")
+     //       if (confirmMessage == 'yes' || confirmMessage == 'y') {
+     //            e.preventDefault();
+     //      axios.put('http://localhost:3010/cms/customdetails', { buttonText:data.buttonText
+     //  ,buttonColor:data.buttonColor, buttonBackgroundColor:data.buttonBackgroundColor,heading:data.heading,headingColor:data.headingColor,
+     // backgroundColor:data.backgroundColor},
+     //       { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
+     //           if(result.success==1){
+     //                alert('Updated Successfully');
+     //           }
+     //       }).catch((err) => {
+     //           alert('Cannot Update');
+     //       });
+     //       } 
+           
+     //  }
      return (
           <React.Fragment>
                <div className="page-content">
