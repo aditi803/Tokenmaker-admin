@@ -8,17 +8,12 @@ import StepsTable from './StepsTable';
 import axios from 'axios';
 function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
-     const [data, setData] = useState({ heading: 'Create your token in just a few easy steps:', headingColor: 'black' });
      const [items, setItems] = useState({});
-     useEffect(() => {
-          const authUser=JSON.parse(localStorage.getItem('authUser'));
-          setItems(authUser);
-      }, []);
      const handleChange =async (e) => {
-     const response=await axios.put('http://localhost:3010/cms/stepdata', {
-          heading: data.heading, headingColor: data.headingColor,
+     const response=await axios.put('https://tokenmaker-apis.block-brew.com/cms/stepdata', {
+          heading: css.heading, headingColor: css.headingColor,
      }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-               if (result.success == 1) {
+               if (result.data.msg.success == 1) {
                     alert('Updated Successfully');
                }
           }).catch((err) => {
@@ -27,13 +22,16 @@ function LandingPageSteps(props) {
           console.log(response);
      }
      // const [items, setItems] = useState([])
-     // const [data, setData] = useState([])
+     const [data, setData] = useState([])
+     const [css, setCss] = useState({})
+
      useEffect(() => {
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
                     .then((result) => {
-                         setData(result.data.msg);
-                         // console.log(result.data.msg, "step details");
+                         setData(result.data.msg.stepDetails);
+                         setCss(result.data.msg.stepData);
+                         console.log(result.data.msg, "step details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
                     }).catch(err => {
@@ -54,7 +52,7 @@ function LandingPageSteps(props) {
                               breadcrumbItem={props.t("Steps")}
                          />
                          <Row>
-                              <Heading data={data} setData={setData} />
+                              <Heading css={css} setCss={setCss} />
                               <div className='row '>
                                    <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', margin :'auto',marginTop:'15px' }}>Update</Button>
                               </div>

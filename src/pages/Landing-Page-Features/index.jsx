@@ -16,7 +16,7 @@ function LandingPageFeatures(props) {
           const confirmMessage = prompt("if you want to changes please confirm with yes or y")
           if (confirmMessage == 'yes' || confirmMessage == 'y') {
                axios.put('https://tokenmaker-apis.block-brew.com/cms/feature',
-                    { heading:data.heading,headingColor:data.headingColor, },
+                    { heading:css.heading,headingColor:css.headingColor, },
                               { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
                                   if(result.success==1){
                                        alert('Updated Successfully');
@@ -29,12 +29,16 @@ function LandingPageFeatures(props) {
           console.log(data);
      }
      const [data, setData] = useState([])
+     const [css, setCss] = useState({})
+
+
      useEffect(() => {
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/features")
                     .then((result) => {
-                         setData(result.data.msg);
-                         // console.log(result.data.msg, "Features details");
+                         setData(result.data.msg.featureDetails);
+                         setCss(result.data.msg.featureData);
+                         console.log(result.data.msg, "Features details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
                     }).catch(err => {
@@ -43,8 +47,8 @@ function LandingPageFeatures(props) {
 
           }
           getData();
-
      }, []);
+
      return (
           <React.Fragment>
                <div className="page-content">
@@ -54,7 +58,7 @@ function LandingPageFeatures(props) {
                               breadcrumbItem={props.t("Features")}
                          />
                          <Row>
-                              <Heading data={data} setData={setData} />
+                              <Heading css={css} setCss={setCss} />
                               <div className='row '>
                                    <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', margin: 'auto', marginTop: '15px' }}>Update</Button>
                               </div>

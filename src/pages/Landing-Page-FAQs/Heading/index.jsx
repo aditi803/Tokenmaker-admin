@@ -5,24 +5,24 @@ import { Col, Label, Row } from 'reactstrap'
 
 function Heading(props) {
      const [heading, setHeading] = useState('');
-     const { data, setData } = props;
+     const { css, setCss } = props;
      const [color, setColor] = useState('')
      return (
           <Row>
                <Col lg='8'>
                     <h3>Heading</h3>
-                    <TextField className='w-100' value={data.heading} onChange={(e) => {
+                    <TextField className='w-100' value={css.heading} onChange={(e) => {
                          setHeading(e.target.value);
-                         setData({ ...data, heading: e.target.value })
-                         console.log(data);
+                         setCss({ ...css, heading: e.target.value })
+                         console.log(css);
                     }} />
                </Col>
                <Col lg='4'>
                     <h3>Heading color</h3>
-                    <TextField className='w-100' value={data.headingColor} onChange={(e) => {
+                    <TextField className='w-100' value={css.headingColor} onChange={(e) => {
                          setColor(e.target.value);
-                         setData({ ...data, headingColor: e.target.value })
-                         console.log(data);
+                         setCss({ ...css, headingColor: e.target.value })
+                         console.log(css);
                     }} />
                </Col>
           </Row>

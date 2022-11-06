@@ -10,7 +10,7 @@ function Background(props) {
           if (!files.length) {
                var reader = new FileReader();
                reader.readAsDataURL(files[0]);
-
+console.log('m');
                reader.onloadend = function () {
                     console.log(this.result);
                     setData({...data,backgroundImage:this.result});

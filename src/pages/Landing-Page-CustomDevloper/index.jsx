@@ -13,11 +13,6 @@ function LandingPageCustomDeveloper(props) {
 
      const [items, setItems] = useState({});
 
-     // useEffect(() => {
-     //      const authUser=JSON.parse(localStorage.getItem('authUser'));
-     //      setItems(authUser);
-     // }, []);
-
      const [data, setData] = useState([])
      useEffect(() => {
           const getData = () => {

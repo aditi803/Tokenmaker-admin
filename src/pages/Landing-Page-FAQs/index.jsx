@@ -10,19 +10,19 @@ import axios from 'axios';
 function LandingPageFAQs(props) {
 
      document.title = "BlockTechBrew - Landing Page FAQs"
-     const [data, setData] = useState({
-          heading: 'FAQ', headingColor: 'black', content: 'As a leader in the field of Blockchain coding, Blocktech Brew not only teaches you how to make tokens, smart contracts and more, but also offers you tools like this token generator that allows you to save time and deploy tokens automatically', contentColor: 'black'
-     })
+     const [data, setData] = useState([])
      const [items,setItems]=useState({})
+     const [css,setCss]=useState({})
+
 
                const handleChange = (e) => {
                          e.preventDefault();
-                         axios.put('https://tokenmaker-apis.block-brew.com/cms/faq', {
-                              heading: data.heading, headingColor: data.headingColor,
-                              contentColor: data.contentColor,contenty:data.content
+                         axios.put('https://tokenmaker-apis.block-brew.com/cms/faqupdate', {
+                              heading: css.heading, headingColor: css.headingColor,
+                              contentColor: css.contentColor,content:css.content
                          },
                               { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-                                   if (result.success == 1) {
+                                   if (result.data.success == 1) {
                                         alert('Updated Successfully');
                                    }
                               }).catch((err) => {
@@ -33,8 +33,9 @@ function LandingPageFAQs(props) {
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
                     .then((result) => {
-                         setData(result.data.msg);
-                         console.log('ok');
+                         setData(result.data.msg.faqDetails);
+                         setCss(result.data.msg.faqData);
+                         console.log('ok/');
                          // console.log(result.data.msg,"Faq details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
@@ -55,8 +56,8 @@ function LandingPageFAQs(props) {
                               breadcrumbItem={props.t("FAQs")}
                          />
                          <Row>
-                              <Heading data={data} setData={setData} />
-                              <Content data={data} setData={setData} />
+                              <Heading css={css} setCss={setCss} />
+                              <Content css={css} setCss={setCss} />
                               <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
                          </Row>
                          <Row>
