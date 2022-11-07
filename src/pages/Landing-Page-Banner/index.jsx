@@ -15,6 +15,7 @@ function LandingPageBanner(props) {
 
      const handleChange = async (e) => {
                e.preventDefault();
+               console.log('abc');
           const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', { heading:data.heading
      ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage,
 buttonText:data.buttonText,buttonTextColor:data.buttonTextColor,buttonBackgroundColor:data.buttonBackgroundColor},

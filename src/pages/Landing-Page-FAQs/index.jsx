@@ -61,7 +61,7 @@ function LandingPageFAQs(props) {
                               <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
                          </Row>
                          <Row>
-                              <QuestionTable data={data} setData={setData} />
+                              <QuestionTable data={data} setData={setData} items={items} />
                          </Row>
                     </Container>
                </div>
