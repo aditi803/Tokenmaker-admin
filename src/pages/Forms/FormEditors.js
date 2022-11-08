@@ -35,12 +35,12 @@ const FormEditors = () => {
             <Col>
               <Card>
                 <CardBody>
-                  <CardTitle className="h4">react-draft-wysiwyg</CardTitle>
-                  <p className="card-title-desc">
+                  <CardTitle className="h4">Footer Column-1</CardTitle>
+                  {/* <p className="card-title-desc">
                     Bootstrap-wysihtml5 is a javascript plugin that makes it
                     easy to create simple, beautiful wysiwyg editors with the
                     help of wysihtml5 and Twitter Bootstrap.
-                  </p>
+                  </p> */}
 
                   <Form method="post">
                     <Editor
@@ -58,7 +58,7 @@ const FormEditors = () => {
             <Col>
               <Card>
                 <CardBody>
-                  <CardTitle className="h4">CK Editor</CardTitle>
+                  <CardTitle className="h4">Footer Column-2</CardTitle>
                   <p className="card-title-desc">
                     Super simple wysiwyg editor on Bootstrap
                   </p>

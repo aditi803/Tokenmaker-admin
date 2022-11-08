@@ -8,40 +8,42 @@ import Content from './Content';
 import Background from './Background';
 import axios from 'axios';
 import ButtonComp from 'pages/Landing-Page-Banner/Button';
-
+import {toast} from "react-toastify"
 function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
      const [items, setItems] = useState({});
 
-     const handleChange = async (e) => {
-               e.preventDefault();
-               console.log('abc');
-          const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', { heading:data.heading
-     ,headingColor:data.headingColor, content:data.content,contentColor:data.contentColor,backgroundImage:data.backgroundImage,
-buttonText:data.buttonText,buttonTextColor:data.buttonTextColor,buttonBackgroundColor:data.buttonBackgroundColor},
-          { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}});
-          console.log(response.data); 
-          if(response.data.success==1){
-               console.log('updated successfully');
-          } 
-          else{
-               console.log('cannot update successfully');
-          }             
+     const handleChange = (e) => {
+          e.preventDefault();
+          axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', {
+               heading: data.heading
+               , headingColor: data.headingColor, content: data.content, contentColor: data.contentColor, backgroundImage: data.backgroundImage,
+               buttonText: data.buttonText, buttonTextColor: data.buttonTextColor, buttonBackgroundColor: data.buttonBackgroundColor
+          },{ headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+          .then((result) => {
+               if (result.data.success === 1) {
+                    toast.success('updated successfully');
+               }
+          })
+          .catch((err) =>{
+               toast.error('Cannot Update');
+          })
+
      }
 
      const [data, setData] = useState([])
      useEffect(() => {
-               axios.get("https://tokenmaker-apis.block-brew.com/cms/bannerDetails")
-                    .then((result) => {
-                         setData(result.data.msg);
-                         // console.log(result.data.msg,"Banner details");
-                         const authUser = JSON.parse(localStorage.getItem('authUser'));
-                         setItems(authUser);
-                    }).catch(err => {
-                         console.log(err);
-                    })
+          axios.get("https://tokenmaker-apis.block-brew.com/cms/bannerDetails")
+               .then((result) => {
+                    setData(result.data.msg);
+                    // console.log(result.data.msg,"Banner details");
+                    const authUser = JSON.parse(localStorage.getItem('authUser'));
+                    setItems(authUser);
+               }).catch(err => {
+                    console.log(err);
+               })
 
-          }, []);
+     }, []);
 
      return (
           <React.Fragment>

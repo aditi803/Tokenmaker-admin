@@ -7,35 +7,36 @@ import { withTranslation } from 'react-i18next';
 import Heading from './Heading';
 import Content from './Content';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 function LandingPageFAQs(props) {
 
      document.title = "BlockTechBrew - Landing Page FAQs"
      const [data, setData] = useState([])
-     const [items,setItems]=useState({})
-     const [css,setCss]=useState({})
+     const [items, setItems] = useState({})
+     const [css, setCss] = useState({})
 
 
-               const handleChange = (e) => {
-                         e.preventDefault();
-                         axios.put('https://tokenmaker-apis.block-brew.com/cms/faqupdate', {
-                              heading: css.heading, headingColor: css.headingColor,
-                              contentColor: css.contentColor,content:css.content
-                         },
-                              { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-                                   if (result.data.success == 1) {
-                                        alert('Updated Successfully');
-                                   }
-                              }).catch((err) => {
-                                   alert('Cannot Update');
-                              });         
-          }
+     const handleChange = (e) => {
+          e.preventDefault();
+          axios.put('https://tokenmaker-apis.block-brew.com/cms/faqupdate', {
+               heading: css.heading, headingColor: css.headingColor,
+               contentColor: css.contentColor, content: css.content
+          },
+               { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
+                    if (result.data.success === 1) {
+                         toast.success("Updated Successfully")
+                    }
+               }).catch((err) => {
+                    toast.error('Cannot Update');
+               });
+     }
      useEffect(() => {
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
                     .then((result) => {
                          setData(result.data.msg.faqDetails);
                          setCss(result.data.msg.faqData);
-                         console.log('ok/');
+                         // console.log('ok/');
                          // console.log(result.data.msg,"Faq details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);

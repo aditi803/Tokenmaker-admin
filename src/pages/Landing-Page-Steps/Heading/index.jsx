@@ -13,7 +13,7 @@ function Heading(props) {
                     <h3>Heading</h3>
                     <TextField className='w-100' value={css.heading} onChange={(e) => {
                          setHeading(e.target.value);
-                         setCss({ ...css, heading: e.target.value })
+                         setCss({...css, heading: e.target.value })
                          console.log(css);
                     }} />
                </Col>

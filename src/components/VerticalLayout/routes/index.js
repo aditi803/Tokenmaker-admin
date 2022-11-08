@@ -182,6 +182,13 @@ import LandingPageSteps from "pages/Landing-Page-Steps"
 import LandingPageStart from "pages/Landing-Page-Start"
 import LandingPageCustomDeveloper from "pages/Landing-Page-CustomDevloper"
 import LandingPageFeatures from "pages/Landing-Page-Features"
+import General from "pages/Settings/General"
+import LogoManager from "pages/Settings/LogoManager"
+import Footer from "pages/Footer"
+import CommissionTable from "pages/Commissions/CommissionTable"
+import View from "pages/Networks/View"
+import Add from "pages/Networks/Add"
+import AllTokens from "pages/AllTokens"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -193,6 +200,14 @@ const authProtectedRoutes = [
   { path: "/landing-page-features", component: LandingPageFeatures },
   { path: "/blog", component: Blog },
   { path: "/dashboard-job", component: DashboardJob },
+  { path: "/general", component: General },
+  {path: "/logo-manager", component: LogoManager},
+  {path: '/footer', component: Footer},
+  {path: '/commission-table', component: CommissionTable},
+  {path: '/view', component: View},
+  {path: '/add', component: Add},
+  {path: '/all-tokens', component: AllTokens},
+  
 
   //Crypto
   { path: "/crypto-wallet", component: CryptoWallet },
@@ -338,6 +353,7 @@ const authProtectedRoutes = [
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
+  
 ]
 
 const publicRoutes = [

@@ -94,11 +94,17 @@ const SidebarContent = props => {
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{props.t("Menu")} </li>
             <li>
-              <Link to="/#" className="has-arrow">
+              <Link to="/#" className="">
                 <i className="bx bx-home-circle"></i>
-                <span>{props.t("Dashboards")}</span>
+                <span>{props.t("Dashboard")}</span>
               </Link>
-              <ul className="sub-menu">
+            <li>
+            <Link to="/all-tokens" className="">
+                <i className="bx bx-circle"></i>
+                <span>{props.t("All tokens")}</span>
+              </Link>
+            </li>
+              {/* <ul className="sub-menu">
                 <li>
                   <Link to="/dashboard">{props.t("Default")}</Link>
                 </li>
@@ -106,7 +112,7 @@ const SidebarContent = props => {
                   <Link to="/dashboard-saas">{props.t("Saas")}</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard-crypto">{props.t("Crypto")}</Link>
+                  <Link to="/">{props.t("Crypto")}</Link>
                 </li>
                 <li>
                   <Link to="/blog">{props.t("Blog")}</Link>
@@ -117,7 +123,7 @@ const SidebarContent = props => {
                     {props.t("Jobs")}
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </li>
 
             <li className="menu-title">{props.t("CMS MANAGER")}</li>
@@ -147,6 +153,58 @@ const SidebarContent = props => {
                 </li>
               </ul>
             </li>
+            <li>
+            <Link to="/#" className="has-arrow">
+                <i className="bx bx-home-circle"></i>
+                <span>{props.t("Commissions")}</span>
+              </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/commission-table">{props.t("Commission Table")}</Link>
+                </li>
+              </ul>
+              </li>
+            <li>
+              <Link to="/#" className="has-arrow">
+                <i className="bx bx-network-chart"></i>
+                <span>{props.t("Networks")}</span>
+              </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/view">{props.t("View")}</Link>
+                </li>
+                <li>
+                  <Link to="/add">{props.t("Add")}</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <Link to="/#" className="has-arrow">
+                <i className="bx bx-cog"></i>
+                <span>{props.t("Settings")}</span>
+              </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/logo-manager">{props.t("Logo Manager")}</Link>
+                </li>
+                <li>
+                  <Link to="/general">{props.t("General Setting")}</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+            <Link to="/footer" className="">
+                <i className="bx bx-cog"></i>
+                <span>{props.t("Footer")}</span>
+              </Link>
+            </li>
+            <li style={{position:"fixed",bottom:"0px"}}>
+              <Link to="/#" className="">
+                <i className="bx bx-log-out-circle"></i>
+                <span>{props.t("Log out")}</span>
+              </Link>
+            </li>
+            
             {/* <li>
               <Link to="/calendar" >
                 <i className="bx bx-calendar"></i>
@@ -586,8 +644,8 @@ const SidebarContent = props => {
                 </li>
               </ul>
             </li> */}
-
-            {/* <li>
+{/* 
+            <li>
               <Link to="/#" >
                 <i className="bx bxs-eraser"></i>
                 <span className="badge rounded-pill bg-danger float-end">

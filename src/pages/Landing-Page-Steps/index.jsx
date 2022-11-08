@@ -6,6 +6,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import StepsTable from './StepsTable';
 import axios from 'axios';
+import {ToastContainer,toast} from 'react-toastify';
 function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
      const [items, setItems] = useState({});
@@ -13,11 +14,11 @@ function LandingPageSteps(props) {
      const response=await axios.put('https://tokenmaker-apis.block-brew.com/cms/stepdata', {
           heading: css.heading, headingColor: css.headingColor,
      }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-               if (result.data.msg.success == 1) {
-                    alert('Updated Successfully');
+               if (result.data.success === 1) {
+                    toast.success('Updated Successfully');
                }
           }).catch((err) => {
-               alert('Cannot Update');
+               toast.error('Cannot Update');
           });        
           console.log(response);
      }
@@ -26,8 +27,8 @@ function LandingPageSteps(props) {
      const [css, setCss] = useState({})
 
      useEffect(() => {
-          const getData = () => {
-               axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
+          const getData = async() => {
+               await axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
                     .then((result) => {
                          console.log(result.data.msg,'drftgybhnj');
                          setData(result.data.msg.stepDetails);
@@ -63,6 +64,7 @@ function LandingPageSteps(props) {
                          </Row>
                     </Container>
                </div>
+               <ToastContainer />
           </React.Fragment>
      )
 }

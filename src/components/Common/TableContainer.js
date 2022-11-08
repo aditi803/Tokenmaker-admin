@@ -136,6 +136,7 @@ const TableContainer = ({
             className="form-select"
             value={pageSize}
             onChange={onChangeInSelect}
+            style={{width:"100px"}}
           >
             {[10, 20, 30, 40, 50].map(pageSize => (
               <option key={pageSize} value={pageSize}>
