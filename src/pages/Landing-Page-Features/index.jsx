@@ -1,31 +1,30 @@
-import React,{useState,useEffect} from 'react'
-import { Col, Container, Row,Button } from 'reactstrap';
+import React, { useState, useEffect } from 'react'
+import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import FeatureList from './FeatureList';
 import axios from 'axios';
+import {toast} from 'react-toastify'
 
 function LandingPageFeatures(props) {
      document.title = "BlockTechBrew - Landing Page Features"
-     const[items,setItems]=useState({});
+     const [items, setItems] = useState({});
 
 
      const handleChange = (e) => {
-          const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-          if (confirmMessage == 'yes' || confirmMessage == 'y') {
-               axios.put('https://tokenmaker-apis.block-brew.com/cms/feature',
-                    { heading:css.heading,headingColor:css.headingColor, },
-                              { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
-                                  if(result.success==1){
-                                       alert('Updated Successfully');
-                                      
-                                  }
-                              }).catch((err) => {
-                                  alert('Cannot Update');
-                              });
-          }
+          axios.put('https://tokenmaker-apis.block-brew.com/cms/feature',
+               { heading: css.heading, headingColor: css.headingColor, },
+               { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
+                    if (result.data.success === 1) {
+                         toast.success('Updated Successfully');
+
+                    }
+               }).catch((err) => {
+                    toast.error('Cannot Update');
+               });
+
           console.log(data);
      }
      const [data, setData] = useState([])
@@ -62,7 +61,7 @@ function LandingPageFeatures(props) {
                               <div className='row '>
                                    <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', margin: 'auto', marginTop: '15px' }}>Update</Button>
                               </div>
-                              
+
                          </Row>
                          <Row className='mt-5'>
                               <FeatureList data={data} setData={setData} />

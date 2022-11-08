@@ -5,6 +5,8 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import "./i18n";
 import { Provider } from "react-redux";
+import {ToastContainer,toast} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css"
 
 import store from "./store";
 
@@ -14,8 +16,10 @@ root.render(
       <React.Fragment>
         <BrowserRouter>
           <App />
+          <ToastContainer />
         </BrowserRouter>
       </React.Fragment>
+
     </Provider>
 );
 

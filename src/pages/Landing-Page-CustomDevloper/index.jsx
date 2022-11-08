@@ -6,6 +6,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import ButtonComp from './Button';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 function LandingPageCustomDeveloper(props) {
@@ -32,8 +33,8 @@ function LandingPageCustomDeveloper(props) {
      }, []);
 
      const handleChange = (e) => {
-          const confirmMessage = prompt("if you want to changes please confirm with yes or y")
-          if (confirmMessage == 'yes' || confirmMessage == 'y') {
+          
+          
                e.preventDefault();
                axios.put('https://tokenmaker-apis.block-brew.com/cms/custom', {
                     buttonText: data.buttonText
@@ -41,13 +42,13 @@ function LandingPageCustomDeveloper(props) {
                     backgroundColor: data.backgroundColor
                },
                     { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-                         if (result.success == 1) {
-                              alert('Updated Successfully');
+                         if (result.data.success === 1) {
+                              toast.success('Updated Successfully');
                          }
                     }).catch((err) => {
-                         alert('Cannot Update');
+                    toast.error('Cannot Update');
                     });
-          }
+          
 
      }
      return (

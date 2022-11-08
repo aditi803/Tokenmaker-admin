@@ -11,7 +11,8 @@ import {
 import { getOrders as onGetOrders } from "store/actions";
 
 import EcommerceOrdersModal from "../Ecommerce/EcommerceOrders/EcommerceOrdersModal";
-import {latestTransaction} from "../../common/data/dashboard";
+import { latestTransaction } from "../../common/data/dashboard";
+import axios from "axios";
 
 import {
   OrderId,
@@ -24,26 +25,51 @@ import {
 
 import TableContainer from "../../components/Common/TableContainer";
 
-const LatestTranaction = props => {
-  
+const LatestTranaction = ({loader, setLoader}) => {
+
+  const user = localStorage.getItem('authUser')
+
+  const parseData = JSON.parse(user)
+  const token = parseData.msg.jsonWebtoken;
+  //  console.log(token,"Token transaction")
+
+  const [transactionData, setTransactionData] = useState([])
+  useEffect(() => {
+    getData()
+  }, [setTransactionData])
+
+  const getData = async() => {
+    // setLoader(true);
+    await axios.get("https://tokendetails.herokuapp.com/token/alltokens", { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        setTransactionData(res.data.msg)
+        // setLoader(false)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoader(false)
+      })
+  }
 
   const [modal1, setModal1] = useState(false);
-  
+
   const toggleViewModal = () => setModal1(!modal1);
 
   const columns = useMemo(
     () => [
       {
-        Header: "#",
+        Header: "S.no",
         filterable: false,
         disableFilters: true,
         Cell: cellProps => {
-          return <input type="checkbox" className="form-check-input" />;
+          return <ul><li></li></ul>;
         },
       },
       {
-        Header: "Order ID",
-        accessor: "orderId",
+        Header: "Token Name",
+        accessor: "tokenName",
         filterable: false,
         disableFilters: true,
         Cell: cellProps => {
@@ -51,8 +77,8 @@ const LatestTranaction = props => {
         },
       },
       {
-        Header: "Billing Name",
-        accessor: "billingName",
+        Header: "Token Symbol",
+        accessor: "tokenSymbol",
         disableFilters: true,
         filterable: false,
         Cell: cellProps => {
@@ -60,8 +86,8 @@ const LatestTranaction = props => {
         },
       },
       {
-        Header: "Date",
-        accessor: "orderdate",
+        Header: "Supply Type",
+        accessor: "supplyType",
         disableFilters: true,
         filterable: false,
         Cell: cellProps => {
@@ -69,8 +95,8 @@ const LatestTranaction = props => {
         },
       },
       {
-        Header: "Total",
-        accessor: "total",
+        Header: "Commission Fee",
+        accessor: "commissionFee",
         disableFilters: true,
         filterable: false,
         Cell: cellProps => {
@@ -78,8 +104,8 @@ const LatestTranaction = props => {
         },
       },
       {
-        Header: "Payment Status",
-        accessor: "paymentStatus",
+        Header: "Initial Supply",
+        accessor: "initialSupply",
         disableFilters: true,
         filterable: false,
         Cell: cellProps => {
@@ -87,8 +113,8 @@ const LatestTranaction = props => {
         },
       },
       {
-        Header: "Payment Method",
-        accessor: "paymentMethod",
+        Header: "Maximum Supply",
+        accessor: "maximumSupply",
         disableFilters: true,
         Cell: cellProps => {
           return <PaymentMethod {...cellProps} />;
@@ -124,7 +150,7 @@ const LatestTranaction = props => {
           <div className="mb-4 h4 card-title">Latest Transaction</div>
           <TableContainer
             columns={columns}
-            data={latestTransaction}
+            data={transactionData}
             isGlobalFilter={false}
             isAddOptions={false}
             customPageSize={6}

@@ -6,6 +6,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import ButtonComp from './Button';
 import axios from 'axios';
+import {toast} from "react-toastify"
 
 function LandingPageStart(props) {
      document.title = "BlockTechBrew - Landing Page Start"
@@ -19,11 +20,11 @@ function LandingPageStart(props) {
       ,headingColor:data.headingColor,
      backgroundColor:data.backgroundColor},
            { headers: {"Authorization" : `Bearer ${items.msg.jsonWebtoken}`}}).then((result) => {
-               if(result.success==1){
-                    alert('Updated Successfully');
+               if(result.data.success===1){
+                    toast.success('Updated Successfully');
                }
            }).catch((err) => {
-               alert('Cannot Update');
+               toast.error('Cannot Update');
                console.log(err)
            });
             
