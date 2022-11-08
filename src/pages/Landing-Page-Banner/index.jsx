@@ -27,7 +27,6 @@ buttonText:data.buttonText,buttonTextColor:data.buttonTextColor,buttonBackground
           else{
                console.log('cannot update successfully');
           }             
-
      }
 
      const [data, setData] = useState([])
