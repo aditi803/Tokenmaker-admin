@@ -5,11 +5,13 @@ import {
      Col,
      Row,
 } from "reactstrap";
+import MessageModal from "pages/MessageModal";
 import React from 'react';
 // import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { useState } from "react";
 import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 import { Button, Modal } from 'react-bootstrap'
+import axios from "axios";
 
 
 
@@ -39,38 +41,25 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler }) => {
 export default function QuestionTable(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
-     const { data, setData } = props;
-     const [items, setItems] = useState([
-          
-     ]);
-     const [faq, setFaq] = useState({ Question: '', Answer: '' })
+     const { data, setData,items } = props;
+     const [faq, setFaq] = useState({ question: '', answer: '' })
      const [show1, setShow1] = useState(false)
-     const handleClose = () => setShow(false);
-     const handleClose1 = () => setShow1(false);
+     const [show2, setShow2] = useState(false)
+     const handleClose = () => {setShow(false),setShow1(false),setShow2(false)};
 
-
-     // function Example() {
-     //      // const [show, setShow] = useState(false);
-
-
-     //      const handleShow = () => setShow(true);
-
-     //      return (
-     //           <>
-     //                <Button variant="primary" onClick={handleShow}>
-     //                     Launch demo modal
-     //                </Button>
-
-     //           </>
-     //      );
-     // }
-     const addHandler = () => {
+     const addHandler = async() => {
           handleClose()
-          setItems(prev => [...prev, { Question: faq.Question, Answer: faq.Answer }]);
-          console.log(faq);
-          setEdit([items.length]);
-
-          //   setEdit(items);    
+          // setItems(prev => [...prev, { Question: faq.Question, Answer: faq.Answer }]);
+          const addFaqResponse=await axios.post('http://localhost:3010/cms/faq',{
+               question:faq.question,answer:faq.answer},{ headers: 
+                    { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+                    console.log(addFaqResponse);
+          if(addFaqResponse.status==200){
+               setShow2(true)
+               setFaq({question:'',answer:''})
+          } else{
+              console.log(addFaqResponse); 
+          }  
      }
      const onSortEnd = ({ oldIndex, newIndex }) => {
           setItems(Items => arrayMove(Items, oldIndex, newIndex));
@@ -101,7 +90,7 @@ export default function QuestionTable(props) {
 
                <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                         <Modal.Title>FAQ</Modal.Title>
+                         <Modal.Title> ADD FAQ</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
@@ -109,13 +98,13 @@ export default function QuestionTable(props) {
                               <div className="form-group">
                                    <label htmlFor="Question">Question</label>
 
-                                   <input type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, Question: e.target.value }) }} id="Question" aria-describedby="emailHelp" placeholder="Question...." />
+                                   <input type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, question: e.target.value });console.log(faq) }} id="Question" aria-describedby="emailHelp" placeholder="Question...." />
                                    {/* <small id="emailHelp" className="form-text text-muted"></small> */}
                               </div>
                               <div className="form-group">
 
                                    <label htmlFor="Answers">Answer</label>
-                                   <textarea rows='5' type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, Answer: e.target.value }) }} id="Answers" placeholder="Answers" />
+                                   <textarea rows='5' type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, answer: e.target.value });console.log(faq) }} id="Answers" placeholder="Answers" />
                               </div>
                               {/* <div className="form-group form-check">
                                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
@@ -129,12 +118,12 @@ export default function QuestionTable(props) {
                               Close
                          </Button>
                          <Button variant="primary" onClick={addHandler}>
-                              Save Changes
+                              ADD FAQ
                          </Button >
                     </Modal.Footer>
                </Modal>
 
-               <Modal show={show1} onHide={handleClose1}>
+               <Modal show={show1} onHide={handleClose}>
                     <Modal.Header closeButton>
                          <Modal.Title>Edit-Faq-Qus/Ans</Modal.Title>
                     </Modal.Header>
@@ -160,7 +149,7 @@ export default function QuestionTable(props) {
                          </form>
                     </Modal.Body>
                     <Modal.Footer>
-                         <Button variant="secondary" onClick={handleClose1}>
+                         <Button variant="secondary" onClick={handleClose}>
                               Close
                          </Button>
                          <Button variant="primary" onClick={editHandler}>
@@ -168,6 +157,16 @@ export default function QuestionTable(props) {
                          </Button >
                     </Modal.Footer>
                </Modal>
+               <Modal show={show2} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Successfully Added Faq !</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
           </React.Fragment>
      )
 }
