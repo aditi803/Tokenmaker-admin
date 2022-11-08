@@ -10,8 +10,7 @@ import React from 'react';
 import { useState } from "react";
 import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 import { Button, Modal } from 'react-bootstrap'
-
-
+import axios from 'axios';
 
 const Item = ({ value, i, editHandler, edit }) => {
      return (
@@ -29,7 +28,10 @@ const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler,show1 
                {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => deleteHandler(index)}><DeleteSharp /></span></Col>
+                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => 
+                         {deleteHandler(value);
+
+                         }}><DeleteSharp /></span></Col>
                     </Row>
                ))}
           </React.Fragment>
@@ -38,10 +40,7 @@ const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler,show1 
 export default function FeatureList(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
-     const { data, setData } = props
-     const [items, setItems] = useState([
-          
-     ]);
+     const { data, setData,items } = props;
 
      const [faq, setFaq] = useState({ title: '', content: '' })
      const [show1, setShow1] = useState(false)
@@ -54,22 +53,33 @@ export default function FeatureList(props) {
      
      const addHandler = () => {
           handleClose()
-          setItems(prev => [...prev, { title: faq.title, content: faq.content }]);
+          // setItems(prev => [...prev, { title: faq.title, content: faq.content }]);
           console.log(faq);
           setEdit([items.length]);
 
           //   setEdit(items);    
      }
      const onSortEnd = ({ oldIndex, newIndex }) => {
-          setItems(Items => arrayMove(Items, oldIndex, newIndex));
+          // setItems(Items => arrayMove(Items, oldIndex, newIndex));
      };
      const editHandler = (index, value) => {
           handleClose1()
-          setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
+          // setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
           // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { title: faq.title, content: faq.content })
      };
-     const deleteHandler = (index) => {
-          setItems(Items => Items.filter((item, i) => i !== index));
+     const deleteHandler = (value) => {
+          // setItems(Items => Items.filter((item, i) => i !== index));
+          console.log(value);
+         
+          // const token= items.msg.jsonWebtoken;
+          // const featureId=value._id;
+          // console.log(token);
+          // axios.delete(`http://localhost:3010/cms/deletefeature/${featureId}`,
+          // {headers:{"Authorization":`Bearer ${items.msg.jsonWebtoken}`}}).then((result)=>{
+          //      console.log(result);
+          // }).catch((err)=>{
+          //      console.log(err);
+          // })
      };
      const toggleEdit = (i) => {
           console.log(i);

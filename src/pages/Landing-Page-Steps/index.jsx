@@ -30,6 +30,7 @@ function LandingPageSteps(props) {
           const getData = async() => {
                await axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
                     .then((result) => {
+                         console.log(result.data.msg,'drftgybhnj');
                          setData(result.data.msg.stepDetails);
                          setCss(result.data.msg.stepData);
                          console.log(result.data.msg, "step details");
@@ -59,7 +60,7 @@ function LandingPageSteps(props) {
                               </div>
                          </Row>
                          <Row className='mt-5'>
-                              <StepsTable data={data} setData={setData} />
+                              <StepsTable data={data} items={items} setData={setData} />
                          </Row>
                     </Container>
                </div>

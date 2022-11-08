@@ -89,8 +89,8 @@ import React from 'react';
 // import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { useState } from "react";
 import { EditOutlined, DeleteSharp } from "@mui/icons-material";
-import { Button, Modal } from 'react-bootstrap'
-
+import { Button, Modal } from 'react-bootstrap';
+import axios from 'axios';
 
 
 const Item = ({ value, i, editHandler, edit }) => {
@@ -109,7 +109,12 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1,setSho
                {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => { setShow2(!show2);  setDeleteIndex(index);} }><DeleteSharp /></span></Col>
+                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span>
+                         <span className="ms-3" onClick={() => {
+                         //   setDeleteIndex(index)
+                         console.log(value);
+                         deleteHandler(value._id);
+                           ;} }><DeleteSharp /></span></Col>
                     </Row>
                ))}
           </React.Fragment>
@@ -118,11 +123,7 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1,setSho
 export default function StepsTable(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
-     const {data, setData} = props
-
-     const [items, setItems] = useState([
-          
-     ]);
+     const {data, setData,items} = props;
 
      const [faq, setFaq] = useState({ title: '', content: '' })
      const [deleteStep, setDeleteStep] = useState(false);
@@ -146,15 +147,24 @@ export default function StepsTable(props) {
           //   setEdit(items);    
      }
      const onSortEnd = ({ oldIndex, newIndex }) => {
-          setItems(Items => arrayMove(Items, oldIndex, newIndex));
+          // setItems(Items => arrayMove(Items, oldIndex, newIndex));
      };
      const editHandler = (index, value) => {
           handleClose1()
-          setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
+          // setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
           // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { title: faq.title, content: faq.content })
      };
-     const deleteHandler = (index) => {
-          setItems(Items => Items.filter((item, i) => i !== index));
+     const deleteHandler = (stepId) => {
+          // setItems(Items => Items.filter((item, i) => i !== index));
+          const token= items.msg.jsonWebtoken;
+          console.log(token);
+          axios.delete(`http://localhost:3010/cms/deletestep/${stepId}`,
+          {headers:{"Authorization":`Bearer ${items.msg.jsonWebtoken}`}}).then((result)=>{
+               console.log(result);
+          }).catch((err)=>{
+               console.log(err);
+          })
+
      };
      const toggleEdit = (i) => {
           console.log(i);

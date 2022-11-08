@@ -64,7 +64,7 @@ function LandingPageFeatures(props) {
 
                          </Row>
                          <Row className='mt-5'>
-                              <FeatureList data={data} setData={setData} />
+                              <FeatureList data={data} items={items} setData={setData} />
                          </Row>
                     </Container>
                </div>
