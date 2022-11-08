@@ -44,7 +44,7 @@ function LogoManager(props) {
                                                                       type="file"
                                                                       id="formFile"
                                                                       name="headerLogo"
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
                                                                  />
                                                             </div>
                                                        </div>
@@ -62,7 +62,7 @@ function LogoManager(props) {
                                                                       alt=""
                                                                       title=""
                                                                       height={100}
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
                                                                  />
                                                             </div>
                                                             <div className="mb-3 form-check">
@@ -103,7 +103,7 @@ function LogoManager(props) {
                                                                       alt=""
                                                                       title=""
                                                                       height={100}
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
                                                                  />
                                                             </div>
                                                             <div className="mb-3 form-check">
@@ -144,50 +144,26 @@ function LogoManager(props) {
                                                                       type="file"
                                                                       id="formFile"
                                                                       name="investorFavIcon"
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
                                                                  />
                                                             </div>
                                                        </div>
                                                   </div>
-                                                  <div className="col-sm-6 col-lg-6 mt-1">
-                                                       <div className="border position-relative px-2 overflow-hidden">
-                                                            {/* {currUpload.includes('investorMobileViewLogo') && (
-                                                                 <div className="spinner-box position-absolute">
-                                                                      <Spinner animation="border" />
-                                                                 </div>
-                                                            )} */}
-                                                            <div className="upload-images p-3">
-                                                                 <img
-                                                                      src={
-                                                                           logo
-                                                                      }
-                                                                      alt=""
-                                                                      title=""
-                                                                      height={100}
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
-                                                                 />
-                                                            </div>
-                                                            <div className="mb-3 form-check">
-                                                                 <label htmlFor="formFile" className="form-label">
-                                                                      Investor Mobile View Logo
-                                                                 </label>
-                                                                 <input
-                                                                      className="form-control"
-                                                                      type="file"
-                                                                      id="formFile"
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
-                                                                      name="investorMobileViewLogo"
-                                                                 />
-                                                            </div>
-                                                       </div>
-                                                  </div>
+
                                              </div>
                                         </div>
                                    </div>
                                    {/*  */}
                               </div>
 
+
                          </Row>
+                         <Button
+                              color="success"
+                              className="mt-1 mb-3"
+                         >
+                              Update
+                         </Button>
                     </Container>
                </div>
           </React.Fragment>

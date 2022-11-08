@@ -51,7 +51,7 @@ const Login = props => {
     }),
     onSubmit: (values, { resetForm }) => {
       dispatch(loginUser(values, props.history));
-      toast.success("Login Successfully")
+      // toast.success("Login Successfully")
       resetForm(values='');
     }
   });
