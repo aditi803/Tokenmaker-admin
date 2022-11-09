@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumb from 'components/Common/Breadcrumb';
+import axios from "axios"
 import {
 
     Form,
@@ -14,49 +15,61 @@ import {
     Input
 } from "reactstrap"
 import InputMask from "react-input-mask"
+import { FOOTER, FOOTER_PUT } from 'common/api';
+import { toast } from 'react-toastify';
+import Spinner from 'loader';
+import useApiStatus from 'hooks/useApiStatus';
 
 function Footer(props) {
-    const CompanyName = props => (
-        <InputMask
-            // mask="9999999999"
-            value={props.value}
-            className="form-control input-color"
-            onChange={props.onChange}
-        >
-        </InputMask>
-    )
+    const [footer, setFooter] = useState({})
+
+    const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+
+    const [loader, setLoader] = useState(true)
+    useEffect(() => {
+        changeApiStatus(true)
+        setLoader(false)
+        fetchData()
+    }, [setFooter])
+
+    const fetchData = async () => {
+        await axios.get(FOOTER)
+            .then((res) => {
+                setFooter(res.data.msg)
+                setApiSuccess()
+                changeApiStatus(false)
+            })
+            .catch((err) => {
+                changeApiStatus(false)
+                setApiFailed(err.message)
+            })
+
+        // console.log(respHeader.data.msg, "res header footer api side ")
+    }
+
+    const onChangeHandler = async (e) => {
+        e.preventDefault()
+        // console.log(e.target.value, "onchange e target side ")
+        const { name, value } = e.target
+        setFooter({
+            ...footer, [name]: value
+        })
 
 
-    const WebsiteName = props => (
-        <InputMask
-            // mask="999.999.999.999"
-            value={props.value}
-            className="form-control input-color"
-            onChange={props.onChange}
-        >
-        </InputMask>
-    )
-    const FooterText1 = props => (
-        <InputMask
-            // mask="99-9999999"
-            value={props.value}
-            className="form-control input-color"
-            onChange={props.onChange}
-        >
-        </InputMask>
-    )
+    }
 
-    const FooterText2 = props => (
-        <InputMask
-            // mask="(999) 999-9999"
-            value={props.value}
-            className="form-control input-color"
-            onChange={props.onChange}
-        >
-        </InputMask>
-    )
 
-    return (
+    const footerUpdate = async () => {
+        const authUser = JSON.parse(localStorage.getItem('authUser'));
+        await axios.put(FOOTER_PUT, footer,
+            { headers: { "Authorization": `Bearer ${authUser.msg.jsonWebtoken}` } })
+            .then((res) => {
+                toast.success("Updated Successfully")
+            }).catch((err) => {
+                toast.error("Cannot update")
+            })
+    }
+    return apiStatus.inProgress ? <Spinner /> : (
         <React.Fragment>
             <div className="page-content">
                 <Container fluid>
@@ -75,11 +88,22 @@ function Footer(props) {
                                                 <div>
                                                     <div className="form-group mb-4">
                                                         <Label for="input-date1">Company Name: </Label>
-                                                        <CompanyName />
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            value={footer.companyName}
+                                                            className="form-control input-color"
+                                                            name='companyName'
+                                                            onChange={onChangeHandler}
+                                                        />
                                                     </div>
                                                     <div className="form-group mb-4">
                                                         <Label for="input-date2"> Footer-Text: </Label>
-                                                        <FooterText1 />
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            value={props.value}
+                                                            className="form-control input-color"
+                                                            onChange={onChangeHandler}
+                                                        />
                                                     </div>
 
                                                 </div>
@@ -88,29 +112,74 @@ function Footer(props) {
                                                 <div className="mt-4 mt-lg-0">
                                                     <div className="form-group mb-4">
                                                         <Label for="input-repeat">Website Name:</Label>
-                                                        <WebsiteName />
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            value={footer.websiteName}
+                                                            name='websiteName'
+                                                            className="form-control input-color"
+                                                            onChange={onChangeHandler}
+                                                        />
                                                     </div>
                                                     <div className="form-group mb-4">
                                                         <Label for="input-mask">Footer-Text:</Label>
-                                                        <FooterText2 />
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            value={props.value}
+                                                            className="form-control input-color"
+                                                            onChange={onChangeHandler}
+                                                        />
                                                     </div>
                                                 </div>
                                             </Col>
+
+                                        </Row>
+                                        <Row>
+
+                                            <Col lg={6}>
+                                                <div>
+                                                    <div className="form-group mb-4">
+                                                        <Label for="input-date1">Content Color: </Label>
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            name='contentColor'
+                                                            value={footer.contentColor}
+                                                            className="form-control input-color"
+                                                            onChange={onChangeHandler}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                            <Col lg={6}>
+                                                <div>
+                                                    <div className="form-group mb-4">
+                                                        <Label for="input-date2"> Background Color: </Label>
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            name='backgroundColor'
+                                                            value={footer.backgroundColor}
+                                                            className="form-control input-color"
+                                                            onChange={onChangeHandler}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </Col>
+
                                         </Row>
                                         <Button
                                             color="success"
                                             className="mt-1"
+                                            onClick={footerUpdate}
                                         >
                                             Update
                                         </Button>
-                                
-                                </Form>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+
+                                    </Form>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         </React.Fragment >
     )
 }

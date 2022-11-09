@@ -7,11 +7,13 @@ import Heading from './Heading';
 import FeatureList from './FeatureList';
 import axios from 'axios';
 import {toast} from 'react-toastify'
+import Spinner from 'loader';
+import useApiStatus from 'hooks/useApiStatus';
 
 function LandingPageFeatures(props) {
      document.title = "BlockTechBrew - Landing Page Features"
      const [items, setItems] = useState({});
-
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
 
      const handleChange = (e) => {
           axios.put('https://tokenmaker-apis.block-brew.com/cms/feature',
@@ -30,25 +32,30 @@ function LandingPageFeatures(props) {
      const [data, setData] = useState([])
      const [css, setCss] = useState({})
 
-
+     const [loader, setLoader] = useState(true)
      useEffect(() => {
+          changeApiStatus(true)
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/features")
                     .then((result) => {
                          setData(result.data.msg.featureDetails);
                          setCss(result.data.msg.featureData);
-                         console.log(result.data.msg, "Features details");
+                         // console.log(result.data.msg, "Features details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
+                         setApiSuccess()
+                         changeApiStatus(false)
                     }).catch(err => {
-                         console.log(err);
+                         changeApiStatus(false)
+                         setApiFailed(err.message)
                     })
 
           }
+          setLoader(false)
           getData();
      }, []);
 
-     return (
+     return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>

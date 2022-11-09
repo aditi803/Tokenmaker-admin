@@ -24,34 +24,36 @@ import {
 } from "./LatestTranactionCol";
 
 import TableContainer from "../../components/Common/TableContainer";
+import useApiStatus from "hooks/useApiStatus";
+import Spinner from "loader";
 
-const LatestTranaction = ({loader, setLoader}) => {
+const LatestTranaction = () => {
 
   const user = localStorage.getItem('authUser')
 
   const parseData = JSON.parse(user)
   const token = parseData.msg.jsonWebtoken;
-  //  console.log(token,"Token transaction")
 
   const [transactionData, setTransactionData] = useState([])
-  useEffect(() => {
-    getData()
-  }, [setTransactionData])
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
 
-  const getData = async() => {
-    // setLoader(true);
-    await axios.get("https://tokendetails.herokuapp.com/token/alltokens", { headers: { Authorization: `Bearer ${token}` } })
+  const [loader, setLoader] = useState(true)
+  useEffect(() =>  {
+    changeApiStatus(true)
+     axios.get("https://tokenmaker-apis.block-brew.com/token/alltokens", { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
-        setTransactionData(res.data.msg)
-        // setLoader(false)
+        if(res.data.success === 1) {
+          setTransactionData(res.data.msg)
+          setApiSuccess()
+          changeApiStatus(false)
+        } 
       })
       .catch((err) => {
-        console.log(err)
+        changeApiStatus(false)
+        setApiFailed(err.message)
       })
-      .finally(() => {
-        setLoader(false)
-      })
-  }
+      setLoader(false)
+  },[])
 
   const [modal1, setModal1] = useState(false);
 
@@ -142,7 +144,7 @@ const LatestTranaction = ({loader, setLoader}) => {
   );
 
 
-  return (
+  return apiStatus.inProgress ? <Spinner /> : (
     <React.Fragment>
       <EcommerceOrdersModal isOpen={modal1} toggle={toggleViewModal} />
       <Card>

@@ -1,12 +1,13 @@
 import React from 'react'
 import './loader.css';
-import FadeLoader from 'react-spinners/FadeLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 function Spinner() {
   return (
     <div className="loader">
-      <FadeLoader
-        color="#4A171E"
+      <ClipLoader
+        // size={20}
+        color="#A74AC7"
       />
   </div>
   )

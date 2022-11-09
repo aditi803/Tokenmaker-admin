@@ -21,7 +21,7 @@
 //           </Row>
 //      )
 // }
-     
+
 // const List = ({ items, editHandler, deleteHandler }) => {
 
 //      return (
@@ -55,7 +55,7 @@
 //                content: "That's it, you're good to go! Confirm transaction on MetaMask and your Token will be ready in a matter of minutes."
 //           }
 //      ]);
-     
+
 //      const editHandler = (index, value) => {
 //           setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
 //      };
@@ -87,11 +87,14 @@ import {
 } from "reactstrap";
 import React from 'react';
 // import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-
+import { toast } from "react-toastify";
+import { icon } from "leaflet";
+import useApiStatus from "hooks/useApiStatus";
+import { fireToast, toastConfirm } from "common/toast";
 
 const Item = ({ value, i, editHandler, edit }) => {
      return (
@@ -103,18 +106,19 @@ const Item = ({ value, i, editHandler, edit }) => {
      )
 }
 
-const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1,setShow2,show2 ,setDeleteIndex}) => {
+const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1, setShow2, show2, setDeleteIndex }) => {
      return (
           <React.Fragment>
                {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
                          <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span>
-                         <span className="ms-3" onClick={() => {
-                         //   setDeleteIndex(index)
-                         console.log(value);
-                         deleteHandler(value._id);
-                           ;} }><DeleteSharp /></span></Col>
+                              <span className="ms-3" onClick={() => {
+                                   //   setDeleteIndex(index)
+                                   console.log(value);
+                                   deleteHandler(value._id);
+                                   ;
+                              }}><DeleteSharp /></span></Col>
                     </Row>
                ))}
           </React.Fragment>
@@ -123,7 +127,7 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1,setSho
 export default function StepsTable(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
-     const {data, setData,items} = props;
+     // const { items } = props;
 
      const [faq, setFaq] = useState({ title: '', content: '' })
      const [deleteStep, setDeleteStep] = useState(false);
@@ -132,10 +136,61 @@ export default function StepsTable(props) {
      const [show1, setShow1] = useState(false)
      const handleClose = () => setShow(false);
      const handleClose1 = () => setShow1(false);
-     const[deleteIndex,setDeleteIndex]=useState(undefined)
+     const [deleteIndex, setDeleteIndex] = useState(undefined)
 
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const [data, setData] = useState([])
+     const [css, setCss] = useState({})
+     const [items, setItems] = useState({})
 
+     const getStepsData = async () => {
+          await axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
+               .then((result) => {
+                    // console.log(result.data.msg, 'drftgybhnj');
+                    setData(result.data.msg.stepDetails);
+                    setCss(result.data.msg.stepData);
+                    // console.log(result.data.msg, "step details");
+                    const authUser = JSON.parse(localStorage.getItem('authUser'));
+                    setItems(authUser);
+               }).catch(err => {
+                    console.log(err);
+                    console.log('ghjtfg');
+               })
 
+     }
+     //ends here
+     const deleteHandler = (stepId) => {
+          toastConfirm('Are you sure you want to delete this?')
+               .fire()
+               .then(async (val) => {
+                    if (val.isConfirmed) {
+                         try {
+                              changeApiStatus(true, '')
+                              const list = await axios.delete(`https://tokenmaker-apis.block-brew.com/cms/deletestep/${stepId}`, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+                              console.log(list, 'list delete handler side ')
+                              if (list?.status === 200) {
+                                   // setApiSuccess()
+                                   changeApiStatus(false)
+                                   toast.success('success', 'Template deleted successfully')
+                                   getStepsData()
+                              } else {
+                                   toast.error("list is undefined")
+                                   // throw new Error(destroySection.error)
+                              }
+                         } catch (err) {
+                              console.log(err, "err delete handler side ")
+                              toast.error('error', err.response ? err.response.data.error : err)
+                              changeApiStatus(false, err.response ? err.response.data.error : err)
+                              setApiFailed(err.msg)
+                         }
+                    }
+               })
+     }
+     //ends here
+
+     useEffect(() => {
+          getStepsData()
+     }, [setData, setCss, setItems])
 
 
      const addHandler = () => {
@@ -154,18 +209,7 @@ export default function StepsTable(props) {
           // setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
           // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { title: faq.title, content: faq.content })
      };
-     const deleteHandler = (stepId) => {
-          // setItems(Items => Items.filter((item, i) => i !== index));
-          const token= items.msg.jsonWebtoken;
-          console.log(token);
-          axios.delete(`http://localhost:3010/cms/deletestep/${stepId}`,
-          {headers:{"Authorization":`Bearer ${items.msg.jsonWebtoken}`}}).then((result)=>{
-               console.log(result);
-          }).catch((err)=>{
-               console.log(err);
-          })
 
-     };
      const toggleEdit = (i) => {
           console.log(i);
           setShow1(true);
@@ -177,7 +221,7 @@ export default function StepsTable(props) {
                     <CardBody>
                          {/* <Row className="justify-content-end"><button className="btn btn-primary" onClick={() => setShow(true)} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row> */}
                          <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
-                         <List show1={show1} show2 ={show2} setDeleteIndex={setDeleteIndex} setShow2={setShow2} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
+                         <List show1={show1} show2={show2} setDeleteIndex={setDeleteIndex} setShow2={setShow2} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
 
                     </CardBody>
                </Card>
@@ -230,7 +274,7 @@ export default function StepsTable(props) {
 
                                    <input type="text" className="form-control" onChange={(e) => { setDeleteStep(e.target.value) }} id="title" aria-describedby="emailHelp" placeholder="title...." />
                               </div>
-                              
+
                          </form>
                     </Modal.Body>
                     <Modal.Footer>

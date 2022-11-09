@@ -7,15 +7,20 @@ import Heading from './Heading';
 import ButtonComp from './Button';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import Spinner from 'loader';
+import useApiStatus from 'hooks/useApiStatus';
 
 function LandingPageCustomDeveloper(props) {
      document.title = "BlockTechBrew - Landing Page Custom Devloper"
 
      const [items, setItems] = useState({});
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+
 
      const [data, setData] = useState([])
+     const [loader, setLoader] = useState(true)
      useEffect(() => {
+          changeApiStatus(true)
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/customDetails")
                     .then((result) => {
@@ -23,11 +28,15 @@ function LandingPageCustomDeveloper(props) {
                          // console.log(result.data.msg);
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
+                         setApiSuccess()
+                         changeApiStatus(false)
                     }).catch(err => {
-                         console.log(err);
+                         changeApiStatus(false)
+                         setApiFailed(err.message)
                     })
 
           }
+          setLoader(false)
           getData();
 
      }, []);
@@ -51,7 +60,7 @@ function LandingPageCustomDeveloper(props) {
           
 
      }
-     return (
+     return apiStatus.inProgress ? <Spinner /> :  (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>

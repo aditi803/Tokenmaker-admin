@@ -6,11 +6,13 @@ import {
      Row,
 } from "reactstrap";
 import React from 'react';
-// import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 import { Button, Modal } from 'react-bootstrap'
 import axios from 'axios';
+import { toast } from "react-toastify"
+import { fireToast, toastConfirm } from "common/toast";
+import useApiStatus from "hooks/useApiStatus"
 
 const Item = ({ value, i, editHandler, edit }) => {
      return (
@@ -22,14 +24,14 @@ const Item = ({ value, i, editHandler, edit }) => {
      )
 }
 
-const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler,show1 }) => {
+const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler, show1 }) => {
      return (
           <React.Fragment>
                {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => 
-                         {deleteHandler(value);
+                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span><span className="ms-3" onClick={() => {
+                              deleteHandler(value);
 
                          }}><DeleteSharp /></span></Col>
                     </Row>
@@ -40,17 +42,19 @@ const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler,show1 
 export default function FeatureList(props) {
      const [edit, setEdit] = useState(undefined);
      const [show, setShow] = useState(false)
-     const { data, setData,items } = props;
+     const { items } = props;
 
      const [faq, setFaq] = useState({ title: '', content: '' })
      const [show1, setShow1] = useState(false)
      const handleClose = () => setShow(false);
+     const [data, setData] = useState([])
+     const [css, setCss] = useState({})
      const handleClose1 = () => setShow1(false);
 
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
 
 
 
-     
      const addHandler = () => {
           handleClose()
           // setItems(prev => [...prev, { title: faq.title, content: faq.content }]);
@@ -67,20 +71,59 @@ export default function FeatureList(props) {
           // setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
           // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { title: faq.title, content: faq.content })
      };
+
+     
+     useEffect(() => {   
+          getFeaturesData();
+     }, []);
+     const getFeaturesData = () => {
+          axios.get("https://tokenmaker-apis.block-brew.com/cms/features")
+               .then((result) => {
+                    setData(result.data.msg.featureDetails);
+                    setCss(result.data.msg.featureData);
+                    console.log(result.data.msg, "Features details");
+                    const authUser = JSON.parse(localStorage.getItem('authUser'));
+                    setItems(authUser);
+               }).catch(err => {
+                    console.log(err);
+               })
+
+     }
+
      const deleteHandler = (value) => {
-          // setItems(Items => Items.filter((item, i) => i !== index));
-          console.log(value);
-         
-          // const token= items.msg.jsonWebtoken;
-          // const featureId=value._id;
-          // console.log(token);
-          // axios.delete(`http://localhost:3010/cms/deletefeature/${featureId}`,
-          // {headers:{"Authorization":`Bearer ${items.msg.jsonWebtoken}`}}).then((result)=>{
-          //      console.log(result);
-          // }).catch((err)=>{
-          //      console.log(err);
-          // })
-     };
+          toastConfirm('Are you sure you want to delete this?')
+               .fire()
+               .then(async (val) => {
+                    if (val.isConfirmed) {
+                         try {
+                              changeApiStatus(true, '')
+                              // const token = items.msg.jsonWebtoken;
+                              const featureId = value._id;
+                              const list = await axios.delete(`https://tokenmaker-apis.block-brew.com/cms/deletefeature/${featureId}`, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+                              // console.log(list, 'list delete handler side ')
+                              if (list?.status === 200) {
+                                   // setApiSuccess()
+                                   changeApiStatus(false)
+                                   toast.success('success', 'FAQ deleted successfully')
+                                   // setFaq({ question: "", answer: "" })
+                                   getFeaturesData()
+                              } else {
+                                   toast.error("list is undefined")
+                                   // throw new Error(destroySection.error)
+                              }
+                         } catch (err) {
+                              console.log(err, "err delete handler side ")
+                              toast.error('error', err.response ? err.response.data.error : err)
+                              changeApiStatus(false, err.response ? err.response.data.error : err)
+                              setFaq({ question: "", answer: "" })
+                              setApiFailed(err.msg)
+                         }
+                    }
+               })
+     }
+
+
+
      const toggleEdit = (i) => {
           console.log(i);
           setShow1(true);
@@ -170,4 +213,3 @@ export default function FeatureList(props) {
      )
 }
 
-    

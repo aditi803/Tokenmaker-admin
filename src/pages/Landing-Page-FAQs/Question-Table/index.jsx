@@ -2,10 +2,13 @@ import { Card, CardBody, CardHeader, Col, Row } from "reactstrap"
 import MessageModal from "pages/MessageModal"
 import React from "react"
 // import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { EditOutlined, DeleteSharp } from "@mui/icons-material"
 import { Button, Modal } from "react-bootstrap"
 import axios from "axios"
+import { toast } from "react-toastify"
+import { fireToast, toastConfirm } from "common/toast";
+import useApiStatus from "hooks/useApiStatus"
 
 const Item = ({ value, i, editHandler, edit }) => {
   return (
@@ -79,7 +82,7 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler }) => {
 export default function QuestionTable(props) {
   const [edit, setEdit] = useState(undefined)
   const [show, setShow] = useState(false)
-  const { data, setData, items, setItems } = props
+  const { items, setItems } = props
   const [faq, setFaq] = useState({ question: "", answer: "" })
   const [show1, setShow1] = useState(false)
   const [show2, setShow2] = useState(false)
@@ -88,26 +91,50 @@ export default function QuestionTable(props) {
     setShow(false), setShow1(false), setShow2(false), setShow3(false)
   }
 
+  const [css, setCss] = useState({})
+  const [data, setData] = useState([])
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+  useEffect(() => {
+    getData();
+  }, [])
+
+  const getData = () => {
+    axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
+      .then((result) => {
+        setData(result.data.msg.faqDetails);
+        setCss(result.data.msg.faqData);
+        // console.log('ok/');
+        // console.log(result.data.msg,"Faq details");
+        const authUser = JSON.parse(localStorage.getItem('authUser'));
+        setItems(authUser);
+      }).catch(err => {
+        console.log(err);
+      })
+
+  }
+  //ends here 
   const addHandler = async () => {
     handleClose()
-    // setItems(prev => [...prev, { Question: faq.Question, Answer: faq.Answer }]);
     try {
       const addFaqResponse = await axios.post(
-        "http://localhost:3010/cms/faq",
+        "https://tokenmaker-apis.block-brew.com/cms/faq",
         {
           question: faq.question,
           answer: faq.answer,
         },
         { headers: { Authorization: `Bearer ${items.msg.jsonWebtoken}` } }
       )
-      console.log(addFaqResponse.status)
-      if (addFaqResponse.status == 200) {
-        setShow2(true)
+      console.log(addFaqResponse, "Faq response")
+      if (addFaqResponse.status === 200) {
+        // setShow2(true)
+        toast.success("Faq Added Successfully")
         setFaq({ question: "", answer: "" })
+        getData();
       }
     } catch (error) {
-      setShow3(true)
-      console.log(addFaqResponse.status)
+      console.log(error, "add handler catch side errr ")
+      toast.error("Faq not added")
+      // console.log(addFaqResponse.status)
       setFaq({ question: "", answer: "" })
     }
   }
@@ -135,28 +162,39 @@ export default function QuestionTable(props) {
       setFaq({ question: "", answer: "" })
     }
   }
-  const deleteHandler = async value => {
-    // setItems(Items => Items.filter((item, i) => i !== index));
-    try {
-      const token = items.msg.jsonWebtoken
-      const faqId=value._id;
-      console.log(token, "rftgyhnj")
-      const deleteFaqResponse = await axios.delete(
-        `http://localhost:3010/cms/deletefaq/${faqId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      console.log(deleteFaqResponse)
-      if (deleteFaqResponse.status == 200) {
-        setShow2(true)
-        setFaq({ question: "", answer: "" })
-      }
-    } catch (error) {
-      setShow3(true)
-      console.log(deleteFaqResponse.status)
-      setFaq({ question: "", answer: "" })
-    }
+  
+  const deleteHandler = (value) => {
+    toastConfirm('Are you sure you want to delete this?')
+      .fire()
+      .then(async (val) => {
+        if (val.isConfirmed) {
+          try {
+            changeApiStatus(true, '')
+            // const token = items.msg.jsonWebtoken
+            const faqId = value._id;
+            const list = await axios.delete(`https://tokenmaker-apis.block-brew.com/cms/deletefaq/${faqId}`, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+            console.log(list, 'list delete handler side ')
+            if (list?.status === 200) {
+              // setApiSuccess()
+              changeApiStatus(false)
+              toast.success('success', 'FAQ deleted successfully')
+              setFaq({ question: "", answer: "" })
+              getData()
+            } else {
+              toast.error("list is undefined")
+              // throw new Error(destroySection.error)
+            }
+          } catch (err) {
+            console.log(err, "err delete handler side ")
+            toast.error('error', err.response ? err.response.data.error : err)
+            changeApiStatus(false, err.response ? err.response.data.error : err)
+            setFaq({ question: "", answer: "" })
+            setApiFailed(err.msg)
+          }
+        }
+      })
   }
-
+  
   const toggleEdit = i => {
     console.log(i)
     setShow1(true)

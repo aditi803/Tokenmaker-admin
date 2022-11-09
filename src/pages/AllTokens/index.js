@@ -9,7 +9,7 @@ import Spinner from '../../loader/index'
 
 function AllTokens (props) {
     const [loader, setLoader] = useState(false)
-    return loader ? <Spinner /> : (
+    return (
         <React.Fragment>
                <div className="page-content">
                     <Container fluid>

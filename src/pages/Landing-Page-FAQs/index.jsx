@@ -8,9 +8,13 @@ import Heading from './Heading';
 import Content from './Content';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import Spinner from 'loader';
+import useApiStatus from 'hooks/useApiStatus';
 function LandingPageFAQs(props) {
 
      document.title = "BlockTechBrew - Landing Page FAQs"
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+
      const [data, setData] = useState([])
      const [items, setItems] = useState({})
      const [css, setCss] = useState({})
@@ -30,25 +34,28 @@ function LandingPageFAQs(props) {
                     toast.error('Cannot Update');
                });
      }
+     const [loader, setLoader] = useState(true)
      useEffect(() => {
+          changeApiStatus(true)
           const getData = () => {
                axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
                     .then((result) => {
                          setData(result.data.msg.faqDetails);
                          setCss(result.data.msg.faqData);
-                         // console.log('ok/');
-                         // console.log(result.data.msg,"Faq details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
+                         setApiSuccess()
+                         changeApiStatus(false)
                     }).catch(err => {
-                         console.log(err);
+                         changeApiStatus(false)
+                         setApiFailed(err.message)
                     })
 
           }
+          setLoader(false)
           getData();
-
      }, []);
-     return (
+     return apiStatus.inProgress ? <Spinner /> :  (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
