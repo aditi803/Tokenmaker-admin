@@ -35,7 +35,7 @@ function LandingPageBanner(props) {
                .catch((err) => {
                     // changeApiStatus(false)
                     // setApiFailed(err.message)
-                    toast.error(err)
+                    toast.error("cannot update")
                })
      }
 

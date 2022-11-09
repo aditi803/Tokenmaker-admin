@@ -91,7 +91,7 @@ import { useState, useEffect } from "react";
 import { EditOutlined, DeleteSharp } from "@mui/icons-material";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { icon } from "leaflet";
 import useApiStatus from "hooks/useApiStatus";
 import { fireToast, toastConfirm } from "common/toast";
@@ -112,13 +112,12 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1, setSh
                {data.map((value, index) => (
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                         <Col lg='2'><span onClick={() => { toggleEdit(edit === index ? index : index) }}><EditOutlined /></span>
-                              <span className="ms-3" onClick={() => {
-                                   //   setDeleteIndex(index)
-                                   console.log(value);
-                                   deleteHandler(value._id);
-                                   ;
-                              }}><DeleteSharp /></span></Col>
+                         <Col lg='2'><span onClick={() => { toggleEdit(value) }}><EditOutlined /></span>
+                         <span className="ms-3" onClick={() => {
+                         //   setDeleteIndex(index)
+                         console.log(value);
+                         deleteHandler(value._id);
+                           ;} }><DeleteSharp /></span></Col>
                     </Row>
                ))}
           </React.Fragment>
@@ -132,11 +131,9 @@ export default function StepsTable(props) {
      const [faq, setFaq] = useState({ title: '', content: '' })
      const [deleteStep, setDeleteStep] = useState(false);
      const [show2, setShow2] = useState(false)
-     const handleClose2 = () => setShow2(false);
      const [show1, setShow1] = useState(false)
-     const handleClose = () => setShow(false);
-     const handleClose1 = () => setShow1(false);
-     const [deleteIndex, setDeleteIndex] = useState(undefined)
+     const handleClose = () => {setShow(false);setShow2(false);setShow1(false)}
+     const[deleteIndex,setDeleteIndex]=useState(undefined)
 
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
      const [data, setData] = useState([])
@@ -204,16 +201,33 @@ export default function StepsTable(props) {
      const onSortEnd = ({ oldIndex, newIndex }) => {
           // setItems(Items => arrayMove(Items, oldIndex, newIndex));
      };
-     const editHandler = (index, value) => {
-          handleClose1()
-          // setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
-          // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { title: faq.title, content: faq.content })
-     };
+     const editHandler = async (value) => {
+          handleClose()
+          console.log('fghjhnj');
+          console.log(value);
+          // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { Question: faq.Question, Answer: faq.Answer })
+          try {
+            const stepId=value._id;
+                 const updateStepResponse=await axios.put(`https://tokenmaker-apis.block-brew.com/cms/editstep`,{
+                stepId:stepId, title:value.title,content:value.content},{ headers:
+                      { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+                      console.log(updateStepResponse.status);
+            if(updateStepResponse.status===200){
+               toast.success('edited successfully')
+               setEdit({})
+            }
+          } catch (error) {
+               toast.error('error occurred');
+            console.log(updateStepResponse.status)
+            setEdit({})
+            
+          }
+        }
 
-     const toggleEdit = (i) => {
-          console.log(i);
+     const toggleEdit = (value) => {
+          console.log(value);
           setShow1(true);
-          setEdit(i);
+          setEdit(value);
      }
      return (
           <React.Fragment>
@@ -262,7 +276,7 @@ export default function StepsTable(props) {
                </Modal>
 
 
-               <Modal show={show2} onHide={handleClose2}>
+               <Modal show={show2} onHide={handleClose}>
                     <Modal.Header closeButton>
                          <Modal.Title>Delete Step</Modal.Title>
                     </Modal.Header>
@@ -278,7 +292,7 @@ export default function StepsTable(props) {
                          </form>
                     </Modal.Body>
                     <Modal.Footer>
-                         <Button variant="secondary" onClick={handleClose2}>
+                         <Button variant="secondary" onClick={handleClose}>
                               Close
                          </Button>
                          <Button variant="primary" onClick={deleteHandler}>
@@ -288,7 +302,7 @@ export default function StepsTable(props) {
                </Modal>
 
 
-               <Modal show={show1} onHide={handleClose1}>
+               <Modal show={show1} onHide={handleClose}>
                     <Modal.Header closeButton>
                          <Modal.Title>Edit-FeatureList</Modal.Title>
                     </Modal.Header>
@@ -298,13 +312,17 @@ export default function StepsTable(props) {
                               <div className="form-group">
                                    <label htmlFor="title">title</label>
 
-                                   <input type="text" className="form-control" value={edit >= 0 ? items[edit].title : ''} onChange={(e) => { console.log(items[edit]); setFaq({ ...faq, title: e.target.value }); setItems(items.map((ele, i) => { return edit === i ? { ...ele, title: e.target.value } : ele })) }} id="title" aria-describedby="emailHelp" placeholder="title...." />
+                                   <input type="text" className="form-control" value={edit==undefined?null:edit==null?null:edit.title} onChange={(e) => { setEdit({ ...edit, title: e.target.value }); 
+                                   // setItems(items.map((ele, i) => { return edit === i ? { ...ele, title: e.target.value } : ele }))
+                                    }}  id="title" aria-describedby="emailHelp" placeholder="title...." />
                                    {/* <small id="emailHelp" className="form-text text-muted"></small> */}
                               </div>
                               <div className="form-group">
-
+{console.log(edit)}
                                    <label htmlFor="contents">content</label>
-                                   <textarea rows='5' type="text" className="form-control" value={edit >= 0 ? items[edit].content : ''} onChange={(e) => { setFaq({ ...faq, content: e.target.value }); setItems(items.map((ele, i) => { return edit === i ? { ...ele, content: e.target.value } : ele })) }} id="contents" placeholder="contents" />
+                                   <textarea rows='5' type="text" className="form-control" value={edit==undefined?null:edit==null?null:edit.content} onChange={(e) => { setEdit({ ...edit, content: e.target.value }); 
+                                   // setItems(items.map((ele, i) => { return edit === i ? { ...ele, content: e.target.value } : ele }))
+                                    }} id="contents" placeholder="contents" />
                               </div>
                               {/* <div className="form-group form-check">
                                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
@@ -314,14 +332,16 @@ export default function StepsTable(props) {
                          </form>
                     </Modal.Body>
                     <Modal.Footer>
-                         <Button variant="secondary" onClick={handleClose1}>
+                         <Button variant="secondary" onClick={handleClose}>
                               Close
                          </Button>
-                         <Button variant="primary" onClick={editHandler}>
+                         <Button variant="primary" onClick={()=>{editHandler(edit)}}>
                               Save Changes
                          </Button >
                     </Modal.Footer>
                </Modal>
+               <ToastContainer/>
+
           </React.Fragment>
      )
 }
