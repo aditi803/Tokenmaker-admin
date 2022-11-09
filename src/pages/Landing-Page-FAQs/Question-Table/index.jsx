@@ -1,11 +1,11 @@
 import { Card, CardBody, CardHeader, Col, Row } from "reactstrap"
 import MessageModal from "pages/MessageModal"
 import React from "react"
-// import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { useState } from "react"
 import { EditOutlined, DeleteSharp } from "@mui/icons-material"
 import { Button, Modal } from "react-bootstrap"
 import axios from "axios"
+import { toast, ToastContainer } from "react-toastify"
 
 const Item = ({ value, i, editHandler, edit }) => {
   return (
@@ -33,7 +33,6 @@ const Item = ({ value, i, editHandler, edit }) => {
           value.answer
         )}
       </Col>
-      {/* {console.log(value.question,"question")} */}
     </>
   )
 }
@@ -55,9 +54,7 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler }) => {
           <Col lg="2">
             <span
               onClick={() => {
-                console.log(value)
-
-                toggleEdit(edit === index ? index : index)
+                toggleEdit(value)
               }}
             >
               <EditOutlined />
@@ -90,10 +87,9 @@ export default function QuestionTable(props) {
 
   const addHandler = async () => {
     handleClose()
-    // setItems(prev => [...prev, { Question: faq.Question, Answer: faq.Answer }]);
     try {
       const addFaqResponse = await axios.post(
-        "http://localhost:3010/cms/faq",
+        "https://tokenmaker-apis.block-brew.com/cms/faq",
         {
           question: faq.question,
           answer: faq.answer,
@@ -102,41 +98,37 @@ export default function QuestionTable(props) {
       )
       console.log(addFaqResponse.status)
       if (addFaqResponse.status == 200) {
-        setShow2(true)
+        toast.success('Faq Added Successfully !')
         setFaq({ question: "", answer: "" })
       }
     } catch (error) {
-      setShow3(true)
+    toast.error('Faq Addition Error !')
       console.log(addFaqResponse.status)
       setFaq({ question: "", answer: "" })
     }
   }
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    setItems(Items => arrayMove(Items, oldIndex, newIndex))
-  }
-  const editHandler = async () => {
+  // const onSortEnd = ({ oldIndex, newIndex }) => {
+  //   setItems(Items => arrayMove(Items, oldIndex, newIndex))
+  // }
+  const editHandler = async (value) => {
     handleClose()
-    // setItems(Items => Items.map((item, i) => i === index ? ({ ...item, ...value }) : item))
-    // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { Question: faq.Question, Answer: faq.Answer })
-    try {
-      console.log()
-      //      const addFaqResponse=await axios.post('http://localhost:3010/cms/faq',{
-      //      question:faq.question,answer:faq.answer},{ headers:
-      //           { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
-      //           console.log(addFaqResponse.status);
-      // if(addFaqResponse.status==200){
-      //      setShow2(true)
-      //      setFaq({question:'',answer:''})
-      // }
+    try { const faqId=value._id;
+           const updateFaqResponse=await axios.put(`http://localhost:3010/cms/editfaq`,{
+          faqId:faqId, question:value.question,answer:value.answer},{ headers:
+                { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+                console.log(updateFaqResponse.status);
+      if(updateFaqResponse.status===200){
+           toast.success('Faq Updated Successfully !')
+           setEdit({});
+      }
     } catch (error) {
-      setShow3(true)
-      console.log(addFaqResponse.status)
-      setFaq({ question: "", answer: "" })
+      toast.error('Cannot Update Faq! error occured .')
+      console.log(updateFaqResponse.status)
+      setEdit({ })
     }
   }
   const deleteHandler = async value => {
-    // setItems(Items => Items.filter((item, i) => i !== index));
     try {
       const token = items.msg.jsonWebtoken
       const faqId=value._id;
@@ -157,10 +149,10 @@ export default function QuestionTable(props) {
     }
   }
 
-  const toggleEdit = i => {
-    console.log(i)
+  const toggleEdit = (value) => {
+    console.log(value)
     setShow1(true)
-    setEdit(i)
+    setEdit(value)
   }
   return (
     <React.Fragment>
@@ -195,7 +187,6 @@ export default function QuestionTable(props) {
             toggleEdit={toggleEdit}
             deleteHandler={deleteHandler}
             editHandler={editHandler}
-            onSortEnd={onSortEnd}
           />
         </CardBody>
       </Card>
@@ -204,7 +195,6 @@ export default function QuestionTable(props) {
         <Modal.Header closeButton>
           <Modal.Title> ADD FAQ</Modal.Title>
         </Modal.Header>
-
         <Modal.Body>
           <form>
             <div className="form-group">
@@ -221,7 +211,6 @@ export default function QuestionTable(props) {
                 aria-describedby="emailHelp"
                 placeholder="Question...."
               />
-              {/* <small id="emailHelp" className="form-text text-muted"></small> */}
             </div>
             <div className="form-group">
               <label htmlFor="Answers">Answer</label>
@@ -231,17 +220,10 @@ export default function QuestionTable(props) {
                 className="form-control"
                 onChange={e => {
                   setFaq({ ...faq, answer: e.target.value })
-                  console.log(faq)
                 }}
                 id="Answers"
-                placeholder="Answers"
-              />
+                placeholder="Answers"/>
             </div>
-            {/* <div className="form-group form-check">
-                                   <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                                   <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                              </div> */}
-            {/* <button type="submit" class="btn btn-primary">Submit</button> */}
           </form>
         </Modal.Body>
         <Modal.Footer>
@@ -263,27 +245,17 @@ export default function QuestionTable(props) {
           <form>
             <div className="form-group">
               <label htmlFor="Question">Question</label>
-
               <input
                 type="text"
                 className="form-control"
-                value={edit >= 0 ? items[edit].Question : ""}
+                value={edit==undefined?null:edit==null?null:edit.question}
                 onChange={e => {
                   console.log(items[edit])
-                  setFaq({ ...faq, Question: e.target.value })
-                  setItems(
-                    items.map((ele, i) => {
-                      return edit === i
-                        ? { ...ele, Question: e.target.value }
-                        : ele
-                    })
-                  )
+                  setEdit({ ...edit, question: e.target.value })
                 }}
                 id="Question"
                 aria-describedby="emailHelp"
-                placeholder="Question...."
-              />
-              {/* <small id="emailHelp" className="form-text text-muted"></small> */}
+                placeholder="Question...."/>
             </div>
             <div className="form-group">
               <label htmlFor="Answers">Answer</label>
@@ -291,57 +263,26 @@ export default function QuestionTable(props) {
                 rows="5"
                 type="text"
                 className="form-control"
-                value={edit >= 0 ? items[edit].Answer : ""}
+                value={edit==undefined?null:edit==null?'':edit.answer}
                 onChange={e => {
-                  setFaq({ ...faq, Answer: e.target.value })
-                  setItems(
-                    items.map((ele, i) => {
-                      return edit === i
-                        ? { ...ele, Answer: e.target.value }
-                        : ele
-                    })
-                  )
-                }}
+                  setEdit({ ...edit, answer: e.target.value })
+}}
                 id="Answers"
                 placeholder="Answers"
               />
             </div>
-            {/* <div className="form-group form-check">
-                                   <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                                   <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                              </div> */}
-            {/* <button type="submit" class="btn btn-primary">Submit</button> */}
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={editHandler}>
+          <Button variant="primary" onClick={()=>{editHandler(edit)}}>
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal>
-      <Modal show={show2} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Successfully Added Faq !</Modal.Title>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal show={show3} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Error Occured !</Modal.Title>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      </Modal>      
+      <ToastContainer/>
     </React.Fragment>
   )
 }
