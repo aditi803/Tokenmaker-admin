@@ -95,6 +95,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { icon } from "leaflet";
 import useApiStatus from "hooks/useApiStatus";
 import { fireToast, toastConfirm } from "common/toast";
+import Spinner from "loader";
 
 const Item = ({ value, i, editHandler, edit }) => {
      return (
@@ -113,11 +114,12 @@ const List = ({ data, editHandler, edit, toggleEdit, deleteHandler, show1, setSh
                     <Row key={index} className='mb-5'>
                          <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
                          <Col lg='2'><span onClick={() => { toggleEdit(value) }}><EditOutlined /></span>
-                         <span className="ms-3" onClick={() => {
-                         //   setDeleteIndex(index)
-                         console.log(value);
-                         deleteHandler(value._id);
-                           ;} }><DeleteSharp /></span></Col>
+                              <span className="ms-3" onClick={() => {
+                                   //   setDeleteIndex(index)
+                                   console.log(value);
+                                   deleteHandler(value._id);
+                                   ;
+                              }}><DeleteSharp /></span></Col>
                     </Row>
                ))}
           </React.Fragment>
@@ -132,28 +134,32 @@ export default function StepsTable(props) {
      const [deleteStep, setDeleteStep] = useState(false);
      const [show2, setShow2] = useState(false)
      const [show1, setShow1] = useState(false)
-     const handleClose = () => {setShow(false);setShow2(false);setShow1(false)}
-     const[deleteIndex,setDeleteIndex]=useState(undefined)
+     const handleClose = () => { setShow(false); setShow2(false); setShow1(false) }
+     const [deleteIndex, setDeleteIndex] = useState(undefined)
 
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
      const [data, setData] = useState([])
      const [css, setCss] = useState({})
      const [items, setItems] = useState({})
+     const [loader, setLoader] = useState(true)
 
      const getStepsData = async () => {
+          changeApiStatus(true)
           await axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
                .then((result) => {
-                    // console.log(result.data.msg, 'drftgybhnj');
+                    setApiSuccess()
+                    changeApiStatus(false)
                     setData(result.data.msg.stepDetails);
                     setCss(result.data.msg.stepData);
-                    // console.log(result.data.msg, "step details");
                     const authUser = JSON.parse(localStorage.getItem('authUser'));
                     setItems(authUser);
                }).catch(err => {
-                    console.log(err);
-                    console.log('ghjtfg');
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    // console.log(err);
+                    // console.log('ghjtfg');
                })
-
+          setLoader(false)
      }
      //ends here
      const deleteHandler = (stepId) => {
@@ -162,23 +168,23 @@ export default function StepsTable(props) {
                .then(async (val) => {
                     if (val.isConfirmed) {
                          try {
-                              changeApiStatus(true, '')
+                              changeApiStatus(true)
                               const list = await axios.delete(`https://tokenmaker-apis.block-brew.com/cms/deletestep/${stepId}`, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
                               console.log(list, 'list delete handler side ')
                               if (list?.status === 200) {
-                                   // setApiSuccess()
+                                   setApiSuccess()
                                    changeApiStatus(false)
-                                   toast.success('success', 'Template deleted successfully')
+                                   toast.success('Template deleted successfully')
                                    getStepsData()
                               } else {
+
                                    toast.error("list is undefined")
-                                   // throw new Error(destroySection.error)
                               }
                          } catch (err) {
-                              console.log(err, "err delete handler side ")
-                              toast.error('error', err.response ? err.response.data.error : err)
                               changeApiStatus(false, err.response ? err.response.data.error : err)
                               setApiFailed(err.msg)
+                              toast.error('Cannot Update', err.response ? err.response.data.error : err)
+
                          }
                     }
                })
@@ -203,26 +209,30 @@ export default function StepsTable(props) {
      };
      const editHandler = async (value) => {
           handleClose()
-          console.log('fghjhnj');
-          console.log(value);
-          // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { Question: faq.Question, Answer: faq.Answer })
+          changeApiStatus(true)
           try {
-            const stepId=value._id;
-                 const updateStepResponse=await axios.put(`https://tokenmaker-apis.block-brew.com/cms/editstep`,{
-                stepId:stepId, title:value.title,content:value.content},{ headers:
-                      { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
-                      console.log(updateStepResponse.status);
-            if(updateStepResponse.status===200){
-               toast.success('edited successfully')
-               setEdit({})
-            }
+               const stepId = value._id;
+               const updateStepResponse = await axios.put(`https://tokenmaker-apis.block-brew.com/cms/editstep`, {
+                    stepId: stepId, title: value.title, content: value.content
+               }, {
+                    headers:
+                         { "Authorization": `Bearer ${items.msg.jsonWebtoken}` }
+               })
+               if (updateStepResponse.status === 200) {
+                    setApiSuccess()
+                    changeApiStatus(false)
+                    toast.success('edited successfully')
+                    setEdit({})
+                    getStepsData()
+               }
           } catch (error) {
+               changeApiStatus(false)
+               setApiFailed(err.message)
                toast.error('error occurred');
-            console.log(updateStepResponse.status)
-            setEdit({})
-            
+               setEdit({})
           }
-        }
+          setLoader(false)
+     }
 
      const toggleEdit = (value) => {
           console.log(value);
@@ -231,15 +241,16 @@ export default function StepsTable(props) {
      }
      return (
           <React.Fragment>
-               <Card className='mt-5'>
-                    <CardBody>
-                         {/* <Row className="justify-content-end"><button className="btn btn-primary" onClick={() => setShow(true)} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row> */}
-                         <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
-                         <List show1={show1} show2={show2} setDeleteIndex={setDeleteIndex} setShow2={setShow2} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
+               {apiStatus.inProgress ? <Spinner /> :
+                    <Card className='mt-5'>
+                         <CardBody>
+                              {/* <Row className="justify-content-end"><button className="btn btn-primary" onClick={() => setShow(true)} style={{ width: '200px', marginBottom: '20px' }}>Add FAQ</button></Row> */}
+                              <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
+                              <List show1={show1} show2={show2} setDeleteIndex={setDeleteIndex} setShow2={setShow2} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler} onSortEnd={onSortEnd} />
 
-                    </CardBody>
-               </Card>
-
+                         </CardBody>
+                    </Card>
+               }
                <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                          <Modal.Title>FAQ</Modal.Title>
@@ -312,17 +323,19 @@ export default function StepsTable(props) {
                               <div className="form-group">
                                    <label htmlFor="title">title</label>
 
-                                   <input type="text" className="form-control" value={edit==undefined?null:edit==null?null:edit.title} onChange={(e) => { setEdit({ ...edit, title: e.target.value }); 
-                                   // setItems(items.map((ele, i) => { return edit === i ? { ...ele, title: e.target.value } : ele }))
-                                    }}  id="title" aria-describedby="emailHelp" placeholder="title...." />
+                                   <input type="text" className="form-control" value={edit == undefined ? null : edit == null ? null : edit.title} onChange={(e) => {
+                                        setEdit({ ...edit, title: e.target.value });
+                                        // setItems(items.map((ele, i) => { return edit === i ? { ...ele, title: e.target.value } : ele }))
+                                   }} id="title" aria-describedby="emailHelp" placeholder="title...." />
                                    {/* <small id="emailHelp" className="form-text text-muted"></small> */}
                               </div>
                               <div className="form-group">
-{console.log(edit)}
+                                   {console.log(edit)}
                                    <label htmlFor="contents">content</label>
-                                   <textarea rows='5' type="text" className="form-control" value={edit==undefined?null:edit==null?null:edit.content} onChange={(e) => { setEdit({ ...edit, content: e.target.value }); 
-                                   // setItems(items.map((ele, i) => { return edit === i ? { ...ele, content: e.target.value } : ele }))
-                                    }} id="contents" placeholder="contents" />
+                                   <textarea rows='5' type="text" className="form-control" value={edit == undefined ? null : edit == null ? null : edit.content} onChange={(e) => {
+                                        setEdit({ ...edit, content: e.target.value });
+                                        // setItems(items.map((ele, i) => { return edit === i ? { ...ele, content: e.target.value } : ele }))
+                                   }} id="contents" placeholder="contents" />
                               </div>
                               {/* <div className="form-group form-check">
                                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
@@ -335,12 +348,12 @@ export default function StepsTable(props) {
                          <Button variant="secondary" onClick={handleClose}>
                               Close
                          </Button>
-                         <Button variant="primary" onClick={()=>{editHandler(edit)}}>
+                         <Button variant="primary" onClick={() => { editHandler(edit) }}>
                               Save Changes
                          </Button >
                     </Modal.Footer>
                </Modal>
-               <ToastContainer/>
+               <ToastContainer />
 
           </React.Fragment>
      )

@@ -15,7 +15,7 @@ const tasks = [
     tasks: [
       {
         id: 11,
-        description: "Create a Skote Dashboard UI",
+        description: "Create a Dashboard UI",
         members: [
           {
             username: "",

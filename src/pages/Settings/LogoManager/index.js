@@ -1,11 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumb from '../../../components/Common/Breadcrumb';
 import logo from "../../../assets/images/b_brew.png";
+import { HEADER, HEADER_PUT } from 'common/api';
+import useApiStatus from 'hooks/useApiStatus';
+import axios from "axios";
+import { toast } from "react-toastify"
+import Spinner from 'loader';
 function LogoManager(props) {
-     return (
+
+     const [header, setHeader] = useState({})
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+
+     const [loader, setLoader] = useState(true)
+     useEffect(() => {
+          changeApiStatus(true)
+          setLoader(false)
+          fetchData()
+     }, [setHeader])
+
+     const fetchData = async () => {
+          await axios.get(HEADER)
+               .then((res) => {
+                    setHeader(res.data.msg)
+                    setApiSuccess()
+                    changeApiStatus(false)
+                    console.log(res.data.msg)
+               })
+               .catch((err) => {
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+               })
+
+     }
+
+     // const onChangeHandler = async (e) => {
+     //      e.preventDefault()
+     //      const { name, value } = e.target;
+     //      setHeader({
+     //           ...header, [name]: value
+     //      })
+     // }
+
+     // const headerUpdate = async () => {
+     //      const authUser = JSON.parse(localStorage.getItem('authUser'));
+     //      await axios.put(HEADER_PUT, header,
+     //           { headers: { "Authorization": `Bearer ${authUser.msg.jsonWebtoken}` } })
+     //           .then((res) => {
+     //                toast.success("Updated Successfully")
+     //           }).catch((err) => {
+     //                toast.error("Cannot update")
+     //                console.log(err)
+     //           })
+     // }
+     const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
+
+     const uploadImage = (e) => {
+          e.preventDefault();
+          let formData = new FormData(e.target)
+          console.log(formData, "form data")
+     }
+     return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
@@ -13,7 +70,9 @@ function LogoManager(props) {
                               title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("Logo Manager")}
                          />
+                         <form encType='multipart/form-data' onSubmit={(e) => {uploadImage(e)}}>
                          <Row>
+                        
                               <div>
                                    <div className="card mb-3">
                                         <div className="card-body">
@@ -44,7 +103,7 @@ function LogoManager(props) {
                                                                       type="file"
                                                                       id="formFile"
                                                                       name="headerLogo"
-                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                      // onChange={onChangeHandler}
                                                                  />
                                                             </div>
                                                        </div>
@@ -62,7 +121,7 @@ function LogoManager(props) {
                                                                       alt=""
                                                                       title=""
                                                                       height={100}
-                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                      // onChange={onChangeHandler}
                                                                  />
                                                             </div>
                                                             <div className="mb-3 form-check">
@@ -73,7 +132,7 @@ function LogoManager(props) {
                                                                       className="form-control"
                                                                       type="file"
                                                                       id="formFile"
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                      // onChange={onChangeHandler}
                                                                       name="adminFavIcon"
                                                                  />
                                                             </div>
@@ -99,11 +158,12 @@ function LogoManager(props) {
                                                             )} */}
                                                             <div className="upload-images p-3">
                                                                  <img
-                                                                      src={logo}
+                                                                      src={imageBaseUrl+header.investorLogoImage}
                                                                       alt=""
                                                                       title=""
                                                                       height={100}
-                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                 // value={header.logoImage}
+                                                                 // onChange={onChangeHandler}
                                                                  />
                                                             </div>
                                                             <div className="mb-3 form-check">
@@ -114,8 +174,8 @@ function LogoManager(props) {
                                                                       className="form-control"
                                                                       type="file"
                                                                       id="formFile"
-                                                                      // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
-                                                                      name="investorLogo"
+                                                                      // onChange={onChangeHandler}
+                                                                      name="logoImage"
                                                                  />
                                                             </div>
                                                        </div>
@@ -129,10 +189,12 @@ function LogoManager(props) {
                                                             )} */}
                                                             <div className="upload-images p-3">
                                                                  <img
-                                                                      src={logo}
+                                                                      src={imageBaseUrl+header.investorFavicon}
+                                                                    
                                                                       alt=""
                                                                       title=""
                                                                       height={100}
+                                                                 // value={header.favicon}
                                                                  />
                                                             </div>
                                                             <div className="mb-3 form-check">
@@ -143,8 +205,8 @@ function LogoManager(props) {
                                                                       className="form-control"
                                                                       type="file"
                                                                       id="formFile"
-                                                                      name="investorFavIcon"
-                                                                 // onChange={(e) => handleImageChange(e.target.files, e.target.name)}
+                                                                      name="favicon"
+                                                                      // onChange={onChangeHandler}
                                                                  />
                                                             </div>
                                                        </div>
@@ -156,14 +218,18 @@ function LogoManager(props) {
                                    {/*  */}
                               </div>
 
-
+                         
                          </Row>
                          <Button
                               color="success"
                               className="mt-1 mb-3"
+                              // onClick={headerUpdate}
+                              type='submit'
+                              
                          >
                               Update
                          </Button>
+                         </form>
                     </Container>
                </div>
           </React.Fragment>

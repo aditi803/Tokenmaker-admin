@@ -38,12 +38,15 @@ const LatestTranaction = () => {
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
 
   const [loader, setLoader] = useState(true)
+  const [date, setDate] = useState([])
+
   useEffect(() =>  {
     changeApiStatus(true)
      axios.get("https://tokenmaker-apis.block-brew.com/token/alltokens", { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         if(res.data.success === 1) {
           setTransactionData(res.data.msg)
+          setDate(res.data.msg.createdAt)
           setApiSuccess()
           changeApiStatus(false)
         } 
@@ -54,6 +57,12 @@ const LatestTranaction = () => {
       })
       setLoader(false)
   },[])
+
+  console.log(transactionData,"Trandaction data")
+  // const date = transactionData.createdAt
+  console.log(date,"transaction date")
+  // const hash = transactionData.transactionHash
+  // console.log(hash, "Hash data")
 
   const [modal1, setModal1] = useState(false);
 
@@ -114,28 +123,39 @@ const LatestTranaction = () => {
           return <PaymentStatus {...cellProps} />;
         },
       },
+      // {
+      //   Header: "Maximum Supply",
+      //   accessor: "maximumSupply",
+      //   disableFilters: true,
+      //   Cell: cellProps => {
+      //     return <PaymentMethod {...cellProps} />;
+      //   },
+      // },
       {
-        Header: "Maximum Supply",
-        accessor: "maximumSupply",
+        Header: "Deployed on ",
+        accessor: "createdAt",
         disableFilters: true,
         Cell: cellProps => {
           return <PaymentMethod {...cellProps} />;
         },
       },
       {
-        Header: "View Details",
+        Header: "View Transactions",
         disableFilters: true,
-        accessor: "view",
+        accessor: "transactionHash",
         Cell: cellProps => {
           return (
+            <a href='transactionHash' target='_blank' rel='noreferrer'>
             <Button
               type="button"
               color="primary"
               className="btn-sm btn-rounded"
-              onClick={toggleViewModal}
+              // onClick={toggleViewModal}
             >
+            
               View Details
             </Button>
+            </a>
           );
         },
       },
@@ -155,7 +175,7 @@ const LatestTranaction = () => {
             data={transactionData}
             isGlobalFilter={false}
             isAddOptions={false}
-            customPageSize={6}
+            customPageSize={10}
           />
         </CardBody>
       </Card>

@@ -1,0 +1,104 @@
+.viewNetwork input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .viewNetwork input[type='radio'] + img {
+    cursor: pointer;
+  }
+  
+  .network-screen:hover input[type='radio']:checked + img {
+    outline: 4px solid rgb(41, 116, 214);
+  
+  }
+  .viewNetwork img {
+    height: 450px;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .network-screen {
+    display: block;
+    width: 300px;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #b3b3b3;
+    border-radius: 1px;
+    margin: 0 auto;
+  }
+  .network-screen img {
+    bottom: -1140px;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: top 11s;
+    -moz-transition: top 11s;
+    -ms-transition: top 11s;
+    -o-transition: top 11s;
+    transition: bottom 11s;
+  }
+  .network-screen:hover img {
+    bottom: 0;
+    -webkit-transition: all 11s;
+    -moz-transition: all 11s;
+    -ms-transition: all 11s;
+    -o-transition: all 11s;
+    transition: all 11s;
+   
+  }
+  
+  .box-outer {
+    padding: 0;
+    /* background-color: transparent;
+     background-image: linear-gradient(180deg, #7a7a7a, #fff 0);
+    border: 1px solid #e0e0e0;
+     border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 15px -6px rgba(0, 0, 0, 0.5); */
+    width: 100%;
+  }
+  .columnBox {
+    background-color: transparent;
+    background-image: linear-gradient(180deg, #7a7a7a, #fff 0);
+    border: 1px solid #e0e0e0;
+    border-radius: 4px 4px 4px 4px;
+    padding: 10px 0;
+    box-shadow: 0 1px 15px -6px rgba(0, 0, 0, 0.5);
+    margin: 10px;
+  }
+  
+  .box-outer .logo {
+    display: block;
+    width: 166px;
+    height: 166px;
+    margin: 2rem auto 1rem;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+  .inner-logo{
+    min-height: 60px;
+  }
+  
+  .box-outer .logo img{
+    height: auto;
+  }
+  
+  .box-outer h6 {
+    font-size: 28px;
+    line-height: 36px;
+  } 
+  
+  .box-outer small {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .text-muted {
+      --bs-text-opacity: 1;
+      color: #6c757d!important;
+  }
+  

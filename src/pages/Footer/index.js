@@ -43,8 +43,6 @@ function Footer(props) {
                 changeApiStatus(false)
                 setApiFailed(err.message)
             })
-
-        // console.log(respHeader.data.msg, "res header footer api side ")
     }
 
     const onChangeHandler = async (e) => {
@@ -60,15 +58,23 @@ function Footer(props) {
 
 
     const footerUpdate = async () => {
+        changeApiStatus(true)
         const authUser = JSON.parse(localStorage.getItem('authUser'));
         await axios.put(FOOTER_PUT, footer,
             { headers: { "Authorization": `Bearer ${authUser.msg.jsonWebtoken}` } })
             .then((res) => {
+                setApiSuccess()
+                    changeApiStatus(false)
+                fetchData()
                 toast.success("Updated Successfully")
             }).catch((err) => {
+                changeApiStatus(false)
+                    setApiFailed(err.message)
                 toast.error("Cannot update")
             })
+            setLoader(false)
     }
+
     return apiStatus.inProgress ? <Spinner /> : (
         <React.Fragment>
             <div className="page-content">

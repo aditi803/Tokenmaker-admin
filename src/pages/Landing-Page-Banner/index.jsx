@@ -11,6 +11,7 @@ import ButtonComp from 'pages/Landing-Page-Banner/Button';
 import { toast } from "react-toastify"
 import Spinner from '../../loader/index'
 import useApiStatus from "hooks/useApiStatus";
+import { BANNER_DETAILS, BANNER_PUT } from 'common/api';
 function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
      const [items, setItems] = useState({});
@@ -19,30 +20,31 @@ function LandingPageBanner(props) {
      const [loader, setLoader] = useState(true)
      const handleChange = (e) => {
           e.preventDefault();
-          // changeApiStatus(true)
-          axios.put('https://tokenmaker-apis.block-brew.com/cms/banner', {
+          changeApiStatus(true)
+          axios.put(BANNER_PUT, {
                heading: data.heading
                , headingColor: data.headingColor, content: data.content, contentColor: data.contentColor, backgroundImage: data.backgroundImage,
                buttonText: data.buttonText, buttonTextColor: data.buttonTextColor, buttonBackgroundColor: data.buttonBackgroundColor
           }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
                .then((result) => {
                     if (result.data.success === 1) {
-                         // setApiSuccess()
-                         // changeApiStatus(false)
+                         setApiSuccess()
+                         changeApiStatus(false)
                          toast.success('updated successfully');
                     }
                })
                .catch((err) => {
-                    // changeApiStatus(false)
-                    // setApiFailed(err.message)
-                    toast.error("cannot update")
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    toast.error("Already Updated!!")
                })
+               setLoader(false)
      }
 
      const [data, setData] = useState([])
      useEffect(() => {
           changeApiStatus(true)
-          axios.get("https://tokenmaker-apis.block-brew.com/cms/bannerDetails")
+          axios.get(BANNER_DETAILS)
                .then((result) => {
                     setData(result.data.msg);
                     // console.log(result.data.msg,"Banner details");

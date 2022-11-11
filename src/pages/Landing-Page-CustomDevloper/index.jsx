@@ -9,6 +9,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
+import { CUSTOM_DETAILS, CUSTOM_PUT } from 'common/api';
 
 function LandingPageCustomDeveloper(props) {
      document.title = "BlockTechBrew - Landing Page Custom Devloper"
@@ -22,7 +23,7 @@ function LandingPageCustomDeveloper(props) {
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {
-               axios.get("https://tokenmaker-apis.block-brew.com/cms/customDetails")
+               axios.get(CUSTOM_DETAILS)
                     .then((result) => {
                          setData(result.data.msg);
                          // console.log(result.data.msg);
@@ -41,25 +42,27 @@ function LandingPageCustomDeveloper(props) {
 
      }, []);
 
-     const handleChange = (e) => {
-          
-          
+     const handleChange = (e) => {     
                e.preventDefault();
-               axios.put('https://tokenmaker-apis.block-brew.com/cms/custom', {
+               changeApiStatus(true)
+               axios.put(CUSTOM_PUT, {
                     buttonText: data.buttonText
                     , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading, headingColor: data.headingColor,
                     backgroundColor: data.backgroundColor
                },
                     { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                          if (result.data.success === 1) {
+                              setApiSuccess()
+                         changeApiStatus(false)
                               toast.success('Updated Successfully');
                          }
                     }).catch((err) => {
-                    toast.error('Cannot Update');
+                         changeApiStatus(false)
+                         setApiFailed(err.message)
+                         toast.error('Already Updated');
                     });
-          
-
-     }
+          setLoader(false)
+          }
      return apiStatus.inProgress ? <Spinner /> :  (
           <React.Fragment>
                <div className="page-content">

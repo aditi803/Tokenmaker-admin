@@ -10,6 +10,7 @@ import axios from 'axios';
 import {toast} from 'react-toastify';
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
+import { FAQS_UPDATE, FAQS } from 'common/api';
 function LandingPageFAQs(props) {
 
      document.title = "BlockTechBrew - Landing Page FAQs"
@@ -21,24 +22,30 @@ function LandingPageFAQs(props) {
 
 
      const handleChange = (e) => {
+          changeApiStatus(true)
           e.preventDefault();
-          axios.put('https://tokenmaker-apis.block-brew.com/cms/faqupdate', {
+          axios.put(FAQS_UPDATE, {
                heading: css.heading, headingColor: css.headingColor,
                contentColor: css.contentColor, content: css.content
           },
                { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                     if (result.data.success === 1) {
+                         setApiSuccess()
+                         changeApiStatus(false)
                          toast.success("Updated Successfully")
                     }
                }).catch((err) => {
-                    toast.error('Cannot Update');
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    toast.error('Already Updated');
                });
+               setLoader(false)
      }
      const [loader, setLoader] = useState(true)
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {
-               axios.get("https://tokenmaker-apis.block-brew.com/cms/faqs")
+               axios.get(FAQS)
                     .then((result) => {
                          setData(result.data.msg.faqDetails);
                          setCss(result.data.msg.faqData);

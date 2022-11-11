@@ -17,20 +17,21 @@ console.log('m');
                }
           }
      }
+     const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
      return (
           <Row className='mt-5'>
                <Row>
                     <Col>
-                         <img src={data.backgroundImage} alt="" height={'230px'} width={'200px'} />
+                         <img src={imageBaseUrl+data.backgroundImage} alt="" height={'230px'} width={'200px'} />
                     </Col>
                </Row>
-               <Row>
+               {/* <Row>
                     <Col>
                          <label className="btn btn-primary" style={{width:'200px',marginTop:'10px'}}>
                               Update<input type="file" onChange={handleChange} style={{ width: '0px', height: '0px', overflow: 'hidden' }} />
                          </label>
                     </Col>
-               </Row>
+               </Row> */}
           </Row>
      )
 }

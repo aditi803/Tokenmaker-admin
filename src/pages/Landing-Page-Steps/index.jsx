@@ -13,24 +13,31 @@ function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
      const [items, setItems] = useState({});
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const [loader, setLoader] = useState(true)
+     const [data, setData] = useState([])
+     const [css, setCss] = useState({})
 
      const handleChange = async (e) => {
+          changeApiStatus(true)
           const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/stepdata', {
                heading: css.heading, headingColor: css.headingColor,
           }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                if (result.data.success === 1) {
+                    setApiSuccess()
+                    changeApiStatus(false)
                     toast.success('Updated Successfully');
                }
           }).catch((err) => {
-               toast.error('Cannot Update');
+               changeApiStatus(false)
+               setApiFailed(err.message)
+               toast.error('Already updated');
           });
-          console.log(response);
+          setLoader(false)
      }
      // const [items, setItems] = useState([])
-     const [data, setData] = useState([])
-     const [css, setCss] = useState({})
+   
 
-     const [loader, setLoader] = useState(true)
+     
      useEffect(() => {
           changeApiStatus(true)
           const getData = async () => {

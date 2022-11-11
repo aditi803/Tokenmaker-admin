@@ -14,17 +14,22 @@ function LandingPageFeatures(props) {
      document.title = "BlockTechBrew - Landing Page Features"
      const [items, setItems] = useState({});
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const [loader, setLoader] = useState(true)
 
      const handleChange = (e) => {
+          changeApiStatus(true)
           axios.put('https://tokenmaker-apis.block-brew.com/cms/feature',
                { heading: css.heading, headingColor: css.headingColor, },
                { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                     if (result.data.success === 1) {
+                         setApiSuccess()
+                         changeApiStatus(false)
                          toast.success('Updated Successfully');
-
                     }
                }).catch((err) => {
-                    toast.error('Cannot Update');
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    toast.error('Already Updated!!');
                });
 
           console.log(data);
@@ -32,7 +37,7 @@ function LandingPageFeatures(props) {
      const [data, setData] = useState([])
      const [css, setCss] = useState({})
 
-     const [loader, setLoader] = useState(true)
+    
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {

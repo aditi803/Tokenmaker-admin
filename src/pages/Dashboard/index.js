@@ -86,7 +86,7 @@ const Dashboard = props => {
   }, [dispatch]);
 
   //meta title
-  document.title = "Dashboard | Skote - React Admin & Dashboard Template";
+  document.title = "Block-Tech-Brew";
 
   return (
     <React.Fragment>

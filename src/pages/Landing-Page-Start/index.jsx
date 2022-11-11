@@ -15,9 +15,12 @@ function LandingPageStart(props) {
 
      const [items, setItems] = useState({});
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const [data, setData] = useState([])
+     const [loader, setLoader] = useState(true)
 
      const handleChange = (e) => {
           e.preventDefault();
+          changeApiStatus(true)
           axios.put('https://tokenmaker-apis.block-brew.com/cms/startsection', {
                buttonText: data.buttonText
                , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading
@@ -26,18 +29,20 @@ function LandingPageStart(props) {
           },
                { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                     if (result.data.success === 1) {
+                         setApiSuccess()
+                         changeApiStatus(false)
                          toast.success('Updated Successfully');
                     }
                }).catch((err) => {
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
                     toast.error('Cannot Update');
                     console.log(err)
                });
-
-
+          setLoader(false)
      }
 
-     const [data, setData] = useState([])
-     const [loader, setLoader] = useState(true)
+    
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {

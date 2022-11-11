@@ -13,6 +13,8 @@ import axios from 'axios';
 import { toast, ToastContainer } from "react-toastify"
 import { fireToast, toastConfirm } from "common/toast";
 import useApiStatus from "hooks/useApiStatus"
+import Spinner from "loader";
+import { use } from "i18next";
 
 const Item = ({ value, i, editHandler, edit }) => {
      return (
@@ -47,26 +49,34 @@ export default function FeatureList(props) {
      const [show1, setShow1] = useState(false)
      const handleClose = () => { setShow(false); setShow1(false) }
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const [data, setData] = useState([])
+     const [css, setCss] = useState({})
+     const [items, setItems] = useState({})
+     const [loader, setLoader] = useState(true)
+
 
      useEffect(() => {
           getFeaturesData();
      }, []);
 
-     const [data, setData] = useState([])
-     const [css, setCss] = useState({})
-     const [items, setItems] = useState({})
+     
+
      const getFeaturesData = () => {
+          changeApiStatus(true)
           axios.get("https://tokenmaker-apis.block-brew.com/cms/features")
                .then((result) => {
                     setData(result.data.msg.featureDetails);
                     setCss(result.data.msg.featureData);
-                    console.log(result.data.msg, "Features details");
                     const authUser = JSON.parse(localStorage.getItem('authUser'));
+                    setApiSuccess()
+                    changeApiStatus(false)
                     setItems(authUser);
                }).catch(err => {
-                    console.log(err);
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    // console.log(err);
                })
-
+          setLoader(false)
      }
 
      const deleteHandler = (value) => {
@@ -75,23 +85,19 @@ export default function FeatureList(props) {
                .then(async (val) => {
                     if (val.isConfirmed) {
                          try {
-                              changeApiStatus(true, '')
-                              // const token = items.msg.jsonWebtoken;
+                              changeApiStatus(true)
                               const featureId = value._id;
                               const list = await axios.delete(`https://tokenmaker-apis.block-brew.com/cms/deletefeature/${featureId}`, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
-                              // console.log(list, 'list delete handler side ')
                               if (list?.status === 200) {
-                                   // setApiSuccess()
+                                   setApiSuccess()
                                    changeApiStatus(false)
                                    toast.success('FAQ deleted successfully')
-                                   // setFaq({ question: "", answer: "" })
                                    getFeaturesData()
                               } else {
                                    toast.error("list is undefined")
                                    // throw new Error(destroySection.error)
                               }
                          } catch (err) {
-                              console.log(err, "err delete handler side ")
                               toast.error('error', err.response ? err.response.data.error : err)
                               changeApiStatus(false, err.response ? err.response.data.error : err)
                               setFaq({ question: "", answer: "" })
@@ -105,7 +111,7 @@ export default function FeatureList(props) {
 
      const editHandler = async (value) => {
           handleClose()
-          console.log('fghjhnj');
+          changeApiStatus(true)
           console.log(value);
           // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { Question: faq.Question, Answer: faq.Answer })
           try {
@@ -118,14 +124,19 @@ export default function FeatureList(props) {
                })
                console.log(updateFeatureResponse.status);
                if (updateFeatureResponse.status === 200) {
+                    setApiSuccess()
+                    changeApiStatus(false)
                     toast.success('Feature updated successfully')
                     setEdit({})
+                    getFeaturesData()
                }
           } catch (error) {
+               changeApiStatus(false)
+               setApiFailed(err.message)
                toast.error('Feature updation error !');
-               console.log(updateStepResponse.status)
                setEdit({})
           }
+          setLoader(false)
      }
      const toggleEdit = (value) => {
           setShow1(true);
@@ -133,6 +144,7 @@ export default function FeatureList(props) {
      }
      return (
           <React.Fragment>
+               {apiStatus.inProgress ? <Spinner /> :  
                <Card className='mt-5'>
                     <CardBody>
                          <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
@@ -140,6 +152,7 @@ export default function FeatureList(props) {
 
                     </CardBody>
                </Card>
+               }
                {/* 
                <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
