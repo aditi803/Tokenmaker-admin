@@ -6,9 +6,11 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import Heading from './Heading';
 import FeatureList from './FeatureList';
 import axios from 'axios';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
+import { CCard, CCardBody, CCardGroup } from '@coreui/react'
+
 
 function LandingPageFeatures(props) {
      document.title = "BlockTechBrew - Landing Page Features"
@@ -37,7 +39,7 @@ function LandingPageFeatures(props) {
      const [data, setData] = useState([])
      const [css, setCss] = useState({})
 
-    
+
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {
@@ -68,14 +70,18 @@ function LandingPageFeatures(props) {
                               title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("Features")}
                          />
-                         <Row>
-                              <Heading css={css} setCss={setCss} />
-                              <div className='row '>
-                                   <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', margin: 'auto', marginTop: '15px' }}>Update</Button>
-                              </div>
+                         <CCardGroup>
+                              <CCard>
+                                   <CCardBody>
+                                        <Row>
+                                             <Heading css={css} setCss={setCss} />
+                                             <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', marginLeft: "9px", marginTop: '20px' }}>Update</Button>
+                                        </Row>
+                                   </CCardBody>
+                              </CCard>
+                         </CCardGroup>
 
-                         </Row>
-                         <Row className='mt-5'>
+                         <Row>
                               <FeatureList data={data} items={items} setData={setData} />
                          </Row>
                     </Container>

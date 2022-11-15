@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
+import axios from "axios";
 //i18n
 import { withTranslation } from "react-i18next";
 import SidebarContent from "./SidebarContent";
@@ -13,16 +13,46 @@ import logo from "../../assets/images/logo.svg";
 import logoLightPng from "../../assets/images/btb_logo.png";
 import logoLightSvg from "../../assets/images/logo-light.svg";
 import logoDark from "../../assets/images/logo-dark.png";
+import { Helmet } from "react-helmet";
 
 const Sidebar = props => {
 
+  const [logos, setLogos] = useState()
+  const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
+  useEffect(() => {
+    const fetchData = async () => {
+      const respHeader = await axios.get("https://tokenmaker-apis.block-brew.com/cms/headerdetails")
+      console.log(respHeader, ':>>>>>>>>>>>>>>>::::::::::::::')
+      setLogos(respHeader.data.msg)
+      document.title = respHeader?.data?.msg?.adminDocumentTitle;
+      const favicon = document.getElementById("favicon");
+      favicon.href = `${imageBaseUrl}${respHeader.data.msg.adminFavicon}`
+      // favicon.href = `${imageBaseUrl}${logos.adminFavicon}`
+      // console.log(favicon.href, '<>><><><><><><><><:><:<:><L><><:>')
+      // setHeader(respHeader.data.msg)
+      // console.log(respHeader.data.msg, "Header resp")
+      // const favicon = document.getElementById("favicon");
+      // document.title = respHeader?.data?.msg?.investorDocumentTitle;
+      // console.log(respHeader?.data?.msg?.investorDocumentTitle, "ttile")
+      // favicon.href = respHeader.data.msg.investorFavicon;
+    }
+    fetchData()
+  }, [])
+
+
+
   return (
     <React.Fragment>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>My Title</title>
+        {/* <link rel="canonical" href={`${imageBaseUrl}${logos?.adminFavicon}`} /> */}
+      </Helmet>
       <div className="vertical-menu">
         <div className="navbar-brand-box">
           <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
-              <img src={logo} alt="" height="22" />
+              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logo} alt="" height="22" style={{ objectFit: "contain" }} />
             </span>
             <span className="logo-lg">
               <img src={logoDark} alt="" height="17" />
@@ -34,7 +64,8 @@ const Sidebar = props => {
               <img src={logoLightSvg} alt="" height="22" />
             </span> */}
             <span className="logo-lg bg-light" >
-              <img src={logoLightPng} height="25" alt=""/>
+              {/* <img src={logoLightPng} height="25" alt="" /> */}
+              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logoLightPng} alt="" height="22" />
             </span>
           </Link>
         </div>

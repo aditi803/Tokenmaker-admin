@@ -186,9 +186,10 @@ import General from "pages/Settings/General"
 import LogoManager from "pages/Settings/LogoManager"
 import Footer from "pages/Footer"
 import CommissionTable from "pages/Commissions/CommissionTable"
-import View from "pages/Networks/View"
+import View from "pages/Networks/View/index"
 import Add from "pages/Networks/Add"
 import AllTokens from "pages/AllTokens"
+import EditView from "pages/Networks/View/EditView"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -207,6 +208,7 @@ const authProtectedRoutes = [
   {path: '/view', component: View},
   {path: '/add', component: Add},
   {path: '/all-tokens', component: AllTokens},
+  {path: '/network-edit/:id', component: EditView},
   
 
   //Crypto

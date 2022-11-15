@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
 import { CUSTOM_DETAILS, CUSTOM_PUT } from 'common/api';
+import { CCard, CCardBody, CCardGroup } from '@coreui/react'
+
 
 function LandingPageCustomDeveloper(props) {
      document.title = "BlockTechBrew - Landing Page Custom Devloper"
@@ -42,28 +44,28 @@ function LandingPageCustomDeveloper(props) {
 
      }, []);
 
-     const handleChange = (e) => {     
-               e.preventDefault();
-               changeApiStatus(true)
-               axios.put(CUSTOM_PUT, {
-                    buttonText: data.buttonText
-                    , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading, headingColor: data.headingColor,
-                    backgroundColor: data.backgroundColor
-               },
-                    { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-                         if (result.data.success === 1) {
-                              setApiSuccess()
+     const handleChange = (e) => {
+          e.preventDefault();
+          changeApiStatus(true)
+          axios.put(CUSTOM_PUT, {
+               buttonText: data.buttonText
+               , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading, headingColor: data.headingColor,
+               backgroundColor: data.backgroundColor
+          },
+               { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
+                    if (result.data.success === 1) {
+                         setApiSuccess()
                          changeApiStatus(false)
-                              toast.success('Updated Successfully');
-                         }
-                    }).catch((err) => {
-                         changeApiStatus(false)
-                         setApiFailed(err.message)
-                         toast.error('Already Updated');
-                    });
+                         toast.success('Updated Successfully');
+                    }
+               }).catch((err) => {
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    toast.error('Already Updated');
+               });
           setLoader(false)
-          }
-     return apiStatus.inProgress ? <Spinner /> :  (
+     }
+     return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
@@ -71,15 +73,21 @@ function LandingPageCustomDeveloper(props) {
                               title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("Custom-Devloper")}
                          />
-                         <Row>
-                              <Heading data={data} setData={setData} />
-                         </Row>
-                         <Row>
-                              <ButtonComp data={data} setData={setData} />
-                         </Row>
-                         <Row className='row'>
-                              <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>Update</Button>
-                         </Row>
+                         <CCardGroup>
+                              <CCard>
+                                   <CCardBody>
+                                        <Row>
+                                             <Heading data={data} setData={setData} />
+                                        </Row>
+                                        <Row>
+                                             <ButtonComp data={data} setData={setData} />
+                                        </Row>
+                                        <Row className='row'>
+                                             <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft:"9px", marginTop: '20px' }}>Update</Button>
+                                        </Row>
+                                   </CCardBody>
+                              </CCard>
+                         </CCardGroup>
                     </Container>
                </div>
           </React.Fragment>

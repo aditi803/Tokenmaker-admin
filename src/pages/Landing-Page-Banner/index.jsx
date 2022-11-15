@@ -12,6 +12,7 @@ import { toast } from "react-toastify"
 import Spinner from '../../loader/index'
 import useApiStatus from "hooks/useApiStatus";
 import { BANNER_DETAILS, BANNER_PUT } from 'common/api';
+import { CCard, CCardBody, CCardGroup } from '@coreui/react';
 function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
      const [items, setItems] = useState({});
@@ -21,6 +22,7 @@ function LandingPageBanner(props) {
      const handleChange = (e) => {
           e.preventDefault();
           changeApiStatus(true)
+          console.log(data, "jkhgfds")
           axios.put(BANNER_PUT, {
                heading: data.heading
                , headingColor: data.headingColor, content: data.content, contentColor: data.contentColor, backgroundImage: data.backgroundImage,
@@ -38,7 +40,7 @@ function LandingPageBanner(props) {
                     setApiFailed(err.message)
                     toast.error("Already Updated!!")
                })
-               setLoader(false)
+          setLoader(false)
      }
 
      const [data, setData] = useState([])
@@ -47,7 +49,7 @@ function LandingPageBanner(props) {
           axios.get(BANNER_DETAILS)
                .then((result) => {
                     setData(result.data.msg);
-                    // console.log(result.data.msg,"Banner details");
+                    console.log(result.data.msg, "Banner details");
                     const authUser = JSON.parse(localStorage.getItem('authUser'));
                     setItems(authUser);
                     changeApiStatus(false)
@@ -69,13 +71,27 @@ function LandingPageBanner(props) {
                          />
                          <Row>
                               <Col lg='8'>
-                                   <Heading data={data} setData={setData} />
-                                   <Content data={data} setData={setData} />
-                                   <ButtonComp data={data} setData={setData} />
-                                   <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
+                                   <CCardGroup>
+                                        <CCard>
+                                             <CCardBody>
+                                                  <Heading data={data} setData={setData} />
+                                                  <Content data={data} setData={setData} />
+                                                  <ButtonComp data={data} setData={setData} />
+                                                  <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft: "9px", marginTop: '20px' }}>Update</Button>
+                                             </CCardBody>
+                                        </CCard>
+                                   </CCardGroup>
                               </Col>
                               <Col lg='4'>
-                                   <Background data={data} setData={setData} />
+                                   <CCardGroup>
+                                        <CCard>
+                                             <CCardBody>
+                                                  <Background data={data} setData={setData} />
+
+                                             </CCardBody>
+                                        </CCard>
+
+                                   </CCardGroup>
                               </Col>
                          </Row>
                     </Container>

@@ -1,222 +1,219 @@
-import {
-     Card,
-     CardBody,
-     CardHeader,
-     Col,
-     Row,
-} from "reactstrap";
-import React from 'react';
-import { useState, useEffect } from "react";
-import { EditOutlined, DeleteSharp } from "@mui/icons-material";
-import { Button, Modal } from 'react-bootstrap'
-import axios from 'axios';
-import { toast, ToastContainer } from "react-toastify"
-import { fireToast, toastConfirm } from "common/toast";
+import React, { useMemo, useState, useEffect } from "react"
+import { Col, Container, Row, Button, Card, CardBody } from "reactstrap"
+import PropTypes from "prop-types"
+import { withTranslation } from "react-i18next"
+import Breadcrumb from "components/Common/Breadcrumb"
 import useApiStatus from "hooks/useApiStatus"
-import Spinner from "loader";
-import { use } from "i18next";
+import { cilPencil, cilTrash } from "@coreui/icons"
+// import "./comissionTable.css"
+// import CommissionEdit from "../modals/CommissionEdit"
+// import CommissionAdd from "../modals/CommissionAdd"
+import axios from "axios"
+import { toast } from "react-toastify"
+import { toastConfirm } from "common/toast"
+import DataTable from "react-data-table-component"
+import CIcon from "@coreui/icons-react"
+import Spinner from "loader"
+import FeatureAdd from "./modals/FeatureAdd"
+import FeatureEdit from "./modals/FeatureEdit"
+// import StepAdd from "./modals/StepAdd"
+// import StepEdit from "./modals/StepEdit"
 
-const Item = ({ value, i, editHandler, edit }) => {
-     return (
-          <>
-               <Col lg='1'>{i + 1}</Col>
-               <Col lg='3'>{edit == i ? <textarea className="w-100" value={value.title} onChange={(e) => editHandler(i, { title: e.target.value })} /> : value.title}</Col>
-               <Col lg='6'>{edit == i ? <textarea className="w-100" value={value.content} onChange={(e) => editHandler(i, { content: e.target.value })} /> : value.content}</Col>
-          </>
-     )
-}
+function CommissionTable(props) {
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    useApiStatus()
 
-const List = ({ data, items, editHandler, edit, toggleEdit, deleteHandler, show1 }) => {
-     return (
-          <React.Fragment>
-               {data.map((value, index) => (
-                    <Row key={index} className='mb-5'>
-                         <Item key={index} show1={show1} i={index} edit={edit} index={index} toggleEdit={toggleEdit} editHandler={editHandler} value={value} />
-                         <Col lg='2'>
-                              <span onClick={() => { toggleEdit(value) }}><EditOutlined /></span>
-                              <span className="ms-3" onClick={() => { deleteHandler(value); }}><DeleteSharp /></span></Col>
-                    </Row>
-               ))}
-          </React.Fragment>
-     );
-}
-export default function FeatureList(props) {
-     const [edit, setEdit] = useState(undefined);
-     const [show, setShow] = useState(false)
-     // const { items } = props;
+  const [modal1, setModal1] = useState(false)
 
-     const [faq, setFaq] = useState({ title: '', content: '' })
-     const [show1, setShow1] = useState(false)
-     const handleClose = () => { setShow(false); setShow1(false) }
-     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
-     const [data, setData] = useState([])
-     const [css, setCss] = useState({})
-     const [items, setItems] = useState({})
-     const [loader, setLoader] = useState(true)
+  const toggleViewModal = () => setModal1(!modal1)
 
+  const [addModal, setAddModal] = useState(false)
+  const toggleAddModal = () => setAddModal(!addModal)
 
-     useEffect(() => {
-          getFeaturesData();
-     }, []);
+  const [edit, setEdit] = useState() 
+  const [page, setPage] = useState({ current: 1, totalItems: 0, pageSize: 10 })
 
-     
+  const [items, setItems] = useState({})
+  const [loader, setLoader] = useState(true)
 
-     const getFeaturesData = () => {
-          changeApiStatus(true)
-          axios.get("https://tokenmaker-apis.block-brew.com/cms/features")
-               .then((result) => {
-                    setData(result.data.msg.featureDetails);
-                    setCss(result.data.msg.featureData);
-                    const authUser = JSON.parse(localStorage.getItem('authUser'));
-                    setApiSuccess()
-                    changeApiStatus(false)
-                    setItems(authUser);
-               }).catch(err => {
-                    changeApiStatus(false)
-                    setApiFailed(err.message)
-                    // console.log(err);
-               })
-          setLoader(false)
-     }
+  const [data, setData] = useState([])
 
-     const deleteHandler = (value) => {
-          toastConfirm('Are you sure you want to delete this?')
-               .fire()
-               .then(async (val) => {
-                    if (val.isConfirmed) {
-                         try {
-                              changeApiStatus(true)
-                              const featureId = value._id;
-                              const list = await axios.delete(`https://tokenmaker-apis.block-brew.com/cms/deletefeature/${featureId}`, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
-                              if (list?.status === 200) {
-                                   setApiSuccess()
-                                   changeApiStatus(false)
-                                   toast.success('FAQ deleted successfully')
-                                   getFeaturesData()
-                              } else {
-                                   toast.error("list is undefined")
-                                   // throw new Error(destroySection.error)
-                              }
-                         } catch (err) {
-                              toast.error('error', err.response ? err.response.data.error : err)
-                              changeApiStatus(false, err.response ? err.response.data.error : err)
-                              setFaq({ question: "", answer: "" })
-                              setApiFailed(err.msg)
-                         }
-                    }
-               })
-     }
+  const fetchData = async (
+    pageNumber = 1,
+    pageSize = 10,
+    exportRequest = "false"
+  ) => {
+    try {
+      changeApiStatus(true, "")
+      const list = await axios.get(
+        "https://tokenmaker-apis.block-brew.com/cms/features"
+      )
+      if (exportRequest === "true") {
+        return changeApiStatus(false, "")
+      }
+      if (list.status === 200) {
+        changeApiStatus(false, "")
+        setPage({
+          ...page,
+          totalItems: list.data.totalItems,
+          pageSize,
+          current: pageNumber,
+        })
+     //    .then((res) => {
+     //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
+     //    })
+        setData(
+          list.data.msg.featureDetails.map((val, index) => {
+               console.log(val,"kjhgfdxzfghjk")
+            return { ...val, serial: index + 1 }
+          })
+        )
+      } else {
+        throw new Error(list.error)
+      }
+    } catch (err) {
+      changeApiStatus(false)
+    }
+  }
 
+  useEffect(() => {
+    fetchData(page.current, page.pageSize)
+    // eslint-disable-next-line
+  }, [page.current, page.pageSize])
 
-
-     const editHandler = async (value) => {
-          handleClose()
-          changeApiStatus(true)
-          console.log(value);
-          // setItems(Items => [Items.map((item, i) => i === index ? ({ ...item, ...value }) : item)], { Question: faq.Question, Answer: faq.Answer })
+  const deleteNetwork = id => {
+    changeApiStatus(true)
+    toastConfirm("Are you sure you want to delete this?")
+      .fire()
+      .then(async val => {
+        if (val.isConfirmed) {
           try {
-               const featureId = value._id;
-               const updateFeatureResponse = await axios.put(`https://tokenmaker-apis.block-brew.com/cms/editfeature`, {
-                    featureId: featureId, title: value.title, content: value.content
-               }, {
-                    headers:
-                         { "Authorization": `Bearer ${items.msg.jsonWebtoken}` }
-               })
-               console.log(updateFeatureResponse.status);
-               if (updateFeatureResponse.status === 200) {
-                    setApiSuccess()
-                    changeApiStatus(false)
-                    toast.success('Feature updated successfully')
-                    setEdit({})
-                    getFeaturesData()
-               }
-          } catch (error) {
-               changeApiStatus(false)
-               setApiFailed(err.message)
-               toast.error('Feature updation error !');
-               setEdit({})
+            changeApiStatus(true, "")
+            const authUser = JSON.parse(localStorage.getItem("authUser"))
+            const list = await axios.delete(
+              `https://tokenmaker-apis.block-brew.com/cms/deletefeature/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
+                },
+              }
+            )
+            console.log(list, "list delete handler side ")
+            if (list?.status === 200) {
+              setApiSuccess()
+              changeApiStatus(false)
+              toast.success("Network deleted successfully")
+              fetchData()
+            } else {
+              toast.error("list is undefined")
+            }
+          } catch (err) {
+            console.log(err, "err delete handler side ")
+            toast.error("error", err.response ? err.response.data.error : err)
+            changeApiStatus(false, err.response ? err.response.data.error : err)
+            setApiFailed(err.msg)
           }
-          setLoader(false)
-     }
-     const toggleEdit = (value) => {
-          setShow1(true);
-          setEdit(value);
-     }
-     return (
-          <React.Fragment>
-               {apiStatus.inProgress ? <Spinner /> :  
-               <Card className='mt-5'>
-                    <CardBody>
-                         <Row className="mb-5"><Col lg='1' className="">{'S.No'}</Col><Col lg='3' className="">{'titles'}</Col><Col lg='6' className="">{'content'}</Col><Col lg='2' className="">{'Action'}</Col></Row>
-                         <List show1={show1} data={data} edit={edit} toggleEdit={toggleEdit} deleteHandler={deleteHandler} editHandler={editHandler}  />
+        }
+      })
+    setLoader(false)
+  }
 
-                    </CardBody>
-               </Card>
-               }
-               {/* 
-               <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                         <Modal.Title>FAQ</Modal.Title>
-                    </Modal.Header>
+  const columns = [
+    {
+      name: "Sr. no",
+      selector: row => {
+        return row.serial + (page.current - 1) * page.pageSize
+      },
+    },
+    {
+      name: "Title",
+      selector: row => row.title,
+    },
 
-                    <Modal.Body>
-                         <form>
-                              <div className="form-group">
-                                   <label htmlFor="title">title</label>
+    {
+      name: "Content",
+      selector: row => row.content,
+    },
+//     {
+//       name: "Symbol",
+//       selector: row => row.networkSymbol,
+//     },
+    {
+      name: "Actions",
+      selector: row => (
+        <>
+          <CIcon
+            icon={cilPencil}
+            className="text-warning hand me-2"
+            onClick={() => {
+              toggleViewModal()
+              setEdit(row);
+            }}
+          />
+          <CIcon
+            icon={cilTrash}
+            className="text-danger hand"
+            onClick={() => {
+              deleteNetwork(row._id)
+            }}
+          />
+        </>
+      ),
+    },
+  ]
 
-                                   <input type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, title: e.target.value }) }} id="title" aria-describedby="emailHelp" placeholder="title...." />
-                              </div>
-                              <div className="form-group">
-
-                                   <label htmlFor="contents">content</label>
-                                   <textarea rows='5' type="text" className="form-control" onChange={(e) => { setFaq({ ...faq, content: e.target.value }) }} id="contents" placeholder="contents" />
-                              </div>
-                         </form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                         <Button variant="secondary" onClick={handleClose}>
-                              Close
-                         </Button>
-                         <Button variant="primary" onClick={addHandler}>
-                              Save Changes
-                         </Button >
-                    </Modal.Footer>
-               </Modal> */}
-
-               <Modal show={show1} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                         <Modal.Title>Edit-FeatureList</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                         <form>
-                              <div className="form-group">
-                                   <label htmlFor="title">title</label>
-
-                                   <input type="text" className="form-control" value={edit == undefined ? null : edit == null ? null : edit.title} onChange={(e) => {
-                                        setEdit({ ...edit, title: e.target.value });
-                                   }} id="title" aria-describedby="emailHelp" placeholder="title...." />
-                              </div>
-                              <div className="form-group">
-
-                                   <label htmlFor="contents">content</label>
-                                   <textarea rows='5' type="text" className="form-control" value={edit == undefined ? null : edit == null ? null : edit.content} onChange={(e) => {
-                                        setEdit({ ...edit, content: e.target.value });
-                                   }} id="contents" placeholder="contents" />
-                              </div>
-                         </form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                         <Button variant="secondary" onClick={handleClose}>
-                              Close
-                         </Button>
-                         <Button variant="primary" onClick={() => { editHandler(edit) }}>
-                              Save Changes
-                         </Button >
-                    </Modal.Footer>
-               </Modal>
-               <ToastContainer />
-          </React.Fragment>
-     )
+  return (
+    <React.Fragment>
+       <FeatureEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
+      <FeatureAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/> 
+      <div className="py-4">
+        {apiStatus.inProgress ? (
+          <Spinner />
+        ) : (
+          <Container fluid>
+            {/* <Breadcrumb
+              title={props.t("Landing-Page")}
+              breadcrumbItem={props.t("Commision Table")}
+            /> */}
+            <Row>
+              <Card>
+                <CardBody>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <div className="mb-4 h4 card-title">Steps Data</div>
+                    <Button
+                      color="primary"
+                      className="mt-1"
+                      onClick={toggleAddModal}
+                      style={{backgroundColor:"#2a3042"}}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                  <DataTable
+                    striped
+                    columns={columns}
+                    data={data}
+                    pageSize={10}
+                    paginationPerPage={10}
+                    paginationServer
+                    paginationTotalRows={page.totalItems}
+                    paginationRowsPerPageOptions={[10, 20]}
+                    onChangePage={e => setPage({ ...page, current: e })}
+                    onChangeRowsPerPage={e => setPage({ ...page, pageSize: e })}
+                  />
+                </CardBody>
+              </Card>
+            </Row>
+          </Container>
+        )}
+      </div>
+    </React.Fragment>
+  )
 }
 
+CommissionTable.propTypes = {
+  t: PropTypes.any,
+}
+export default withTranslation()(CommissionTable)

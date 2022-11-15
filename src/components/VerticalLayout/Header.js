@@ -109,7 +109,7 @@ const Header = props => {
               <i className="fa fa-fw fa-bars" />
             </button>
 
-            <form className="app-search d-none d-lg-block">
+            {/* <form className="app-search d-none d-lg-block">
               <div className="position-relative">
                 <input
                   type="text"
@@ -118,7 +118,7 @@ const Header = props => {
                 />
                 <span className="bx bx-search-alt" />
               </div>
-            </form>
+            </form> */}
 
             <Dropdown
               className="dropdown-mega d-none d-lg-block ms-2"
@@ -127,18 +127,18 @@ const Header = props => {
                 setmegaMenu(!megaMenu);
               }}
             >
-              <DropdownToggle
+              {/* <DropdownToggle
                 className="btn header-item "
                 caret
                 tag="button"
               >
                 {" "}
                 {props.t("Mega Menu")} <i className="mdi mdi-chevron-down" />
-              </DropdownToggle>
+              </DropdownToggle> */}
               <DropdownMenu className="dropdown-megamenu">
                 <Row>
                   <Col sm={8}>
-                    <Row>
+                    {/* <Row>
                       <Col md={4}>
                         <h5 className="font-size-14 mt-0">
                           {props.t("UI Components")}
@@ -222,9 +222,9 @@ const Header = props => {
                           </li>
                         </ul>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </Col>
-                  <Col sm={4}>
+                  {/* <Col sm={4}>
                     <Row>
                       <Col sm={6}>
                         <h5 className="font-size-14 mt-0">
@@ -257,15 +257,15 @@ const Header = props => {
 
                       <Col sm={5}>
                         <div>
-                          {/* <img
+                          <img
                             src={megamenuImg}
                             alt=""
                             className="img-fluid mx-auto d-block"
-                          /> */}
+                          />
                         </div>
                       </Col>
                     </Row>
-                  </Col>
+                  </Col> */}
                 </Row>
               </DropdownMenu>
             </Dropdown>

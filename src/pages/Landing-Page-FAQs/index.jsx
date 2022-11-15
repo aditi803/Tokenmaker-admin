@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from "prop-types";
 import { Container, Row, Button } from 'reactstrap'
-import QuestionTable from './Question-Table'
+import QuestionTable from './QuestionTable'
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { withTranslation } from 'react-i18next';
 import Heading from './Heading';
 import Content from './Content';
 import axios from 'axios';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
 import { FAQS_UPDATE, FAQS } from 'common/api';
+import InputMask from "react-input-mask"
+import InputColor from 'react-input-color';
+import { CCardBody, CCardGroup, CCard } from '@coreui/react';
 function LandingPageFAQs(props) {
 
      document.title = "BlockTechBrew - Landing Page FAQs"
@@ -39,7 +42,7 @@ function LandingPageFAQs(props) {
                     setApiFailed(err.message)
                     toast.error('Already Updated');
                });
-               setLoader(false)
+          setLoader(false)
      }
      const [loader, setLoader] = useState(true)
      useEffect(() => {
@@ -62,7 +65,7 @@ function LandingPageFAQs(props) {
           setLoader(false)
           getData();
      }, []);
-     return apiStatus.inProgress ? <Spinner /> :  (
+     return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
@@ -70,11 +73,18 @@ function LandingPageFAQs(props) {
                               title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("FAQs")}
                          />
-                         <Row>
-                              <Heading css={css} setCss={setCss} />
-                              <Content css={css} setCss={setCss} />
-                              <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginTop: '20px' }}>Update</Button>
-                         </Row>
+                         <CCardGroup>
+                              <CCard>
+                                   <CCardBody>
+                                        <Row>
+                                             <Heading css={css} setCss={setCss} />
+                                             <Content css={css} setCss={setCss} />
+                                             <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft:"9px", marginTop: '20px' }}>Update</Button>
+                                        </Row>
+                                   </CCardBody>
+                              </CCard>
+                         </CCardGroup>
+
                          <Row>
                               <QuestionTable data={data} setData={setData} setItems={setItems} items={items} />
                          </Row>

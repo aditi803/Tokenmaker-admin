@@ -9,6 +9,8 @@ import axios from 'axios';
 import { toast } from "react-toastify"
 import useApiStatus from 'hooks/useApiStatus';
 import Spinner from 'loader';
+import { CCard, CCardBody, CCardGroup } from '@coreui/react'
+
 
 function LandingPageStart(props) {
      document.title = "BlockTechBrew - Landing Page Start"
@@ -42,7 +44,7 @@ function LandingPageStart(props) {
           setLoader(false)
      }
 
-    
+
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {
@@ -72,15 +74,18 @@ function LandingPageStart(props) {
                               title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("Start")}
                          />
-                         <Row>
-                              <Heading data={data} setData={setData} />
-                         </Row>
-                         <Row>
-                              <ButtonComp data={data} setData={setData} />
-                         </Row>
-                         <Row className='row'>
-                              <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', margin: 'auto', marginTop: '20px' }}>Update</Button>
-                         </Row>
+                         <CCardGroup>
+                              <CCard>
+                                   <CCardBody>
+                                        <Row>
+                                             <Heading data={data} setData={setData} />
+                                             <ButtonComp data={data} setData={setData} />
+                                             <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft: "9px", marginTop: '10px' }}>Update</Button>
+                                        </Row>
+                                   </CCardBody>
+                              </CCard>
+                         </CCardGroup>
+
                     </Container>
                </div>
           </React.Fragment>

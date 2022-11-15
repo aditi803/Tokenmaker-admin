@@ -9,6 +9,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import useApiStatus from 'hooks/useApiStatus';
 import Spinner from 'loader';
+import { CCard, CCardBody, CCardGroup } from '@coreui/react'
 function LandingPageSteps(props) {
      document.title = "BlockTechBrew - Landing Page Steps"
      const [items, setItems] = useState({});
@@ -35,9 +36,9 @@ function LandingPageSteps(props) {
           setLoader(false)
      }
      // const [items, setItems] = useState([])
-   
 
-     
+
+
      useEffect(() => {
           changeApiStatus(true)
           const getData = async () => {
@@ -63,19 +64,30 @@ function LandingPageSteps(props) {
 
      return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
+
+
+
                <div className="page-content">
                     <Container fluid>
-                         <Breadcrumbs
-                              title={props.t("Landing-Page")}
-                              breadcrumbItem={props.t("Steps")}
-                         />
+                    <Breadcrumbs
+                                   title={props.t("Landing-Page")}
+                                   breadcrumbItem={props.t("Steps")}
+                              />
+                         <CCardGroup>
+                        
+                         <CCard>
+                         <CCardBody>
+                              
+                              <Row>
+                                   <Heading css={css} setCss={setCss} />
+                                   
+                                        <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', marginLeft:"9px", marginTop: '20px' }}>Update</Button>
+                                   
+                              </Row>
+                              </CCardBody>
+                         </CCard>
+                         </CCardGroup>
                          <Row>
-                              <Heading css={css} setCss={setCss} />
-                              <div className='row '>
-                                   <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', margin: 'auto', marginTop: '15px' }}>Update</Button>
-                              </div>
-                         </Row>
-                         <Row className='mt-5'>
                               <StepsTable data={data} items={items} setData={setData} />
                          </Row>
                     </Container>

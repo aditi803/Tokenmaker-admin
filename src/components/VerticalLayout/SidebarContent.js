@@ -204,6 +204,7 @@ const SidebarContent = props => {
                 <span>{props.t("Log out")}</span>
               </Link>
             </li>
+          
             
             {/* <li>
               <Link to="/calendar" >
@@ -260,9 +261,9 @@ const SidebarContent = props => {
                   </Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-bitcoin"></i>
                 <span>{props.t("Crypto")}</span>
@@ -292,9 +293,9 @@ const SidebarContent = props => {
                   <Link to="/crypto-ico-landing">{props.t("ICO Landing")}</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-envelope"></i>
                 <span>{props.t("Email")}</span>
@@ -329,9 +330,9 @@ const SidebarContent = props => {
                   </ul>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-receipt"></i>
                 <span>{props.t("Invoices")}</span>
@@ -344,9 +345,9 @@ const SidebarContent = props => {
                   <Link to="/invoices-detail">{props.t("Invoice Detail")}</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-briefcase-alt-2"></i>
                 <span>{props.t("Projects")}</span>
@@ -367,9 +368,9 @@ const SidebarContent = props => {
                   <Link to="/projects-create">{props.t("Create New")}</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-task"></i>
                 <span>{props.t("Tasks")}</span>
@@ -382,9 +383,9 @@ const SidebarContent = props => {
                   <Link to="/tasks-create">{props.t("Create Task")}</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bxs-user-detail"></i>
                 <span>{props.t("Contacts")}</span>
@@ -644,8 +645,8 @@ const SidebarContent = props => {
                 </li>
               </ul>
             </li> */}
-{/* 
-            <li>
+
+            {/* <li>
               <Link to="/#" >
                 <i className="bx bxs-eraser"></i>
                 <span className="badge rounded-pill bg-danger float-end">

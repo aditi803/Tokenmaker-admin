@@ -22,6 +22,7 @@ function General(props) {
 
      const [header, setHeader] = useState({})
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const [data, setData] = useState({adminDocumentTitle:'', investorDocumentTitle: ''})
 
      const [loader, setLoader] = useState(true)
      useEffect(() => {
@@ -30,10 +31,13 @@ function General(props) {
           fetchData()
      }, [setHeader])
 
+     // console.log(header, '?????????????')
+
      const fetchData = async () => {
           await axios.get(HEADER)
                .then((res) => {
                     setHeader(res.data.msg)
+                    setData(res.data.msg)
                     setApiSuccess()
                     changeApiStatus(false)
                     console.log(res.data.msg)
@@ -46,24 +50,33 @@ function General(props) {
      }
 
      const onChangeHandler = async (e) => {
+          
+          
+          
           e.preventDefault()
           const { name, value } = e.target;
+          console.log(name, value , '>>>>>>')
+          
           setHeader({
                ...header, [name]: value
           })
      }
 
-     const headerUpdate = async () => {
+     
+     const headerUpdate = async(e) => {
+          e.preventDefault()
           changeApiStatus(true)
           const authUser = JSON.parse(localStorage.getItem('authUser'));
-          await axios.put(HEADER_PUT, header,
+          await axios.put("https://tokenmaker-apis.block-brew.com/cms/headertitles", data,
                { headers: { "Authorization": `Bearer ${authUser.msg.jsonWebtoken}` } })
                .then((res) => {
                     setApiSuccess()
                     changeApiStatus(false)
                     fetchData()
+                    console.log(res,"general data")
                     toast.success("Updated Successfully")
                }).catch((err) => {
+                    console.log(err,"general error")
                     changeApiStatus(false)
                     setApiFailed(err.message)
                     toast.error("Cannot update")
@@ -94,10 +107,12 @@ function General(props) {
                                                                            <Label for="input-date2"> Admin Website Title: </Label>
                                                                            <InputMask
                                                                                 // mask="(999) 999-9999"
-                                                                                name='backgroundColor'
-                                                                               value={header.adminDocumentTitle}
+                                                                                name='adminDocumentTitle'
+                                                                                value={data.adminDocumentTitle}
                                                                                 className="form-control input-color"
-                                                                           onChange={onChangeHandler}
+                                                                                onChange={(e)=>{
+                                                                                     setData({...data, adminDocumentTitle:e.target.value});
+                                                                                }}
                                                                            />
                                                                       </div>
                                                                  </div>
@@ -108,10 +123,12 @@ function General(props) {
                                                                            <Label for="input-date1">Investor Website Title: </Label>
                                                                            <InputMask
                                                                                 // mask="(999) 999-9999"
-                                                                                name='documentTitle'
-                                                                                value={header.investorDocumentTitle}
+                                                                                name='investorDocumentTitle'
+                                                                                value={data.investorDocumentTitle}
                                                                                 className="form-control input-color"
-                                                                                onChange={onChangeHandler}
+                                                                                onChange={(e)=>{
+                                                                                     setData({...data, investorDocumentTitle:e.target.value})
+                                                                                }}
                                                                            />
                                                                       </div>
                                                                  </div>
