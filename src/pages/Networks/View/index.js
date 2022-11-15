@@ -71,7 +71,7 @@ function View(props) {
             if (list.status === 200) {
               changeApiStatus(false, "")
               toast.success("Template deleted successfully")
-              fetch()
+              getNetworkHanlder()
             } else {
               throw new Error(DeleteData.error)
             }

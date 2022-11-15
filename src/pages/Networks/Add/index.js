@@ -13,10 +13,12 @@ import './Add.css'
 import { Link } from "react-router-dom"
 
 import cloud from '../../../assets/images/small/cloud-file-download.svg'
+import Spinner from "loader"
 // import Breadcrumb from '../../../components/Common/Breadcrumb';
 
 function Add(props) {
-     const { inProgress } = useApiStatus()
+     // const { inProgress } = useApiStatus()
+     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
      const [getData, setGetData] = useState({
           networkName: "",
           blockExplorerUrl: "",
@@ -76,9 +78,12 @@ function Add(props) {
           return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
      }
 
-     const addNetworkHandler = async e => {
-          console.log("hgello")
+     const [loader, setLoader] = useState(true)
+
+     const addNetworkHandler = async (e) => {
+          // console.log("hgello")
           e.preventDefault()
+          changeApiStatus(true)
           const authUser = JSON.parse(localStorage.getItem("authUser"))
 
           const formData = new FormData()
@@ -92,16 +97,21 @@ function Add(props) {
                     headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
                })
                .then(res => {
+                    setApiSuccess()
+                    changeApiStatus(false)
                     toast.success("Network Added Successfully")
                })
                .catch(err => {
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
                     console.log(err, "network Error")
                })
+               setLoader(false)
      }
 
      // console.log(getData, "njbvcxzdsfghjk")
 
-     return (
+     return apiStatus.inProgress ? <Spinner /> : ( 
           <React.Fragment>
                <div className="page-content">
                     <Breadcrumb
