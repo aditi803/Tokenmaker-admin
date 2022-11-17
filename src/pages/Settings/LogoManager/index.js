@@ -181,20 +181,21 @@ function LogoManager(props) {
                                                        </div>
                                                   </div>
                                                   <div className="col-sm-6 col-lg-6 mt-1">
-                                                       <div className="border position-relative px-2 overflow-hidden">
+                                                       <div className="border position-relative px-2 overflow-hidden" style={{padding:"2px"}}>
                                                             {/* {currUpload.includes('adminFavIcon') && (
                                                                  <div className="spinner-box position-absolute">
                                                                       <Spinner animation="border" />
                                                                  </div>
                                                             )} */}
-                                                            <div className="upload-images p-3">
+                                                            <div className="upload-images " style={{padding:"48px"}}>
                                                                  <img
                                                                       src={imageBaseUrl + header.adminFavicon}
                                                                       alt=""
                                                                       title=""
-                                                                      height={100}
+                                                                      style={{height:"39px"}}
+                                                                      // height={100}
                                                                       // style={{height: "100px", width:"250px"}}
-                                                                      className="set-logo"
+                                                                      // className="set-logo"
                                                                  // onChange={onChangeHandler}
                                                                  />
                                                             </div>
@@ -259,20 +260,19 @@ function LogoManager(props) {
                                                        </div>
                                                   </div>
                                                   <div className="col-sm-6 col-lg-6 mt-1">
-                                                       <div className="border position-relative px-2 overflow-hidden">
+                                                       <div className="border position-relative px-2 overflow-hidden" style={{padding:"2px"}}>
                                                             {/* {currUpload.includes('investorFavIcon') && (
                                                                  <div className="spinner-box position-absolute">
                                                                       <Spinner animation="border" />
                                                                  </div>
                                                             )} */}
-                                                            <div className="upload-images p-3">
+                                                            <div className="upload-images" style={{padding:"48px"}}>
                                                                  <img
                                                                       src={imageBaseUrl + header.investorFavicon}
-
+                                                                      style={{height:"39px"}}
                                                                       alt=""
                                                                       title=""
-                                                                      height={100}
-                                                                      className="set-logo"
+                                                                      // className="set-logo"
                                                                       // style={{height: "100px", width:"250px"}}
                                                                  // value={header.favicon}
                                                                  />

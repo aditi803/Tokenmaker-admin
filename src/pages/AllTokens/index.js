@@ -22,10 +22,13 @@ function AllTokens(props) {
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
-                         <Breadcrumb
-                              // title={props.t("Landing-Page")}
+                         {/* <Breadcrumb
+                              title={props.t("Landing-Page")}
                               breadcrumbItem={props.t("All Tokens")}
-                         />
+                         /> */}
+                         <p
+                              style={{color:"#2a3042", fontWeight:500, fontSize:"17px" }}
+                         >All Tokens</p>
                          <Row>
                               <LatestTranaction loader={loader} setLoader={setLoader} />
                          </Row>

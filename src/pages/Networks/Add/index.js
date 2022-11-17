@@ -111,7 +111,7 @@ function Add(props) {
 
      // console.log(getData, "njbvcxzdsfghjk")
 
-     return apiStatus.inProgress ? <Spinner /> : ( 
+     return ( 
           <React.Fragment>
                <div className="page-content">
                     <Breadcrumb

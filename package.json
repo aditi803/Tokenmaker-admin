@@ -56,7 +56,7 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-bootstrap": "^2.5.0",
-    "react-bootstrap-daterangepicker": "^8.0.0",
+    "react-bootstrap-daterangepicker": "^7.0.0",
     "react-bootstrap-editable": "^0.8.2",
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-editor": "^1.4.0",

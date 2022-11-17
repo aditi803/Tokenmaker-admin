@@ -8,10 +8,10 @@ const BANNER_PUT = getApiUrl("cms/banner");
 const CUSTOM_DETAILS = getApiUrl("cms/customdetails");
 const CUSTOM_PUT = getApiUrl("cms/custom");
 // const START_SECTION_DETAILS = getApiUrl("cms/startsectiondetails");
-const FAQS = getApiUrl('cms/faqs');
-const FAQS_POST = getApiUrl('cms/faq');
-const FAQS_EDIT = getApiUrl('cms/editfaq');
-const FAQS_UPDATE = getApiUrl('cms/faqupdate');
+const FAQS = getApiUrl('faq/faqsdata');
+const FAQS_POST = getApiUrl('faq/newfaq');
+const FAQS_EDIT = getApiUrl('faq/editfaq');
+const FAQS_UPDATE = getApiUrl('faq/faqupdate');
 
 // const FEATURES = getApiUrl('cms/features');
 // const STEPS = getApiUrl('cms/steps');

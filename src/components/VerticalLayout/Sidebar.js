@@ -49,10 +49,10 @@ const Sidebar = props => {
         {/* <link rel="canonical" href={`${imageBaseUrl}${logos?.adminFavicon}`} /> */}
       </Helmet>
       <div className="vertical-menu">
-        <div className="navbar-brand-box">
+        <div className="navbar-brand-box" style={{marginTop:"10px"}}>
           <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
-              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logo} alt="" height="22" style={{ objectFit: "contain" }} />
+              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logo} alt=""  />
             </span>
             <span className="logo-lg">
               <img src={logoDark} alt="" height="17" />
@@ -63,9 +63,9 @@ const Sidebar = props => {
             {/* <span className="logo-sm">
               <img src={logoLightSvg} alt="" height="22" />
             </span> */}
-            <span className="logo-lg bg-light" >
+            <span className="logo-lg" style={{objectFit:"contain"}}>
               {/* <img src={logoLightPng} height="25" alt="" /> */}
-              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logoLightPng} alt="" height="22" />
+              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logoLightPng} alt="" style={{width:"162px", height:"inherit", marginRight:"31px" }}  />
             </span>
           </Link>
         </div>
