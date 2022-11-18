@@ -209,13 +209,13 @@ function EditView(props) {
                           <div>
                             <label htmlFor="currency" className="mb-2 name">
                               <p>
-                                Currency <span className="input-error">*</span>
+                                Symbol <span className="input-error">*</span>
                               </p>
                             </label>
 
                             <InputMask
                               name="currency"
-                              placeholder="Enter Currency"
+                              placeholder="Symbol"
                               className="form-control"
                               autoComplete="off"
                               value={getData?.currency}

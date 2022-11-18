@@ -10,7 +10,7 @@ import { toast } from "react-toastify"
 import useApiStatus from "hooks/useApiStatus"
 import axios from "axios"
 import './Add.css'
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
 import cloud from '../../../assets/images/small/cloud-file-download.svg'
 import Spinner from "loader"
@@ -18,6 +18,7 @@ import Spinner from "loader"
 
 function Add(props) {
      // const { inProgress } = useApiStatus()
+     const history = useHistory()
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
      const [getData, setGetData] = useState({
           networkName: "",
@@ -100,6 +101,7 @@ function Add(props) {
                     setApiSuccess()
                     changeApiStatus(false)
                     toast.success("Network Added Successfully")
+                    history.push('/view')
                })
                .catch(err => {
                     changeApiStatus(false)
@@ -241,14 +243,14 @@ function Add(props) {
                                                                  <div>
                                                                       <label htmlFor="currency" className="mb-2 name">
                                                                            <p>
-                                                                                Currency <span className="input-error">*</span>
+                                                                                Symbol <span className="input-error">*</span>
                                                                            </p>
                                                                       </label>
 
                                                                       <input
                                                                            type="text"
                                                                            name="currency"
-                                                                           placeholder="Enter Currency"
+                                                                           placeholder="Symbol"
                                                                            className="form-control"
                                                                            autoComplete="off"
                                                                            onChange={e => {

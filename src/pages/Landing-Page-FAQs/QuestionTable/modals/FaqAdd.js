@@ -38,7 +38,7 @@ const FaqAdd = (props) => {
     const authUser = JSON.parse(localStorage.getItem('authUser'));
   
     e.preventDefault()
-    await axios.post("https://tokenmaker-apis.block-brew.com/cms/faq", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
+    await axios.post("https://tokenmaker-apis.block-brew.com/faq/newfaq", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
         setApiSuccess()

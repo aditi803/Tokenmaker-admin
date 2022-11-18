@@ -22,24 +22,34 @@ const FaqEdit = props => {
     // console.log(editData, ">>>>>>>>>>>>>>>>>")
     console.log(authUser, ">>>>>>>>>>>>>>>>>")
 
-    const [value, setValue] = useState(editData?.question)
-    const [value2, setValue2] = useState(editData?.answer)
+    const [value, setValue] = useState()
+    // const [value2, setValue2] = useState(editData?.answer)
+    const [close, setClose] = useState(true)
+  const handleClose = () => {
+    setClose(toggle)
+  }
 
-useEffect(() => {
-        setValue(editData?.question)
-        setValue2(editData?.answer)
-    }, [editData])
+    useEffect(() => {
+        setValue(prev => ({
+          ...prev,
+          question: editData?.question,
+          answer: editData?.answer,
+          _id:editData?._id
+        }))
+        // setValue2(editData?.content)
+      }, [editData])
 
     const handleUpdate = async () => {
         axios
             .put(
                 "https://tokenmaker-apis.block-brew.com/cms/editfaq",
-                { ...editData, question: value, answer: value2 },
+                { ...editData, ...value },
                 { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
             )
             .then(res => {
                 // console.log(res, ">>>>>>>>>>>>>")
                 toast.success("Updated Successfully")
+                handleClose()
                 fetchData()
             })
             .catch(err => {
@@ -67,17 +77,17 @@ useEffect(() => {
                         className="form-control input-color "
                         type="text"
                         placeholder={value}
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
+                        value={value?.question}
+                        onChange={e => setValue(prev => ({...prev, question: e.target.value}))}
                     />
                     <Label className="mt-2">Answer</Label>
                     <textarea
                         className="form-control input-color "
                         // type="text-area"
                         // placeholder={value2}
-                        // value={value2}
-                        onChange={e => setValue2(e.target.value)}
-                    >{value2}</textarea>
+                        value={value?.answer}
+                        onChange={e => setValue(prev => ({...prev, answer: e.target.value}))}
+                    />
                 </ModalBody>
                 <ModalFooter>
                     <Button type="button" color="secondary" onClick={toggle}>

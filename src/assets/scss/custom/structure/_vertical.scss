@@ -61,6 +61,7 @@
 .main-content {
     margin-left: $sidebar-width;
     overflow: hidden;
+    min-height: 100vh;
 
     .content {
         padding: 0 15px 10px 15px;

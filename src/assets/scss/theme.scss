@@ -15,6 +15,10 @@
 // @import "./rtl/structure-rtl";
 // @import "./rtl/text-rtl";
 
+
+div#layout-wrapper{
+  min-height: 100vh;
+}
 body {
   * {
     outline: none;

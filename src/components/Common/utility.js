@@ -32,5 +32,13 @@ try {
   
 
   export const StandardPicketDateFormat = (Date) => {
-    return moment(Date).format('YYYY DD, MMM')
+    console.log(moment(Date).format(('h:mm a')),"hours")
+    console.log( moment(Date).format("DD-MM-YYYY"),"total date")
+    console.log(moment(Date).seconds,"seconds")
+   
+    
+
+  
+    return moment(Date).format('MM/DD/YYYY')
+
   }

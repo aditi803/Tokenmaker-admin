@@ -17,6 +17,9 @@ function LandingPageBanner(props) {
      document.title = "BlockTechBrew - Landing Page Banner"
      const [items, setItems] = useState({});
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+     const user = localStorage.getItem('authUser')
+     const parseData = JSON.parse(user)
+     const token = parseData.msg.jsonWebtoken;
 
      const [loader, setLoader] = useState(true)
      const handleChange = (e) => {
@@ -27,7 +30,7 @@ function LandingPageBanner(props) {
                heading: data.heading
                , headingColor: data.headingColor, content: data.content, contentColor: data.contentColor, backgroundImage: data.backgroundImage,
                buttonText: data.buttonText, buttonTextColor: data.buttonTextColor, buttonBackgroundColor: data.buttonBackgroundColor
-          }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } })
+          }, { headers: { "Authorization": `Bearer ${token}` } })
                .then((result) => {
                     if (result.data.success === 1) {
                          setApiSuccess()
@@ -39,6 +42,7 @@ function LandingPageBanner(props) {
                     changeApiStatus(false)
                     setApiFailed(err.message)
                     toast.error("Already Updated!!")
+                    console.log(err,"Banner error")
                })
           setLoader(false)
      }

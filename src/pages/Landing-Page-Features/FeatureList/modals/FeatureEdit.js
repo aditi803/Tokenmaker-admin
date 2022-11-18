@@ -21,34 +21,40 @@ const FeatureEdit = props => {
 
     // console.log(editData, ">>>>>>>>>>>>>>>>>")
     console.log(authUser, ">>>>>>>>>>>>>>>>>")
+    const [close, setClose] = useState(true)
+    const handleClose = () => {
+        setClose(toggle)
+      }
 
-    const [value, setValue] = useState(editData?.title)
-    const [value2, setValue2] = useState(editData?.content)
-
-
-
-    
+    const [value, setValue] = useState()
+    // const [value2, setValue2] = useState(editData?.content)
 
     useEffect(() => {
-        setValue(editData?.title)
-        setValue2(editData?.content)
+        setValue(prev => ({
+            ...prev,
+            title: editData?.title,
+            content: editData?.content,
+            _id:editData?._id
+          }))
     }, [editData])
 
     const handleUpdate = async () => {
         axios
             .put(
                 "https://tokenmaker-apis.block-brew.com/cms/editfeature",
-                { ...editData, title: value, content: value2 },
+                { ...editData, ...value },
                 { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
             )
             .then(res => {
                 // console.log(res, ">>>>>>>>>>>>>")
                 toast.success("Updated Successfully")
+                handleClose()
                 fecthData()
             })
             .catch(err => {
                 // console.log(err, ">>>>>>>>>>>>>>")
-                toast.error("Already Updated")
+                console.log(err,"Edit error")
+                // toast.error("Already Updated")
             })
     }
 
@@ -71,17 +77,17 @@ const FeatureEdit = props => {
                         className="form-control input-color "
                         type="text"
                         placeholder={value}
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
+                        value={value?.title}
+                        onChange={e => setValue(prev =>({...prev, title: e.target.value}))}
                     />
                     <Label className="mt-2">Content</Label>
                     <textarea
                         className="form-control input-color "
                         // type="text-area"
                         // placeholder={value2}
-                        // value={value2}
-                        onChange={e => setValue2(e.target.value)}
-                    >{value2}</textarea>
+                        value={value?.content}
+                        onChange={e => setValue(prev => ({...prev, content: e.target.value}))}
+                    ></textarea>
                 </ModalBody>
                 <ModalFooter>
                     <Button type="button" color="secondary" onClick={toggle}>

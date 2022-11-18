@@ -38,7 +38,7 @@ const FeatureAdd = (props) => {
     const authUser = JSON.parse(localStorage.getItem('authUser'));
   
     e.preventDefault()
-    await axios.post("https://tokenmaker-apis.block-brew.com/cms/editfeature", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
+    await axios.post("https://tokenmaker-apis.block-brew.com/cms/feature", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
         setApiSuccess()

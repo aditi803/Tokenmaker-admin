@@ -141,7 +141,7 @@ function View(props) {
                                 />
                               </h6>
                               <span className="text-center d-block">
-                                (Id: {net._id})
+                                (Id: {net.networkKey})
                               </span>
                             </div>
                           </div>
