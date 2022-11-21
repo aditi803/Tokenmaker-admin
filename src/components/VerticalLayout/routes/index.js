@@ -190,6 +190,8 @@ import View from "pages/Networks/View/index"
 import Add from "pages/Networks/Add"
 import AllTokens from "pages/AllTokens"
 import EditView from "pages/Networks/View/EditView"
+import TermsOfUse from "pages/Pages/Terms of use"
+import PrivacyPolicy from "pages/Pages/Privacy Policy"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -209,6 +211,8 @@ const authProtectedRoutes = [
   {path: '/add', component: Add},
   {path: '/all-tokens', component: AllTokens},
   {path: '/network-edit/:id', component: EditView},
+  {path: '/terms-of-use', component: TermsOfUse},
+  {path: '/privacy-policy', component: PrivacyPolicy},
   
 
   //Crypto

@@ -163,10 +163,9 @@ function CommissionTable(props) {
           <Spinner />
         ) : (
           <Container fluid>
-            <Breadcrumb
-              title={props.t("Landing-Page")}
-              breadcrumbItem={props.t("Commision Table")}
-            />
+            <p
+              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+            >Commission Table</p>
             <Row>
               <Card>
                 <CardBody>

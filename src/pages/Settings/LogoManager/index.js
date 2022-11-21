@@ -135,10 +135,9 @@ function LogoManager(props) {
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
-                         <Breadcrumb
-                              title={props.t("Landing-Page")}
-                              breadcrumbItem={props.t("Logo Manager")}
-                         />
+                    <p
+              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+            >Logo Manager</p>
                          {/* <form encType='multipart/form-data' onSubmit={(e) => { uploadImage(e) }}> */}
                          <Row>
 

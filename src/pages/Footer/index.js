@@ -85,10 +85,9 @@ function Footer(props) {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumb
-            title={props.t("Landing-Page")}
-            breadcrumbItem={props.t("Footer")}
-          />
+        <p
+              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+            >Footer</p>
           <Row>
             <Col lg={12}>
               <Card>
@@ -125,6 +124,7 @@ function Footer(props) {
                         </div>
                       </Col>
                     </Row>
+                    
                     <Row>
                       <Col lg={6}>
                         <div>
@@ -190,6 +190,36 @@ function Footer(props) {
                                 }}
                               />
                             ) : null}
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg={6}>
+                        <div>
+                          <div className="form-group mb-4">
+                            <Label for="input-date1">Admin Copyright: </Label>
+                            <InputMask
+                              // mask="(999) 999-9999"
+                              // value={footer.companyName}
+                              className="form-control input-color"
+                              name="companyName"
+                              onChange={onChangeHandler}
+                            />
+                          </div>
+                        </div>
+                      </Col>
+                      <Col lg={6}>
+                        <div className="mt-4 mt-lg-0">
+                          <div className="form-group mb-4">
+                            <Label for="input-repeat">Investor Copyright:</Label>
+                            <InputMask
+                              // mask="(999) 999-9999"
+                              // value={footer.websiteName}
+                              name="websiteName"
+                              className="form-control input-color"
+                              onChange={onChangeHandler}
+                            />
                           </div>
                         </div>
                       </Col>

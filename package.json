@@ -78,6 +78,7 @@
     "react-google-login": "^5.2.2",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.18.3",
+    "react-icons": "^4.6.0",
     "react-image-lightbox": "^5.1.4",
     "react-input-color": "^4.0.1",
     "react-input-mask": "^2.0.4",

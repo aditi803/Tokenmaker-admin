@@ -78,7 +78,7 @@ const LatestTranaction = () => {
       picker.endDate.format("YYYY-MM-DD"),
     ]
     setDateFilter(filter)
-    fetchData(pageData.pageSize, pageData.current, filter, query)
+    fetchData(pageData.current, pageData.pageSize , filter, query)
   }
 
   const [network, setNetwork] = useState()
@@ -91,7 +91,7 @@ const LatestTranaction = () => {
       .get("https://tokenmaker-apis.block-brew.com/cms/networkDetails")
       .then(res => {
         setNetwork(res.data.msg)
-        
+
         // setItems(authUser)
         console.log(res, "Add data view page")
         // setItems(authUser)
@@ -116,12 +116,14 @@ const LatestTranaction = () => {
     dateFilter = [],
     query = "",
     exportRequest = "false",
-    networkStatus=""
+    networkStatus = ""
   ) => {
     try {
       changeApiStatus(true, "")
       const [startDate, endDate] =
         dateFilter.length === 0 ? ["", ""] : dateFilter
+
+        console.log(limit,page,"limit and page")
       const list = await axios.get(
         `https://tokenmaker-apis.block-brew.com/token/alltokens?pageSize=${limit}&pageNumber=${page}&toDate=${endDate}&fromDate=${startDate}&filter=${query}&exportRequest=${exportRequest}&networkName=${networkStatus}`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -131,22 +133,21 @@ const LatestTranaction = () => {
           new Blob([list.data.msg.csv], { type: "text/csv" })
         )
 
+        const date1 = moment(Date.now()).format("DD-MM-YYYY")
+        const time1 = moment(Date).format(('h:mm a'))
+        // console.log(time1, "zzzzzzzzzzzzzzzz")
 
-       const date1 =  moment(Date.now()).format("DD-MM-YYYY")
-       const time1 =  moment(Date).format(('h:mm a'))
-       console.log(time1,"zzzzzzzzzzzzzzzz")
-      
-       const finalDate = date1+ "-"+ time1
-       console.log(finalDate,"final date")
-        
-           
+        const finalDate = date1 + "-" + time1
+        // console.log(finalDate, "final date")
+
+
         downloadFile(url, `AllTokens${date1}.csv`)
         // console.log(url, "urll true side ")
         // console.log(list, "listttt export true side ")
         // console.log(exportRequest, "export request state")
 
         return changeApiStatus(false, "")
-        console.log(exportRequest, "export request value api side ")
+        // console.log(exportRequest, "export request value api side ")
       }
       // console.log(list,"listttt status after true ")
 
@@ -196,7 +197,7 @@ const LatestTranaction = () => {
   }, [])
 
   useEffect(() => {
-    
+
     fetchData(pageData.current, pageData.pageSize, dateFilter, query, false, networkStatus)
     // eslint-disable-next-line
   }, [pageData.current, pageData.pageSize, networkStatus])
@@ -303,19 +304,22 @@ const LatestTranaction = () => {
                             value={
                               dateFilter.length
                                 ? `${StandardPicketDateFormat(
-                                    dateFilter[0]
-                                  )} - ${StandardPicketDateFormat(
-                                    dateFilter[1]
-                                  )}`
+                                  dateFilter[0]
+                                )} - ${StandardPicketDateFormat(
+                                  dateFilter[1]
+                                )}`
                                 : ""
                             }
-                            // value={
-                            //   dateFilter.length
-                            //     ? `${dateFilter[0]} - ${dateFilter[1]}`
-                            //     : ''
-                            // }
+                          // value={
+                          //   dateFilter.length
+                          //     ? `${dateFilter[0]} - ${dateFilter[1]}`
+                          //     : ''
+                          // }
                           />
+
+                          
                         </DateRangePicker>
+                        {console.log(pageData,"pagedata")}
                         <CInputGroupText>
                           <img
                             style={{ cursor: "pointer" }}
@@ -334,8 +338,8 @@ const LatestTranaction = () => {
                               calendarIsShowing
                                 ? calendarremovelines
                                 : dateFilter.length
-                                ? calendarremovelines
-                                : schedule
+                                  ? calendarremovelines
+                                  : schedule
                             }
                             alt=""
                             width={20}
@@ -388,16 +392,21 @@ const LatestTranaction = () => {
                           onChange={e => setNetworkStatus(e.target.value)}
                           value={networkStatus}
                         >
-                          {console.log(networkStatus,"Network status")}
+                          {console.log(networkStatus, "Network status")}
                           <option hidden>Select Network</option>
-                          {network.map((content,i) => {
+                          <option value={''}>All</option>
+
+                          {network.map((content, i) => {
                             return (
-                              <option
-                                key={i}
-                                value={content.networkName}
-                              >
-                                {content.networkName}
-                              </option>
+                              <>
+                                <option
+                                  key={i}
+                                  value={content.networkName}
+                                >
+                                  {content.networkName}
+                                </option>
+                              </>
+
                             )
                           })}
                           {/* <option value="">All</option>
@@ -416,7 +425,8 @@ const LatestTranaction = () => {
                           pageData.pageSize,
                           dateFilter,
                           query,
-                          "true"
+                          "true",
+                          networkStatus,
                         )
                       }
                       color="success"

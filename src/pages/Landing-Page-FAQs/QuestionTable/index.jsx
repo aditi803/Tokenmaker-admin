@@ -148,6 +148,7 @@ function QuestionTable(props) {
           <CIcon
             icon={cilPencil}
             className="text-warning hand me-2"
+            style={{cursor:"pointer"}}
             onClick={() => {
               toggleViewModal()
               setEdit(row);
@@ -156,6 +157,7 @@ function QuestionTable(props) {
           <CIcon
             icon={cilTrash}
             className="text-danger hand"
+            style={{cursor:"pointer"}}
             onClick={() => {
               deleteNetwork(row._id)
             }}

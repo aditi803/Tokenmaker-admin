@@ -145,6 +145,7 @@ function CommissionTable(props) {
         <>
           <CIcon
             icon={cilPencil}
+            style={{cursor:"pointer"}}
             className="text-warning hand me-2"
             onClick={() => {
               toggleViewModal()
@@ -153,6 +154,7 @@ function CommissionTable(props) {
           />
           <CIcon
             icon={cilTrash}
+            style={{cursor:"pointer"}}
             className="text-danger hand"
             onClick={() => {
               deleteNetwork(row._id)

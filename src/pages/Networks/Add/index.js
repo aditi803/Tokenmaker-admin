@@ -116,10 +116,9 @@ function Add(props) {
      return ( 
           <React.Fragment>
                <div className="page-content">
-                    <Breadcrumb
-                         title={props.t("Landing-Page")}
-                         breadcrumbItem={props.t("Add-Network")}
-                    />
+               <p
+              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+            >Add Network</p>
                     <Row>
                          <>
                               <Form>

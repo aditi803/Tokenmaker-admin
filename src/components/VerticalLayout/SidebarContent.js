@@ -1,8 +1,24 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
-
-// //Import Scrollbar
+import {GiNetworkBars} from 'react-icons/gi'
+import {TfiDashboard} from 'react-icons/tfi'
+import {AiOutlineHome} from 'react-icons/ai'
+import {MdOutlineSettings} from 'react-icons/md'
+import {CiDollar} from 'react-icons/ci'
+import {CiBitcoin} from 'react-icons/ci'
+import {TbBoxPadding} from 'react-icons/tb'
+import {BiLogOutCircle} from 'react-icons/bi'
+import {RiPagesLine} from 'react-icons/ri'
+ // //Import Scrollbar
 import SimpleBar from "simplebar-react";
+import CIcon from '@coreui/icons-react'
+import {
+  cilSpeedometer,
+  cilDollar,
+  cibBitcoin,
+  cilSettings,
+  cilSpreadsheet,
+} from '@coreui/icons'
 
 // MetisMenu
 import MetisMenu from "metismenujs";
@@ -95,15 +111,15 @@ const SidebarContent = props => {
             <li className="menu-title">{props.t("Menu")} </li>
             <li>
               <Link to="/#" className="">
-                <i className="bx bx-home-circle"></i>
+                <TfiDashboard size={25} style={{marginRight:"10px"}}/>
                 <span>{props.t("Dashboard")}</span>
               </Link>
-            <li>
-            <Link to="/all-tokens" className="">
-                <i className="bx bx-circle"></i>
-                <span>{props.t("All tokens")}</span>
-              </Link>
-            </li>
+              <li>
+                <Link to="/all-tokens" className="">
+                  <CiBitcoin size={25} style={{marginRight:"10px"}}/>
+                  <span>{props.t("All tokens")}</span>
+                </Link>
+              </li>
               {/* <ul className="sub-menu">
                 <li>
                   <Link to="/dashboard">{props.t("Default")}</Link>
@@ -129,7 +145,7 @@ const SidebarContent = props => {
             <li className="menu-title">{props.t("CMS MANAGER")}</li>
             <li>
               <Link to="/#" className="has-arrow">
-                <i className="bx bx-home-circle"></i>
+                <AiOutlineHome size={25} style={{marginRight:"10px"}}/>
                 <span>{props.t("Landing Page")}</span>
               </Link>
               <ul className="sub-menu">
@@ -154,8 +170,22 @@ const SidebarContent = props => {
               </ul>
             </li>
             <li>
-            <Link to="/#" className="has-arrow">
-                <i className="bx bx-home-circle"></i>
+              <Link to="/#" className="has-arrow">
+                <RiPagesLine size={25} style={{marginRight:"10px"}}/>
+                <span>{props.t("Pages")}</span>
+              </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/terms-of-use">{props.t("Terms of Use")}</Link>
+                </li>
+                <li>
+                  <Link to="/privacy-policy">{props.t("Privacy Policy")}</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <Link to="/#" className="has-arrow">
+                <CiDollar size={25} style={{marginRight:"10px"}}/>
                 <span>{props.t("Commissions")}</span>
               </Link>
               <ul className="sub-menu">
@@ -163,10 +193,10 @@ const SidebarContent = props => {
                   <Link to="/commission-table">{props.t("Commission Table")}</Link>
                 </li>
               </ul>
-              </li>
+            </li>
             <li>
               <Link to="/#" className="has-arrow">
-                <i className="bx bx-network-chart"></i>
+              <GiNetworkBars size={23} style={{marginRight:"10px"}}/>
                 <span>{props.t("Networks")}</span>
               </Link>
               <ul className="sub-menu">
@@ -179,8 +209,14 @@ const SidebarContent = props => {
               </ul>
             </li>
             <li>
+              <Link to="/footer" className="">
+                <TbBoxPadding size={25} style={{marginRight:"10px"}}/>
+                <span>{props.t("Footer")}</span>
+              </Link>
+            </li>
+            <li>
               <Link to="/#" className="has-arrow">
-                <i className="bx bx-cog"></i>
+                <MdOutlineSettings size={25} style={{marginRight:"10px"}}/>
                 <span>{props.t("Settings")}</span>
               </Link>
               <ul className="sub-menu">
@@ -192,20 +228,15 @@ const SidebarContent = props => {
                 </li>
               </ul>
             </li>
-            <li>
-            <Link to="/footer" className="">
-                <i className="bx bx-cog"></i>
-                <span>{props.t("Footer")}</span>
-              </Link>
-            </li>
-            <li style={{position:"fixed",bottom:"0px"}}>
+
+            <li style={{ position: "fixed", bottom: "0px" }}>
               <Link to="/#" className="">
-                <i className="bx bx-log-out-circle"></i>
+                <BiLogOutCircle size={25} style={{marginRight:"10px"}}/>
                 <span>{props.t("Log out")}</span>
               </Link>
             </li>
-          
-            
+
+
             {/* <li>
               <Link to="/calendar" >
                 <i className="bx bx-calendar"></i>
@@ -370,20 +401,20 @@ const SidebarContent = props => {
               </ul>
             </li> */}
 
-            {/* <li>
-              <Link to="/#" className="has-arrow ">
-                <i className="bx bx-task"></i>
-                <span>{props.t("Tasks")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/tasks-list">{props.t("Task List")}</Link>
-                </li>
-                <li>
-                  <Link to="/tasks-create">{props.t("Create Task")}</Link>
-                </li>
-              </ul>
-            </li> */}
+              {/* <li>
+                <Link to="/#" className="has-arrow ">
+                  <i className="bx bx-task"></i>
+                  <span>{props.t("Tasks")}</span>
+                </Link>
+                <ul className="sub-menu">
+                  <li>
+                    <Link to="/tasks-list">{props.t("Task List")}</Link>
+                  </li>
+                  <li>
+                    <Link to="/tasks-create">{props.t("Create Task")}</Link>
+                  </li>
+                </ul>
+              </li> */}
 
             {/* <li>
               <Link to="/#" className="has-arrow ">

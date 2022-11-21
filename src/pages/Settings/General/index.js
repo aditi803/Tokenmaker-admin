@@ -89,10 +89,9 @@ function General(props) {
           <React.Fragment>
                <div className="page-content">
                     <Container fluid>
-                         <Breadcrumb
-                              title={props.t("Landing-Page")}
-                              breadcrumbItem={props.t("General Settings")}
-                         />
+                         <p
+              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+            >General Settings</p>
                          <Row>
                               <Col lg={12}>
                                    <Card>

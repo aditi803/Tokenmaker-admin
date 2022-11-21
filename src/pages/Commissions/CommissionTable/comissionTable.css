@@ -1,7 +1,10 @@
 
 .text-danger{
     height: 20px;
+    cursor: pointer;
 }
 .text-warning{
     height: 20px;
+    cursor: pointer;
+
 }
