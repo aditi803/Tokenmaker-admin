@@ -1,10 +1,10 @@
 //REGISTER
-export const POST_FAKE_REGISTER = "https://tokendetails.herokuapp.com/user/register";
+export const POST_FAKE_REGISTER = "https://tokenmaker-apis.block-brew.com/user/register";
 
 //LOGIN
-export const POST_FAKE_LOGIN = "https://tokendetails.herokuapp.com/user/login";
+export const POST_FAKE_LOGIN = "https://tokenmaker-apis.block-brew.com/user/login";
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";
-export const POST_FAKE_PASSWORD_FORGET = "/fake-forget-pwd";
+export const POST_FAKE_PASSWORD_FORGET = "https://tokenmaker-apis.block-brew.com/user/password-reset";
 export const POST_FAKE_JWT_PASSWORD_FORGET = "/jwt-forget-pwd";
 export const SOCIAL_LOGIN = "/social-login";
 

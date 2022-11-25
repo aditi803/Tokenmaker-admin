@@ -42,7 +42,7 @@ const FaqEdit = props => {
     const handleUpdate = async () => {
         axios
             .put(
-                "https://tokenmaker-apis.block-brew.com/cms/editfaq",
+                "https://tokenmaker-apis.block-brew.com/faq/editfaq",
                 { ...editData, ...value },
                 { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
             )

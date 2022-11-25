@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 import useApiStatus from "hooks/useApiStatus";
 import { toast } from 'react-toastify'
-import {InputMask} from "react-input-mask"
+import { InputMask } from "react-input-mask"
 import Spinner from "loader";
 
 
@@ -21,7 +21,7 @@ const StepAdd = (props) => {
   const { isOpen, toggle, fetchData } = props
   const [loader, setLoader] = useState(false)
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
-  const [network, setNetwork] = useState({ title: "", content: ""})
+  const [network, setNetwork] = useState({ title: "", content: "", stepImage: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
   const handleClose = () => {
@@ -31,29 +31,36 @@ const StepAdd = (props) => {
   const data = {
     title: network.title,
     content: network.content,
+    stepImage: network.stepImage
   }
 
-  const handleAddNetwork = async(e) => {
+  const handleAddNetwork = async (e) => {
     changeApiStatus(true, '')
     const authUser = JSON.parse(localStorage.getItem('authUser'));
-  
+
     e.preventDefault()
-    await axios.post("https://tokenmaker-apis.block-brew.com/cms/newstep", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
+  const formData = new FormData();
+  formData.append('title', data.title);
+  formData.append('content', data.content);
+  formData.append('stepImage', data.stepImage);
+  
+  
+    await axios.post("https://tokenmaker-apis.block-brew.com/step/newstep", formData, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
         setApiSuccess()
-          changeApiStatus(false)
-          toast.success("Network Added Successfully")
-          handleClose()
-          fetchData()
+        changeApiStatus(false)
+        toast.success("Network Added Successfully")
+        handleClose()
+        fetchData()
       })
       .catch((err) => {
         console.log(err)
         toast.error('error', err.response ? err.response.data.error : err)
-                  changeApiStatus(false, err.response ? err.response.data.error : err)
-                  setApiFailed(err.msg)
+        changeApiStatus(false, err.response ? err.response.data.error : err)
+        setApiFailed(err.msg)
       })
-      setLoader(false)
+    setLoader(false)
   }
 
   return (
@@ -75,9 +82,9 @@ const StepAdd = (props) => {
             placeholder="Enter title here"
             onChange={e => {
               setNetwork({ ...network, title: e.target.value })
-            }} 
-            
-            />
+            }}
+
+          />
           <Label className="mt-1">Content:</Label>
           <input type='text-area'
             name='content'
@@ -85,15 +92,23 @@ const StepAdd = (props) => {
             placeholder="Enter title here"
             onChange={e => {
               setNetwork({ ...network, content: e.target.value })
+            }}
+          />
+          <Label className="mt-1">Image:</Label>
+          <input
+            type="file"
+            className="form-control input-color"
+            onChange={e => {
+              setNetwork({...network, stepImage: e.target.files[0]})
             }} 
-            />
+          />
         </ModalBody>
         <ModalFooter>
           <Button type="button" color="secondary" onClick={toggle}>
             Close
           </Button>
           <Button type="button" color="success" onClick={(e) => handleAddNetwork(e)}>
-          {/* <Button type="button" color="success" onClick={toggle}> */}
+            {/* <Button type="button" color="success" onClick={toggle}> */}
             Save Changes
           </Button>
         </ModalFooter>

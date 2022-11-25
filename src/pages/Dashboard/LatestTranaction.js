@@ -88,9 +88,9 @@ const LatestTranaction = () => {
   const fetchNetwork = () => {
     changeApiStatus(true)
     axios
-      .get("https://tokenmaker-apis.block-brew.com/cms/networkDetails")
+      .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
-        setNetwork(res.data.msg)
+        setNetwork(res.data.msg.items)
 
         // setItems(authUser)
         console.log(res, "Add data view page")
@@ -354,12 +354,12 @@ const LatestTranaction = () => {
                         className="visually-hidden"
                         htmlFor="autoSizingInputGroup"
                       >
-                        Search
+                        Search 
                       </CFormLabel>
                       <CInputGroup>
                         <CFormInput
                           id="autoSizingInputGroup"
-                          placeholder="Search"
+                          placeholder="Search Token Name"
                           type="search"
                           value={query}
                           onChange={onQueryChange}

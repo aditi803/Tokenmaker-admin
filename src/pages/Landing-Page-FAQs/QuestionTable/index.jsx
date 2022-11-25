@@ -46,7 +46,7 @@ function QuestionTable(props) {
     try {
       changeApiStatus(true, "")
       const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/cms/faqs"
+        "https://tokenmaker-apis.block-brew.com/faq/faqsdata"
       )
       if (exportRequest === "true") {
         return changeApiStatus(false, "")
@@ -63,7 +63,7 @@ function QuestionTable(props) {
      //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
      //    })
         setData(
-          list.data.msg.faqDetails.map((val, index) => {
+          list.data.msg.faqDetails.items.map((val, index) => {
                // console.log(val,"kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
@@ -85,7 +85,7 @@ function QuestionTable(props) {
   }, [page.current, page.pageSize])
 
   const deleteNetwork = id => {
-    changeApiStatus(true)
+    // changeApiStatus(true)
     toastConfirm("Are you sure you want to delete this?")
       .fire()
       .then(async val => {
@@ -94,7 +94,7 @@ function QuestionTable(props) {
             changeApiStatus(true, "")
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
-              `https://tokenmaker-apis.block-brew.com/cms/deletefaq/${id}`,
+              `https://tokenmaker-apis.block-brew.com/faq/deletefaq/${id}`,
               {
                 headers: {
                   Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
@@ -103,7 +103,7 @@ function QuestionTable(props) {
             )
             console.log(list, "list delete handler side ")
             if (list?.status === 200) {
-              setApiSuccess()
+              // setApiSuccess()
               changeApiStatus(false)
               toast.success("Network deleted successfully")
               fetchData()
@@ -114,7 +114,7 @@ function QuestionTable(props) {
             console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            setApiFailed(err.msg)
+            // setApiFailed(err.msg)
           }
         }
       })

@@ -110,7 +110,8 @@ const Register = props => {
                     >
                       {user && user ? (
                         <Alert color="success">
-                          Register User Successfully
+                          {/* Register User Successfully */}
+                          Request has been sent to registered mail to verify your account.
                         </Alert>
                       ) : null}
 

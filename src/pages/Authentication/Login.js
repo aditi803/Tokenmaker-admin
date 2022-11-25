@@ -206,6 +206,9 @@ const Login = props => {
                         >
                           Log In
                         </button>
+                      <Link to='/forgot-password'>
+                      <p>Forgot Password?</p>
+                      </Link> 
                       </div>
 
                       {/* <div className="mt-4 text-center"> */}

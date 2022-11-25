@@ -20,7 +20,7 @@ function LandingPageFeatures(props) {
 
      const handleChange = (e) => {
           changeApiStatus(true)
-          axios.put('https://tokenmaker-apis.block-brew.com/cms/feature',
+          axios.put('https://tokenmaker-apis.block-brew.com/feature/feature',
                { heading: css.heading, headingColor: css.headingColor, },
                { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                     if (result.data.success === 1) {
@@ -43,11 +43,11 @@ function LandingPageFeatures(props) {
      useEffect(() => {
           changeApiStatus(true)
           const getData = () => {
-               axios.get("https://tokenmaker-apis.block-brew.com/cms/features")
+               axios.get("https://tokenmaker-apis.block-brew.com/feature/features")
                     .then((result) => {
-                         setData(result.data.msg.featureDetails);
+                         setData(result.data.msg.featureDetails.items);
                          setCss(result.data.msg.featureData);
-                         // console.log(result.data.msg, "Features details");
+                         console.log(result.data.msg.items, "Features details");
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);
                          setApiSuccess()

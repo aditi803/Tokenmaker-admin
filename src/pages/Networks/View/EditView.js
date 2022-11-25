@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import { withTranslation } from "react-i18next"
 import Breadcrumb from "components/Common/Breadcrumb"
 // import ReactInputMask from 'react-input-mask';
-import { useParams, useLocation } from "react-router-dom"
+import { useParams, useLocation, useHistory } from "react-router-dom"
 import InputMask from "react-input-mask"
 import Dropzone from "react-dropzone"
 import { toast } from "react-toastify"
@@ -14,42 +14,17 @@ import axios from "axios"
 
 function EditView(props) {
   const { id } = useParams()
-  console.log(id,"id of edit ")
-  const networkId=id;
+  console.log(id, "id of edit ")
+  const networkId = id;
   console.log(networkId, "hjgfdnetwokr")
   const location = useLocation()
-  // console.log(id, 'ID>>ID>>ID>>ID>>ID')
-  // console.log(location, 'Location>>>>>>>')
-  // const data = location.state
+  const history = useHistory()
 
   const { inProgress } = useApiStatus()
 
-  // const addNetwork = () => {
-  //      toast.success("Added Successfully");
-  // }
   const authUser = JSON.parse(localStorage.getItem("authUser"))
   const [getData, setGetData] = useState(location.state)
   const [image, setImage] = useState()
-  // useEffect(() => {
-  //      getNetworkHanlder()
-  // },[]) //getData
-  // const user = localStorage.getItem('authUser')
-  // const parseData = JSON.parse(user)
-  // const token = parseData.msg.jsonWebtoken;
-  // // console.log(token,"Add token")
-  // const[items,setItems]=useState({});
-  // const getNetworkHanlder = () => {
-
-  //      axios.get("https://tokenmaker-apis.block-brew.com/cms/networkDetails")
-  //      .then((res) => {
-  //           setGetData(res)
-  //           console.log(res,"Add data")
-  //      })
-  //      .catch((err) => {
-  //           console.log(err)
-  //      })
-  // }
-
 
   const handleChange = e => {
     if (e.target.type === "file") {
@@ -84,13 +59,14 @@ function EditView(props) {
 
     axios
       .put(
-        `https://tokenmaker-apis.block-brew.com/cms/network/${networkId}`,
+        `https://tokenmaker-apis.block-brew.com/network/network/${networkId}`,
         formData,
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
         // console.log(res, ">>>>>>>>>>>>>")
         toast.success("Updated Successffully")
+        history.push('/view')
       })
       .catch(err => {
         console.log(err, ">>>>>>>>>>>>>>")
@@ -113,7 +89,7 @@ function EditView(props) {
               <div className="row ">
                 <div className="col-md-12 justify-content-center align-item-center">
                   <div className="bg-white pb-3 pt-2">
-                    <p style={{ textAlign: "center" }}>Add Networks</p>
+                    <p style={{ textAlign: "center" }}>Edit Networks</p>
                     <>
                       <Row className="justify-content-center">
                         <Col sm={8} className="pb-3">
@@ -205,24 +181,45 @@ function EditView(props) {
                                                                  ) : null} */}
                           </div>
                         </Col>
+                        <Col sm={8} className="pb-3">
+                          <div>
+                            <label htmlFor="rpcUrl" className="mb-2 name">
+                              <p>
+                                Description <span className="input-error">*</span>
+                              </p>
+                            </label>
+
+                            <InputMask
+                              name="description"
+                              placeholder="Enter description here"
+                              className="form-control"
+                              autoComplete="off"
+                              value={getData?.description}
+                              onChange={handleChange}
+                            />
+                            {/* {errors.rpcUrl && touched.rpcUrl ? (
+                                                                      <div className="input-error">{errors.rpcUrl}</div>
+                                                                 ) : null} */}
+                          </div>
+                        </Col>
                         <Col sm={8} className="pb-3 mt-3">
                           <div>
-                            <label htmlFor="currency" className="mb-2 name">
+                            <label htmlFor="symbol" className="mb-2 name">
                               <p>
                                 Symbol <span className="input-error">*</span>
                               </p>
                             </label>
 
                             <InputMask
-                              name="currency"
+                              name="symbol"
                               placeholder="Symbol"
                               className="form-control"
                               autoComplete="off"
-                              value={getData?.currency}
+                              value={getData?.symbol}
                               onChange={handleChange}
                             />
-                            {/* {errors.currency && touched.currency ? (
-                                                                      <div className="input-error">{errors.currency}</div>
+                            {/* {errors.symbol && touched.symbol ? (
+                                                                      <div className="input-error">{errors.symbol}</div>
                                                                  ) : null} */}
                           </div>
                         </Col>
@@ -264,24 +261,40 @@ function EditView(props) {
                                     />
                                   </label>
                                   {/* ) : ( */}
-                                  
+
                                 </div>
 
                               </div>
 
                             </div>
                           </div>
+                          <div style={{ display: "flex" }} className="my-3">
+                            <div className="mb-4">
+                              <Button
+                                className="btn btn-success px-4"
+                                type="submit"
+                                onClick={updateNetworkHandler}
+                              // style={{ marginTop: "10px" }}
+                              >
+                                {/* {id ? 'Update' : 'Add'} */} Update
+                              </Button>
+                            </div>
+                            <div className="mb-4" style={{marginLeft:"10px"}}>
+                              <Button
+                                className="btn btn-secondary px-4"
+                                type="submit"
+                                onClick={() => {
+                                  history.push('/view')
+                                }}
+                              // style={{ marginTop: "10px" }}
+                              >
+                                {/* {id ? 'Update' : 'Add'} */} Close
+                              </Button>
+                            </div>
+                          </div>
+
                         </Col>
-                        <div className="mb-4 col-sm-8">
-                                    <Button
-                                      className="btn btn-success px-4"
-                                      type="submit"
-                                      onClick={updateNetworkHandler}
-                                      // style={{ marginTop: "10px" }}
-                                    >
-                                      {/* {id ? 'Update' : 'Add'} */} Update
-                                    </Button>
-                                  </div>
+
                       </Row>
                     </>
                   </div>

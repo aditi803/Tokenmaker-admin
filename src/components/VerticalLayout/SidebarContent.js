@@ -221,10 +221,10 @@ const SidebarContent = props => {
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/logo-manager">{props.t("Logo Manager")}</Link>
+                  <Link to="/general">{props.t("General Setting")}</Link>
                 </li>
                 <li>
-                  <Link to="/general">{props.t("General Setting")}</Link>
+                  <Link to="/logo-manager">{props.t("Logo Manager")}</Link>
                 </li>
               </ul>
             </li>

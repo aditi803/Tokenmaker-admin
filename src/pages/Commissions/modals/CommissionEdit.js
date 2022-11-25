@@ -23,7 +23,8 @@ const CommissionEdit = props => {
   const authUser = JSON.parse(localStorage.getItem("authUser"))
   const [close, setClose] = useState(true)
   const [network, setNetwork] = useState()
-  const [networkStatus, setNetworkStatus] = useState("")
+  const [networkStatus, setNetworkStatus] = useState(editData?.networkSymbol)
+  const [selected,setSelected] = useState("All")
 
   const handleClose = () => {
     setClose(toggle)
@@ -32,9 +33,9 @@ const CommissionEdit = props => {
   const fetchNetwork = () => {
     changeApiStatus(true)
     axios
-      .get("https://tokenmaker-apis.block-brew.com/cms/networkDetails")
+      .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
-        setNetwork(res.data.msg)
+        setNetwork(res.data.msg.items)
 
         // setItems(authUser)
         console.log(res, "Add data view page")
@@ -57,16 +58,15 @@ const CommissionEdit = props => {
 
   const [value, setValue] = useState(editData?.networkCommissionFee)
 
-
   useEffect(() => {
     setValue(editData?.networkCommissionFee)
   }, [editData])
-
+console.log(editData,'fhgvhj');
   const handleUpdate = async () => {
     axios
       .put(
-        "https://tokenmaker-apis.block-brew.com/cms/commission",
-        { ...editData, networkCommissionFee: value },
+        "https://tokenmaker-apis.block-brew.com/commission/commission",
+        { ...editData, networkCommissionFee: value, networkSymbol: networkStatus},
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
@@ -94,7 +94,7 @@ const CommissionEdit = props => {
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Update Commissions</ModalHeader>
         <ModalBody>
-          <p style={{ fontSize: "22px", textDecoration: "underline" }}>{`${editData?.networkSymbol} ${editData?.networkName}`}</p>
+          <p style={{ fontSize: "22px", textDecoration: "underline" }}>{` ${editData?.networkName}`}</p>
           <p className="my-2">Commission Fee</p>
           <input
             type="text"
@@ -107,30 +107,25 @@ const CommissionEdit = props => {
           <CFormSelect
             className="form-control"
             aria-label="Small select example"
+            name="networkSymbol"
+            // id={selVal}
+            defaultValue={editData?.networkSymbol}
             onChange={e => setNetworkStatus(e.target.value)}
-            value={networkStatus}
+            // value={selVal}
+            selected = {editData?.networkSymbol}
           >
-            {console.log(networkStatus, "Network status")}
-            <option hidden>Select Network</option>
-            <option value={''}>All</option>
-
             {network?.map((content, i) => {
               return (
                 <>
                   <option
                     key={i}
-                    value={content.networkName}
+                    value={content.symbol}
                   >
-                    {content.networkName}
+                    {content.symbol}
                   </option>
                 </>
-
               )
             })}
-            {/* <option value="">All</option>
-                          <option value="success">Completed</option>
-                          <option value="rejected">Failed</option>
-                          <option value="pending">Pending</option> */}
           </CFormSelect>
         </ModalBody>
         <ModalFooter>

@@ -20,7 +20,7 @@ function LandingPageSteps(props) {
 
      const handleChange = async (e) => {
           changeApiStatus(true)
-          const response = await axios.put('https://tokenmaker-apis.block-brew.com/cms/stepdata', {
+          const response = await axios.put('https://tokenmaker-apis.block-brew.com/step/stepdata', {
                heading: css.heading, headingColor: css.headingColor,
           }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
                if (result.data.success === 1) {
@@ -42,7 +42,7 @@ function LandingPageSteps(props) {
      useEffect(() => {
           changeApiStatus(true)
           const getData = async () => {
-               await axios.get("https://tokenmaker-apis.block-brew.com/cms/steps")
+               await axios.get("https://tokenmaker-apis.block-brew.com/step/steps")
                     .then((result) => {
                          console.log(result.data.msg, 'drftgybhnj');
                          setData(result.data.msg.stepDetails);

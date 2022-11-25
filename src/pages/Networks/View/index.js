@@ -34,9 +34,10 @@ function View(props) {
   const getNetworkHanlder = () => {
     changeApiStatus(true)
     axios
-      .get("https://tokenmaker-apis.block-brew.com/cms/networkDetails")
+      .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
-        setGetData(res.data.msg)
+        setGetData(res.data.msg.items)
+        
         const authUser = JSON.parse(localStorage.getItem("authUser"))
         setItems(authUser)
         console.log(res, "Add data view page")
@@ -60,7 +61,7 @@ function View(props) {
             changeApiStatus(true, "")
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
-              `https://tokenmaker-apis.block-brew.com/cms/network/${networkId}`,
+              `https://tokenmaker-apis.block-brew.com/network/deletenetwork/${networkId}`,
               {
                 headers: {
                   Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
@@ -112,6 +113,7 @@ function View(props) {
                               <span className="text-center d-block mt-2 fs-5 inner-logo">
                                 {net.networkName}{" "}
                               </span>
+                      
                               <div className="logo" style={{display:"flex",justifyContent:"center",alignItems:"flex-start"}}>
                                 <img
                                   className="checkmark"
@@ -142,6 +144,10 @@ function View(props) {
                               </h6>
                               <span className="text-center d-block">
                                 (Id: {net.networkKey})
+                              </span>
+                              <span className="text-center d-block mt-2 fs-5 inner-logo">
+                                {net.description}{" "}
+                                {/* Create your token on ethereum */}
                               </span>
                             </div>
                           </div>

@@ -44,7 +44,10 @@ function* registerUser({ payload: { user } }) {
         yield put(registerUserSuccessful(response))
         toast('Register Successful');
         async function hrefChange() {
-       window.location.href = '/login';
+          setTimeout(() => {
+            window.location.href = '/login';
+              
+          },3000)
         }
         hrefChange();
       } else {

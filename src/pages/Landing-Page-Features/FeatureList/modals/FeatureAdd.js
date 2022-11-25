@@ -31,6 +31,7 @@ const FeatureAdd = (props) => {
   const data = {
     title: network.title,
     content: network.content,
+    featureImage:network.featureImage
   }
 
   const handleAddNetwork = async(e) => {
@@ -38,7 +39,11 @@ const FeatureAdd = (props) => {
     const authUser = JSON.parse(localStorage.getItem('authUser'));
   
     e.preventDefault()
-    await axios.post("https://tokenmaker-apis.block-brew.com/cms/feature", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
+    const formData = new FormData()
+    formData.append('title', network.title)
+    formData.append('content', network.content)
+    formData.append('featureImage', network.featureImage)
+    await axios.post("https://tokenmaker-apis.block-brew.com/feature/newfeature", formData, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
         setApiSuccess()
@@ -86,6 +91,12 @@ const FeatureAdd = (props) => {
             onChange={e => {
               setNetwork({ ...network, content: e.target.value })
             }} 
+            />
+            <Label className="mt-1">Image:</Label>
+            <input 
+              type="file"
+              className="form-control input-color"
+              onChange={e => {setNetwork({...network, featureImage: e.target.files[0]})}}
             />
         </ModalBody>
         <ModalFooter>

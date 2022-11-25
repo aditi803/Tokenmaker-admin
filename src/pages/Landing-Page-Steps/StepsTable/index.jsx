@@ -44,7 +44,7 @@ function CommissionTable(props) {
     try {
       changeApiStatus(true, "")
       const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/cms/steps"
+        "https://tokenmaker-apis.block-brew.com/step/steps"
       )
       if (exportRequest === "true") {
         return changeApiStatus(false, "")
@@ -83,7 +83,6 @@ function CommissionTable(props) {
   }, [page.current, page.pageSize])
 
   const deleteNetwork = id => {
-    changeApiStatus(true)
     toastConfirm("Are you sure you want to delete this?")
       .fire()
       .then(async val => {
@@ -92,7 +91,7 @@ function CommissionTable(props) {
             changeApiStatus(true, "")
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
-              `https://tokenmaker-apis.block-brew.com/cms/deletestep/${id}`,
+              `https://tokenmaker-apis.block-brew.com/step/deletestep/${id}`,
               {
                 headers: {
                   Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
@@ -101,7 +100,7 @@ function CommissionTable(props) {
             )
             console.log(list, "list delete handler side ")
             if (list?.status === 200) {
-              setApiSuccess()
+              // setApiSuccess()
               changeApiStatus(false)
               toast.success("Network deleted successfully")
               fetchData()
@@ -112,12 +111,14 @@ function CommissionTable(props) {
             console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            setApiFailed(err.msg)
+            // setApiFailed(err.msg)
           }
         }
       })
-    setLoader(false)
+    // setLoader(false)
   }
+
+  const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
 
   const columns = [
     {
@@ -130,15 +131,18 @@ function CommissionTable(props) {
       name: "Title",
       selector: row => row.title,
     },
+    
 
     {
       name: "Content",
       selector: row => row.content,
     },
-//     {
-//       name: "Symbol",
-//       selector: row => row.networkSymbol,
-//     },
+    {
+      name:"Image",
+      selector: row => {
+        return <img src={imageBaseUrl + row.stepImage} style={{height:"32px"}}/>
+      },
+    },
     {
       name: "Actions",
       selector: row => (

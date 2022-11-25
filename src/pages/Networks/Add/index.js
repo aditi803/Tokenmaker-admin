@@ -24,11 +24,10 @@ function Add(props) {
           networkName: "",
           blockExplorerUrl: "",
           chainId: "",
-          createdAt: "",
-          currency: "",
+          symbol: "",
           networkImage: "",
           rpcUrl: "",
-          updatedAt: "",
+          description: "",
      })
      const [selectedFiles, setselectedFiles] = useState([])
      const data = {
@@ -36,8 +35,9 @@ function Add(props) {
           chainId: getData.chainId,
           blockExplorerUrl: getData.blockExplorerUrl,
           rpcUrl: getData.rpcUrl,
-          currency: getData.currency,
+          symbol: getData.symbol,
           networkImage: getData.networkImage,
+          description: getData.description
      }
 
      function handleAcceptedFiles(files) {
@@ -94,7 +94,7 @@ function Add(props) {
           }
 
           await axios
-               .post("https://tokenmaker-apis.block-brew.com/cms/newnetwork", formData, {
+               .post("https://tokenmaker-apis.block-brew.com/network/newnetwork", formData, {
                     headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
                })
                .then(res => {
@@ -108,17 +108,17 @@ function Add(props) {
                     setApiFailed(err.message)
                     console.log(err, "network Error")
                })
-               setLoader(false)
+          setLoader(false)
      }
 
      // console.log(getData, "njbvcxzdsfghjk")
 
-     return ( 
+     return (
           <React.Fragment>
                <div className="page-content">
-               <p
-              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-            >Add Network</p>
+                    <p
+                         style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+                    >Add Network</p>
                     <Row>
                          <>
                               <Form>
@@ -240,7 +240,33 @@ function Add(props) {
                                                             </Col>
                                                             <Col sm={8} className="pb-3 ">
                                                                  <div>
-                                                                      <label htmlFor="currency" className="mb-2 name">
+                                                                      <label htmlFor="description" className="mb-2 name">
+                                                                           <p>
+                                                                                Description <span className="input-error">*</span>
+                                                                           </p>
+                                                                      </label>
+
+                                                                      <input
+                                                                           type="text"
+                                                                           name="description"
+                                                                           placeholder="Enter description here"
+                                                                           className="form-control"
+                                                                           autoComplete="off"
+                                                                           onChange={e => {
+                                                                                setGetData({
+                                                                                     ...getData,
+                                                                                     description: e.target.value,
+                                                                                })
+                                                                           }}
+                                                                      />
+                                                                      {/* {errors.symbol && touched.symbol ? (
+                                                                      <div className="input-error">{errors.symbol}</div>
+                                                                 ) : null} */}
+                                                                 </div>
+                                                            </Col>
+                                                            <Col sm={8} className="pb-3 ">
+                                                                 <div>
+                                                                      <label htmlFor="symbol" className="mb-2 name">
                                                                            <p>
                                                                                 Symbol <span className="input-error">*</span>
                                                                            </p>
@@ -248,19 +274,19 @@ function Add(props) {
 
                                                                       <input
                                                                            type="text"
-                                                                           name="currency"
+                                                                           name="symbol"
                                                                            placeholder="Symbol"
                                                                            className="form-control"
                                                                            autoComplete="off"
                                                                            onChange={e => {
                                                                                 setGetData({
                                                                                      ...getData,
-                                                                                     currency: e.target.value,
+                                                                                     symbol: e.target.value,
                                                                                 })
                                                                            }}
                                                                       />
-                                                                      {/* {errors.currency && touched.currency ? (
-                                                                      <div className="input-error">{errors.currency}</div>
+                                                                      {/* {errors.symbol && touched.symbol ? (
+                                                                      <div className="input-error">{errors.symbol}</div>
                                                                  ) : null} */}
                                                                  </div>
                                                             </Col>
@@ -336,16 +362,31 @@ function Add(props) {
                                                                            </div>
                                                                       </div>
                                                                  </div>
+                                                                 <div style={{ display: "flex" }}className="my-3">
+                                                                      <div className="mb-4">
+                                                                           <button
+                                                                                className="btn btn-primary px-4"
+                                                                                type="submit"
+                                                                                onClick={addNetworkHandler}
+                                                                           >
+                                                                                {/* {id ? 'Update' : 'Add'} */} Add
+                                                                           </button>
+                                                                      </div>
+                                                                      <div className="mb-4" style={{marginLeft:"10px"}}>
+                                                                           <button
+                                                                                className="btn btn-secondary px-4"
+                                                                                type="submit"
+                                                                                onClick={() =>{
+                                                                                     history.push('/view')
+                                                                                }}
+                                                                           >
+                                                                                {/* {id ? 'Update' : 'Add'} */} Close
+                                                                           </button>
+                                                                      </div>
+                                                                 </div>
                                                             </Col>
-                                                            <div className="mb-4 col-sm-8">
-                                                                 <button
-                                                                      className="btn btn-primary px-4"
-                                                                      type="submit"
-                                                                      onClick={addNetworkHandler}
-                                                                 >
-                                                                      {/* {id ? 'Update' : 'Add'} */} Add
-                                                                 </button>
-                                                            </div>
+
+
                                                        </Row>
                                                   </>
                                              </div>

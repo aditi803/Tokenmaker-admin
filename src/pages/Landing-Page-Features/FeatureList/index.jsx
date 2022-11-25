@@ -46,7 +46,7 @@ function CommissionTable(props) {
     try {
       changeApiStatus(true, "")
       const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/cms/features"
+        "https://tokenmaker-apis.block-brew.com/feature/features"
       )
       if (exportRequest === "true") {
         return changeApiStatus(false, "")
@@ -63,7 +63,7 @@ function CommissionTable(props) {
      //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
      //    })
         setData(
-          list.data.msg.featureDetails.map((val, index) => {
+          list.data.msg.featureDetails.items.map((val, index) => {
                console.log(val,"kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
@@ -82,7 +82,7 @@ function CommissionTable(props) {
   }, [page.current, page.pageSize])
 
   const deleteNetwork = id => {
-    changeApiStatus(true)
+    // changeApiStatus(true)
     toastConfirm("Are you sure you want to delete this?")
       .fire()
       .then(async val => {
@@ -91,7 +91,7 @@ function CommissionTable(props) {
             changeApiStatus(true, "")
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
-              `https://tokenmaker-apis.block-brew.com/cms/deletefeature/${id}`,
+              `https://tokenmaker-apis.block-brew.com/feature/deletefeature/${id}`,
               {
                 headers: {
                   Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
@@ -100,7 +100,7 @@ function CommissionTable(props) {
             )
             console.log(list, "list delete handler side ")
             if (list?.status === 200) {
-              setApiSuccess()
+              // setApiSuccess()
               changeApiStatus(false)
               toast.success("Network deleted successfully")
               fetchData()
@@ -111,12 +111,14 @@ function CommissionTable(props) {
             console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            setApiFailed(err.msg)
+            // setApiFailed(err.msg)
           }
         }
       })
     setLoader(false)
   }
+
+  const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
 
   const columns = [
     {
@@ -134,10 +136,12 @@ function CommissionTable(props) {
       name: "Content",
       selector: row => row.content,
     },
-//     {
-//       name: "Symbol",
-//       selector: row => row.networkSymbol,
-//     },
+    {
+      name: "Image",
+      selector: row => {
+        return <img src={imageBaseUrl + row.featureImage} style={{height:"33px"}} />
+      },
+    },
     {
       name: "Actions",
       selector: row => (

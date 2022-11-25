@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import {
   Button,
@@ -12,6 +12,7 @@ import axios from 'axios';
 import useApiStatus from "hooks/useApiStatus";
 import { toast } from 'react-toastify'
 import Spinner from "loader";
+import { CFormSelect } from "@coreui/react";
 
 
 
@@ -22,14 +23,39 @@ const CommissionAdd = (props) => {
   const [network, setNetwork] = useState({ networkName: "", networkCommissionFee: "", networkSymbol: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
+   const [networks, setNetworks] = useState()
+  const [networkStatus, setNetworkStatus] = useState("")
   const handleClose = () => {
     setClose(toggle)
   }
 
+  const fetchNetwork = () => {
+    changeApiStatus(true)
+    axios
+      .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
+      .then(res => {
+        setNetworks(res.data.msg.items)
+
+        // setItems(authUser)
+        console.log(res, "Add data view page")
+        // setItems(authUser)
+        changeApiStatus(false)
+      })
+      .catch(err => {
+        console.log(err)
+        changeApiStatus(false)
+        setApiFailed(err.message)
+      })
+    // setLoader(false)
+  }
+  useEffect(() => {
+    fetchNetwork()
+  },[])
+
   const data = {
     networkName: network.networkName,
     networkCommissionFee: network.networkCommissionFee,
-    networkSymbol: network.networkSymbol
+    networkSymbol: networkStatus.networkSymbol
   }
 
   const handleAddNetwork = async (e) => {
@@ -39,10 +65,10 @@ const CommissionAdd = (props) => {
     const authUser = JSON.parse(localStorage.getItem('authUser'));
     console.log(network, "Network bhar")
 
-    await axios.post("https://tokenmaker-apis.block-brew.com/cms/networkcommission", {
+    await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission", {
       networkName: network.networkName,
       networkCommissionFee: network.networkCommissionFee,
-      networkSymbol: network.networkSymbol
+      networkSymbol: networkStatus
     }, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
@@ -92,14 +118,37 @@ const CommissionAdd = (props) => {
             }} />
 
           <label className="my-2">Symbol</label>
-          <input type='text'
+          <CFormSelect
+            className="form-control"
+            aria-label="Small select example"
+            onChange={e => setNetworkStatus(e.target.value)}
+            value={networkStatus}
+          >
+            {/* {console.log(networkStatus, "Network status")} */}
+            <option hidden>Select Network</option>
+            <option value={''}>All</option>
+
+            {networks?.map((content, i) => {
+              return (
+                <>
+                  <option
+                    key={i}
+                    value={content.symbol}
+                  >
+                    {content.symbol}
+                  </option>
+                </>
+              )
+            })}
+          </CFormSelect>
+          {/* <input type='text'
             name='networkSymbol'
             className="form-control"
             placeholder="ETH"
             onChange={e => {
               setNetwork({ ...network, networkSymbol: e.target.value })
             }}
-          />
+          /> */}
         </ModalBody>
         <ModalFooter>
           <Button type="button" color="secondary" onClick={toggle}>

@@ -209,7 +209,7 @@ const Dashboard = props => {
 
           <Row>
             <Col lg="12">
-              <LatestTranaction />
+              {/* <LatestTranaction /> */}
             </Col>
           </Row>
         </Container>

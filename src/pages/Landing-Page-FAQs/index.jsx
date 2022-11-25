@@ -16,7 +16,7 @@ import InputColor from 'react-input-color';
 import { CCardBody, CCardGroup, CCard } from '@coreui/react';
 function LandingPageFAQs(props) {
 
-     document.title = "BlockTechBrew - Landing Page FAQs"
+     // document.title = "BlockTechBrew - Landing Page FAQs"
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
 
      const [data, setData] = useState([])
@@ -50,7 +50,7 @@ function LandingPageFAQs(props) {
           const getData = () => {
                axios.get(FAQS)
                     .then((result) => {
-                         setData(result.data.msg.faqDetails);
+                         setData(result.data.msg.faqDetails.items);
                          setCss(result.data.msg.faqData);
                          const authUser = JSON.parse(localStorage.getItem('authUser'));
                          setItems(authUser);

@@ -42,7 +42,7 @@ function CommissionTable(props) {
     try {
       changeApiStatus(true, "")
       const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/cms/commissiondetails"
+        "https://tokenmaker-apis.block-brew.com/commission/commissiondetails"
       )
       if (exportRequest === "true") {
         return changeApiStatus(false, "")
@@ -56,7 +56,7 @@ function CommissionTable(props) {
           current: pageNumber,
         })
         setData(
-          list.data.msg.map((val, index) => {
+          list.data.msg.items.map((val, index) => {
             return { ...val, serial: index + 1 }
             console.log(list.data.msg, "Commission data ")
           })
@@ -74,7 +74,6 @@ function CommissionTable(props) {
   }, [page.current, page.pageSize])
 
   const deleteNetwork = id => {
-    changeApiStatus(true)
     toastConfirm("Are you sure you want to delete this?")
       .fire()
       .then(async val => {
@@ -83,7 +82,7 @@ function CommissionTable(props) {
             changeApiStatus(true, "")
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
-              `https://tokenmaker-apis.block-brew.com/cms/networkcommission/${id}`,
+              `https://tokenmaker-apis.block-brew.com/commission/networkcommission/${id}`,
               {
                 headers: {
                   Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
@@ -92,22 +91,22 @@ function CommissionTable(props) {
             )
             console.log(list, "list delete handler side ")
             if (list?.status === 200) {
-              setApiSuccess()
               changeApiStatus(false)
               toast.success("Network deleted successfully")
               fetchData()
             } else {
               toast.error("list is undefined")
+              // throw new Error(DeleteData.error)
             }
           } catch (err) {
             console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            setApiFailed(err.msg)
+            // setApiFailed(err.msg)
           }
         }
       })
-    setLoader(false)
+    // setLoader(false)
   }
 
   const columns = [

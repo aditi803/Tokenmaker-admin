@@ -85,9 +85,9 @@ function Footer(props) {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-        <p
-              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-            >Footer</p>
+          <p
+            style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+          >Footer</p>
           <Row>
             <Col lg={12}>
               <Card>
@@ -124,7 +124,7 @@ function Footer(props) {
                         </div>
                       </Col>
                     </Row>
-                    
+
                     <Row>
                       <Col lg={6}>
                         <div>
@@ -153,13 +153,6 @@ function Footer(props) {
                                 }}
                               />
                             ) : null}
-                            {/* <InputMask
-                                                        
-                                                            name='contentColor'
-                                                            value={footer.contentColor}
-                                                            className="form-control input-color"
-                                                            onChange={onChangeHandler}
-                                                        /> */}
                           </div>
                         </div>
                       </Col>
@@ -201,9 +194,9 @@ function Footer(props) {
                             <Label for="input-date1">Admin Copyright: </Label>
                             <InputMask
                               // mask="(999) 999-9999"
-                              // value={footer.companyName}
+                              value={footer.adminCopyrightText}
                               className="form-control input-color"
-                              name="companyName"
+                              name="adminCopyrightText"
                               onChange={onChangeHandler}
                             />
                           </div>
@@ -215,8 +208,8 @@ function Footer(props) {
                             <Label for="input-repeat">Investor Copyright:</Label>
                             <InputMask
                               // mask="(999) 999-9999"
-                              // value={footer.websiteName}
-                              name="websiteName"
+                              value={footer.investorCopyrightText}
+                              name="investorCopyrightText"
                               className="form-control input-color"
                               onChange={onChangeHandler}
                             />

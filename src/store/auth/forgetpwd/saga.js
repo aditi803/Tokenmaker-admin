@@ -37,7 +37,7 @@ function* forgetUser({ payload: { user, history } }) {
         )
       }
     } else {
-      const response = yield call(postFakeForgetPwd, "/fake-forget-pwd", {
+      const response = yield call(postFakeForgetPwd, {
         email: user.email,
       })
       if (response) {
