@@ -10,7 +10,7 @@ import SidebarContent from "./SidebarContent";
 import { Link } from "react-router-dom";
 
 import logo from "../../assets/images/logo.svg";
-import logoLightPng from "../../assets/images/btb_logo.png";
+import logoLightPng from "../../assets/images/BTBlogo_gray.png";
 import logoLightSvg from "../../assets/images/logo-light.svg";
 import logoDark from "../../assets/images/logo-dark.png";
 import { Helmet } from "react-helmet";
@@ -51,14 +51,14 @@ const Sidebar = props => {
       </Helmet>
       <div className="vertical-menu">
         <div className="navbar-brand-box" style={{ marginTop: "10px" }}>
-          <Link to="/" className="logo logo-dark">
+          {/* <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
               <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logo} alt="" />
             </span>
             <span className="logo-lg">
               <img src={logoDark} alt="" height="17" />
             </span>
-          </Link>
+          </Link> */}
 
           <Link to="/" className="logo logo-light">
             {/* <span className="logo-sm">

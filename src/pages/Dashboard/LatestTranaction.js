@@ -105,11 +105,6 @@ const LatestTranaction = () => {
     // setLoader(false)
   }
 
-  // useEffect(() => {
-
-  // }, [n])
-
-
   const fetchData = async (
     page = 1,
     limit = 8,
@@ -142,20 +137,11 @@ const LatestTranaction = () => {
 
 
         downloadFile(url, `AllTokens${date1}.csv`)
-        // console.log(url, "urll true side ")
-        // console.log(list, "listttt export true side ")
-        // console.log(exportRequest, "export request state")
 
         return changeApiStatus(false, "")
-        // console.log(exportRequest, "export request value api side ")
       }
-      // console.log(list,"listttt status after true ")
 
       if (list.status === 200) {
-        // console.log(list, "listttt")
-        // console.log(list.data.msg.items, "listttt items 200 side ")
-        // console.log(list.data.msg.csv, "listttt csv 200 side ")
-
         changeApiStatus(false, "")
         setPageData({
           ...pageData,

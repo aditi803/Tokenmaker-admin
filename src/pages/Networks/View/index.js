@@ -12,7 +12,7 @@ import axios from "axios"
 import CIcon from "@coreui/icons-react"
 import { cilPencil, cilTrash } from "@coreui/icons"
 import { toastConfirm } from "common/toast"
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import useApiStatus from "hooks/useApiStatus"
 import Spinner from "loader"
 
@@ -37,7 +37,7 @@ function View(props) {
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setGetData(res.data.msg.items)
-        
+
         const authUser = JSON.parse(localStorage.getItem("authUser"))
         setItems(authUser)
         console.log(res, "Add data view page")
@@ -49,7 +49,7 @@ function View(props) {
         changeApiStatus(false)
         setApiFailed(err.message)
       })
-      setLoader(false)
+    setLoader(false)
   }
 
   const deleteNet = networkId => {
@@ -77,7 +77,7 @@ function View(props) {
               throw new Error(DeleteData.error)
             }
           } catch (err) {
-            toast.error("Cannot Deleted",err.response ? err.response.data.error : err)
+            toast.error("Cannot Deleted", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
           }
         }
@@ -98,65 +98,62 @@ function View(props) {
               <CCardBody>
                 <div className="row gx-5 align-items-start justify-content-center">
                   <div className="row gx-5 align-items-start justify-content-center">
-                    {/* {category.map((content, i) => ( */}
-                    <CCard className="mb-4">
-                      <span className=" d-block mt-2 mb-2 h4  fw-bold">
-                        {/* {content.categoryName}{' '} */}
-                      </span>
-                      <div className="row mb-4">
-                        {getData.map((net, i) => (
-                          <div
-                            className="col-xl-3 col-lg-3 col-md-3 overflow-hidden p-2 mx-4 my-3 columnBox"
-                            key={i}
-                          >
-                            <div className="box-outer">
-                              <span className="text-center d-block mt-2 fs-5 inner-logo">
-                                {net.networkName}{" "}
-                              </span>
-                      
-                              <div className="logo" style={{display:"flex",justifyContent:"center",alignItems:"flex-start"}}>
-                                <img
-                                  className="checkmark"
-                                  src={imageBaseUrl + net.networkImage}
-                                  alt="img"
-                                  style={{height:"120px", width:"120px"}}
-                                />
-                              </div>
+                    {getData.map((content, i) => (
+                      <CCard className="mb-4" key={i}>
+                        <span className=" d-block mt-2 mb-2 h4  fw-bold">
+                          {content.categoryName}{' '}
+                        </span>
+                        <div className="row mb-4">
+                          {content.networks?.map((net, i) => (
+                            <div
+                              className="col-xl-3 col-lg-3 col-md-3 overflow-hidden p-2 mx-4 my-3 columnBox"
+                              key={i}
+                            >
+                              <div className="box-outer">
+                                <span className="text-center d-block mt-2 fs-5 inner-logo">
+                                  {net.networkName}{" "}
+                                </span>
 
-                              <h6 className="text-center mt-2 fw-bold">
-                                {/* <button onClick={history.push('/network-edit')}>edit</button> */}
-                                {/* <EditOutlined />
-                                                                                <DeleteSharp /> */}
-                                <Link to={{ pathname: `/network-edit/${net._id}`, state: net }}>
-                                  <CIcon
-                                    icon={cilPencil}
-                                    className="text-warning hand me-2"
-                                    onClick={() => {
-                                      // navigate(paths.getNetworksUpdate(content._id, net._id))
-                                    }}
+                                <div className="logo" style={{ display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
+                                  <img
+                                    className="checkmark"
+                                    src={imageBaseUrl + net.networkImage}
+                                    alt="img"
+                                    style={{ height: "120px", width: "120px" }}
                                   />
-                                </Link>
-                                <CIcon
-                                  icon={cilTrash}
-                                  className="text-danger hand"
-                                  onClick={() => deleteNet(net._id)}
-                                />
-                              </h6>
-                              <span className="text-center d-block">
-                                (Id: {net.networkKey})
-                              </span>
-                              <span className="text-center d-block mt-2 fs-5 inner-logo">
-                                {net.description}{" "}
-                                {/* Create your token on ethereum */}
-                              </span>
+                                </div>
+
+                                <h6 className="text-center mt-2 fw-bold">
+                                  <Link to={{ pathname: `/network-edit/${net._id}`, state: net }}>
+                                    <CIcon
+                                      icon={cilPencil}
+                                      className="text-warning hand me-2"
+                                      onClick={() => {
+                                      }}
+                                    />
+                                  </Link>
+                                  <CIcon
+                                    icon={cilTrash}
+                                    className="text-danger hand"
+                                    onClick={() => deleteNet(net._id)}
+                                  />
+                                </h6>
+                                <span className="text-center d-block">
+                                  (Id: {net.networkKey})
+                                </span>
+                                <span className="text-center d-block mt-2 fs-5 inner-logo">
+                                  {net.description}{" "}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CCard>
+                          ))}
+                        </div>
+                      </CCard>
+                    ))}
                   </div>
                 </div>
               </CCardBody>
+
               {/* </CCard> */}
             </div>
           </Row>

@@ -5,17 +5,19 @@ import { withTranslation } from "react-i18next"
 import Breadcrumb from "components/Common/Breadcrumb"
 import useApiStatus from "hooks/useApiStatus"
 import { cilPencil, cilTrash } from "@coreui/icons"
-import "./comissionTable.css"
-import CommissionEdit from "../modals/CommissionEdit"
-import CommissionAdd from "../modals/CommissionAdd"
+// import "./comissionTable.css"
+// import CategoryEdit from "../modals/CategoryEdit"
+// import CommissionAdd from "../modals/CommissionAdd"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { toastConfirm } from "common/toast"
 import DataTable from "react-data-table-component"
 import CIcon from "@coreui/icons-react"
 import Spinner from "loader"
+import CategoryAdd from "./modals/CategoryAdd"
+import CategoryEdit from "./modals/CategoryEdit"
 
-function CommissionTable(props) {
+function Category(props) {
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
@@ -27,7 +29,7 @@ function CommissionTable(props) {
   const toggleAddModal = () => setAddModal(!addModal)
 
   const [edit, setEdit] = useState() 
-  const [page, setPage] = useState({ current: 1, totalItems: 0, pageSize: 10 })
+  const [pageData, setPageData] = useState({ current: 1, totalItems: 0, pageSize: 10 })
 
   const [items, setItems] = useState({})
   const [loader, setLoader] = useState(true)
@@ -35,32 +37,29 @@ function CommissionTable(props) {
   const [data, setData] = useState([])
 
   
-  const[finalData,setFinaldata] = useState([])
-
 
   const fetchData = async (
-    pageNumber = 1,
-    pageSize = 10,
+    page = 1,
+    limit = 10,
     exportRequest = "false"
   ) => {
     try {
       changeApiStatus(true, "")
       const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/commission/commissiondetails"
+        `https://tokenmaker-apis.block-brew.com/category/categorys`
       )
       if (exportRequest === "true") {
         return changeApiStatus(false, "")
       }
       if (list.status === 200) {
         changeApiStatus(false, "")
-        setPage({
-          ...page,
-          totalItems: list.data.totalItems,
-          pageSize,
-          current: pageNumber,
-        })
-        console.log(list.data.msg, "fetdataa ------- ")
+        console.log(list,"Category list")
 
+        setPageData({
+          ...pageData,
+          totalItems: list.data.totalItems,
+          current: page,
+        })
         setData(
           list.data.msg.items.map((val, index) => {
             return { ...val, serial: index + 1 }
@@ -71,61 +70,25 @@ function CommissionTable(props) {
         throw new Error(list.error)
       }
     } catch (err) {
-      changeApiStatus(false, err.response.data.error)
-    }
-  }
-  const fetchNetworks = async (
-    pageNumber = 1,
-    pageSize = 10,
-    exportRequest = "false"
-  ) => {
-    try {
-      changeApiStatus(true, "")
-      const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/network/networkdetails"
-      )
-      if (exportRequest === "true") {
-        return changeApiStatus(false, "")
-      }
-      if (list.status === 200) {
-        changeApiStatus(false, "")
-        setPage({
-          ...page,
-          totalItems: list.data.totalItems,
-          pageSize,
-          current: pageNumber,
-        })
-        console.log(list.data.msg, "fetNetwork----- ")
-
-        setData(
-          list.data.msg.items.map((val, index) => {
-            return { ...val, serial: index + 1 }
-            console.log(list.data.msg, "Commission data ")
-          })
-        )
-      } else {
-        throw new Error(list.error)
-      }
-    } catch (err) {
-      changeApiStatus(false, err.response.data.error)
+      changeApiStatus(false)
     }
   }
   useEffect(() => {
-    fetchNetworks()
-    fetchData(page.current, page.pageSize)
+    fetchData(pageData.current, pageData.pageSize)
     // eslint-disable-next-line
-  }, [page.current, page.pageSize])
+  }, [pageData.current, pageData.pageSize])
 
-  const deleteNetwork = id => {
+
+  const deleteNetwork = categoryId => {
     toastConfirm("Are you sure you want to delete this?")
       .fire()
-      .then(async val => {
+      .then(async (val) => {
         if (val.isConfirmed) {
           try {
             changeApiStatus(true, "")
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
-              `https://tokenmaker-apis.block-brew.com/commission/networkcommission/${id}`,
+              `https://tokenmaker-apis.block-brew.com/category/categorydelete/${categoryId}`,
               {
                 headers: {
                   Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
@@ -135,7 +98,7 @@ function CommissionTable(props) {
             console.log(list, "list delete handler side ")
             if (list?.status === 200) {
               changeApiStatus(false)
-              toast.success("Network deleted successfully")
+              toast.success("Category deleted successfully")
               fetchData()
             } else {
               toast.error("list is undefined")
@@ -152,24 +115,32 @@ function CommissionTable(props) {
     // setLoader(false)
   }
 
+    // const data = [
+    //     {
+    //         id: 1,
+    //         categoryName: 'Ethereum'
+    //     },
+    //     {
+    //         id: 2,
+    //         categoryName: 'Polygon'
+    //     },
+    //     {
+    //         id: 3,
+    //         categoryName: 'BSC'
+    //     },
+
+    // ]
+
   const columns = [
     {
       name: "Sr. no",
       selector: row => {
-        return row.serial + (page.current - 1) * page.pageSize
+        return row.serial + (pageData.current - 1) * pageData.pageSize
       },
     },
     {
       name: "Category",
       selector: row => row.categoryName,
-    },
-    // {
-    //   name: "Network Name",
-    //   selector: row => row.networks.networkName,
-    // },
-    {
-      name: "Commissions",
-      selector: row => row.networkCommissionFee,
     },
     {
       name: "Actions",
@@ -197,9 +168,8 @@ function CommissionTable(props) {
 
   return (
     <React.Fragment>
-      {console.log(data,"dataa---index comm table")}
-      <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
-      <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/>
+      <CategoryEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
+      <CategoryAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/>
       <div className="page-content">
         {apiStatus.inProgress ? (
           <Spinner />
@@ -207,14 +177,14 @@ function CommissionTable(props) {
           <Container fluid>
             <p
               style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-            >Commission Table</p>
+            >Add Category</p>
             <Row>
               <Card>
                 <CardBody>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <div className="mb-4 h4 card-title">Latest Transaction</div>
+                    <div className="mb-4 h4 card-title">Category</div>
                     <Button
                       color="primary"
                       className="mt-1"
@@ -228,25 +198,27 @@ function CommissionTable(props) {
                     striped
                     columns={columns}
                     data={data}
-                    pageSize={10}
-                    paginationPerPage={10}
+                    paginationDefaultPage={pageData.current}
+                    paginationPerPage={pageData.pageSize}
+                    pagination={true}
+                    progressPending={apiStatus.inProgress}
                     paginationServer
-                    paginationTotalRows={page.totalItems}
+                    paginationTotalRows={pageData.totalItems}
                     paginationRowsPerPageOptions={[10, 20]}
-                    onChangePage={e => setPage({ ...page, current: e })}
-                    onChangeRowsPerPage={e => setPage({ ...page, pageSize: e })}
+                    onChangePage={e => setPageData({ ...pageData, current: e })}
+                    onChangeRowsPerPage={e => setPageData({ ...pageData, pageSize: e })}
                   />
                 </CardBody>
               </Card>
             </Row>
           </Container>
-        )}
+         )} 
       </div>
     </React.Fragment>
   )
 }
 
-CommissionTable.propTypes = {
+Category.propTypes = {
   t: PropTypes.any,
 }
-export default withTranslation()(CommissionTable)
+export default withTranslation()(Category)

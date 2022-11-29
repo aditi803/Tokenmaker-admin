@@ -10,6 +10,7 @@ import Dropzone from "react-dropzone"
 import { toast } from "react-toastify"
 import useApiStatus from "hooks/useApiStatus"
 import axios from "axios"
+import { CFormSelect } from "@coreui/react"
 // import Breadcrumb from '../../../components/Common/Breadcrumb';
 
 function EditView(props) {
@@ -39,6 +40,26 @@ function EditView(props) {
         [e.target.name]: e.target.value,
       }))
     }
+  }
+
+  console.log(getData?.networkName,"NetqworkName")
+  console.log(getData?.categoryName,"CategoryName")
+
+  const [category, setCategory] = useState([])
+
+  useEffect(() => {
+    fetchCategoryData()
+  }, [setCategory])
+
+  const fetchCategoryData = () => {
+    axios.get("https://tokenmaker-apis.block-brew.com/category/categorys")
+      .then((res) => {
+        setCategory(res.data.msg.items)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   const updateNetworkHandler = async (e) => {
@@ -73,6 +94,8 @@ function EditView(props) {
         toast.error(err)
       })
   }
+
+
 
 
   const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
@@ -202,6 +225,44 @@ function EditView(props) {
                                                                  ) : null} */}
                           </div>
                         </Col>
+                        <Col sm={8} className="pb-3">
+                          <div>
+                            <label htmlFor="categoryName" className="mb-2 name">
+                              <p>
+                                Category <span className="input-error">*</span>
+                              </p>
+                            </label>
+                            <CFormSelect
+                              className="form-control"
+                              aria-label="Small select example"
+                              name="categoryName"
+                              // id={selVal}
+                              defaultValue={getData?.category}
+                              onChange={handleChange}
+                              value={getData?.category}
+                              selected={getData?.category}
+                            >
+                              <option hidden>Select category</option>
+                              {category?.map((content, i) => {
+                                return (
+                                  <>
+                                  {console.log(getData.category, '>>>>>>>>>>>>>>>>>>>>>>>>>>HOW COULD YOU')}
+                                    <option
+                                      key={i}
+                                      value={content.categoryName}
+                                    >
+                                      {content.categoryName}
+                                    </option>
+                                  </>
+                                )
+                              })}
+                            </CFormSelect>
+                            {/* {errors.rpcUrl && touched.rpcUrl ? (
+                                                                      <div className="input-error">{errors.rpcUrl}</div>
+                                                                 ) : null} */}
+                          </div>
+                        </Col>
+
                         <Col sm={8} className="pb-3 mt-3">
                           <div>
                             <label htmlFor="symbol" className="mb-2 name">
@@ -279,7 +340,7 @@ function EditView(props) {
                                 {/* {id ? 'Update' : 'Add'} */} Update
                               </Button>
                             </div>
-                            <div className="mb-4" style={{marginLeft:"10px"}}>
+                            <div className="mb-4" style={{ marginLeft: "10px" }}>
                               <Button
                                 className="btn btn-secondary px-4"
                                 type="submit"

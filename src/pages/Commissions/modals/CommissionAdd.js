@@ -101,13 +101,66 @@ const CommissionAdd = (props) => {
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Add Commissions</ModalHeader>
         <ModalBody>
-          <label className="my-2" name="networkName">Network Name</label>
-          <input type='text'
+          <label className="my-2" name="networkName">Parent Network Name</label>
+          {/* <input type='text'
             className="form-control"
             placeholder="Ethereum"
             onChange={e => {
               setNetwork({ ...network, networkName: e.target.value })
-            }} />
+            }} /> */}
+            <CFormSelect
+            className="form-control"
+            aria-label="Small select example"
+            // onChange={e => setNetworkStatus(e.target.value)}
+            // value={networkStatus}
+          >
+            {/* {console.log(networkStatus, "Network status")} */}
+            <option hidden>Select Network</option>
+            <option value={''}>All</option>
+            <option>Ethereum</option>
+            <option>Polygon</option>
+            <option>BSC</option>
+
+            {/* {networks?.map((content, i) => {
+              return (
+                <>
+                  <option
+                    key={i}
+                    value={content.symbol}
+                  >
+                    {content.symbol}
+                  </option>
+                </>
+              )
+            })} */}
+          </CFormSelect>
+          <label className="my-2">Sub-network Name</label>
+          <CFormSelect
+            className="form-control"
+            aria-label="Small select example"
+            onChange={e => setNetworkStatus(e.target.value)}
+            // value={networkStatus}
+          >
+            {/* {console.log(networkStatus, "Network status")} */}
+            <option hidden>Select Network</option>
+            <option value={''}>All</option>
+            <option>Ethereum</option>
+            <option>Polygon</option>
+            <option>BSC</option>
+
+            {/* {networks?.map((content, i) => {
+              return (
+                <>
+                  <option
+                    key={i}
+                    value={content.symbol}
+                  >
+                    {content.symbol}
+                  </option>
+                </>
+              )
+            })} */}
+          </CFormSelect>
           <label className="my-2">Commissions</label>
           <input type='text'
             name='networkCommissionFee'
@@ -117,14 +170,13 @@ const CommissionAdd = (props) => {
               setNetwork({ ...network, networkCommissionFee: e.target.value })
             }} />
 
-          <label className="my-2">Symbol</label>
+          {/* <label className="my-2">Symbol</label>
           <CFormSelect
             className="form-control"
             aria-label="Small select example"
             onChange={e => setNetworkStatus(e.target.value)}
             value={networkStatus}
           >
-            {/* {console.log(networkStatus, "Network status")} */}
             <option hidden>Select Network</option>
             <option value={''}>All</option>
 
@@ -140,7 +192,7 @@ const CommissionAdd = (props) => {
                 </>
               )
             })}
-          </CFormSelect>
+          </CFormSelect> */}
           {/* <input type='text'
             name='networkSymbol'
             className="form-control"

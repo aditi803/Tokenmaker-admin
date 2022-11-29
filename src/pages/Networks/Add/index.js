@@ -14,6 +14,7 @@ import { Link, useHistory } from "react-router-dom"
 
 import cloud from '../../../assets/images/small/cloud-file-download.svg'
 import Spinner from "loader"
+import { CFormSelect } from "@coreui/react"
 // import Breadcrumb from '../../../components/Common/Breadcrumb';
 
 function Add(props) {
@@ -28,6 +29,7 @@ function Add(props) {
           networkImage: "",
           rpcUrl: "",
           description: "",
+          categoryName: ""
      })
      const [selectedFiles, setselectedFiles] = useState([])
      const data = {
@@ -37,7 +39,8 @@ function Add(props) {
           rpcUrl: getData.rpcUrl,
           symbol: getData.symbol,
           networkImage: getData.networkImage,
-          description: getData.description
+          description: getData.description,
+          categoryName: getData.categoryName
      }
 
      function handleAcceptedFiles(files) {
@@ -69,29 +72,52 @@ function Add(props) {
           padding: "40px 0 "
      }
 
-     function formatBytes(bytes, decimals = 2) {
-          if (bytes === 0) return "0 Bytes"
-          const k = 1024
-          const dm = decimals < 0 ? 0 : decimals
-          const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+     // function formatBytes(bytes, decimals = 2) {
+     //      if (bytes === 0) return "0 Bytes"
+     //      const k = 1024
+     //      const dm = decimals < 0 ? 0 : decimals
+     //      const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
 
-          const i = Math.floor(Math.log(bytes) / Math.log(k))
-          return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
+     //      const i = Math.floor(Math.log(bytes) / Math.log(k))
+     //      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
+     // }
+
+     const [category, setCategory] = useState([])
+
+     useEffect(() => {
+          fetchCategoryData()
+     }, [setCategory])
+
+     const fetchCategoryData = () => {
+          axios.get("https://tokenmaker-apis.block-brew.com/category/categorys")
+               .then((res) => {
+                    setCategory(res.data.msg.items)
+                    console.log(res)
+               })
+               .catch((err) => {
+                    console.log(err)
+               })
      }
 
+     // console.log(category, "Category name")
+     const [categoryValue, setCategoryValue] = useState([])
+
      const [loader, setLoader] = useState(true)
+
 
      const addNetworkHandler = async (e) => {
           // console.log("hgello")
           e.preventDefault()
           changeApiStatus(true)
           const authUser = JSON.parse(localStorage.getItem("authUser"))
-
+          console.log('getData. ', getData)
           const formData = new FormData()
 
           for (const fields in getData) {
                formData.append(fields, getData[fields])
           }
+          // formData.append("categoryName", categoryValue)
+          console.log(formData, "FormData");
 
           await axios
                .post("https://tokenmaker-apis.block-brew.com/network/newnetwork", formData, {
@@ -111,7 +137,7 @@ function Add(props) {
           setLoader(false)
      }
 
-     // console.log(getData, "njbvcxzdsfghjk")
+     // console.log(categoryValue, "Category Value")
 
      return (
           <React.Fragment>
@@ -266,6 +292,50 @@ function Add(props) {
                                                             </Col>
                                                             <Col sm={8} className="pb-3 ">
                                                                  <div>
+                                                                      <label htmlFor="categoryName" className="mb-2 name">
+                                                                           <p>
+                                                                                Category <span className="input-error">*</span>
+                                                                           </p>
+                                                                      </label>
+
+                                                                      <CFormSelect
+                                                                           className="form-control"
+                                                                           aria-label="Small select example"
+                                                                           name="categoryName"
+                                                                           // id={selVal}
+                                                                           // defaultValue={editData?.networkSymbol}
+                                                                           value={getData.categoryName}
+                                                                           onChange={e => {
+
+                                                                                setGetData({
+                                                                                     ...getData,
+                                                                                     categoryName:e.target.value
+                                                                                })
+                                                                           }}
+                                                                      // selected = {editData?.networkSymbol}
+                                                                      >
+                                                                           <option hidden>Select category</option>
+                                                                           {/* <option>Ethereum</option>
+                                                                                <option>Polygon</option>
+                                                                                <option>BSC</option> */}
+                                                                           {category?.map((content, i) => {
+                                                                                return (
+                                                                                     <>
+                                                                                          <option
+                                                                                               key={i}
+                                                                                               value={content.categoryName}
+                                                                                          >
+                                                                                               {content.categoryName}
+                                                                                          </option>
+                                                                                     </>
+                                                                                )
+                                                                           })}
+                                                                      </CFormSelect>
+
+                                                                 </div>
+                                                            </Col>
+                                                            <Col sm={8} className="pb-3 ">
+                                                                 <div>
                                                                       <label htmlFor="symbol" className="mb-2 name">
                                                                            <p>
                                                                                 Symbol <span className="input-error">*</span>
@@ -362,7 +432,7 @@ function Add(props) {
                                                                            </div>
                                                                       </div>
                                                                  </div>
-                                                                 <div style={{ display: "flex" }}className="my-3">
+                                                                 <div style={{ display: "flex" }} className="my-3">
                                                                       <div className="mb-4">
                                                                            <button
                                                                                 className="btn btn-primary px-4"
@@ -372,11 +442,11 @@ function Add(props) {
                                                                                 {/* {id ? 'Update' : 'Add'} */} Add
                                                                            </button>
                                                                       </div>
-                                                                      <div className="mb-4" style={{marginLeft:"10px"}}>
+                                                                      <div className="mb-4" style={{ marginLeft: "10px" }}>
                                                                            <button
                                                                                 className="btn btn-secondary px-4"
                                                                                 type="submit"
-                                                                                onClick={() =>{
+                                                                                onClick={() => {
                                                                                      history.push('/view')
                                                                                 }}
                                                                            >

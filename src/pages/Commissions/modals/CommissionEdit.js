@@ -94,16 +94,8 @@ console.log(editData,'fhgvhj');
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Update Commissions</ModalHeader>
         <ModalBody>
-          <p style={{ fontSize: "22px", textDecoration: "underline" }}>{` ${editData?.networkName}`}</p>
-          <p className="my-2">Commission Fee</p>
-          <input
-            type="text"
-            className="form-control"
-            placeholder={value}
-            value={value}
-            onChange={e => setValue(e.target.value)}
-          />
-          <p className="my-2">Symbol</p>
+          {/* <p style={{ fontSize: "22px", textDecoration: "underline" }}>{` ${editData?.networkName}`}</p> */}
+          <p>Parent-network Name</p>
           <CFormSelect
             className="form-control"
             aria-label="Small select example"
@@ -112,7 +104,66 @@ console.log(editData,'fhgvhj');
             defaultValue={editData?.networkSymbol}
             onChange={e => setNetworkStatus(e.target.value)}
             // value={selVal}
-            selected = {editData?.networkSymbol}
+            // selected = {editData?.networkSymbol}
+          >
+            <option>Ethereum</option>
+            <option>Polygon</option>
+            <option>BSC</option>
+            {/* {network?.map((content, i) => {
+              return (
+                <>
+                  <option
+                    key={i}
+                    value={content.symbol}
+                  >
+                    {content.symbol}
+                  </option>
+                </>
+              )
+            })} */}
+          </CFormSelect>
+          <p className="my-2">Sub-network Name</p>
+          <CFormSelect
+            className="form-control"
+            aria-label="Small select example"
+            name="networkSymbol"
+            // id={selVal}
+            defaultValue={editData?.networkSymbol}
+            onChange={e => setNetworkStatus(e.target.value)}
+            // value={selVal}
+            // selected = {editData?.networkSymbol}
+          >
+            <option>Ethereum</option>
+            <option>Polygon</option>
+            <option>BSC</option>
+            {/* {network?.map((content, i) => {
+              return (
+                <>
+                  <option
+                    key={i}
+                    value={content.symbol}
+                  >
+                    {content.symbol}
+                  </option>
+                </>
+              )
+            })} */}
+          </CFormSelect>
+          <p className="my-2">Commission Fee</p>
+          <input
+            type="text"
+            className="form-control"
+            placeholder={value}
+            value={value}
+            onChange={e => setValue(e.target.value)}
+          />
+          {/* <p className="my-2">Symbol</p>
+          <CFormSelect
+            className="form-control"
+            aria-label="Small select example"
+            name="networkSymbol"
+            defaultValue={editData?.networkSymbol}
+            onChange={e => setNetworkStatus(e.target.value)}
           >
             {network?.map((content, i) => {
               return (
@@ -126,7 +177,7 @@ console.log(editData,'fhgvhj');
                 </>
               )
             })}
-          </CFormSelect>
+          </CFormSelect> */}
         </ModalBody>
         <ModalFooter>
           <Button type="button" color="secondary" onClick={toggle}>
