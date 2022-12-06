@@ -229,6 +229,9 @@ const SidebarContent = props => {
                 <li>
                   <Link to="/logo-manager">{props.t("Logo Manager")}</Link>
                 </li>
+                <li>
+                  <Link to="/payments">{props.t("Payments")}</Link>
+                </li>
               </ul>
             </li>
 

@@ -193,6 +193,7 @@ import EditView from "pages/Networks/View/EditView"
 import TermsOfUse from "pages/Pages/Terms of use"
 import PrivacyPolicy from "pages/Pages/Privacy Policy"
 import Category from "pages/Networks/Category"
+import Payments from "pages/Settings/Payments"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -215,6 +216,7 @@ const authProtectedRoutes = [
   {path: '/terms-of-use', component: TermsOfUse},
   {path: '/privacy-policy', component: PrivacyPolicy},
   {path: '/category', component: Category},
+  {path: '/payments', component: Payments},
   
 
   //Crypto

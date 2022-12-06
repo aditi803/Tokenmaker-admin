@@ -17,12 +17,19 @@ import useApiStatus from 'hooks/useApiStatus';
 import axios from "axios";
 import { toast } from "react-toastify"
 import Spinner from 'loader';
+import * as Yup from 'yup';
+import { Formik } from "formik";
 
 function General(props) {
 
      const [header, setHeader] = useState({})
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
-     const [data, setData] = useState({adminDocumentTitle:'', investorDocumentTitle: ''})
+     const [data, setData] = useState({ adminDocumentTitle: '', investorDocumentTitle: '' })
+
+     const generalSchema = Yup.object().shape({
+          adminDocumentTitle: Yup.string().required('Enter Parent Network Name'),
+          investorDocumentTitle: Yup.string().required('Enter Sub network Name'),
+     })
 
      const [loader, setLoader] = useState(true)
      useEffect(() => {
@@ -50,20 +57,20 @@ function General(props) {
      }
 
      const onChangeHandler = async (e) => {
-          
-          
-          
+
+
+
           e.preventDefault()
           const { name, value } = e.target;
-          console.log(name, value , '>>>>>>')
-          
+          console.log(name, value, '>>>>>>')
+
           setHeader({
                ...header, [name]: value
           })
      }
 
-     
-     const headerUpdate = async(e) => {
+
+     const headerUpdate = async (e) => {
           e.preventDefault()
           changeApiStatus(true)
           const authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -73,15 +80,15 @@ function General(props) {
                     setApiSuccess()
                     changeApiStatus(false)
                     fetchData()
-                    console.log(res,"general data")
+                    console.log(res, "general data")
                     toast.success("Updated Successfully")
                }).catch((err) => {
-                    console.log(err,"general error")
+                    console.log(err, "general error")
                     changeApiStatus(false)
                     setApiFailed(err.message)
                     toast.error("Cannot update")
                })
-               setLoader(false)
+          setLoader(false)
      }
 
 
@@ -90,61 +97,85 @@ function General(props) {
                <div className="page-content">
                     <Container fluid>
                          <p
-              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-            >General Settings</p>
+                              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+                         >General Settings</p>
                          <Row>
                               <Col lg={12}>
                                    <Card>
                                         <CardBody>
                                              <CardTitle className="mb-4">General Settings</CardTitle>
-                                             <Form>
-                                                  <Row>
-                                                       <Row>  
-                                                            <Col lg={6}>
-                                                                 <div>
-                                                                      <div className="form-group mb-4">
-                                                                           <Label for="input-date2"> Admin Website Title: </Label>
-                                                                           <InputMask
-                                                                                // mask="(999) 999-9999"
-                                                                                name='adminDocumentTitle'
-                                                                                value={data.adminDocumentTitle}
-                                                                                className="form-control input-color"
-                                                                                onChange={(e)=>{
-                                                                                     setData({...data, adminDocumentTitle:e.target.value});
-                                                                                }}
-                                                                           />
-                                                                      </div>
-                                                                 </div>
-                                                            </Col>
-                                                            <Col lg={6}>
-                                                                 <div>
-                                                                      <div className="form-group mb-4">
-                                                                           <Label for="input-date1">Investor Website Title: </Label>
-                                                                           <InputMask
-                                                                                // mask="(999) 999-9999"
-                                                                                name='investorDocumentTitle'
-                                                                                value={data.investorDocumentTitle}
-                                                                                className="form-control input-color"
-                                                                                onChange={(e)=>{
-                                                                                     setData({...data, investorDocumentTitle:e.target.value})
-                                                                                }}
-                                                                           />
-                                                                      </div>
-                                                                 </div>
-                                                            </Col>
+                                             <Formik
+                                                  initialValues={{
+                                                       adminDocumentTitle: '',
+                                                       investorDocumentTitle: ''
+                                                  }}
+                                                  validationSchema={generalSchema}
+                                                  onSubmit={(values, actions) => {
+                                                       console.log(values,"ADFG<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>ADFG")
+                                                       headerUpdate()
+                                                  }}>
+                                                  {({ values, setValues, setFieldValue, errors, touched }) => (
+                                                       <Form>
+                                                            <Row>
+                                                                 <Row>
+                                                                      <Col lg={6}>
+                                                                           <div>
+                                                                                <div className="form-group mb-4">
+                                                                                     <Label for="input-date2"> Admin Website Title: </Label>
+                                                                                     <input
+                                                                                          type="text"
+                                                                                          // mask="(999) 999-9999"
+                                                                                          name='adminDocumentTitle'
+                                                                                          value={data.adminDocumentTitle}
+                                                                                          className="form-control input-color"
+                                                                                          onChange={(e) => {
+                                                                                               setData({ ...data, adminDocumentTitle: e.target.value });
+                                                                                               setFieldValue('adminDocumentTitle', e.target.value)
+                                                                                          }}
+                                                                                     />
+                                                                                     {errors.adminDocumentTitle && touched.adminDocumentTitle ? (
+                                                                                          <div className="input-error text-danger">{errors.adminDocumentTitle}</div>
+                                                                                     ) : null}
+                                                                                </div>
+                                                                           </div>
+                                                                      </Col>
+                                                                      <Col lg={6}>
+                                                                           <div>
+                                                                                <div className="form-group mb-4">
+                                                                                     <Label for="input-date1">Investor Website Title: </Label>
+                                                                                     <input
+                                                                                          type='text'
+                                                                                          // mask="(999) 999-9999"
+                                                                                          name='investorDocumentTitle'
+                                                                                          value={data.investorDocumentTitle}
+                                                                                          className="form-control input-color"
+                                                                                          onChange={(e) => {
+                                                                                               setData({ ...data, investorDocumentTitle: e.target.value });
+                                                                                               setFieldValue('investorDocumentTitle', e.target.value)
+                                                                                          }}
+                                                                                     />
+                                                                                     {errors.investorDocumentTitle && touched.investorDocumentTitle ? (
+                                                                                          <div className="input-error text-danger">{errors.investorDocumentTitle}</div>
+                                                                                     ) : null}
+                                                                                </div>
+                                                                           </div>
+                                                                      </Col>
 
-                                                       </Row>
+                                                                 </Row>
 
-                                                  </Row>
-                                                  <Button
-                                                       color="success"
-                                                       className="mt-1"
-                                                       onClick={headerUpdate}
-                                                  >
-                                                       Update
-                                                  </Button>
+                                                            </Row>
+                                                            <Button
+                                                                 color="success"
+                                                                 className="mt-1"
+                                                                 // onClick={headerUpdate}
+                                                            >
+                                                                 Update
+                                                            </Button>
 
-                                             </Form>
+                                                       </Form>
+                                                  )}
+                                             </Formik>
+
                                         </CardBody>
                                    </Card>
                               </Col>

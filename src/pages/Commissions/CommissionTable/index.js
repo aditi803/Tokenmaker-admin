@@ -16,6 +16,7 @@ import CIcon from "@coreui/icons-react"
 import Spinner from "loader"
 
 function CommissionTable(props) {
+  // console.log('ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
@@ -34,11 +35,47 @@ function CommissionTable(props) {
 
   const [data, setData] = useState([])
 
-  
+  console.log(data, '>>>>>>>>>>>>>>>>>>>>>>>>>DATA DAT ADITIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
   const[finalData,setFinaldata] = useState([])
 
 
-  const fetchData = async (
+  // const fetchData = async (
+  //   pageNumber = 1,
+  //   pageSize = 10,
+  //   exportRequest = "false"
+  // ) => {
+  //   try {
+  //     changeApiStatus(true, "")
+  //     const list = await axios.get(
+  //       "https://tokenmaker-apis.block-brew.com/commission/commissiondetails"
+  //     )
+  //     if (exportRequest === "true") {
+  //       return changeApiStatus(false, "")
+  //     }
+  //     if (list.status === 200) {
+  //       changeApiStatus(false, "")
+  //       setPage({
+  //         ...page,
+  //         totalItems: list.data.totalItems,
+  //         pageSize,
+  //         current: pageNumber,
+  //       })
+  //       console.log(list.data.msg, "fetdataa ------- ")
+
+  //       setData(
+  //         list.data.msg.items.map((val, index) => {
+  //           return { ...val, serial: index + 1 }
+  //           console.log(list.data.msg, "Commission data ")
+  //         })
+  //       )
+  //     } else {
+  //       throw new Error(list.error)
+  //     }
+  //   } catch (err) {
+  //     changeApiStatus(false, err.response.data.error)
+  //   }
+  // }
+  const fetchNetworks = async (
     pageNumber = 1,
     pageSize = 10,
     exportRequest = "false"
@@ -53,70 +90,52 @@ function CommissionTable(props) {
       }
       if (list.status === 200) {
         changeApiStatus(false, "")
-        setPage({
-          ...page,
-          totalItems: list.data.totalItems,
-          pageSize,
-          current: pageNumber,
-        })
-        console.log(list.data.msg, "fetdataa ------- ")
-
+        // setPage({
+        //   ...page,
+        //   totalItems: list.data.totalItems,
+        //   pageSize,
+        //   current: pageNumber,
+        // })
+        // console.log(list.data, "fetNetwork----- ")
         setData(
           list.data.msg.items.map((val, index) => {
             return { ...val, serial: index + 1 }
-            console.log(list.data.msg, "Commission data ")
+            // console.log(list.data.msg, "Commission data ")
           })
         )
+
+        // let customData = [];
+        // list.data.msg.items.forEach((items) => {
+        //   items.networks.forEach(networks => {
+        //     let data = {...items}
+        //     delete data.networks;
+        //     let networkCopy = {...networks, networkId: networks._id}
+        //     delete networkCopy._id;
+        //     delete networkCopy.createdAt;
+        //     delete networkCopy.updatedAt;
+        //     const fiData = Object.assign(data, networkCopy)
+        //     customData.push(fiData) 
+        //   })
+        // })
+
+        // console.log(customData, 'AD>>>>>>>>>>>>>>ITI')
       } else {
         throw new Error(list.error)
       }
     } catch (err) {
-      changeApiStatus(false, err.response.data.error)
+      changeApiStatus(false)
     }
   }
-  const fetchNetworks = async (
-    pageNumber = 1,
-    pageSize = 10,
-    exportRequest = "false"
-  ) => {
-    try {
-      changeApiStatus(true, "")
-      const list = await axios.get(
-        "https://tokenmaker-apis.block-brew.com/network/networkdetails"
-      )
-      if (exportRequest === "true") {
-        return changeApiStatus(false, "")
-      }
-      if (list.status === 200) {
-        changeApiStatus(false, "")
-        setPage({
-          ...page,
-          totalItems: list.data.totalItems,
-          pageSize,
-          current: pageNumber,
-        })
-        console.log(list.data.msg, "fetNetwork----- ")
 
-        setData(
-          list.data.msg.items.map((val, index) => {
-            return { ...val, serial: index + 1 }
-            console.log(list.data.msg, "Commission data ")
-          })
-        )
-      } else {
-        throw new Error(list.error)
-      }
-    } catch (err) {
-      changeApiStatus(false, err.response.data.error)
-    }
-  }
+  // console.log(data,"Commission data ")
   useEffect(() => {
-    fetchNetworks()
-    fetchData(page.current, page.pageSize)
+    fetchNetworks(page.current, page.pageSize)
+    // fetchData()
     // eslint-disable-next-line
   }, [page.current, page.pageSize])
 
-  const deleteNetwork = id => {
+  const deleteNetwork = (id) => {
+    // e.preventDefault()
     toastConfirm("Are you sure you want to delete this?")
       .fire()
       .then(async val => {
@@ -132,11 +151,11 @@ function CommissionTable(props) {
                 },
               }
             )
-            console.log(list, "list delete handler side ")
+            // console.log(list, "list delete handler side ")
             if (list?.status === 200) {
               changeApiStatus(false)
               toast.success("Network deleted successfully")
-              fetchData()
+              fetchNetworks()
             } else {
               toast.error("list is undefined")
               // throw new Error(DeleteData.error)
@@ -161,16 +180,20 @@ function CommissionTable(props) {
     },
     {
       name: "Category",
-      selector: row => row.categoryName,
+      selector: row => row.parentNetworkName,
     },
-    // {
-    //   name: "Network Name",
-    //   selector: row => row.networks.networkName,
-    // },
     {
-      name: "Commissions",
-      selector: row => row.networkCommissionFee,
+      name: "Network Name",
+      selector: row => row.subNetworkName
     },
+    {
+          name: "Commission Fee",
+          selector: row => row.networkCommissionFee + " " + row.symbol
+      },
+    {
+          name: "Token Type",
+          selector: row => row?.tokenType
+      },
     {
       name: "Actions",
       selector: row => (
@@ -188,8 +211,8 @@ function CommissionTable(props) {
             className="text-danger hand"
             onClick={() => {
               deleteNetwork(row._id)
-            }}
-          />
+                        }}
+        />
         </>
       ),
     },
@@ -197,9 +220,9 @@ function CommissionTable(props) {
 
   return (
     <React.Fragment>
-      {console.log(data,"dataa---index comm table")}
-      <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
-      <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/>
+      {/* {console.log(data,"dataa---index comm table")} */}
+      <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchNetworks} getData={data}/>
+      <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchNetworks} allData={data}/>
       <div className="page-content">
         {apiStatus.inProgress ? (
           <Spinner />

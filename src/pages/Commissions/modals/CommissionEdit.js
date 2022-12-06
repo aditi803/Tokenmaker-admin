@@ -16,30 +16,58 @@ import { toast } from 'react-toastify'
 import useApiStatus from "hooks/useApiStatus"
 
 const CommissionEdit = props => {
-  const { isOpen, toggle, editData, fetchData } = props
+  const { isOpen, toggle, editData, fetchData, getData } = props
+  const [category, setCategory] = useState([])
+  const [networks, setNetworks] = useState([])
+
+  const [editAllData, setEditAllData] = useState();
+
+
+  // console.log(editAllData, 'ADITITTITITITITTITITOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOIi')
+
+  useEffect(() => {
+    setEditAllData(editData)
+  }, [editData])
+
+
+  useEffect(() => {
+    // setEditAllData(editData)
+    let currentParentNet = editData?.parentNetworkName
+    const afterFilter = category.filter((item) => item.categoryName == currentParentNet)
+    setNetworks(afterFilter.map((items) => {
+      return items.networks
+    }))
+
+  }, [editData, category])
+  
+  // console.log(networks, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>?????????????>>>>>>>>>>>>>>>>>>>OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPP')
+
+
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
   const authUser = JSON.parse(localStorage.getItem("authUser"))
   const [close, setClose] = useState(true)
-  const [network, setNetwork] = useState()
-  const [networkStatus, setNetworkStatus] = useState(editData?.networkSymbol)
-  const [selected,setSelected] = useState("All")
+  // const [network, setNetwork] = useState()
+  // const [networkStatus, setNetworkStatus] = useState(editData?.networkSymbol)
+  // const [selected, setSelected] = useState("All")
+  const [categoryStatus, setCategoryStatus] = useState([])
+  
 
   const handleClose = () => {
     setClose(toggle)
   }
+
+  // console.log(editData, "Edit Data")
+  
 
   const fetchNetwork = () => {
     changeApiStatus(true)
     axios
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
-        setNetwork(res.data.msg.items)
-
-        // setItems(authUser)
-        console.log(res, "Add data view page")
-        // setItems(authUser)
+        setCategory(res.data.msg.items)
+        // console.log(res.data.msg.items, '>>>>>>>>>>>>>>>>>CATEFGIHJGHVHVGHVGhjvj')
         changeApiStatus(false)
       })
       .catch(err => {
@@ -51,22 +79,43 @@ const CommissionEdit = props => {
   }
   useEffect(() => {
     fetchNetwork()
-  },[])
+  }, [])
 
-  // console.log(editData, ">>>>>>>>>>>>>>>>>")
-  console.log(authUser, ">>>>>>>>>>>>>>>>>")
+  const onChangeParentNet = (e) => {
+    // console.log('ONCHANGEONFBVHGFHJKL:LLLLLLLLLL::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    const currentParentNet = e.target.value
+    // console.log(currentParentNet,"current parent value-------")
+    setCategoryStatus(e.target.value)
 
-  const [value, setValue] = useState(editData?.networkCommissionFee)
+    const afterFilter = category.filter((item) => item.categoryName === currentParentNet)
+    // console.log(afterFilter, "commission edit  after filter----------------------------------------------------------------------")
+    setNetworks(afterFilter.map((items) => {
+      return items.networks
+    }))
 
-  useEffect(() => {
-    setValue(editData?.networkCommissionFee)
-  }, [editData])
-console.log(editData,'fhgvhj');
+
+
+    setEditAllData((prev) => (
+      {
+        ...prev,
+        parentNetworkName: e.target.value
+      }
+    ))
+
+  }
+
+  const data = {
+    parentNetworkName: editData?.parentNetworkName,
+    subNetworkName: editData?.subNetworkName,
+    _id: editData?._id,
+    networkCommissionFee: editAllData?.networkCommissionFee
+  }
+
   const handleUpdate = async () => {
     axios
       .put(
         "https://tokenmaker-apis.block-brew.com/commission/commission",
-        { ...editData, networkCommissionFee: value, networkSymbol: networkStatus},
+        data,
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
@@ -80,6 +129,26 @@ console.log(editData,'fhgvhj');
         toast.error("Already Updated")
       })
   }
+  // const checking = () => {
+  //   let checked = getData.find((category) => {
+  //     if (category.subNetworkName === editAllData?.subNetworkName) {
+  //       return true
+  //     }
+  //     else {
+  //       return false
+  //     }
+  //   })
+  // }
+
+  // console.log(networks, "networks data commision edit side ")
+  const [checkValue, setCheckValue] = useState(false)
+  // const [check, setCheck] = useState(
+  //   checking
+  // )
+ 
+
+  // console.log(checked, "Checked value jao ab bta aaaooooooooooooooo")
+
 
   return (
     <Modal
@@ -94,90 +163,86 @@ console.log(editData,'fhgvhj');
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Update Commissions</ModalHeader>
         <ModalBody>
-          {/* <p style={{ fontSize: "22px", textDecoration: "underline" }}>{` ${editData?.networkName}`}</p> */}
           <p>Parent-network Name</p>
           <CFormSelect
             className="form-control"
             aria-label="Small select example"
-            name="networkSymbol"
-            // id={selVal}
-            defaultValue={editData?.networkSymbol}
-            onChange={e => setNetworkStatus(e.target.value)}
-            // value={selVal}
-            // selected = {editData?.networkSymbol}
+            name="parentNetworkName"
+            value={editAllData?.parentNetworkName}
+            defaultValue={editAllData?.parentNetworkName}
+            onChange={onChangeParentNet}
+            disabled
           >
-            <option>Ethereum</option>
-            <option>Polygon</option>
-            <option>BSC</option>
-            {/* {network?.map((content, i) => {
+            {category?.map((content, i) => {
               return (
                 <>
+                
                   <option
                     key={i}
-                    value={content.symbol}
+                    // disabled
+                    value={content.categoryName}
                   >
-                    {content.symbol}
+                    {content.categoryName}
                   </option>
                 </>
               )
-            })} */}
+            })}
           </CFormSelect>
           <p className="my-2">Sub-network Name</p>
           <CFormSelect
             className="form-control"
             aria-label="Small select example"
-            name="networkSymbol"
-            // id={selVal}
-            defaultValue={editData?.networkSymbol}
-            onChange={e => setNetworkStatus(e.target.value)}
-            // value={selVal}
-            // selected = {editData?.networkSymbol}
+            name="subNetworkName"
+            value={editAllData?.subNetworkName}
+            defaultValue={editAllData?.subNetworkName}
+            onChange={e => setEditAllData((...prev) => ({
+              ...prev,
+              subNetworkName: e.target.value
+            }))}
+            disabled
           >
-            <option>Ethereum</option>
-            <option>Polygon</option>
-            <option>BSC</option>
-            {/* {network?.map((content, i) => {
+
+
+            {networks[0]?.map((content, i) => {
               return (
                 <>
+                {console.log(content, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>CONTENTMMMMMMMMMMMMMMMMMMMMMMMM')}
                   <option
+                    // disabled
                     key={i}
-                    value={content.symbol}
+                    value={content.networkName}
                   >
-                    {content.symbol}
-                  </option>
-                </>
-              )
-            })} */}
-          </CFormSelect>
-          <p className="my-2">Commission Fee</p>
-          <input
-            type="text"
-            className="form-control"
-            placeholder={value}
-            value={value}
-            onChange={e => setValue(e.target.value)}
-          />
-          {/* <p className="my-2">Symbol</p>
-          <CFormSelect
-            className="form-control"
-            aria-label="Small select example"
-            name="networkSymbol"
-            defaultValue={editData?.networkSymbol}
-            onChange={e => setNetworkStatus(e.target.value)}
-          >
-            {network?.map((content, i) => {
-              return (
-                <>
-                  <option
-                    key={i}
-                    value={content.symbol}
-                  >
-                    {content.symbol}
+                    {content.networkName}
                   </option>
                 </>
               )
             })}
-          </CFormSelect> */}
+          </CFormSelect>
+
+          {/* <p className="my-2">Commission Fee</p>
+          <input
+            type="text"
+            className="form-control"
+            placeholder={editAllData?.networkCommissionFee}
+            value={editAllData?.networkCommissionFee}
+            onChange={e => setEditAllData((...prev) => ({
+              ...prev,
+              networkCommissionFee: e.target.value
+            }))}
+          /> */}
+          <p className="my-2">Commission Type: <span style={{textDecoration:"underline"}}>{" "}{editAllData?.tokenType}</span></p>
+          {/* <p className="my-2"></p> */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder={editAllData?.networkCommissionFee}
+            value={editAllData?.networkCommissionFee}
+            onChange={e => setEditAllData((prev) => ({
+              ...prev,
+              networkCommissionFee: e.target.value
+            }))}
+          />
+
         </ModalBody>
         <ModalFooter>
           <Button type="button" color="secondary" onClick={toggle}>
@@ -191,10 +256,10 @@ console.log(editData,'fhgvhj');
     </Modal>
   )
 }
+export default CommissionEdit
 
 CommissionEdit.propTypes = {
   toggle: PropTypes.func,
   isOpen: PropTypes.bool,
 }
 
-export default CommissionEdit

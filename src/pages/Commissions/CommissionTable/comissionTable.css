@@ -8,3 +8,14 @@
     cursor: pointer;
 
 }
+.sub-option:disabled{
+    background-color: #dedede;
+}
+.errormsg{
+    font-size: 13px;
+  position: absolute;
+  bottom: -10px;
+}
+.commissionAdd{
+    margin: 2px 0px 10px 0px;
+}

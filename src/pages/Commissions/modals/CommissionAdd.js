@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import {
   Button,
+  Col,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Row,
   Table,
 } from "reactstrap"
 import axios from 'axios';
@@ -13,20 +15,46 @@ import useApiStatus from "hooks/useApiStatus";
 import { toast } from 'react-toastify'
 import Spinner from "loader";
 import { CFormSelect } from "@coreui/react";
-
+import { makeStyles } from "@material-ui/core";
+import "../CommissionTable/comissionTable.css"
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from 'yup'
 
 
 const CommissionAdd = (props) => {
-  const { isOpen, toggle, fetchData } = props
+  const { isOpen, toggle, fetchData, allData } = props
   const [loader, setLoader] = useState(false)
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [network, setNetwork] = useState({ networkName: "", networkCommissionFee: "", networkSymbol: "" })
-  const [items, setItems] = useState([])
+  const [commissionValue, setCommissionValue] = useState({ free: "", basic: "", custom: "" })
+  // const [items, setItems] = useState([])
+
+  const [free, setFree] = useState('')
+  const [basic, setBasic] = useState('')
+  const [custom, setCustom] = useState('')
   const [close, setClose] = useState(true)
-   const [networks, setNetworks] = useState()
   const [networkStatus, setNetworkStatus] = useState("")
+  const [category, setCategory] = useState([])
+  const [categoryStatus, setCategoryStatus] = useState("")
+  const [networks, setNetworks] = useState([])
+
+  const commissionSchema = Yup.object().shape({
+    parentNetworkName: Yup.string().required('Enter Parent Network Name'),
+    subNetworkName: Yup.string().required('Enter Sub network Name'),
+    networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
+  })
+
   const handleClose = () => {
     setClose(toggle)
+    setNetwork({ networkName: null, networkCommissionFee: null, networkSymbol: null })
+    // setCategory(null)
+  }
+
+  const checkSubCategory = (val) => {
+    return allData?.find(({ subNetworkName }) => {
+      // return networks?.includes(subNetworkName)
+      return subNetworkName === val
+    })
   }
 
   const fetchNetwork = () => {
@@ -34,11 +62,8 @@ const CommissionAdd = (props) => {
     axios
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
-        setNetworks(res.data.msg.items)
-
-        // setItems(authUser)
+        setCategory(res.data.msg.items)
         console.log(res, "Add data view page")
-        // setItems(authUser)
         changeApiStatus(false)
       })
       .catch(err => {
@@ -50,26 +75,44 @@ const CommissionAdd = (props) => {
   }
   useEffect(() => {
     fetchNetwork()
-  },[])
+  }, [setCategory])
 
-  const data = {
-    networkName: network.networkName,
-    networkCommissionFee: network.networkCommissionFee,
-    networkSymbol: networkStatus.networkSymbol
-  }
+  // const data = {
+  //   networkName: network.networkName,
+  //   networkCommissionFee: network.networkCommissionFee,
+  //   networkSymbol: networkStatus.networkSymbol
+  // }
 
   const handleAddNetwork = async (e) => {
     e.preventDefault()
+    // console.log("hello add network")
 
     changeApiStatus(true, '')
     const authUser = JSON.parse(localStorage.getItem('authUser'));
-    console.log(network, "Network bhar")
 
-    await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission", {
-      networkName: network.networkName,
-      networkCommissionFee: network.networkCommissionFee,
-      networkSymbol: networkStatus
-    }, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
+    const tokenData = {
+      parentNetworkName: categoryStatus,
+      subNetworkName: networkStatus,
+      commissionDetails: [
+        {
+          tokenType: 'free',
+          commissionFee: free
+        },
+        {
+          tokenType: 'basic',
+          commissionFee: basic
+        },
+        {
+          tokenType: 'custom',
+          commissionFee: custom
+        },
+      ]
+    }
+    console.log(tokenData, "Data to be sent in a api");
+
+    await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission", 
+      tokenData,
+     { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
         setApiSuccess()
@@ -80,13 +123,33 @@ const CommissionAdd = (props) => {
       })
       .catch((err) => {
         console.log(err)
-        toast.error('error', err.response ? err.response.data.error : err)
+        toast.error("Already exisiting network")
         changeApiStatus(false, err.response ? err.response.data.error : err)
         setApiFailed(err.msg)
         console.log(network, "Network ctahc")
       })
     setLoader(false)
   }
+
+  const onChangeParentNet = (e) => {
+    setNetwork((prev) => ({
+      ...prev,
+      networkName: e.target.value
+    }))
+    const currentParentNet = e.target.value
+    setCategoryStatus(e.target.value)
+
+    const afterFilter = category.filter((item) => item.categoryName === currentParentNet)
+    setNetworks(afterFilter.map((items) => {
+      return items.networks
+    }))
+
+  }
+
+  // console.log(networks, "Network token tryow k ly hai consoaloe")
+
+
+  console.log(free, "<<<<<<<<<<<<<<<<<<Free avaklue commission add >>>>>>>>>>>");
 
   return (
     <Modal
@@ -100,118 +163,163 @@ const CommissionAdd = (props) => {
     >
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Add Commissions</ModalHeader>
-        <ModalBody>
-          <label className="my-2" name="networkName">Parent Network Name</label>
-          {/* <input type='text'
-            className="form-control"
-            placeholder="Ethereum"
-            onChange={e => {
-              setNetwork({ ...network, networkName: e.target.value })
-            }} /> */}
-            <CFormSelect
-            className="form-control"
-            aria-label="Small select example"
-            // onChange={e => setNetworkStatus(e.target.value)}
-            // value={networkStatus}
-          >
-            {/* {console.log(networkStatus, "Network status")} */}
-            <option hidden>Select Network</option>
-            <option value={''}>All</option>
-            <option>Ethereum</option>
-            <option>Polygon</option>
-            <option>BSC</option>
-
-            {/* {networks?.map((content, i) => {
-              return (
-                <>
-                  <option
-                    key={i}
-                    value={content.symbol}
+        <Formik initialValues={{
+          parentNetworkName: '',
+          subNetworkName: '',
+          free: '',
+          basic: '',
+          custom: '',
+        }}
+          validationSchema={commissionSchema}
+        // onSubmit={(values, actions) => {   
+        // }}
+        >
+          {({ values, setValues, setFieldValue, errors, touched }) => (
+            <Form>
+              <ModalBody>
+                {console.log(values, 'VASLUEDGJHGHFHHGHJGHJGJHGHJGJHGHJGJHGHJGHJ')}
+                <label className="my-2" name="networkName">Parent Network Name</label>
+                <div>
+                  <CFormSelect
+                    as="select"
+                    className="form-control"
+                    aria-label="Small select example"
+                    onChange={(e) => {
+                      onChangeParentNet(e)
+                      setFieldValue('parentNetworkName', e.target.value)
+                    }}
                   >
-                    {content.symbol}
-                  </option>
-                </>
-              )
-            })} */}
-          </CFormSelect>
-          <label className="my-2">Sub-network Name</label>
-          <CFormSelect
-            className="form-control"
-            aria-label="Small select example"
-            onChange={e => setNetworkStatus(e.target.value)}
-            // value={networkStatus}
-          >
-            {/* {console.log(networkStatus, "Network status")} */}
-            <option hidden>Select Network</option>
-            <option value={''}>All</option>
-            <option>Ethereum</option>
-            <option>Polygon</option>
-            <option>BSC</option>
+                    <option hidden>Select Network</option>
+                    {category?.map((content, i) => {
+                      return (
+                        <option
+                          key={i}
+                          id={content._id}
+                          name={content._id}
+                          value={content.categoryName}
+                        >
+                          {content.categoryName}
+                        </option>
+                      )
+                    })}
+                    <span className="text-danger errormsg">
+                      <ErrorMessage name="parentNetworkName" />
+                    </span>
+                  </CFormSelect>
+                  {errors.parentNetworkName && touched.parentNetworkName ? (
+                    <div className="input-error text-danger">{errors.parentNetworkName}</div>
+                  ) : null}
+                </div>
 
-            {/* {networks?.map((content, i) => {
-              return (
-                <>
-                  <option
-                    key={i}
-                    value={content.symbol}
-                  >
-                    {content.symbol}
-                  </option>
-                </>
-              )
-            })} */}
-          </CFormSelect>
-          <label className="my-2">Commissions</label>
-          <input type='text'
-            name='networkCommissionFee'
-            className="form-control"
-            placeholder="0.05"
-            onChange={e => {
-              setNetwork({ ...network, networkCommissionFee: e.target.value })
-            }} />
+                <label className="my-2">Sub-network Name</label>
+                <CFormSelect
+                  className="form-control"
+                  aria-label="Small select example"
+                  onChange={e => {
+                    setNetworkStatus(e.target.value); setNetwork((prev) => ({
+                      ...prev,
+                      networkName: e.target.value
+                    }))
 
-          {/* <label className="my-2">Symbol</label>
-          <CFormSelect
-            className="form-control"
-            aria-label="Small select example"
-            onChange={e => setNetworkStatus(e.target.value)}
-            value={networkStatus}
-          >
-            <option hidden>Select Network</option>
-            <option value={''}>All</option>
+                    setFieldValue('subNetworkName', e.target.value)
+                  }}
+                  disabled={!network.networkName}
+                >
+                  <option hidden>Select Network</option>
+                  {networks[0]?.map((content, i) => {
+                    return (
+                      // <div key={i}>
+                      <option
+                        className="sub-option"
+                        key={i}
+                        disabled={checkSubCategory(content?.networkName)}
+                        value={content.networkName}
+                      >
+                        {content.networkName}
+                      </option>
+                    )
+                  })}
+                </CFormSelect>
+                {errors.subNetworkName && touched.subNetworkName ? (
+                  <div className="input-error text-danger">{errors.subNetworkName}</div>
+                ) : null}
+                <label className="my-2">Commissions</label>
+                <div>
+                  <Row className="commissionAdd">
+                    <Col lg={4}>
+                      <p className="">Free</p>
+                    </Col>
+                    <Col lg={8}>
+                      <input type='text'
+                        name='free'
+                        className="form-control"
+                        placeholder="0.05"
+                        onChange={e => {
+                          // setFree({ ...free, networkFree: e.target.value })
+                          setFree(e.target.value);
+                          setFieldValue('free', e.target.value)
+                        }}
+                        disabled={!network.networkName}
+                      />
+                    </Col>
+                  </Row>
+                </div>
+                <div>
+                  <Row className="commissionAdd">
+                    <Col lg={4}>
+                      <p className="">Basic</p>
+                    </Col>
+                    <Col lg={8}>
+                      <input
+                        type='text'
+                        name='basic'
+                        className="form-control"
+                        placeholder="0.05"
+                        onChange={e => {
+                          // setFree({ ...free, networkFree: e.target.value })
+                          setBasic(e.target.value);
+                          setFieldValue('basic', e.target.value)
+                        }}
+                        disabled={!network.networkName}
+                      />
+                    </Col>
+                  </Row>
+                </div>
+                <div>
+                  <Row className="commissionAdd">
+                    <Col lg={4}>
+                      <p className="">Custom</p>
+                    </Col>
+                    <Col lg={8}>
+                      <input type='text'
+                        name='custom'
+                        className="form-control"
+                        placeholder="0.05"
+                        onChange={e => {
+                          // setFree({ ...free, networkFree: e.target.value })
+                          setCustom(e.target.value);
+                          setFieldValue('custom', e.target.value)
+                        }}
+                        disabled={!network.networkName}
+                      />
+                    </Col>
+                  </Row>
 
-            {networks?.map((content, i) => {
-              return (
-                <>
-                  <option
-                    key={i}
-                    value={content.symbol}
-                  >
-                    {content.symbol}
-                  </option>
-                </>
-              )
-            })}
-          </CFormSelect> */}
-          {/* <input type='text'
-            name='networkSymbol'
-            className="form-control"
-            placeholder="ETH"
-            onChange={e => {
-              setNetwork({ ...network, networkSymbol: e.target.value })
-            }}
-          /> */}
-        </ModalBody>
-        <ModalFooter>
-          <Button type="button" color="secondary" onClick={toggle}>
-            Close
-          </Button>
-          <Button type="button" color="success" onClick={handleAddNetwork}>
-            Save Changes
-          </Button>
-        </ModalFooter>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button type="button" color="secondary" onClick={toggle}>
+                  Close
+                </Button>
+                <Button type="submit" color="success" onClick={handleAddNetwork}>
+                  Save Changes
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </div>
-    </Modal>
+    </Modal >
   )
 }
 

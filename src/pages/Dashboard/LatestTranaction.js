@@ -93,7 +93,7 @@ const LatestTranaction = () => {
         setNetwork(res.data.msg.items)
 
         // setItems(authUser)
-        console.log(res, "Add data view page")
+        console.log(res.data.msg.items, "Add data view page")
         // setItems(authUser)
         changeApiStatus(false)
       })
@@ -382,17 +382,16 @@ const LatestTranaction = () => {
                           <option hidden>Select Network</option>
                           <option value={''}>All</option>
 
-                          {network.map((content, i) => {
+                          {network?.map((content, i) => {
                             return (
                               <>
                                 <option
                                   key={i}
-                                  value={content.networkName}
+                                  value={content.categoryName}
                                 >
-                                  {content.networkName}
+                                  {content.categoryName}
                                 </option>
                               </>
-
                             )
                           })}
                           {/* <option value="">All</option>
