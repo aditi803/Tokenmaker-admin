@@ -55,6 +55,8 @@ const LatestTranaction = () => {
 
   const [loader, setLoader] = useState(true)
 
+console.log('dummmy change test')
+
   const [data, setData] = useState([])
   const [pageData, setPageData] = useState({
     current: 1,
@@ -231,6 +233,7 @@ const LatestTranaction = () => {
     },
     {
       name: "Network",
+
       selector: row => row.networkName,
     },
     {
