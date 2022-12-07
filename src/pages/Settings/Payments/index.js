@@ -39,6 +39,7 @@ function Payments(props) {
           .then(res => {
             setPayment(res.data.msg)
             console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>PAYMENT ADDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>DDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             setApiSuccess()
             changeApiStatus(false)
           })
