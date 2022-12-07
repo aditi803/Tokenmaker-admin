@@ -8,14 +8,14 @@ import "@vtaits/react-color-picker/dist/index.css"
 import axios from "axios"
 import { Form, Label, Card, CardBody, CardTitle, Input } from "reactstrap"
 import InputMask from "react-input-mask"
-// import { Payments, FOOTER_PUT } from "common/api"
+// import { payment, FOOTER_PUT } from "common/api"
 import { toast } from "react-toastify"
 import Spinner from "loader"
 import useApiStatus from "hooks/useApiStatus"
 
 function Payments(props) {
-    //   const [Payments, setFooter] = useState({})
-
+      const [payment, setPayment] = useState("")
+      const [error, setError] = useState("")
 
     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
         useApiStatus()
@@ -27,65 +27,75 @@ function Payments(props) {
     //   const handleHor = color => {
     //     setcolorHor(color.hex)
     //   }
-    //   useEffect(() => {
-    //     changeApiStatus(true)
-    //     setLoader(false)
-    //     fetchData()
-    //   }, [setFooter])
+      useEffect(() => {
+        changeApiStatus(true)
+        // setLoader(false)
+        fetchData()
+      }, [setPayment])
 
-    //   const fetchData = async () => {
-    //     await axios
-    //       .get(Payments)
-    //       .then(res => {
-    //         setFooter(res.data.msg)
-    //         console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>FOOTERMSG")
-    //         setApiSuccess()
-    //         changeApiStatus(false)
-    //       })
-    //       .catch(err => {
-    //         changeApiStatus(false)
-    //         setApiFailed(err.message)
-    //       })
-    //   }
+      const fetchData = async () => {
+        await axios
+          .get("https://tokenmaker-apis.block-brew.com/payment/paymentaddress")
+          .then(res => {
+            setPayment(res.data.msg)
+            console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>PAYMENT ADDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            setApiSuccess()
+            changeApiStatus(false)
+          })
+          .catch(err => {
+            changeApiStatus(false)
+            setApiFailed(err.message)
+          })
+      }
 
-    //   const onChangeHandler = async e => {
-    //     e.preventDefault()
-    //     // console.log(e.target.value, "onchange e target side ")
-    //     const { name, value } = e.target
-    //     setFooter({
-    //       ...Payments,
-    //       [name]: value,
-    //     })
-    //   }
+      const onChangeHandler = async e => {
+        e.preventDefault()
+        // console.log(e.target.value, "onchange e target side ")
+        const { name, value } = e.target
+        setPayment({
+        //   ...payment,
+          [name]: value,
+        })
+      }
 
-    //   const footerUpdate = async () => {
-    //     changeApiStatus(true)
-    //     const authUser = JSON.parse(localStorage.getItem("authUser"))
-    //     await axios
-    //       .put(FOOTER_PUT, Payments, {
-    //         headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
-    //       })
-    //       .then(res => {
-    //         setApiSuccess()
-    //         changeApiStatus(false)
-    //         fetchData()
-    //         toast.success("Updated Successfully")
-    //       })
-    //       .catch(err => {
-    //         changeApiStatus(false)
-    //         setApiFailed(err.message)
-    //         toast.error("Cannot update")
-    //       })
-    //     setLoader(false)
-    //   }
+      const paymentUpdate = async (e) => {
 
-    return (
+        e.preventDefault();
+        // console.log(payment.paymentAddress.length,"<<<<<<<<<<<<PAyment Length>>>>>>>>>>>>>")
+        if(payment.paymentAddress.length === 42){
+            setError("")
+            changeApiStatus(true)
+        const authUser = JSON.parse(localStorage.getItem("authUser"))
+        await axios
+          .put("https://tokenmaker-apis.block-brew.com/payment/addressupdate", {paymentAddress: payment.paymentAddress}, {
+            headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
+          })
+          .then(res => {
+            setApiSuccess()
+            changeApiStatus(false)
+            fetchData()
+            toast.success("Updated Successfully")
+          })
+          .catch(err => {
+            changeApiStatus(false)
+            setApiFailed(err.message)
+            toast.error("Cannot update")
+          })
+        }
+        else{
+            setError("Enter a valid wallet address.")
+        }
+        
+        // setLoader(false)
+      }
+
+    return apiStatus.inProgress ? <Spinner /> : (
         <React.Fragment>
             <div className="page-content">
                 <Container fluid>
                     <p
                         style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-                    >Payments</p>
+                    >payment</p>
                     <Row>
                         <Col lg={12}>
                             <Card>
@@ -100,11 +110,12 @@ function Payments(props) {
                                                         <Label for="input-date1">Your Wallet Address: </Label>
                                                         <InputMask
                                                             // mask="(999) 999-9999"
-                                                            //   value={Payments.companyName}
+                                                            value={payment.paymentAddress}
                                                             className="form-control input-color"
-                                                            name="companyName"
-                                                        //   onChange={onChangeHandler}
+                                                            name="paymentAddress"
+                                                          onChange={onChangeHandler}
                                                         />
+                                                        <p style={{color:"red"}}>{error}</p>
                                                         <p className="my-2">Note: <span style={{ color: "red" }}>You will receive all funds under this wallet address</span></p>
                                                     </div>
                                                 </div>
@@ -113,7 +124,7 @@ function Payments(props) {
                                         <Button
                                             color="success"
                                             className="mt-1"
-                                        //   onClick={footerUpdate}
+                                          onClick={paymentUpdate}
                                         >
                                             Update
                                         </Button>
