@@ -41,7 +41,7 @@ function Payments(props) {
             console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>PAYMENT ADDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>DDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             setApiSuccess()
-            changeApiStatus(false)
+            changeApiStatus(false)  
           })
           .catch(err => {
             changeApiStatus(false)
