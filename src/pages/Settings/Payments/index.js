@@ -38,8 +38,6 @@ function Payments(props) {
           .get("https://tokenmaker-apis.block-brew.com/payment/paymentaddress")
           .then(res => {
             setPayment(res.data.msg)
-            console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>PAYMENT ADDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-            console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>DDRESS MSG>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             setApiSuccess()
             changeApiStatus(false)  
           })
