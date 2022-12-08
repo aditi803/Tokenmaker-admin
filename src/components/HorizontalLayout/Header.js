@@ -11,23 +11,23 @@ import { showRightSidebarAction, toggleLeftmenu } from "../../store/actions";
 import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
 
 // Import menuDropdown
-import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
-import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
+// import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
+// import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 
-import megamenuImg from "../../assets/images/megamenu-img.png";
+// import megamenuImg from "../../assets/images/megamenu-img.png";
 import logo from "../../assets/images/logo.svg";
-import logoLight from "../../assets/images/logo-light.png";
-import logoLightSvg from "../../assets/images/logo-light.svg";
-import logoDark from "../../assets/images/logo-dark.png";
+import logoLight from "../../assets/images/btb_logo.png";
+import logoLightSvg from "../../assets/images/logo.svg";
+import logoDark from "../../assets/images/btb_logo.png";
 
 // import images
-import github from "../../assets/images/brands/github.png";
-import bitbucket from "../../assets/images/brands/bitbucket.png";
-import dribbble from "../../assets/images/brands/dribbble.png";
-import dropbox from "../../assets/images/brands/dropbox.png";
-import mail_chimp from "../../assets/images/brands/mail_chimp.png";
-import slack from "../../assets/images/brands/slack.png";
+// import github from "../../assets/images/brands/github.png";
+// import bitbucket from "../../assets/images/brands/bitbucket.png";
+// import dribbble from "../../assets/images/brands/dribbble.png";
+// import dropbox from "../../assets/images/brands/dropbox.png";
+// import mail_chimp from "../../assets/images/brands/mail_chimp.png";
+// import slack from "../../assets/images/brands/slack.png";
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -296,7 +296,7 @@ const Header = props => {
                 </form>
               </div>
             </div>
-            <LanguageDropdown />
+            {/* <LanguageDropdown /> */}
             <Dropdown
               className="d-none d-lg-inline-block ms-1"
               isOpen={socialDrp}
@@ -370,7 +370,7 @@ const Header = props => {
               </button>
             </div>
 
-            <NotificationDropdown />
+            {/* <NotificationDropdown /> */}
 
             <ProfileMenu />
 

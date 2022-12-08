@@ -1,4 +1,5 @@
 /** Product 1 */
+// import product1 from "../../assets/images/product/img-7.png"
 import product1 from "../../assets/images/product/img-7.png"
 import product7 from "../../assets/images/product/Pro-1a.png"
 import product8 from "../../assets/images/product/Pro-1a.png"

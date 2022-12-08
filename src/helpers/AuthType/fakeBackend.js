@@ -122,7 +122,7 @@ const fakeBackend = () => {
 
           // JWT AccessToken
           const tokenObj = { accessToken: token }; // Token Obj
-          const validUserObj = { ...validUser[0], ...tokenObj }; // validUser Obj
+          const validUserObj = {...validUser[0], ...tokenObj }; // validUser Obj
 
           resolve([200, validUserObj]);
         } else {

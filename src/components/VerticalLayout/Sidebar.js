@@ -11,8 +11,8 @@ import { Link } from "react-router-dom";
 
 import logo from "../../assets/images/logo.svg";
 import logoLightPng from "../../assets/images/BTBlogo_gray.png";
-import logoLightSvg from "../../assets/images/logo-light.svg";
-import logoDark from "../../assets/images/logo-dark.png";
+// import logoLightSvg from "../../assets/images/logo-light.svg";
+// import logoDark from "../../assets/images/logo-dark.png";
 import { Helmet } from "react-helmet";
 
 const Sidebar = props => {
