@@ -2,7 +2,7 @@ import React from "react"
 import { Redirect } from "react-router-dom"
 
 // Pages Component
-import Chat from "../../../pages/Chat/Chat"
+// import Chat from "../../../pages/Chat/Chat"
 
 // File Manager
 import FileManager from "../../../pages/FileManager/index"
@@ -228,7 +228,7 @@ const authProtectedRoutes = [
   { path: "/crypto-kyc-application", component: CryptoKYCApplication },
 
   //chat
-  { path: "/chat", component: Chat },
+  // { path: "/chat", component: Chat },
 
   //File Manager
   { path: "/apps-filemanager", component: FileManager },
