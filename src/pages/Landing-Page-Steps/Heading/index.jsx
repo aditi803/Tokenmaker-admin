@@ -50,6 +50,8 @@ function Heading(props) {
                          setCss({ ...css, headingColor: e.target.value })
                          console.log(css);
                     }} /> */}
+
+                    
                     <Input
                          type="text"
                          onClick={() => {

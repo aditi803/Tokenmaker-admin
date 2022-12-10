@@ -41,7 +41,10 @@ const CommissionAdd = (props) => {
   const commissionSchema = Yup.object().shape({
     parentNetworkName: Yup.string().required('Enter Parent Network Name'),
     subNetworkName: Yup.string().required('Enter Sub network Name'),
-    networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
+    // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
+    free: Yup.string().required('Enter commission fee for token type free'),
+    basic: Yup.string().required('Enter commission fee for token type basic'),
+    custom: Yup.string().required('Enter commission fee for token type custom'),
   })
 
   const handleClose = () => {
@@ -84,7 +87,7 @@ const CommissionAdd = (props) => {
   // }
 
   const handleAddNetwork = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     // console.log("hello add network")
 
     changeApiStatus(true, '')
@@ -171,8 +174,10 @@ const CommissionAdd = (props) => {
           custom: '',
         }}
           validationSchema={commissionSchema}
-        // onSubmit={(values, actions) => {   
-        // }}
+        onSubmit={(values, actions) => {  
+          console.log('aditi noni') 
+          handleAddNetwork()
+        }}
         >
           {({ values, setValues, setFieldValue, errors, touched }) => (
             <Form>
@@ -262,6 +267,9 @@ const CommissionAdd = (props) => {
                         disabled={!network.networkName}
                       />
                     </Col>
+                    {errors.free && touched.free ? (
+                    <div className="input-error text-danger">{errors.free}</div>
+                  ) : null}
                   </Row>
                 </div>
                 <div>
@@ -283,6 +291,9 @@ const CommissionAdd = (props) => {
                         disabled={!network.networkName}
                       />
                     </Col>
+                    {errors.basic && touched.basic ? (
+                    <div className="input-error text-danger">{errors.basic}</div>
+                  ) : null}
                   </Row>
                 </div>
                 <div>
@@ -303,6 +314,9 @@ const CommissionAdd = (props) => {
                         disabled={!network.networkName}
                       />
                     </Col>
+                    {errors.custom && touched.custom ? (
+                    <div className="input-error text-danger">{errors.custom}</div>
+                  ) : null}
                   </Row>
 
                 </div>
@@ -311,7 +325,7 @@ const CommissionAdd = (props) => {
                 <Button type="button" color="secondary" onClick={toggle}>
                   Close
                 </Button>
-                <Button type="submit" color="success" onClick={handleAddNetwork}>
+                <Button type="submit" color="success">
                   Save Changes
                 </Button>
               </ModalFooter>

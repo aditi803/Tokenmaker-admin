@@ -30,65 +30,6 @@ const CategoryEdit = (props) => {
     setClose(toggle)
   }
 
-//   const fetchNetwork = () => {
-//     changeApiStatus(true)
-//     axios
-//       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
-//       .then(res => {
-//         setNetworks(res.data.msg.items)
-
-//         // setItems(authUser)
-//         console.log(res, "Add data view page")
-//         // setItems(authUser)
-//         changeApiStatus(false)
-//       })
-//       .catch(err => {
-//         console.log(err)
-//         changeApiStatus(false)
-//         setApiFailed(err.message)
-//       })
-//     // setLoader(false)
-//   }
-//   useEffect(() => {
-//     fetchNetwork()
-//   },[])
-
-//   const data = {
-//     networkName: network.networkName,
-//     networkCommissionFee: network.networkCommissionFee,
-//     networkSymbol: networkStatus.networkSymbol
-//   }
-
-//   const handleAddNetwork = async (e) => {
-//     e.preventDefault()
-
-//     changeApiStatus(true, '')
-//     const authUser = JSON.parse(localStorage.getItem('authUser'));
-//     console.log(network, "Network bhar")
-
-//     await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission", {
-//       networkName: network.networkName,
-//       networkCommissionFee: network.networkCommissionFee,
-//       networkSymbol: networkStatus
-//     }, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
-//       .then((res) => {
-//         console.log(res)
-//         setApiSuccess()
-//         changeApiStatus(false)
-//         toast.success("Network Added Successfully")
-//         handleClose()
-//         fetchData()
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//         toast.error('error', err.response ? err.response.data.error : err)
-//         changeApiStatus(false, err.response ? err.response.data.error : err)
-//         setApiFailed(err.msg)
-//         console.log(network, "Network ctahc")
-//       })
-//     setLoader(false)
-//   }
-
 
 const [value, setValue] = useState(editData?.categoryName)
 useEffect(() => {

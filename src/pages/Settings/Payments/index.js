@@ -94,7 +94,7 @@ function Payments(props) {
                 <Container fluid>
                     <p
                         style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-                    >payment</p>
+                    >Payment</p>
                     <Row>
                         <Col lg={12}>
                             <Card>

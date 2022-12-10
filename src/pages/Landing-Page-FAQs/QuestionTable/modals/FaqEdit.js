@@ -13,6 +13,8 @@ import {
 import axios from "axios"
 import InputMask from 'react-input-mask'
 import { toast } from "react-toastify"
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from 'yup'
 
 const FaqEdit = props => {
     const { isOpen, toggle, editData, fetchData } = props
@@ -25,25 +27,31 @@ const FaqEdit = props => {
     const [value, setValue] = useState()
     // const [value2, setValue2] = useState(editData?.answer)
     const [close, setClose] = useState(true)
-  const handleClose = () => {
-    setClose(toggle)
-  }
+    const handleClose = () => {
+        setClose(toggle)
+    }
 
     useEffect(() => {
         setValue(prev => ({
-          ...prev,
-          question: editData?.question,
-          answer: editData?.answer,
-          _id:editData?._id
+            ...prev,
+            question: editData?.question,
+            answer: editData?.answer,
+            _id: editData?._id
         }))
         // setValue2(editData?.content)
-      }, [editData])
+    }, [editData])
 
-    const handleUpdate = async () => {
+    const faqEditSchema = Yup.object().shape({
+        question: Yup.string().required('Enter question'),
+        answer: Yup.string().required('Enter answer'),
+        // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
+    })
+
+    const handleUpdate = async (values) => {
         axios
             .put(
                 "https://tokenmaker-apis.block-brew.com/faq/editfaq",
-                { ...editData, ...value },
+                values,
                 { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
             )
             .then(res => {
@@ -70,33 +78,68 @@ const FaqEdit = props => {
         >
             <div className="modal-content">
                 <ModalHeader toggle={toggle}>Update Faq</ModalHeader>
-                <ModalBody>
-                    {/* <p>{`${editData?.networkSymbol} ${editData?.networkName}`}</p> */}
-                    <Label>Question</Label>
-                    <InputMask
-                        className="form-control input-color "
-                        type="text"
-                        placeholder={value}
-                        value={value?.question}
-                        onChange={e => setValue(prev => ({...prev, question: e.target.value}))}
-                    />
-                    <Label className="mt-2">Answer</Label>
-                    <textarea
-                        className="form-control input-color "
-                        // type="text-area"
-                        // placeholder={value2}
-                        value={value?.answer}
-                        onChange={e => setValue(prev => ({...prev, answer: e.target.value}))}
-                    />
-                </ModalBody>
-                <ModalFooter>
-                    <Button type="button" color="secondary" onClick={toggle}>
-                        Close
-                    </Button>
-                    <Button type="button" color="success" onClick={handleUpdate}>
-                        Save Changes
-                    </Button>
-                </ModalFooter>
+                <Formik initialValues={{
+                    question: editData?.question,
+                    answer: editData?.answer,
+                    _id: editData?._id
+                }}
+                    validationSchema={faqEditSchema}
+                    onSubmit={
+                        handleUpdate
+                    }
+                >
+                    {({ values, setValues, setFieldValue, errors, touched }) => (
+                        <Form>
+                            <ModalBody>
+                                {/* <p>{`${editData?.networkSymbol} ${editData?.networkName}`}</p> */}
+                                <Label>Question</Label>
+                                <Field
+                                    className="form-control input-color "
+                                    type="text"
+                                    name='question'
+                                    placeholder="Enter question"
+                                // value={value?.question}
+                                // onChange={e => setValue(prev => ({ ...prev, question: e.target.value }))}
+                                />
+                                {errors.question && touched.question ? (
+                                    <div className="input-error text-danger">{errors.question}</div>
+                                ) : null}
+                                <Label className="mt-2">Answer</Label>
+                                <Field
+                                    type="text"
+                                    name='answer'
+                                    placeholder="Enter answer"
+                                    // value={value?.question}
+                                    // onChange={e => setValue(prev => ({ ...prev, question: e.target.value }))}
+                                    render={({ field, form, meta }) => (
+                                        <>
+                                            <textarea
+                                                {...field}
+                                                rows={3}
+                                                className="form-control input-color "
+
+
+                                            />
+
+                                            {meta.error && meta.touched ? (
+                                                <div className="text-danger">{meta.error}</div>
+                                            ) : null}
+                                        </>
+                                    )}
+                                />
+
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button type="button" color="secondary" onClick={toggle}>
+                                    Close
+                                </Button>
+                                <Button type="submit" color="success">
+                                    Save Changes
+                                </Button>
+                            </ModalFooter>
+                        </Form>
+                    )}
+                </Formik>
             </div>
         </Modal>
     )

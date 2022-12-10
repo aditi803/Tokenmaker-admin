@@ -13,28 +13,31 @@ import useApiStatus from "hooks/useApiStatus";
 import { toast } from 'react-toastify'
 import Spinner from "loader";
 import { CFormSelect } from "@coreui/react";
-
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from 'yup'
 
 
 const CategoryAdd = (props) => {
   const { isOpen, toggle, fetchData } = props
   const [loader, setLoader] = useState(false)
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
-  const [category, setCategory] = useState({ categoryName: ""})
+  const [category, setCategory] = useState({ categoryName: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
-   const [networks, setNetworks] = useState()
+  const [networks, setNetworks] = useState()
   const [networkStatus, setNetworkStatus] = useState("")
   const handleClose = () => {
     setClose(toggle)
   }
 
-//   const data = {
-//     networkName: network.networkName,
-//   }
+  const categorySchema = Yup.object().shape({
+    categoryName: Yup.string().required('Enter category name'),
+  })
+
+  
 
   const handleAddNetwork = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
 
     changeApiStatus(true, '')
     const authUser = JSON.parse(localStorage.getItem('authUser'));
@@ -74,24 +77,44 @@ const CategoryAdd = (props) => {
     >
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Add Custom Section</ModalHeader>
-        <ModalBody>
-          {/* <label className="my-2" name="networkName">Network Name</label> */}
-          <input type='text'
-            className="form-control"
-            placeholder="Create sections"
-            onChange={e => {
-              setCategory({ ...category, categoryName: e.target.value })
-            }} 
-            />
-        </ModalBody>
-        <ModalFooter> 
-          <Button type="button" color="secondary" onClick={toggle}>
-            Close
-          </Button>
-          <Button type="button" color="success" onClick={handleAddNetwork}>
-            Add
-          </Button>
-        </ModalFooter>
+
+        <Formik initialValues={{
+          categoryName: '',
+        }}
+          validationSchema={categorySchema}
+          onSubmit={(values, actions) => {
+            console.log('aditi noni')
+            handleAddNetwork()
+          }}
+        >
+          {({ values, setValues, setFieldValue, errors, touched }) => (
+            <Form>
+              <ModalBody>
+                <input type='text'
+                  name="categoryName"
+                  className="form-control"
+                  placeholder="Create sections"
+                  onChange={e => {
+                    setCategory({ ...category, categoryName: e.target.value })
+                    setFieldValue('categoryName', e.target.value)
+                  }}
+                />
+                {errors?.categoryName && touched.categoryName ? (
+                  <div className="input-error text-danger">{errors.categoryName}</div>
+                ) : null}
+              </ModalBody>
+
+              <ModalFooter>
+                <Button type="button" color="secondary" onClick={toggle}>
+                  Close
+                </Button>
+                <Button type="submit" color="success">
+                  Add
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </div>
     </Modal>
   )

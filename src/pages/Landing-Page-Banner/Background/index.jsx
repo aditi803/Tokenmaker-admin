@@ -14,15 +14,6 @@ function Background(props) {
           backgroundImageSrc: window.URL.createObjectURL(file)
      }))
 
-//     if (!files.length) {
-//       var reader = new FileReader()
-//       reader.readAsDataURL(files[0])
-//       console.log("m")
-//       reader.onloadend = function () {
-//         console.log(this.result)
-//         setData({ ...data, backgroundImage: this.result })
-//       }
-//     }
   }
   const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
   return (

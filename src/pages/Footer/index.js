@@ -6,12 +6,14 @@ import Breadcrumb from "components/Common/Breadcrumb"
 import { SketchPicker } from "react-color"
 import "@vtaits/react-color-picker/dist/index.css"
 import axios from "axios"
-import { Form, Label, Card, CardBody, CardTitle, Input } from "reactstrap"
+import { Label, Card, CardBody, CardTitle, Input } from "reactstrap"
 import InputMask from "react-input-mask"
 import { FOOTER, FOOTER_PUT } from "common/api"
 import { toast } from "react-toastify"
 import Spinner from "loader"
 import useApiStatus from "hooks/useApiStatus"
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from 'yup'
 
 function Footer(props) {
   const [footer, setFooter] = useState({})
@@ -23,6 +25,17 @@ function Footer(props) {
   const [simple_color3, setsimple_color3] = useState(0)
   const [colorHor, setcolorHor] = useState("#fffff")
 
+  const footerSchema = Yup.object().shape({
+    companyName: Yup.string().required('Enter company name'),
+    websiteName: Yup.string().required('Enter website name'),
+    contentColor: Yup.string().required('Choose color'),
+    backgroundColor: Yup.string().required('Choose color'),
+    // answer: Yup.string().required('Enter answer'),
+    adminCopyrightText: Yup.string().required('Enter admin copyright text'),
+    investorCopyrightText: Yup.string().required('Enter investor copyright text'),
+    // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
+  })
+
   const [loader, setLoader] = useState(true)
   const handleHor = color => {
     setcolorHor(color.hex)
@@ -32,6 +45,7 @@ function Footer(props) {
     setLoader(false)
     fetchData()
   }, [setFooter])
+
 
   const fetchData = async () => {
     await axios
@@ -46,38 +60,37 @@ function Footer(props) {
         changeApiStatus(false)
         setApiFailed(err.message)
       })
+      setLoader(false)
   }
 
-  const onChangeHandler = async e => {
-    e.preventDefault()
-    // console.log(e.target.value, "onchange e target side ")
-    const { name, value } = e.target
-    setFooter({
-      ...footer,
-      [name]: value,
-    })
-  }
+  // const onChangeHandler = async e => {
+  //   e.preventDefault()
+  //   const { name, value } = e.target
+  //   setFooter({
+  //     ...footer,
+  //     [name]: value,
+  //   })
+  // }
 
-  const footerUpdate = async () => {
+  const footerUpdate = async (values) => {
+    // e.preventDefault()
+    console.log('Enter updated footer')
     changeApiStatus(true)
     const authUser = JSON.parse(localStorage.getItem("authUser"))
     await axios
-      .put(FOOTER_PUT, footer, {
-        headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
+      .put(FOOTER_PUT, values, 
+        { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
       })
-      .then(res => {
-        setApiSuccess()
-        changeApiStatus(false)
-        fetchData()
+      .then(res => {     
         toast.success("Updated Successfully")
+        fetchData()
       })
       .catch(err => {
-        changeApiStatus(false)
-        setApiFailed(err.message)
-        toast.error("Cannot update")
+        toast.error("Already updated")
       })
     setLoader(false)
   }
+
 
   return apiStatus.inProgress ? (
     <Spinner />
@@ -90,143 +103,177 @@ function Footer(props) {
           >Footer</p>
           <Row>
             <Col lg={12}>
-              <Card>
-                <CardBody>
-                  <CardTitle className="mb-4">Footer Settings</CardTitle>
+              <Formik 
+              initialValues={{
+                companyName: footer?.companyName,
+                websiteName: footer?.websiteName,
+                contentColor:footer?.contentColor,
+                backgroundColor:footer?.backgroundColor,
+                adminCopyrightText:footer?.adminCopyrightText,
+                investorCopyrightText:footer?.investorCopyrightText,
+                _id: footer?._id
+              }}
+                validationSchema={footerSchema}
+                onSubmit={
+                  footerUpdate
+                }
+              >
+                {({ values, setValues, setFieldValue, errors, touched }) => (
                   <Form>
-                    <Row>
-                      <Col lg={6}>
-                        <div>
-                          <div className="form-group mb-4">
-                            <Label for="input-date1">Company Name: </Label>
-                            <InputMask
-                              // mask="(999) 999-9999"
-                              value={footer.companyName}
-                              className="form-control input-color"
-                              name="companyName"
-                              onChange={onChangeHandler}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col lg={6}>
-                        <div className="mt-4 mt-lg-0">
-                          <div className="form-group mb-4">
-                            <Label for="input-repeat">Website Name:</Label>
-                            <InputMask
-                              // mask="(999) 999-9999"
-                              value={footer.websiteName}
-                              name="websiteName"
-                              className="form-control input-color"
-                              onChange={onChangeHandler}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
+                    <Card>
+                      <CardBody>
+                        <CardTitle className="mb-4">Footer Settings</CardTitle>
+                          <Row>
+                            <Col lg={6}>
+                              <div>
+                                <div className="form-group mb-4">
+                                  <Label for="input-date1">Company Name: </Label>
+                                  <Field
+                                    // mask="(999) 999-9999"
+                                    // value={footer.companyName}
+                                    className="form-control input-color"
+                                    type='text'
+                                    name="companyName"
+                                    // onChange={onChangeHandler}
+                                  />
+                                  {errors.companyName && touched.companyName ? (
+                                    <div className="input-error text-danger">{errors.companyName}</div>
+                                ) : null}
+                                </div>
+                              </div>
+                            </Col>
+                            <Col lg={6}>
+                              <div className="mt-4 mt-lg-0">
+                                <div className="form-group mb-4">
+                                  <Label for="input-repeat">Website Name:</Label>
+                                  <Field
+                                    // mask="(999) 999-9999"
+                                    // value={footer.websiteName}
+                                    type='text'
+                                    name="websiteName"
+                                    className="form-control input-color"
+                                    // onChange={onChangeHandler}
+                                  />
+                                  {errors.websiteName && touched.websiteName ? (
+                                    <div className="input-error text-danger">{errors.websiteName}</div>
+                                ) : null}
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
 
-                    <Row>
-                      <Col lg={6}>
-                        <div>
-                          <div className="form-group mb-4">
-                            <Label for="input-date1">Content Color: </Label>
-                            <Input
-                              type="text"
-                              onClick={() => {
-                                setsimple_color2(!simple_color2)
-                              }}
-                              // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
-                              value={footer?.contentColor}
-                              readOnly
-                            />
-                            {simple_color2 ? (
-                              <SketchPicker
-                                color={footer?.contentColor}
-                                value={simple_color2}
-                                width="160px"
-                                // onChangeComplete={handleHor}
-                                onChangeComplete={e => {
-                                  setFooter(prev => ({
-                                    ...prev,
-                                    contentColor: e.hex,
-                                  }))
-                                }}
-                              />
-                            ) : null}
-                          </div>
-                        </div>
-                      </Col>
-                      <Col lg={6}>
-                        <div>
-                          <div className="form-group mb-4">
-                            <Label for="input-date2"> Background Color: </Label>
-                            <Input
-                              type="text"
-                              onClick={() => {
-                                setsimple_color3(!simple_color3)
-                              }}
-                              // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
-                              value={footer?.backgroundColor}
-                              readOnly
-                            />
-                            {simple_color3 ? (
-                              <SketchPicker
-                                color={footer?.backgroundColor}
-                                value={simple_color3}
-                                width="160px"
-                                // onChangeComplete={handleHor}
-                                onChangeComplete={e => {
-                                  setFooter(prev => ({
-                                    ...prev,
-                                    backgroundColor: e.hex,
-                                  }))
-                                }}
-                              />
-                            ) : null}
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg={6}>
-                        <div>
-                          <div className="form-group mb-4">
-                            <Label for="input-date1">Admin Copyright: </Label>
-                            <InputMask
-                              // mask="(999) 999-9999"
-                              value={footer.adminCopyrightText}
-                              className="form-control input-color"
-                              name="adminCopyrightText"
-                              onChange={onChangeHandler}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col lg={6}>
-                        <div className="mt-4 mt-lg-0">
-                          <div className="form-group mb-4">
-                            <Label for="input-repeat">Investor Copyright:</Label>
-                            <InputMask
-                              // mask="(999) 999-9999"
-                              value={footer.investorCopyrightText}
-                              name="investorCopyrightText"
-                              className="form-control input-color"
-                              onChange={onChangeHandler}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Button
-                      color="success"
-                      className="mt-1"
-                      onClick={footerUpdate}
-                    >
-                      Update
-                    </Button>
+                          <Row>
+                            <Col lg={6}>
+                              <div>
+                                <div className="form-group mb-4">
+                                  <Label for="input-date1">Content Color: </Label>
+                                  <Input
+                                    type="text"
+                                    onClick={() => {
+                                      setsimple_color2(!simple_color2)
+                                    }}
+                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
+                                    value={footer?.contentColor}
+                                    readOnly
+                                  />
+                                  {simple_color2 ? (
+                                    <SketchPicker
+                                      color={footer?.contentColor}
+                                      value={simple_color2}
+                                      width="160px"
+                                      // onChangeComplete={handleHor}
+                                      onChangeComplete={e => {
+                                        setFooter(prev => ({
+                                          ...prev,
+                                          contentColor: e.hex,
+                                        }))
+                                      }}
+                                    />
+                                  ) : null}
+                                </div>
+                              </div>
+                            </Col>
+                            <Col lg={6}>
+                              <div>
+                                <div className="form-group mb-4">
+                                  <Label for="input-date2"> Background Color: </Label>
+                                  <Input
+                                    type="text"
+                                    onClick={() => {
+                                      setsimple_color3(!simple_color3)
+                                    }}
+                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
+                                    value={footer?.backgroundColor}
+                                    readOnly
+                                  />
+                                  {simple_color3 ? (
+                                    <SketchPicker
+                                      color={footer?.backgroundColor}
+                                      value={simple_color3}
+                                      width="160px"
+                                      // onChangeComplete={handleHor}
+                                      onChangeComplete={e => {
+                                        setFooter(prev => ({
+                                          ...prev,
+                                          backgroundColor: e.hex,
+                                        }))
+                                      }}
+                                    />
+                                  ) : null}
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col lg={6}>
+                              <div>
+                                <div className="form-group mb-4">
+                                  <Label for="input-date1">Admin Copyright: </Label>
+                                  <Field
+                                    // mask="(999) 999-9999"
+                                    // value={footer.adminCopyrightText}
+                                    className="form-control input-color"
+                                    name="adminCopyrightText"
+                                    // onChange={onChangeHandler}
+                                    type='text'
+                                  />
+                                </div>
+                                {errors.adminCopyrightText && touched.adminCopyrightText ? (
+                                    <div className="input-error text-danger">{errors.adminCopyrightText}</div>
+                                ) : null}
+                              </div>
+                            </Col>
+                            <Col lg={6}>
+                              <div className="mt-4 mt-lg-0">
+                                <div className="form-group mb-4">
+                                  <Label for="input-repeat">Investor Copyright:</Label>
+                                  <Field
+                                    // mask="(999) 999-9999"
+                                    // value={footer.investorCopyrightText}
+                                    name="investorCopyrightText"
+                                    className="form-control input-color"
+                                    // onChange={onChangeHandler}
+                                    type='text'
+                                  />
+                                  {errors.investorCopyrightText && touched.investorCopyrightText ? (
+                                    <div className="input-error text-danger">{errors.investorCopyrightText}</div>
+                                ) : null}
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+                          <Button
+                            color="success"
+                            className="mt-1"
+                            type="submit"
+                          >
+                            Update
+                          </Button>
+                      </CardBody>
+                    </Card>
                   </Form>
-                </CardBody>
-              </Card>
+                )}
+              </Formik>
             </Col>
           </Row>
         </Container>

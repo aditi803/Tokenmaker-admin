@@ -125,6 +125,10 @@ console.log('dummmy change test')
         `https://tokenmaker-apis.block-brew.com/token/alltokens?pageSize=${limit}&pageNumber=${page}&toDate=${endDate}&fromDate=${startDate}&filter=${query}&exportRequest=${exportRequest}&networkName=${networkStatus}`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
+
+        console.log(list, '>>>>>>>>>>>>>>>>>>>>>>>>ADDDDDDDDDDDDDDDDD')
+
+
       if (exportRequest === "true") {
         const url = URL.createObjectURL(
           new Blob([list.data.msg.csv], { type: "text/csv" })
@@ -372,7 +376,7 @@ console.log('dummmy change test')
                   <div className="col-xxl-5 col-xl-6 col-lg-6 col-md-4 col-sm-6">
                     <div className="d-flex align-items-center justify-content-end pe-xl-3 pe-2">
                       <div className="col-md-4 col-sm-3 text-end pe-md-3 pe-1">
-                        Status
+                        Networks
                       </div>
                       <div className="col-md-8">
                         <CFormSelect
