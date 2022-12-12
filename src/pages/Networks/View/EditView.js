@@ -293,7 +293,7 @@ function EditView(props) {
                                   <span className="input-error">*</span>
                                 </p>
                               </label>
-                              <div className="text-center" style={{ border: "1px dashed lightgray", height: "250px" }}>
+                              <div className="text-center">
                                 <div className="mb-3 dragdrop-container">
 
                                   <input

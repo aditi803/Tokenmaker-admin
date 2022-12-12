@@ -412,7 +412,7 @@ function Add(props) {
                                                                                      </p>
                                                                                 </label>
                                                                                 <div className="text-center" style={dropZoneStyle}>
-                                                                                     <div className=" dragdrop-container">
+                                                                                     <div>
                                                                                           {/* <Form> */}
                                                                                           <Dropzone
                                                                                                accept="image/*"

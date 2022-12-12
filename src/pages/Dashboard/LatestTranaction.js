@@ -219,7 +219,7 @@ console.log('dummmy change test')
     },
     {
       name: "Token Name",
-      selector: row => row.tokenName + " (" + row.tokenSymbol + ")",
+      selector: row => row.tokenName + " - " + row.tokenSymbol,
       sortable: true,
     },
 
@@ -229,7 +229,9 @@ console.log('dummmy change test')
     // },
     {
       name: "Supply Type",
-      selector: row => row.supplyType,
+      selector: row => (
+        row.supplyType[0].toUpperCase()+ row.supplyType.slice(1)
+      ),
     },
     {
       name: "Commission Fee",

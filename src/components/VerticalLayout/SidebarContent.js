@@ -235,8 +235,8 @@ const SidebarContent = props => {
               </ul>
             </li>
 
-            <li style={{ position: "fixed", bottom: "0px" }}>
-              <Link to="/#" className="">
+            <li style={{ position: "absolute", bottom: "0px" }}>
+              <Link to="/logout" className="">
                 <BiLogOutCircle size={25} style={{marginRight:"10px"}}/>
                 <span>{props.t("Log out")}</span>
               </Link>

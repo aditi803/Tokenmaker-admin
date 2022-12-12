@@ -185,7 +185,7 @@ function CommissionTable(props) {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <div className="mb-4 h4 card-title">Steps Data</div>
+                    <div className="mb-4 h4 card-title">Features Data</div>
                     <Button
                       color="primary"
                       className="mt-1"

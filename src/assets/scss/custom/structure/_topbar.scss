@@ -107,6 +107,95 @@
     padding: calc(#{$header-height} + #{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.75) $footer-height calc(#{$grid-gutter-width} * 0.75);
 }
 
+.newEditIcon svg {
+    width: 25px;
+    color: #41ff41 !important;
+  }
+  
+  .newDeleteIcon svg {
+    width: 25px;
+    color: red !important;
+  }
+  
+  .commonImgs {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .commonImgs:hover .edit {
+    display: block;
+    z-index: 999;
+  }
+  
+  .commonImgs:hover::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: #1411119e;
+    width: 100%;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+  
+  .edit {
+    padding-top: 7px;
+    padding-right: 7px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+  }
+.dragdrop-container {
+    border: 2px dashed #6e19c245;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(244, 244, 245, .67);
+    border-radius: 3px;
+  
+    .banner-img {
+      min-height: 232px;
+      max-height: 232px;
+      height: 100%;
+      max-width: 100%;
+      object-fit: scale-down;
+  
+      @media (max-width: 991px) {
+        min-height: 100px;
+        max-height: initial;
+      }
+    }
+    .every-img {
+      min-height: 232px;
+      max-height: 232px;
+      height: 100%;
+      max-width: 100%;
+      object-fit: scale-down;
+  
+      @media (max-width: 991px) {
+        min-height: 100px;
+        max-height: initial;
+      }
+    }
+}  
+
+.drag-n-drop-container {
+    padding: 50px 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .drop-area {
+      text-align: center;
+
+      img {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
 .header-item {
     height: $header-height;
     box-shadow: none !important;
