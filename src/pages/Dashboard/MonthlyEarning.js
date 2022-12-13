@@ -4,45 +4,46 @@ import { Row, Col, Card, CardBody, CardTitle } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import ApexRadial from "./ApexRadial";
+import PieChart from "./Piechart";
 
 const MonthlyEarning = () => {
   return (
     <React.Fragment>
-      {" "}
+      {/* {" "}
       <Card>
         <CardBody>
-          <CardTitle className="mb-4">Monthly Earning</CardTitle>
-          <Row>
-            <Col sm="6">
-              <p className="text-muted">This month</p>
-              <h3>$34,252</h3>
-              <p className="text-muted">
-                <span className="text-success me-2">
-                  {" "}
-                  12% <i className="mdi mdi-arrow-up"></i>{" "}
-                </span>{" "}
-                From previous period
-              </p>
-              <div className="mt-4">
-                <Link
-                  to="#"
-                  className="btn btn-primary waves-effect waves-light btn-sm"
-                >
-                  View More <i className="mdi mdi-arrow-right ms-1"></i>
-                </Link>
-              </div>
+          <CardTitle className="mb-4">Monthly Earning</CardTitle> */}
+          <Col lg={12}>
+              <Card>
+                <CardBody>
+                  <CardTitle className="mb-4">Pie Chart</CardTitle>
+                  <Row className="justify-content-center">
+                    <Col sm={4}>
+                      <div className="text-center">
+                        <h5 className="mb-0">2536</h5>
+                        <p className="text-muted text-truncate">Ethereum</p>
+                      </div>
+                    </Col>
+                    <Col sm={4}>
+                      <div className="text-center">
+                        <h5 className="mb-0">69421</h5>
+                        <p className="text-muted text-truncate">Polygon</p>
+                      </div>
+                    </Col>
+                    <Col sm={4}>
+                      <div className="text-center">
+                        <h5 className="mb-0">89854</h5>
+                        <p className="text-muted text-truncate">BSC</p>
+                      </div>
+                    </Col>
+                  </Row>
+
+                  <PieChart dataColors='["--bs-success", "#ebeff2", "#dedede" ]'/>
+                </CardBody>
+              </Card>
             </Col>
-            <Col sm="6">
-              <div className="mt-4 mt-sm-0">
-                <ApexRadial dataColors='["--bs-primary"]' />
-              </div>
-            </Col>
-          </Row>
-          <p className="text-muted mb-0">
-            We craft digital, graphic and dimensional thinking.
-          </p>
-        </CardBody>
-      </Card>
+        {/* </CardBody>
+      </Card> */}
     </React.Fragment>
   );
 };

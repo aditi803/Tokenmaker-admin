@@ -41,10 +41,32 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 //i18n
 import { withTranslation } from "react-i18next";
 
+import axios from 'axios'
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
 const Dashboard = props => {
+
+  const [data, setData] = useState({})
+  const user = localStorage.getItem('authUser')
+  const parseData = JSON.parse(user)
+  const token = parseData.msg.jsonWebtoken;
+
+  const fetchData = () => {
+    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/data", { headers: { "Authorization": `Bearer ${token}` } })
+      .then((res) => {
+        setData(res.data.msg)
+        console.log(res.data, "<<<<<<<<<<<<<Dashboard data data >>>>>>>>>>>>>>>>>>")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [setData])
+
   const [modal, setmodal] = useState(false);
   const [subscribemodal, setSubscribemodal] = useState(false);
 
@@ -55,7 +77,7 @@ const Dashboard = props => {
   const reports = [
     { title: "Orders", iconClass: "bx-copy-alt", description: "1,235" },
     { title: "Revenue", iconClass: "bx-archive-in", description: "$35, 723" },
-    {
+    { 
       title: "Average Price",
       iconClass: "bx-purchase-tag-alt",
       description: "$16.2",
@@ -73,6 +95,7 @@ const Dashboard = props => {
 
   useEffect(() => {
     setPeriodData(chartsData);
+    console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   }, [chartsData]);
 
   const onChangeChartPeriod = pType => {
@@ -106,22 +129,24 @@ const Dashboard = props => {
             <Col xl="8">
               <Row>
                 {/* Reports Render */}
-                {reports.map((report, key) => (
-                  <Col md="4" key={"_col_" + key}>
+                {/* {reports.map((report, key) => ( */}
+                <>         
+                  <Col md="4">
                     <Card className="mini-stats-wid">
                       <CardBody>
                         <div className="d-flex">
                           <div className="flex-grow-1">
                             <p className="text-muted fw-medium">
-                              {report.title}
+                              Weekly
                             </p>
-                            <h4 className="mb-0">{report.description}</h4>
+                            <h4 className="mb-0">${data.last7Days}</h4>
                           </div>
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                             <span className="avatar-title rounded-circle bg-primary">
+                            <i className="cil-dollar"></i>
                               <i
                                 className={
-                                  "bx " + report.iconClass + " font-size-24"
+                                  "bx " + "bx-purchase-tag-alt" + " font-size-24"
                                 }
                               ></i>
                             </span>
@@ -130,13 +155,59 @@ const Dashboard = props => {
                       </CardBody>
                     </Card>
                   </Col>
-                ))}
+                  <Col md="4">
+                  <Card className="mini-stats-wid">
+                    <CardBody>
+                      <div className="d-flex">
+                        <div className="flex-grow-1">
+                          <p className="text-muted fw-medium">
+                            Monthly
+                          </p>
+                          <h4 className="mb-0">${data.lastMonth}</h4>
+                        </div>
+                        <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                          <span className="avatar-title rounded-circle bg-primary">
+                            <i
+                              className={
+                                "bx " + "bx-purchase-tag-alt" + " font-size-24"
+                              }
+                            ></i>
+                          </span>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="4">
+                  <Card className="mini-stats-wid">
+                    <CardBody>
+                      <div className="d-flex">
+                        <div className="flex-grow-1">
+                          <p className="text-muted fw-medium">
+                            Yearly
+                          </p>
+                          <h4 className="mb-0">${data.total}</h4>
+                        </div>
+                        <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                          <span className="avatar-title rounded-circle bg-primary">
+                            <i
+                              className={
+                                "bx " + "bx-purchase-tag-alt" + " font-size-24"
+                              }
+                            ></i>
+                          </span>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+                </>
               </Row>
 
               <Card>
                 <CardBody>
                   <div className="d-sm-flex flex-wrap">
-                    <h4 className="card-title mb-4">Email Sent</h4>
+                    <h4 className="card-title mb-4">Token Analytics</h4>
                     <div className="ms-auto">
                       <ul className="nav nav-pills">
                         <li className="nav-item">

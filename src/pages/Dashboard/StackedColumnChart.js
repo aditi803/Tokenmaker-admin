@@ -9,7 +9,8 @@ const StackedColumnChart = ({ dataColors, periodData }) => {
     chart: {
       stacked: !0,
       toolbar: {
-        show: 1
+        // show: 1 (it shows download options like download svg file, or png file)
+        show: false 
       },
       zoom: {
         enabled: !0

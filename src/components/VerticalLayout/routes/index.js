@@ -51,6 +51,7 @@ import TermsOfUse from "pages/Pages/Terms of use"
 import PrivacyPolicy from "pages/Pages/Privacy Policy"
 import Category from "pages/Networks/Category"
 import Payments from "pages/Settings/Payments"
+import Profile from "pages/Settings/Profile"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -74,6 +75,7 @@ const authProtectedRoutes = [
   {path: '/privacy-policy', component: PrivacyPolicy},
   {path: '/category', component: Category},
   {path: '/payments', component: Payments},
+  {path: '/profile-settings', component: Profile},
 
   // //profile
   { path: "/profile", component: UserProfile },

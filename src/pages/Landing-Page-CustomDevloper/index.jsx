@@ -10,7 +10,9 @@ import { toast } from 'react-toastify';
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
 import { CUSTOM_DETAILS, CUSTOM_PUT } from 'common/api';
-import { CCard, CCardBody, CCardGroup } from '@coreui/react'
+import { Formik, Form, Field } from 'formik'
+import { CCard, CCardBody, CCardGroup, CFormInput } from '@coreui/react'
+import * as Yup from 'yup'
 
 
 function LandingPageCustomDeveloper(props) {
@@ -19,52 +21,155 @@ function LandingPageCustomDeveloper(props) {
      const [items, setItems] = useState({});
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
 
+     const [data, setData] = useState({
+          heading: "",
+          headingColor: "",
+          backgroundColor: "",
+          buttonText: "",
+          buttonColor: "",
+          buttonBackgroundColor: ""
+     })
 
-     const [data, setData] = useState([])
-     const [loader, setLoader] = useState(true)
-     useEffect(() => {
-          changeApiStatus(true)
-          const getData = () => {
-               axios.get(CUSTOM_DETAILS)
-                    .then((result) => {
-                         setData(result.data.msg);
-                         // console.log(result.data.msg);
-                         const authUser = JSON.parse(localStorage.getItem('authUser'));
-                         setItems(authUser);
-                         setApiSuccess()
-                         changeApiStatus(false)
-                    }).catch(err => {
-                         changeApiStatus(false)
-                         setApiFailed(err.message)
+     const introSchema = Yup.object().shape({
+          heading: Yup.string()
+               .min(8, 'Too Short!')
+               .max(1000, 'Too Long!')
+               .required('Please enter heading'),
+          headingColor: Yup.string()
+               .min(3, 'Too Short!')
+               .max(50, 'Too Long!')
+               .required('Please enter Heading color'),
+          backgroundColor: Yup.string()
+               .min(3, 'Too Short!')
+               .max(50, 'Too Long!')
+               .required('Please enter background color'),
+          buttonText: Yup.string()
+               .min(3, 'Too Short!')
+               .max(50, 'Too Long!')
+               .required('Please enter button text'),
+          buttonColor: Yup.string()
+               .min(3, 'Too Short!')
+               .max(50, 'Too Long!')
+               .required('Please enter button color'),
+          buttonBackgroundColor: Yup.string()
+               .min(3, 'Too Short!')
+               .max(50, 'Too Long!')
+               .required('Please enter button background color'),
+
+     })
+
+
+     const fetchData = async () => {
+          // changeApiStatus(true)
+          await axios.get(CUSTOM_DETAILS)
+               .then((result) => {
+                    const {
+                         heading,
+                         headingColor,
+                         backgroundColor,
+                         buttonText,
+                         buttonColor,
+                         buttonBackgroundColor
+                    } = result.data.msg
+                    setData({
+                         heading,
+                         headingColor,
+                         backgroundColor,
+                         buttonText,
+                         buttonColor,
+                         buttonBackgroundColor
                     })
-
-          }
-          setLoader(false)
-          getData();
-
-     }, []);
-
-     const handleChange = (e) => {
-          e.preventDefault();
-          changeApiStatus(true)
-          axios.put(CUSTOM_PUT, {
-               buttonText: data.buttonText
-               , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading, headingColor: data.headingColor,
-               backgroundColor: data.backgroundColor
-          },
-               { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-                    if (result.data.success === 1) {
-                         setApiSuccess()
-                         changeApiStatus(false)
-                         toast.success('Updated Successfully');
-                    }
-               }).catch((err) => {
+                    // setData(result.data.msg);
+                    console.log(result.data.msg, "Banner details");
+                    const authUser = JSON.parse(localStorage.getItem('authUser'));
+                    setItems(authUser);
+                    setApiSuccess()
+                    changeApiStatus(false)
+               }).catch(err => {
+                    console.log(err);
                     changeApiStatus(false)
                     setApiFailed(err.message)
-                    toast.error('Already Updated');
-               });
-          setLoader(false)
+               })
+          // setLoader(false)
+     };
+
+     useEffect(() => {
+          changeApiStatus(true)
+          fetchData()
+          // setLoader(false)
+     }, [setData])
+
+     const user = localStorage.getItem('authUser')
+     const parseData = JSON.parse(user)
+     const token = parseData.msg.jsonWebtoken;
+
+     // const [loader, setLoader] = useState(true)
+     // useEffect(() => {
+     //      changeApiStatus(true)
+     //      const getData = () => {
+     //           axios.get(CUSTOM_DETAILS)
+     //                .then((result) => {
+     //                     setData(result.data.msg);
+     //                     // console.log(result.data.msg);
+     //                     const authUser = JSON.parse(localStorage.getItem('authUser'));
+     //                     setItems(authUser);
+     //                     setApiSuccess()
+     //                     changeApiStatus(false)
+     //                }).catch(err => {
+     //                     changeApiStatus(false)
+     //                     setApiFailed(err.message)
+     //                })
+
+     //      }
+     //      setLoader(false)
+     //      getData();
+
+     // }, []);
+     const onSubmit = (values) => {
+          // e.preventDefault();
+          changeApiStatus(true)
+          console.log(data, "jkhgfds")
+          axios.put(CUSTOM_PUT,
+               values, { headers: { "Authorization": `Bearer ${token}` } })
+               .then((result) => {
+
+                    setApiSuccess()
+                    changeApiStatus(false)
+                    fetchData()
+                    toast.success('updated successfully');
+
+               })
+               .catch((err) => {
+                    changeApiStatus(false)
+                    setApiFailed(err.message)
+                    toast.error("Already Updated!!")
+                    console.log(err, "Banner error")
+               })
+          // setLoader(false)
      }
+
+
+     // const handleChange = (e) => {
+     //      e.preventDefault();
+     //      changeApiStatus(true)
+     //      axios.put(CUSTOM_PUT, {
+     //           buttonText: data.buttonText
+     //           , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading, headingColor: data.headingColor,
+     //           backgroundColor: data.backgroundColor
+     //      },
+     //           { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
+     //                if (result.data.success === 1) {
+     //                     setApiSuccess()
+     //                     changeApiStatus(false)
+     //                     toast.success('Updated Successfully');
+     //                }
+     //           }).catch((err) => {
+     //                changeApiStatus(false)
+     //                setApiFailed(err.message)
+     //                toast.error('Already Updated');
+     //           });
+     //      setLoader(false)
+     // }
      return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
@@ -76,7 +181,171 @@ function LandingPageCustomDeveloper(props) {
                          <CCardGroup>
                               <CCard>
                                    <CCardBody>
-                                        <Row>
+                                   <Formik
+                                             initialValues={{ ...data }}
+                                             validationSchema={introSchema}
+                                             enableReinitialize
+                                             onSubmit={onSubmit}
+                                        >
+                                             {({ errors, touched, setFieldValue, setTouched, values }) => (
+                                                  <Form>
+                                                       <div className="row align-items-start justify-content-center">
+                                                            <div className="col-md-12">
+                                                                 <div className="row">
+                                                                      <div className="col-8 mb-3">
+                                                                           <label htmlFor="heading">
+                                                                                <strong>Heading:</strong>{' '}
+                                                                           </label>
+                                                                           <Field
+                                                                                // disabled={apiStatus.inProgress}
+                                                                                name="heading"
+                                                                                placeholder="Enter Heading"
+                                                                                id="heading"
+                                                                                autoComplete="off"
+                                                                                className="form-control mb-2"
+                                                                           />
+                                                                           {errors.heading && touched.heading ? (
+                                                                                <div className="input-error">{errors.heading}</div>
+                                                                           ) : null}
+                                                                      </div>
+                                                                      <div className="col-2">
+                                                                           <label>
+                                                                                <strong>Heading Color:</strong>{' '}
+                                                                           </label>
+                                                                           <Field
+                                                                                name="headingColor"
+                                                                                placeholder="Enter Heading Color"
+                                                                                id="headingColor"
+                                                                                className="mb-2"
+                                                                                render={({ field, meta }) => (
+                                                                                     <>
+                                                                                          <CFormInput
+                                                                                               {...field}
+                                                                                               type="color"
+                                                                                               id="exampleColorInput"
+                                                                                               defaultValue="#563d7c"
+                                                                                               title="Choose your color"
+                                                                                          // style={{ width: '100%' }}
+                                                                                          />
+                                                                                          {meta.error && meta.touched ? (
+                                                                                               <div className="text-danger">{meta.error}</div>
+                                                                                          ) : null}
+                                                                                     </>
+                                                                                )}
+                                                                           />
+                                                                      </div>
+                                                                      <div className="col-2">
+                                                                           <label>
+                                                                                <strong>Heading Background Color:</strong>{' '}
+                                                                           </label>
+                                                                           <Field
+                                                                                name="backgroundColor"
+                                                                                placeholder="Enter Heading Color"
+                                                                                id="backgroundColor"
+                                                                                className="mb-2"
+                                                                                render={({ field, meta }) => (
+                                                                                     <>
+                                                                                          <CFormInput
+                                                                                               {...field}
+                                                                                               type="color"
+                                                                                               id="exampleColorInput"
+                                                                                               defaultValue="#563d7c"
+                                                                                               title="Choose your color"
+                                                                                          // style={{ width: '100%' }}
+                                                                                          />
+                                                                                          {meta.error && meta.touched ? (
+                                                                                               <div className="text-danger">{meta.error}</div>
+                                                                                          ) : null}
+                                                                                     </>
+                                                                                )}
+                                                                           />
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                            <div className="col-md-12">
+                                                                 <div className="row">
+                                                                      <div className="col-8 mb-3">
+                                                                           <label htmlFor="buttonText">
+                                                                                <strong>Button Text:</strong>{' '}
+                                                                           </label>
+                                                                           <Field
+                                                                                // disabled={apiStatus.inProgress}
+                                                                                name="buttonText"
+                                                                                placeholder="Enter button text"
+                                                                                id="buttonText"
+                                                                                autoComplete="off"
+                                                                                className="form-control mb-2"
+                                                                           />
+                                                                           {errors.heading && touched.heading ? (
+                                                                                <div className="input-error">{errors.heading}</div>
+                                                                           ) : null}
+                                                                      </div>
+                                                                      <div className="col-2">
+                                                                           <label>
+                                                                                <strong>Button Text Color:</strong>{' '}
+                                                                           </label>
+                                                                           <Field
+                                                                                name="buttonColor"
+                                                                                placeholder="Enter Heading Color"
+                                                                                id="buttonColor"
+                                                                                className="mb-2"
+                                                                                render={({ field, meta }) => (
+                                                                                     <>
+                                                                                          <CFormInput
+                                                                                               {...field}
+                                                                                               type="color"
+                                                                                               id="exampleColorInput"
+                                                                                               defaultValue="#563d7c"
+                                                                                               title="Choose your color"
+                                                                                          // style={{ width: '100%' }}
+                                                                                          />
+                                                                                          {meta.error && meta.touched ? (
+                                                                                               <div className="text-danger">{meta.error}</div>
+                                                                                          ) : null}
+                                                                                     </>
+                                                                                )}
+                                                                           />
+                                                                      </div>
+                                                                      <div className="col-2">
+                                                                           <label>
+                                                                                <strong>Button Background Color:</strong>{' '}
+                                                                           </label>
+                                                                           <Field
+                                                                                name="buttonBackgroundColor"
+                                                                                placeholder="Enter Heading Color"
+                                                                                id="buttonBackgroundColor"
+                                                                                className="mb-2"
+                                                                                render={({ field, meta }) => (
+                                                                                     <>
+                                                                                          <CFormInput
+                                                                                               {...field}
+                                                                                               type="color"
+                                                                                               id="exampleColorInput"
+                                                                                               defaultValue="#563d7c"
+                                                                                               title="Choose your color"
+                                                                                          // style={{ width: '100%' }}
+                                                                                          />
+                                                                                          {meta.error && meta.touched ? (
+                                                                                               <div className="text-danger">{meta.error}</div>
+                                                                                          ) : null}
+                                                                                     </>
+                                                                                )}
+                                                                           />
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                            <div className="col-md-12 pt-4 mt-2">
+                                                                 <div className="text-center">
+                                                                      <Button type="submit" color="success">
+                                                                           Update
+                                                                      </Button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </Form>
+                                             )}
+                                        </Formik>
+                                        {/* <Row>
                                              <Heading data={data} setData={setData} />
                                         </Row>
                                         <Row>
@@ -84,7 +353,7 @@ function LandingPageCustomDeveloper(props) {
                                         </Row>
                                         <Row className='row'>
                                              <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft:"9px", marginTop: '20px' }}>Update</Button>
-                                        </Row>
+                                        </Row> */}
                                    </CCardBody>
                               </CCard>
                          </CCardGroup>
