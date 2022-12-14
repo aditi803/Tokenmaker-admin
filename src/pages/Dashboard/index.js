@@ -139,7 +139,7 @@ const Dashboard = props => {
                             <p className="text-muted fw-medium">
                               Weekly
                             </p>
-                            <h4 className="mb-0">${data.last7Days}</h4>
+                            <h4 className="mb-0">${data.last7Days?.toFixed(2)}</h4>
                           </div>
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                             <span className="avatar-title rounded-circle bg-primary">
@@ -163,7 +163,7 @@ const Dashboard = props => {
                           <p className="text-muted fw-medium">
                             Monthly
                           </p>
-                          <h4 className="mb-0">${data.lastMonth}</h4>
+                          <h4 className="mb-0">${data.lastMonth?.toFixed(2)}</h4>
                         </div>
                         <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                           <span className="avatar-title rounded-circle bg-primary">
@@ -186,7 +186,7 @@ const Dashboard = props => {
                           <p className="text-muted fw-medium">
                             Yearly
                           </p>
-                          <h4 className="mb-0">${data.total}</h4>
+                          <h4 className="mb-0">${data.total?.toFixed(2)}</h4>
                         </div>
                         <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                           <span className="avatar-title rounded-circle bg-primary">
@@ -287,7 +287,7 @@ const Dashboard = props => {
       </div>
 
       {/* subscribe ModalHeader */}
-      <Modal
+      {/* <Modal
         isOpen={subscribemodal}
         role="dialog"
         autoFocus={true}
@@ -336,7 +336,7 @@ const Dashboard = props => {
             </div>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
       <Modal
         isOpen={modal}

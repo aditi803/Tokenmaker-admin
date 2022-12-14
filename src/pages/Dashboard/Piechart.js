@@ -1,14 +1,16 @@
-import React from "react"
+import React,{useState, useEffect} from "react"
 import { Pie } from "react-chartjs-2"
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor";
+import axios from "axios"
 
-const PieChart = ({dataColors}) => {
-  var pieChartColors =  getChartColorsArray(dataColors); 
+const PieChart = ({dataColors, category, totalVal}) => {
+  console.log(category, totalVal, "Category and total avlues are here ")
+   var pieChartColors =  getChartColorsArray(dataColors); 
   const data = {
-    labels: ["Ethereum", "Polygon", "BSC"],
+    labels: category,
     datasets: [
       {
-        data: [150, 180,80],
+        data: totalVal,
         backgroundColor: pieChartColors,
         hoverBackgroundColor: pieChartColors,
         hoverBorderColor: "#fff",

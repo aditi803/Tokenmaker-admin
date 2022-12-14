@@ -67,7 +67,7 @@ const WelcomeComp = () => {
                     <p className="text-muted mb-0">Tokens deployed</p>
                   </Col>
                   <Col xs="6">
-                    <h5 className="font-size-15">${data.totalCommissionFee}</h5>
+                    <h5 className="font-size-15">${data.totalCommissionFee?.toFixed(2)}</h5>
                     <p className="text-muted mb-0">Total Commission fee</p>
                   </Col>
                 </Row>
