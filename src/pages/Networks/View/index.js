@@ -83,6 +83,9 @@ function View(props) {
         }
       })
   }
+
+
+
   const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
   return apiStatus.inProgress ? <Spinner /> : (
     <React.Fragment>

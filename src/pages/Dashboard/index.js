@@ -44,6 +44,9 @@ import { withTranslation } from "react-i18next";
 import axios from 'axios'
 //redux
 import { useSelector, useDispatch } from "react-redux";
+import DashboardTokens from "./DashboardTokens";
+import useApiStatus from "hooks/useApiStatus";
+import Spinner from "loader";
 
 const Dashboard = props => {
 
@@ -51,6 +54,8 @@ const Dashboard = props => {
   const user = localStorage.getItem('authUser')
   const parseData = JSON.parse(user)
   const token = parseData.msg.jsonWebtoken;
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    useApiStatus()
 
   const fetchData = () => {
     axios.get("https://tokenmaker-apis.block-brew.com/dashboard/data", { headers: { "Authorization": `Bearer ${token}` } })
@@ -92,6 +97,25 @@ const Dashboard = props => {
 
   const [periodData, setPeriodData] = useState([]);
   const [periodType, setPeriodType] = useState("yearly");
+  const [barData, setBarData] = useState([])
+
+  const fetchBarData = () => {
+    changeApiStatus(true)
+    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/alldata", { headers: { "Authorization": `Bearer ${token}` } })
+      .then((res) => {
+        setBarData(res)
+        changeApiStatus(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        changeApiStatus(false)
+      })
+  }
+
+  console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  useEffect(() => {
+    fetchBarData()
+  },[])
 
   useEffect(() => {
     setPeriodData(chartsData);
@@ -111,7 +135,7 @@ const Dashboard = props => {
   //meta title
   document.title = "Block-Tech-Brew";
 
-  return (
+  return apiStatus.inProgress ? <Spinner /> : (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
@@ -122,8 +146,8 @@ const Dashboard = props => {
           />
 
           <Row>
-            <Col xl="4">
-              <WelcomeComp />
+            <Col xl="4" style={{marginBottom:"25px"}}>
+              {/* <WelcomeComp /> */}
               <MonthlyEarning />
             </Col>
             <Col xl="8">
@@ -137,7 +161,7 @@ const Dashboard = props => {
                         <div className="d-flex">
                           <div className="flex-grow-1">
                             <p className="text-muted fw-medium">
-                              Weekly
+                              Weekly Commissions
                             </p>
                             <h4 className="mb-0">${data.last7Days?.toFixed(2)}</h4>
                           </div>
@@ -161,7 +185,7 @@ const Dashboard = props => {
                       <div className="d-flex">
                         <div className="flex-grow-1">
                           <p className="text-muted fw-medium">
-                            Monthly
+                            Monthly Commissions
                           </p>
                           <h4 className="mb-0">${data.lastMonth?.toFixed(2)}</h4>
                         </div>
@@ -184,7 +208,7 @@ const Dashboard = props => {
                       <div className="d-flex">
                         <div className="flex-grow-1">
                           <p className="text-muted fw-medium">
-                            Yearly
+                            Yearly Commissions
                           </p>
                           <h4 className="mb-0">${data.total?.toFixed(2)}</h4>
                         </div>
@@ -210,7 +234,7 @@ const Dashboard = props => {
                     <h4 className="card-title mb-4">Token Analytics</h4>
                     <div className="ms-auto">
                       <ul className="nav nav-pills">
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                           <Link
                             to="#"
                             className={classNames(
@@ -224,8 +248,8 @@ const Dashboard = props => {
                           >
                             Week
                           </Link>{" "}
-                        </li>
-                        <li className="nav-item">
+                        </li> */}
+                        {/* <li className="nav-item">
                           <Link
                             to="#"
                             className={classNames(
@@ -239,8 +263,8 @@ const Dashboard = props => {
                           >
                             Month
                           </Link>
-                        </li>
-                        <li className="nav-item">
+                        </li> */}
+                        {/* <li className="nav-item">
                           <Link
                             to="#"
                             className={classNames(
@@ -254,7 +278,7 @@ const Dashboard = props => {
                           >
                             Year
                           </Link>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>
@@ -266,16 +290,17 @@ const Dashboard = props => {
           </Row>
 
           <Row>
-            <Col xl="4">
+            <DashboardTokens />
+            {/* <Col xl="4">
               <SocialSource />
             </Col>
             <Col xl="4">
               <ActivityComp />
             </Col>
-
+                    
             <Col xl="4">
               <TopCities />
-            </Col>
+            </Col> */}
           </Row>
 
           <Row>

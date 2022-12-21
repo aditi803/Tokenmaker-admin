@@ -2,16 +2,17 @@ import PropTypes from "prop-types";
 import React,{useState} from "react";
 import { Row, Col, Alert, Card, CardBody, Container, FormFeedback, Input, Label, Form } from "reactstrap";
 
-import axios from "axios"
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
-import { withRouter, Link, useHistory } from "react-router-dom";
-import {toast} from "react-toastify"
+import { withRouter, Link } from "react-router-dom";
+import  { useParams, useHistory} from 'react-router-dom'
 
 // Formik Validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import {toast} from "react-toastify"
+import axios from "axios"
 
 // action
 import { userForgetPassword } from "../../store/actions";
@@ -19,43 +20,50 @@ import { userForgetPassword } from "../../store/actions";
 // import images
 import profile from "../../assets/images/profile-img.png";
 import logo from "../../assets/images/btb_logo.png";
-import { SelectionState } from "draft-js";
+import useApiStatus from "hooks/useApiStatus";
+import Spinner from "loader";
 
-const ForgetPasswordPage = props => {
+const ResetPassword = props => {
 
+    const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    useApiStatus()
   //meta title
   // document.title="Forget Password | Skote - React Admin & Dashboard Template";
-const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch();
-  // const user = localStorage.getItem("authUser")
-  // const parseData = JSON.parse(user)
-  // const token = parseData.msg.jsonWebtoken
+  const {userId, token} = useParams()
+  const [loader, setLoader] = useState(true)
+  console.log(userId, token, "<<<<<<<<<<<<ID of items >>>>>>>>>>>/>>>>>>>>>>>>>>>>>>>>>>")
+
   const history = useHistory()
+  const dispatch = useDispatch();
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().required("Please Enter Your Email"),
+      password: Yup.string().required("Please Enter Your password"),
     }),
-    onSubmit: async (values) => {
-      setLoading(true)
-      try{
-          const res = axios.post("https://tokenmaker-apis.block-brew.com/user/password-reset",values)
-              console.log(res, "Forget password response >>>>>>>>>>>>>>>")
-              toast.success("Reset link has been sent successfully to your email address")
-              history.push('/login')
-        }catch(e){
-          console.log(e, "Forget PAssword error")
-      }finally{
-        setLoading(false)
-      }       
-      // dispatch(userForgetPassword(values, props.history));
+    onSubmit: (values) => {
+        changeApiStatus(true)
+        console.log(values, "Values of password reset");
+    //   dispatch(userForgetPassword(values, props.history));
+      axios.post(`https://tokenmaker-apis.block-brew.com/user/password-reset/${userId}/${token}`, values)
+      .then((res) => {
+        console.log(res, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Update password response>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        changeApiStatus(false)
+        history.push('/login')
+        toast.success("Updated Successfully")
 
+      })
+      .catch((err) => {
+        changeApiStatus(false)
+        console.log(err, "Updated response error ")
+      })
+
+      setLoader(false)
     }
   });
 
@@ -64,7 +72,7 @@ const [loading, setLoading] = useState(false)
     forgetSuccessMsg: state.ForgetPassword.forgetSuccessMsg,
   }));
 
-  return (
+  return(
     <React.Fragment>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
@@ -125,21 +133,21 @@ const [loading, setLoading] = useState(false)
                       }}
                     >
                       <div className="mb-3">
-                        <Label className="form-label">Email</Label>
+                        <Label className="form-label">Password</Label>
                         <Input
-                          name="email"
+                          name="password"
                           className="form-control"
-                          placeholder="Enter email"
-                          type="email"
+                          placeholder="Enter password"
+                          type="password"
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
-                          value={validation.values.email || ""}
+                          value={validation.values.password || ""}
                           invalid={
-                            validation.touched.email && validation.errors.email ? true : false
+                            validation.touched.password && validation.errors.password ? true : false
                           }
                         />
-                        {validation.touched.email && validation.errors.email ? (
-                          <FormFeedback type="invalid">{validation.errors.email}</FormFeedback>
+                        {validation.touched.password && validation.errors.password ? (
+                          <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
                         ) : null}
                       </div>
                       <Row className="mb-3">
@@ -148,7 +156,7 @@ const [loading, setLoading] = useState(false)
                             className="btn btn-primary w-md "
                             type="submit"
                           >
-                            Reset
+                            Update
                           </button>
                         </Col>
                       </Row>
@@ -159,7 +167,7 @@ const [loading, setLoading] = useState(false)
               <div className="mt-5 text-center">
                 <p>
                   Go back to{" "}
-                  <Link to="/login" className="font-weight-medium text-primary">
+                  <Link to="login" className="font-weight-medium text-primary">
                     Login
                   </Link>{" "}
                 </p>
@@ -176,8 +184,8 @@ const [loading, setLoading] = useState(false)
   );
 };
 
-ForgetPasswordPage.propTypes = {
+ResetPassword.propTypes = {
   history: PropTypes.object,
 };
 
-export default withRouter(ForgetPasswordPage);
+export default withRouter(ResetPassword);

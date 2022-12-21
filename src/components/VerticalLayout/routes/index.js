@@ -10,6 +10,7 @@ import Login from "../../../pages/Authentication/Login"
 import Logout from "../../../pages/Authentication/Logout"
 import Register from "../../../pages/Authentication/Register"
 import ForgetPwd from "../../../pages/Authentication/ForgetPassword"
+import ResetPassword from "../../../pages/Authentication/ResetPassword"
 
 //  // Inner Authentication
 import Login1 from "../../../pages/AuthenticationInner/Login"
@@ -92,6 +93,7 @@ const publicRoutes = [
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },
   { path: "/register", component: Register },
+  { path: "/password-reset/:userId/:token", component: ResetPassword },
 
   // { path: "/pages-maintenance", component: PagesMaintenance },
   // { path: "/pages-comingsoon", component: PagesComingsoon },

@@ -6,11 +6,19 @@ import axios from "axios"
 const PieChart = ({dataColors, category, totalVal}) => {
   console.log(category, totalVal, "Category and total avlues are here ")
    var pieChartColors =  getChartColorsArray(dataColors); 
+     let newVal = []
+     totalVal.map((val)=>{
+         
+      newVal.push(val.toFixed(4))
+      console.log(val.toFixed(4),"value map--")
+     })
+
+
   const data = {
     labels: category,
     datasets: [
       {
-        data: totalVal,
+        data: newVal,
         backgroundColor: pieChartColors,
         hoverBackgroundColor: pieChartColors,
         hoverBorderColor: "#fff",
@@ -18,7 +26,7 @@ const PieChart = ({dataColors, category, totalVal}) => {
     ],
   }
 
-  return <Pie width={751} height={260} data={data} />
+  return <Pie width={851} height={360} data={data} />
 }
 
 export default PieChart;

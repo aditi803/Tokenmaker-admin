@@ -42,7 +42,7 @@ import { downloadFile } from "components/Common/utility"
 const debounceTime = 300
 let distinctUntilChanged = null
 
-const LatestTranaction = () => {
+const DashboardTokens = () => {
   const user = localStorage.getItem("authUser")
   const parseData = JSON.parse(user)
   const token = parseData.msg.jsonWebtoken
@@ -61,7 +61,7 @@ console.log('dummmy change test')
   const [pageData, setPageData] = useState({
     current: 1,
     totalItems: 0,
-    pageSize: 8,
+    pageSize: 5,
   })
   const [status, setStatus] = useState("")
 
@@ -90,7 +90,7 @@ console.log('dummmy change test')
   const fetchNetwork = () => {
     changeApiStatus(true)
     axios
-      .get("  /network/networkdetails")
+      .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setNetwork(res.data.msg.items)
 
@@ -109,7 +109,7 @@ console.log('dummmy change test')
 
   const fetchData = async (
     page = 1,
-    limit = 8,
+    limit = 5,
     dateFilter = [],
     query = "",
     exportRequest = "false",
@@ -265,7 +265,7 @@ console.log('dummmy change test')
     },
   ]
 
-  return apiStatus.inProgress && !data.length ? (
+  return !data.length ? (
     <Spinner />
   ) : (
     <React.Fragment>
@@ -274,7 +274,8 @@ console.log('dummmy change test')
           <div className="col-xxl-12 col-xl-12 col-12 ml-auto me-auto">
             <div className="row justify-content-between align-items-center px-0">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-lg-0 mt-2 mt-xl-3">
-                <div className="row align-items-center justify-content-between justify-content-lg-start px-0">
+                <p>Recent Tokens</p>
+                {/* <div className="row align-items-center justify-content-between justify-content-lg-start px-0">
                   <div className="col-xxl-4 col-xl-5 col-lg-6 col-md-6 col-sm-12 pb-2 pb-md-0 ">
                     <CCol xs="auto" className="position-relative date_picker">
                       <CFormLabel
@@ -370,10 +371,10 @@ console.log('dummmy change test')
                       </CInputGroup>
                     </CCol>
                   </div>
-                </div>
+                </div> */}
               </div>
 
-              <div className="col-xxl-6 col-xl-6 col-lg-5 col-md-12 col-sm-12 mt-lg-0 mt-2 mt-xl-3">
+              {/* <div className="col-xxl-6 col-xl-6 col-lg-5 col-md-12 col-sm-12 mt-lg-0 mt-2 mt-xl-3">
                 <div className="d-flex align-items-center justify-content-end">
                   <div className="col-xxl-5 col-xl-6 col-lg-6 col-md-4 col-sm-6">
                     <div className="d-flex align-items-center justify-content-end pe-xl-3 pe-2">
@@ -403,10 +404,6 @@ console.log('dummmy change test')
                               </>
                             )
                           })}
-                          {/* <option value="">All</option>
-                          <option value="success">Completed</option>
-                          <option value="rejected">Failed</option>
-                          <option value="pending">Pending</option> */}
                         </CFormSelect>
                       </div>
                     </div>
@@ -436,7 +433,7 @@ console.log('dummmy change test')
                     </CButton>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -454,12 +451,12 @@ console.log('dummmy change test')
               progressPending={apiStatus.inProgress}
               paginationServer
               paginationTotalRows={pageData.totalItems}
-              paginationRowsPerPageOptions={[8, 16, 24, 32]}
+              paginationRowsPerPageOptions={[5, 10, 15, 20]}
               onChangePage={e => setPageData({ ...pageData, current: e })}
               onChangeRowsPerPage={e =>
                 setPageData({ ...pageData, pageSize: e })
               }
-              progressComponent={<Spinner />}
+            //   progressComponent={<Spinner />}
             />
           </CCardBody>
         </CCard>
@@ -468,9 +465,9 @@ console.log('dummmy change test')
   )
 }
 
-LatestTranaction.propTypes = {
+DashboardTokens.propTypes = {
   orders: PropTypes.array,
   onGetOrders: PropTypes.func,
 }
 
-export default withRouter(LatestTranaction)
+export default withRouter(DashboardTokens)

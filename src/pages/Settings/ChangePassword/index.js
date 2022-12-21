@@ -3,6 +3,8 @@ import { CCard, CCardBody, CCol } from '@coreui/react'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import {Button } from "reactstrap"
+import axios from "axios"
+import {toast} from "react-toastify"
 // import { changePassword } from 'src/services/userService'
 // import { fireToast } from 'src/common/toast'
 // import { RemoveFromLocalStorage, UserDataKey } from 'src/common/utility'
@@ -18,7 +20,7 @@ const ChangePassword = () => {
       .min(4, 'Too Short!')
       .max(80, 'Too Long!')
       .required('Please enter your new password'),
-    confirmNewPassword: Yup.string()
+    confirmPassword: Yup.string()
       .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
       .required('Please confirm your new password'),
   })
@@ -35,6 +37,33 @@ const ChangePassword = () => {
       failMessage,
     })
   }
+  
+     const user = localStorage.getItem('authUser')
+     const parseData = JSON.parse(user)
+     const token = parseData.msg.jsonWebtoken;
+
+  const onSubmit = (values) => {
+    // e.preventDefault();
+    changeApiStatus(true)
+    // console.log(data, "jkhgfds")
+   
+    axios.post("https://tokenmaker-apis.block-brew.com/user/changepassword",
+         values, { headers: { "Authorization": `Bearer ${token}` } })
+         .then((result) => {
+              setApiSuccess()
+              changeApiStatus(false)
+              fetchData()
+              toast.success('updated successfully');
+
+         })
+         .catch((err) => {
+              changeApiStatus(false)
+              setApiFailed(err.message)
+              toast.error("Already Updated!!")
+              console.log(err, "Banner error")
+         })
+    // setLoader(false)
+}
 //   const onSubmit = async (values) => {
 //     try {
 //       changeApiStatus(true, '')
@@ -69,10 +98,10 @@ const ChangePassword = () => {
           <CCardBody>
             <div className="">
               <Formik
-                initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
+                initialValues={{ oldPassword: '', newPassword: '', confirmPassword: '' }}
                 enableReinitialize
                 validationSchema={SignupSchema}
-                // onSubmit={onSubmit}
+                onSubmit={onSubmit}
               >
                 {({ errors, touched }) => (
                   <Form>
@@ -86,9 +115,9 @@ const ChangePassword = () => {
                         placeholder="Enter your old password"
                         className="form-control"
                       />
-                      {/* {errors.oldPassword && touched.oldPassword ? (
+                      {errors.oldPassword && touched.oldPassword ? (
                         <div className="text-danger">{errors.oldPassword}</div>
-                      ) : null} */}
+                      ) : null}
                     </div>
 
                     <div className="mb-3">
@@ -101,24 +130,24 @@ const ChangePassword = () => {
                         id="newPassword"
                         className="form-control"
                       />
-                      {/* {errors.newPassword && touched.newPassword ? (
+                      {errors.newPassword && touched.newPassword ? (
                         <div className="text-danger">{errors.newPassword}</div>
-                      ) : null} */}
+                      ) : null}
                     </div>
                     <div className="mb-3">
                       <label htmlFor="wallet_address">Confirm Password: </label>
                       <Field
                         type="password"
                         disabled={apiStatus.inProgress}
-                        name="confirmNewPassword"
-                        id="confirmNewPassword"
+                        name="confirmPassword"
+                        id="confirmPassword"
                         placeholder="Confirm password"
                         className="form-control"
                         onPaste={(e) => e.preventDefault()}
                       />
-                      {/* {errors.confirmNewPassword && touched.confirmNewPassword ? (
-                        <div className="text-danger">{errors.confirmNewPassword}</div>
-                      ) : null} */}
+                      {errors.confirmPassword && touched.confirmPassword ? (
+                        <div className="text-danger">{errors.confirmPassword}</div>
+                      ) : null}
                     </div>
                     <div className="text-center text-lg-end">
                       <Button type="submit" color="success">

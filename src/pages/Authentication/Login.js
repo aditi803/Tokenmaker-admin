@@ -24,7 +24,7 @@ import { loginUser, socialLogin } from "../../store/actions";
 
 // import images
 import profile from "assets/images/profile-img.png";
-import logo from "assets/images/blockTech.jpg";
+import logo from "assets/images/btb_logo.png";
 
 //Import config
 import { facebook, google } from "../../config";
@@ -117,6 +117,7 @@ const Login = props => {
                     <Col className="col-5 align-self-end">
                       <img style={{
                         width: '100%', height: '69px'
+                        ,objectFit:"contain"
                       }} src={profile} alt="" className="img-fluid" />
                     </Col>
                   </Row>
@@ -129,9 +130,9 @@ const Login = props => {
                           <img
                             src={logo}
                             alt=""
-                            className="rounded-circle"
-                            height="69px"
-                            width="100%"
+                            className=""
+                            height="16px"
+                            // width="100%"
                           />
                         </span>
                       </div>
@@ -157,7 +158,8 @@ const Login = props => {
                           type="email"
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
-                          value={validation.values.email || ""}
+                          autoComplete="off"
+                          // value={validation.values.email || ""}
                           invalid={
                             validation.touched.email && validation.errors.email ? true : false
                           }
@@ -171,10 +173,11 @@ const Login = props => {
                         <Label className="form-label">Password</Label>
                         <Input
                           name="password"
-                          value={validation.values.password || ""}
+                          // value={validation.values.password || ""}
                           type="password"
                           placeholder="Enter Password"
                           onChange={validation.handleChange}
+                          autoComplete="off"
                           onBlur={validation.handleBlur}
                           invalid={
                             validation.touched.password && validation.errors.password ? true : false
@@ -282,13 +285,13 @@ const Login = props => {
                 </CardBody>
               </Card>
               <div className="mt-5 text-center">
-                <p>
+                {/* <p>
                   Don&#39;t have an account ?{" "}
                   <Link to="/register" className="fw-medium text-primary">
                     {" "}
                     Signup now{" "}
                   </Link>{" "}
-                </p>
+                </p> */}
                 <p>
                   © {new Date().getFullYear()}  Crafted with{" "}
                   <i className="mdi mdi-heart text-danger" /> by <a href="https://blocktechbrew.com" target="_blank" rel="noreferrer" >Blocktech Brew</a>

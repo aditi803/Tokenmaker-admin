@@ -32,7 +32,7 @@ const EmailVerification = () => {
                     className="auth-logo-light mx-auto"
                   />
                 </Link>
-                <p className="mt-3">React Admin & Dashboard Template</p>
+                {/* <p className="mt-3">React Admin & Dashboard Template</p> */}
               </div>
             </Col>
           </Row>
