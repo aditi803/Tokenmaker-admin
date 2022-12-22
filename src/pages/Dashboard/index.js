@@ -101,9 +101,41 @@ const Dashboard = props => {
 
   const fetchBarData = () => {
     changeApiStatus(true)
-    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/alldata", { headers: { "Authorization": `Bearer ${token}` } })
+    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/checkdata", { headers: { "Authorization": `Bearer ${token}` } })
       .then((res) => {
-        setBarData(res)
+        const data = res.data;
+        const updatedData = []
+        data.forEach((obj) => {
+          if(obj._id){
+            let singleEntry = {};
+            let arr = [];
+            for(let i=1 ; i <=12; i++){
+              
+              const hasProp = obj.data.find(({month}) => i === month )
+              // console.log(hasProp, "HasProp>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>");
+              if(!hasProp){
+                arr.push({month: i, totalCommissionFee: 0})
+              }else{
+                arr.push(hasProp)
+              } 
+            }
+            singleEntry = {
+              data: arr.map(({totalCommissionFee}) => totalCommissionFee)
+            }
+            
+            singleEntry = {
+              ...singleEntry,
+              categoryName: obj.categoryName
+            }
+            updatedData.push(singleEntry)
+          }
+        })
+
+        console.log(updatedData,'updatedData')
+
+
+
+        setBarData(updatedData)
         changeApiStatus(false)
       })
       .catch((err) => {
@@ -118,9 +150,10 @@ const Dashboard = props => {
   },[])
 
   useEffect(() => {
-    setPeriodData(chartsData);
+    setPeriodData(barData)
+    // setPeriodData(chartsData);
     console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-  }, [chartsData]);
+  }, [barData]);
 
   const onChangeChartPeriod = pType => {
     setPeriodType(pType);

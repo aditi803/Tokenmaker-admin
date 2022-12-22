@@ -90,7 +90,7 @@ console.log('dummmy change test')
   const fetchNetwork = () => {
     changeApiStatus(true)
     axios
-      .get("  /network/networkdetails")
+      .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setNetwork(res.data.msg.items)
 
@@ -235,7 +235,7 @@ console.log('dummmy change test')
     },
     {
       name: "Commission Fee",
-      selector: row => row.commissionFee,
+      selector: row => row.commissionFee + " " + row.commissionType,
     },
     {
       name: "Network",

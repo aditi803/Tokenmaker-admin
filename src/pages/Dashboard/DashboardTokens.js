@@ -235,7 +235,7 @@ console.log('dummmy change test')
     },
     {
       name: "Commission Fee",
-      selector: row => row.commissionFee,
+      selector: row => row.commissionFee + " " + row.commissionType,
     },
     {
       name: "Network",

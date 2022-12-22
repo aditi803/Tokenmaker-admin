@@ -12,15 +12,62 @@ import { withTranslation } from "react-i18next";
 // Redux
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
+import axios from "axios"
+import {toastify} from "react-toastify"
 
 // users
-import user1 from "../../../assets/images/users/avatar-1.jpg";
+import user1 from "../../../assets/images/users/admin-girl-image.jpg";
+import useApiStatus from "hooks/useApiStatus";
 
 const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
 
   const [username, setusername] = useState("Admin");
+
+  const userToken = localStorage.getItem("authUser")
+  const parseData = JSON.parse(userToken)
+  const token = parseData.msg.jsonWebtoken
+  const [user, setUser] = useState([])
+  const [image, setImage] = useState('')
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    useApiStatus()
+
+  const fetchData = async () => {
+    //     try {
+          changeApiStatus(true)
+    const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
+    await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
+      //       if (userResponse.status === 200) {
+      .then((res) => {
+        console.log(res, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< User response data >>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        const { userImage } = res.data.msg
+                setUser({ username, email })
+
+                userImage &&
+                userImage !== null &&
+                  setImage(
+                    `${imageBaseUrl}/${userImage}`
+                  )
+
+                  console.log(userImage, "ADITI IMAGE")
+                changeApiStatus(false)
+        //       } else {
+        //         throw new Error(userResponse.error)
+        //       }
+      })
+            
+        .catch ((err) => {
+          changeApiStatus(false)
+        })
+  }
+
+  useEffect(() => {
+    fetchData()
+    // eslint-disable-next-line 
+  }, [])
+
+
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {

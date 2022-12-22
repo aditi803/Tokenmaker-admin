@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { CCard, CCardBody, CCol, CRow } from '@coreui/react'
-import {Button } from "reactstrap"
+import { Button } from "reactstrap"
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
+import {toast} from "react-toastify"
 // import { getUserProfile, updateProfileSettings } from 'src/services/userService'
 // import { fireToast } from 'src/common/toast'
 // import { ReadLocalStorage, SetLocalStorage, UserDataKey } from 'src/common/utility'
@@ -14,10 +15,16 @@ import Dropzone from 'react-dropzone'
 // import cloud from '../../../assets/small/cloud-file-download.svg'
 import cloud from "../../../assets/images/small/cloud-file-download.svg"
 import ChangePassword from '../ChangePassword'
+import axios from "axios"
+import useApiStatus from 'hooks/useApiStatus'
+import Spinner from 'loader'
 
 const Profile = () => {
-//   const result = ReadLocalStorage(UserDataKey)
-//   const db_name = JSON.parse(result).user.databaseName
+  //   const result = ReadLocalStorage(UserDataKey)
+  //   const db_name = JSON.parse(result).user.databaseName
+
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    useApiStatus()
   const [image, setImage] = useState({
     blob: null,
     src: '',
@@ -30,21 +37,21 @@ const Profile = () => {
       if (file.size <= 5242880) {
         setImage({ blob: file, src: window.URL.createObjectURL(file) })
       } else {
-        fireToast('error', 'File too large')
+        toast.error('error', 'File too large')
       }
     } else {
       changeApiStatus(false, 'Please select a valid image file')
-      fireToast(
+      toast.error(
         'error',
         'Please select a valid image file(only jpg, png and jpeg images are allowed)',
       )
     }
   }
   const ProfileSchema = Yup.object().shape({
-    firstName: Yup.string()
+    username: Yup.string()
       .min(4, 'Too Short!')
       .max(20, 'Too Long!')
-      .required('Please enter your first name'),
+      .required('Please enter your  name'),
 
     // lastName: Yup.string()
     //   .min(4, 'Too Short!')
@@ -54,88 +61,96 @@ const Profile = () => {
     // phoneNumber: Yup.string().min(4, 'Too Short!').max(20, 'Too Long!').required('required'),
   })
   const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
+    username: '',
     email: '',
-    userId: '',
   })
 
-//   const fetchData = async () => {
-//     try {
-//       changeApiStatus(true, '')
-//       const userResponse = await getUserProfile()
-//       if (userResponse.status === 200) {
-//         const { firstName, lastName, _id, phoneNumber, email, profileImage } = userResponse.data
-//         setUser({ firstName, lastName, phoneNumber, email, userId: _id })
-//         profileImage &&
-//           profileImage !== null &&
-//           setImage({
-//             // blob: null,
-//             src: `${configURl.BaseURLImg}/${db_name}/${profileImage}`,
-//           })
-//         changeApiStatus(false, '')
-//       } else {
-//         throw new Error(userResponse.error)
-//       }
-//     } catch (err) {
-//       changeApiStatus(false, err.response.data.error)
-//     }
-//   }
+  const userToken = localStorage.getItem("authUser")
+  const parseData = JSON.parse(userToken)
+  const token = parseData.msg.jsonWebtoken
 
-//   useEffect(() => {
-//     fetchData()
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [])
+  const fetchData = async () => {
+    //     try {
+          changeApiStatus(true)
+    const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
+    await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
+      //       if (userResponse.status === 200) {
+      .then((res) => {
+        console.log(res, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< User response data >>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        const { username, email, userImage } = res.data.msg
+                setUser({ username, email })
 
-  const [apiStatus, setApiStatus] = useState({
-    inProgress: false,
-    failed: false,
-    failMessage: '',
-  })
-
-  const changeApiStatus = (inProgress, failMessage) => {
-    setApiStatus({
-      inProgress,
-      failed: !!failMessage,
-      failMessage,
-    })
+                userImage &&
+                userImage !== null &&
+                  setImage({
+                    // blob: null,
+                    src: `${imageBaseUrl}/${userImage}`,
+                  })
+                changeApiStatus(false)
+        //       } else {
+        //         throw new Error(userResponse.error)
+        //       }
+      })
+            
+        .catch ((err) => {
+          changeApiStatus(false)
+        })
   }
 
-//   const onSubmit = async (values) => {
-//     try {
-//       changeApiStatus(true, '')
-//       const userSaveResponse = await updateProfileSettings({ ...values, profileImage: image.blob })
-//       if (userSaveResponse.status === 200) {
-//         fireToast('success', userSaveResponse.message)
+  useEffect(() => {
+    fetchData()
+    // eslint-disable-next-line 
+  }, [])
 
-//         SetLocalStorage(
-//           UserDataKey,
-//           JSON.stringify({
-//             ...JSON.parse(ReadLocalStorage(UserDataKey)),
-//             firstName: userSaveResponse.data.firstName,
-//             lastName: userSaveResponse.data.lastName,
-//             phoneNumber: userSaveResponse.data.phoneNumber,
-//           }),
-//         )
-//         fetchData()
-//         changeApiStatus(false, '')
-//         // window.location.reload()
-//       } else {
-//         throw new Error(userSaveResponse.error)
-//       }
-//     } catch (err) {
-//       fireToast('error', err.response ? err.response.data.error : 'Something went wrong')
-//       changeApiStatus(false, err.response ? err.response.data.error : err.message)
-//     }
-//   }
+
+  function appendData(values) {
+    const formValues = { ...values }
+    const formData = new FormData()
+    for (const value in formValues) {
+         formData.append(value, formValues[value])
+    }
+    return formData
+}
+
+    const onSubmit = async (values) => {
+      console.log("ONSUMBIT")
+      const formData = appendData({
+        ...values,
+        userImage: image.blob
+   })
+      try {
+        changeApiStatus(true, '')
+        const userSaveResponse = await axios.put("https://tokenmaker-apis.block-brew.com/user/update",formData, { headers: { Authorization: `Bearer ${token}` } })
+        if (userSaveResponse.status === 200) {
+          toast.success('success', userSaveResponse.message)
+
+          // SetLocalStorage(
+          //   UserDataKey,
+          //   JSON.stringify({
+          //     ...JSON.parse(ReadLocalStorage(UserDataKey)),
+          //     firstName: userSaveResponse.data.firstName,
+          //     lastName: userSaveResponse.data.lastName,
+          //     phoneNumber: userSaveResponse.data.phoneNumber,
+          //   }),
+          // )
+          fetchData()
+          changeApiStatus(false, '')
+          // window.location.reload()
+        } else {
+          throw new Error(userSaveResponse.error)
+        }
+      } catch (err) {
+        toast.error('error', err.response ? err.response.data.error : 'Something went wrong')
+        changeApiStatus(false, err.response ? err.response.data.error : err.message)
+      }
+    }
   const uploadRef = useRef(null)
 
-  return (
+  return apiStatus.inProgress ? <Spinner /> : (
     <>
       <CRow>
         <CCol md={12}>
-          <CCard className="col-xl-12 col-lg-12 mx-auto mb-4 rounded shadow-md p-2">
+          <CCard className="col-xl-12 col-lg-12 mx-auto mb-4 rounded shadow-md p-2 mt-5">
             <div className="bg-white p-3 pb-0">
               <h5 className="mb-0">Update User Profile</h5>
               {/* <p className="mb-2 text-medium-emphasis">
@@ -149,48 +164,48 @@ const Profile = () => {
                   initialValues={user}
                   enableReinitialize
                   validationSchema={ProfileSchema}
-                //   onSubmit={onSubmit}
+                  onSubmit={onSubmit}
                 >
                   {({ errors, touched }) => (
                     <Form>
                       <div className="row">
                         <div className="col-md-8">
                           <div className="mb-3">
-                            <label htmlFor="firstName">First Name: </label>
+                            <label htmlFor="firstName">User Name: </label>
                             <Field
                               disabled={apiStatus.inProgress}
-                              name="firstName"
-                              id="firstName"
-                              placeholder="Enter your first name"
+                              name="username"
+                              id="username"
+                              placeholder="Enter your name"
                               className="form-control"
                             />
-                            {/* {errors.firstName && touched.firstName ? (
-                              <div className="text-danger">{errors.firstName}</div>
-                            ) : null} */}
+                            {errors.username && touched.username ? (
+                              <div className="text-danger">{errors.username}</div>
+                            ) : null}
                           </div>
 
                           <div className="mb-3">
-                            <label htmlFor="wallet_address">Last Name: </label>
+                            {/* <label htmlFor="wallet_address">Last Name: </label>
                             <Field
                               disabled={apiStatus.inProgress}
                               name="lastName"
                               placeholder="Enter your last name"
                               id="lastName"
                               className="form-control"
-                            />
+                            /> */}
                             {/* {errors.lastName && touched.lastName ? (
                               <div className="text-danger">{errors.lastName}</div>
                             ) : null} */}
                           </div>
                           <div className="mb-3">
-                            <label htmlFor="phoneNumber">Phone Number: </label>
+                            {/* <label htmlFor="phoneNumber">Phone Number: </label>
                             <Field
                               disabled={apiStatus.inProgress}
                               name="phoneNumber"
                               id="phoneNumber"
                               placeholder="Enter your Phone number"
                               className="form-control"
-                            />
+                            /> */}
                             {/* {errors.phoneNumber && touched.phoneNumber ? (
                               <div className="text-danger">{errors.phoneNumber}</div>
                             ) : null} */}
@@ -214,7 +229,7 @@ const Profile = () => {
                                 hidden
                                 accept="image/*"
                                 type="file"
-                                // onChange={(e) => handleImageChange(e.target.files)}
+                              onChange={(e) => handleImageChange(e.target.files)}
                               />
                               {image.src ? (
                                 <img
