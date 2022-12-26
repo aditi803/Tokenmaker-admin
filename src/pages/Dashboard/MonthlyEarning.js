@@ -64,33 +64,34 @@ const MonthlyEarning = () => {
     fetchData()
   }, [])
 
- 
+
   return (
     <React.Fragment>
       {/* {" "}
       <Card>
         <CardBody>
           <CardTitle className="mb-4">Monthly Earning</CardTitle> */}
-      <Col lg={12} style={{height:"100%"}}>
-        <Card style={{height:"100%"}}>
+      <Col lg={12} style={{ height: "100%" }}>
+        <Card style={{ height: "100%" }}>
+          <CardTitle className="mb-4" style={{fontSize:"32px", padding:"64px 78px"}}>Commissions</CardTitle>
           <CardBody>
-            <CardTitle className="mb-4">Commissions</CardTitle>
             <Row className="justify-content-center">
               {
-              pieData.map((value,i) => {
+                pieData.map((value, i) => {
 
-                category.push(value.categoryName)
-                totalVal.push(value.total)
+                  category.push(value.categoryName)
+                  totalVal.push(value.total)
 
-                // return <Col sm={4} key={i}>
-                //   <div className="text-center">
-                //     <h5 className="mb-0">{value.total}</h5>
-                //     <p className="text-muted text-truncate">{value.categoryName}</p>
-                //   </div>
-                // </Col>
-              })}
-            <PieChart dataColors='["--bs-success", "--bs-primary", "--bs-warning" ]' category={category} totalVal={totalVal} />
-
+                  // return <Col sm={4} key={i}>
+                  //   <div className="text-center">
+                  //     <h5 className="mb-0">{value.total}</h5>
+                  //     <p className="text-muted text-truncate">{value.categoryName}</p>
+                  //   </div>
+                  // </Col>
+                })}
+              <div>
+                <PieChart dataColors='["#454a74", "#f3ba2f", "#8247e5" ]' category={category} totalVal={totalVal} />
+              </div>
 
             </Row>
 

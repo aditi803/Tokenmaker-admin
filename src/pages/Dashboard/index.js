@@ -125,7 +125,7 @@ const Dashboard = props => {
             
             singleEntry = {
               ...singleEntry,
-              categoryName: obj.categoryName
+              name: obj.categoryName
             }
             updatedData.push(singleEntry)
           }
@@ -144,12 +144,13 @@ const Dashboard = props => {
       })
   }
 
-  console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   useEffect(() => {
     fetchBarData()
   },[])
 
   useEffect(() => {
+    
+  console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     setPeriodData(barData)
     // setPeriodData(chartsData);
     console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -316,7 +317,7 @@ const Dashboard = props => {
                     </div>
                   </div>
                   {/* <div className="clearfix"></div> */}
-                  <StackedColumnChart periodData={periodData} dataColors='["--bs-primary", "--bs-warning", "--bs-success"]' />
+                  <StackedColumnChart periodData={periodData} dataColors='["#f3ba2f", "#454a75", "#8247e5"]' />
                 </CardBody>
               </Card>
             </Col>

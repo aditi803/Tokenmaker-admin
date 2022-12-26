@@ -2,6 +2,20 @@
 // _menu.scss
 // 
 
+.logout-button{
+  bottom: 0;
+  left: 0;
+  z-index: 11;
+  width: 100%;
+}
+.logout-button a{
+  background-color: #2a3042;
+  border-top: 1px solid #fff;
+  color: #fff;
+  display: block;
+  padding: 20px 30px;
+  // text-align: center;
+}
 .metismenu {
     margin: 0;
 

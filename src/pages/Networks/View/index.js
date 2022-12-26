@@ -144,9 +144,9 @@ function View(props) {
                                 <span className="text-center d-block">
                                   (Id: {net.networkKey})
                                 </span>
-                                <span className="text-center d-block mt-2 fs-5 inner-logo">
+                                {/* <span className="text-center d-block mt-2 fs-5 inner-logo">
                                   {net.description}{" "}
-                                </span>
+                                </span> */}
                               </div>
                             </div>
                           ))}

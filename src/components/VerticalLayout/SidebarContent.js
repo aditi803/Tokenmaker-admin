@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
-import {GiNetworkBars} from 'react-icons/gi'
-import {TfiDashboard} from 'react-icons/tfi'
-import {AiOutlineHome} from 'react-icons/ai'
-import {MdOutlineSettings} from 'react-icons/md'
-import {CiDollar} from 'react-icons/ci'
-import {CiBitcoin} from 'react-icons/ci'
-import {TbBoxPadding} from 'react-icons/tb'
-import {BiLogOutCircle} from 'react-icons/bi'
-import {RiPagesLine} from 'react-icons/ri'
- // //Import Scrollbar
+import { GiNetworkBars } from 'react-icons/gi'
+import { TfiDashboard } from 'react-icons/tfi'
+import { AiOutlineHome } from 'react-icons/ai'
+import { MdOutlineSettings } from 'react-icons/md'
+import { CiDollar } from 'react-icons/ci'
+import { CiBitcoin } from 'react-icons/ci'
+import { TbBoxPadding } from 'react-icons/tb'
+import { BiLogOutCircle } from 'react-icons/bi'
+import { RiPagesLine } from 'react-icons/ri'
+// //Import Scrollbar
 import SimpleBar from "simplebar-react";
 import CIcon from '@coreui/icons-react'
 import {
@@ -111,12 +111,12 @@ const SidebarContent = props => {
             <li className="menu-title">{props.t("Menu")} </li>
             <li>
               <Link to="/#" className="">
-                <TfiDashboard size={25} style={{marginRight:"10px"}}/>
+                <TfiDashboard size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Dashboard")}</span>
               </Link>
               <li>
                 <Link to="/all-tokens" className="">
-                  <CiBitcoin size={25} style={{marginRight:"10px"}}/>
+                  <CiBitcoin size={25} style={{ marginRight: "10px" }} />
                   <span>{props.t("All tokens")}</span>
                 </Link>
               </li>
@@ -145,7 +145,7 @@ const SidebarContent = props => {
             <li className="menu-title">{props.t("CMS MANAGER")}</li>
             <li>
               <Link to="/#" className="has-arrow">
-                <AiOutlineHome size={25} style={{marginRight:"10px"}}/>
+                <AiOutlineHome size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Landing Page")}</span>
               </Link>
               <ul className="sub-menu">
@@ -171,7 +171,7 @@ const SidebarContent = props => {
             </li>
             <li>
               <Link to="/#" className="has-arrow">
-                <RiPagesLine size={25} style={{marginRight:"10px"}}/>
+                <RiPagesLine size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Pages")}</span>
               </Link>
               <ul className="sub-menu">
@@ -185,7 +185,7 @@ const SidebarContent = props => {
             </li>
             <li>
               <Link to="/#" className="has-arrow">
-                <CiDollar size={25} style={{marginRight:"10px"}}/>
+                <CiDollar size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Commissions")}</span>
               </Link>
               <ul className="sub-menu">
@@ -196,7 +196,7 @@ const SidebarContent = props => {
             </li>
             <li>
               <Link to="/#" className="has-arrow">
-              <GiNetworkBars size={23} style={{marginRight:"10px"}}/>
+                <GiNetworkBars size={23} style={{ marginRight: "10px" }} />
                 <span>{props.t("Networks")}</span>
               </Link>
               <ul className="sub-menu">
@@ -213,13 +213,13 @@ const SidebarContent = props => {
             </li>
             <li>
               <Link to="/footer" className="">
-                <TbBoxPadding size={25} style={{marginRight:"10px"}}/>
+                <TbBoxPadding size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Footer")}</span>
               </Link>
             </li>
             <li>
               <Link to="/#" className="has-arrow">
-                <MdOutlineSettings size={25} style={{marginRight:"10px"}}/>
+                <MdOutlineSettings size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Settings")}</span>
               </Link>
               <ul className="sub-menu">
@@ -237,15 +237,6 @@ const SidebarContent = props => {
                 </li>
               </ul>
             </li>
-
-            <li style={{ position: "absolute", bottom: "0px" }}>
-              <Link to="/logout" className="">
-                <BiLogOutCircle size={25} style={{marginRight:"10px"}}/>
-                <span>{props.t("Log out")}</span>
-              </Link>
-            </li>
-
-
             {/* <li>
               <Link to="/calendar" >
                 <i className="bx bx-calendar"></i>
@@ -410,7 +401,7 @@ const SidebarContent = props => {
               </ul>
             </li> */}
 
-              {/* <li>
+            {/* <li>
                 <Link to="/#" className="has-arrow ">
                   <i className="bx bx-task"></i>
                   <span>{props.t("Tasks")}</span>
@@ -856,8 +847,16 @@ const SidebarContent = props => {
               </ul>
             </li> */}
           </ul>
+
         </div>
+
       </SimpleBar>
+      <div className="logout-button position-absolute">
+        <Link to="/logout" className="">
+          <BiLogOutCircle size={25} style={{ marginRight: "10px" }} />
+          <span>{props.t("Log out")}</span>
+        </Link>
+      </div>
     </React.Fragment>
   );
 };
