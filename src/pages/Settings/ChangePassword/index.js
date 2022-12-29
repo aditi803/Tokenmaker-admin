@@ -50,17 +50,16 @@ const ChangePassword = () => {
     axios.post("https://tokenmaker-apis.block-brew.com/user/changepassword",
          values, { headers: { "Authorization": `Bearer ${token}` } })
          .then((result) => {
-              setApiSuccess()
+              // setApiSuccess()
               changeApiStatus(false)
-              fetchData()
-              toast.success('updated successfully');
-
+              // fetchData()
+              toast.success('Updated Successfully');
          })
          .catch((err) => {
               changeApiStatus(false)
-              setApiFailed(err.message)
+              // setApiFailed(err.message)
               toast.error("Already Updated!!")
-              console.log(err, "Banner error")
+              // console.log(err, "Banner error")
          })
     // setLoader(false)
 }

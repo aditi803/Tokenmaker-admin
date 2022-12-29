@@ -16,7 +16,7 @@ import * as Yup from 'yup'
 
 
 function LandingPageCustomDeveloper(props) {
-     document.title = "BlockTechBrew - Landing Page Custom Devloper"
+     document.title = "BlockTechBrew - Landing Page Custom Developer"
 
      const [items, setItems] = useState({});
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
@@ -136,12 +136,12 @@ function LandingPageCustomDeveloper(props) {
                     setApiSuccess()
                     changeApiStatus(false)
                     fetchData()
-                    toast.success('updated successfully');
+                    toast.success('Updated Successfully');
 
                })
                .catch((err) => {
                     changeApiStatus(false)
-                    setApiFailed(err.message)
+                    // setApiFailed(err.message)
                     toast.error("Already Updated!!")
                     console.log(err, "Banner error")
                })
@@ -176,7 +176,7 @@ function LandingPageCustomDeveloper(props) {
                     <Container fluid>
                          <Breadcrumbs
                               title={props.t("Landing-Page")}
-                              breadcrumbItem={props.t("Custom-Devloper")}
+                              breadcrumbItem={props.t("Custom-Developer")}
                          />
                          <CCardGroup>
                               <CCard>

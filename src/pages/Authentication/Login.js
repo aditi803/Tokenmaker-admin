@@ -210,7 +210,7 @@ const Login = props => {
                           Log In
                         </button>
                       <Link to='/forgot-password'>
-                      <p>Forgot Password?</p>
+                      <p className="pt-2">Forgot Password?</p>
                       </Link> 
                       </div>
 

@@ -132,6 +132,44 @@ function Payments(props) {
                             </Card>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col lg={12}>
+                            <Card>
+                                <CardBody>
+                                    <h2 className="mb-4">Phantom</h2>
+                                    <hr></hr>
+                                    <Form>
+                                        <Row>
+                                            <Col lg={12}>
+                                                <div>
+                                                    <div className="form-group mb-4">
+                                                        <Label for="input-date1">Your Wallet Address: </Label>
+                                                        <InputMask
+                                                            // mask="(999) 999-9999"
+                                                            // value={payment.paymentAddress}
+                                                            placeholder="Enter your payment address"
+                                                            className="form-control input-color"
+                                                            name="paymentAddress"
+                                                          onChange={onChangeHandler}
+                                                        />
+                                                        <p style={{color:"red"}}>{error}</p>
+                                                        <p className="my-2">Note: <span style={{ color: "red" }}>You will receive all funds under this wallet address</span></p>
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Button
+                                            color="success"
+                                            className="mt-1"
+                                          onClick={paymentUpdate}
+                                        >
+                                            Update
+                                        </Button>
+                                    </Form>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
                 </Container>
             </div>
         </React.Fragment>

@@ -295,12 +295,12 @@ const LandingPageBanner = (props) => {
                     setApiSuccess()
                     changeApiStatus(false)
                     fetchData()
-                    toast.success('updated successfully');
+                    toast.success('Updated Successfully');
 
                })
                .catch((err) => {
                     changeApiStatus(false)
-                    setApiFailed(err.message)
+                    // setApiFailed(err.message)
                     toast.error("Already Updated!!")
                     console.log(err, "Banner error")
                })

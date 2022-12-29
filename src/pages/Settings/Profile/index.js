@@ -122,7 +122,7 @@ const Profile = () => {
         changeApiStatus(true, '')
         const userSaveResponse = await axios.put("https://tokenmaker-apis.block-brew.com/user/update",formData, { headers: { Authorization: `Bearer ${token}` } })
         if (userSaveResponse.status === 200) {
-          toast.success('success', userSaveResponse.message)
+          toast.success('Updated Successfully', userSaveResponse.message)
 
           // SetLocalStorage(
           //   UserDataKey,

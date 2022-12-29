@@ -42,8 +42,8 @@ function EditView(props) {
     }
   }
 
-  console.log(getData?.networkName,"NetqworkName")
-  console.log(getData?.categoryName,"CategoryName")
+  console.log(getData?.networkName, "NetqworkName")
+  console.log(getData?.categoryName, "CategoryName")
 
   const [category, setCategory] = useState([])
 
@@ -102,17 +102,16 @@ function EditView(props) {
   return (
     <React.Fragment>
       <div className="page-content">
-        <Breadcrumb
-          title={props.t("Landing-Page")}
-          breadcrumbItem={props.t("Add-Network")}
-        />
+        <p
+          style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+        >Edit Network</p>
         <Row>
           <>
             <Form>
               <div className="row ">
                 <div className="col-md-12 justify-content-center align-item-center">
                   <div className="bg-white pb-3 pt-2">
-                    <p style={{ textAlign: "center" }}>Edit Networks</p>
+                    {/* <p style={{ textAlign: "center" }}>Edit Networks</p> */}
                     <>
                       <Row className="justify-content-center">
                         <Col sm={8} className="pb-3">
@@ -246,7 +245,7 @@ function EditView(props) {
                               {category?.map((content, i) => {
                                 return (
                                   <>
-                                  {console.log(getData.category, '>>>>>>>>>>>>>>>>>>>>>>>>>>HOW COULD YOU')}
+                                    {console.log(getData.category, '>>>>>>>>>>>>>>>>>>>>>>>>>>HOW COULD YOU')}
                                     <option
                                       key={i}
                                       value={content.categoryName}

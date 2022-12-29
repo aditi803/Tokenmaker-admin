@@ -184,7 +184,7 @@ function Add(props) {
                                         <div className="row ">
                                              <div className="col-md-12 justify-content-center align-item-center">
                                                   <div className="bg-white pb-3 pt-2">
-                                                       <p style={{ textAlign: "center" }}>Add Networks</p>
+                                                       {/* <p style={{ textAlign: "center" }}>Add Networks</p> */}
                                                        <>
                                                             <Row className="justify-content-center">
                                                                  <Col sm={8} className="pb-3">

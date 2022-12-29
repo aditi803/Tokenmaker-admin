@@ -114,12 +114,9 @@ const SidebarContent = props => {
                 <TfiDashboard size={25} style={{ marginRight: "10px" }} />
                 <span>{props.t("Dashboard")}</span>
               </Link>
-              <li>
-                <Link to="/all-tokens" className="">
-                  <CiBitcoin size={25} style={{ marginRight: "10px" }} />
-                  <span>{props.t("All tokens")}</span>
-                </Link>
-              </li>
+
+
+
               {/* <ul className="sub-menu">
                 <li>
                   <Link to="/dashboard">{props.t("Default")}</Link>
@@ -141,7 +138,12 @@ const SidebarContent = props => {
                 </li>
               </ul> */}
             </li>
-
+            <li>
+              <Link to="/all-tokens" className="">
+                <CiBitcoin size={25} style={{ marginRight: "10px" }} />
+                <span>{props.t("All tokens")}</span>
+              </Link>
+            </li>
             <li className="menu-title">{props.t("CMS MANAGER")}</li>
             <li>
               <Link to="/#" className="has-arrow">

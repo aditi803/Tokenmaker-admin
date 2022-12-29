@@ -91,10 +91,9 @@ function View(props) {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumb
-            title={props.t("Landing-Page")}
-            breadcrumbItem={props.t("View")}
-          />
+        <p
+            style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+          >View</p>
           <Row>
             <div className="col-xl-12 col-lg-12  mx-auto mb-xl-4 mb-2 ">
               {/* <CCard className='mb-2 border-0 pt-2'> */}

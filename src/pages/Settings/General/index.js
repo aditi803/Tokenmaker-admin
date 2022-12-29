@@ -88,7 +88,7 @@ function General(props) {
         <Container fluid>
           <p
             style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-          >header</p>
+          >General Settings</p>
           <Row>
             <Col lg={12}>
               <Formik 
@@ -105,7 +105,7 @@ function General(props) {
                   <Form>
                     <Card>
                       <CardBody>
-                        <CardTitle className="mb-4">General Settings</CardTitle>
+                        {/* <CardTitle className="mb-4">Genesral Settings</CardTitle> */}
                           <Row>
                             <Col lg={6}>
                               <div>

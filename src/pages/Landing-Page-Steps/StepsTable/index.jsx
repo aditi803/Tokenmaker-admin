@@ -193,7 +193,7 @@ function CommissionTable(props) {
                       color="primary"
                       className="mt-1"
                       onClick={toggleAddModal}
-                      style={{backgroundColor:"#2a3042"}}
+                      style={{backgroundColor:"#34c384", borderColor:"#34c384"}}
                     >
                       Add
                     </Button>

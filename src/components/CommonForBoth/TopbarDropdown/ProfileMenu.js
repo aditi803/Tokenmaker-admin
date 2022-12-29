@@ -50,7 +50,7 @@ const ProfileMenu = props => {
                     `${imageBaseUrl}/${userImage}`
                   )
 
-                  console.log(userImage, "ADITI IMAGE")
+                  console.log(userImage, "SNAPCHAT IMAGE")
                 changeApiStatus(false)
         //       } else {
         //         throw new Error(userResponse.error)

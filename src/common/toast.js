@@ -21,7 +21,7 @@ export const toastConfig = () => {
 export const toastConfirm = (text, subText, html = '') => {
   return Swal.mixin({
     title: text ? text : 'Are you sure?',
-    text: subText ? subText : 'You wanna proceed?',
+    text: subText ? subText : 'You want to proceed?',
     html: html,
     showCancelButton: true,
     confirmButtonText: 'Yes',

@@ -174,10 +174,9 @@ const Dashboard = props => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs
-            title={props.t("Dashboards")}
-            breadcrumbItem={props.t("Dashboard")}
-          />
+          <p
+            style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+          >Dashboard</p>
 
           <Row>
             <Col xl="4" style={{marginBottom:"25px"}}>
