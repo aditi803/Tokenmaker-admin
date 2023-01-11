@@ -30,7 +30,7 @@ function Add(props) {
           symbol: "",
           networkImage: "",
           rpcUrl: "",
-          description: "",
+          // description: "",
           categoryName: ""
      })
 
@@ -39,7 +39,7 @@ function Add(props) {
           blockExplorerUrl: Yup.string().required('Enter block explorer url'),
           chainId: Yup.number().required('Enter chain id '),
           rpcUrl: Yup.string().required('Enter rpc url'),
-          description: Yup.string().required('Enter description here'),
+          // description: Yup.string().required('Enter description here'),
           categoryName: Yup.string().required('Choose category'),
           symbol: Yup.string().required('Enter symbol'),
           networkImageUrl: Yup.string().required('Network Image Required.')
@@ -55,7 +55,7 @@ function Add(props) {
           rpcUrl: getData.rpcUrl,
           symbol: getData.symbol,
           networkImage: getData.networkImage,
-          description: getData.description,
+          // description: getData.description,
           categoryName: getData.categoryName
      }
 
@@ -168,7 +168,7 @@ function Add(props) {
                               blockExplorerUrl: '',
                               chainId: '',
                               rpcUrl: '',
-                              description: '',
+                              // description: '',
                               categoryName: '',
                               symbol:'',
                               networkImageUrl: ''
@@ -183,14 +183,14 @@ function Add(props) {
                                    <Form>
                                         <div className="row ">
                                              <div className="col-md-12 justify-content-center align-item-center">
-                                                  <div className="bg-white pb-3 pt-2">
+                                                  <div className="bg-white pb-3 pt-5">
                                                        {/* <p style={{ textAlign: "center" }}>Add Networks</p> */}
                                                        <>
                                                             <Row className="justify-content-center">
                                                                  <Col sm={8} className="pb-3">
                                                                       <div>
                                                                            <label htmlFor="networkName" className="mb-2 name">
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      Network Name{" "}
                                                                                      <span className="input-error">*</span>
                                                                                 </p>
@@ -219,7 +219,7 @@ function Add(props) {
                                                                  <Col sm={8} className="pb-3">
                                                                       <div>
                                                                            <label htmlFor="chainId" className="mb-2 name">
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      Chain ID <span className="input-error">*</span>
                                                                                 </p>
                                                                            </label>
@@ -249,7 +249,7 @@ function Add(props) {
                                                                                 htmlFor="blockExplorerUrl"
                                                                                 className="mb-2 name"
                                                                            >
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      Block Explorer Url{" "}
                                                                                      <span className="input-error">*</span>
                                                                                 </p>
@@ -277,7 +277,7 @@ function Add(props) {
                                                                  <Col sm={8} className="pb-3">
                                                                       <div>
                                                                            <label htmlFor="rpcUrl" className="mb-2 name">
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      RPC Url <span className="input-error">*</span>
                                                                                 </p>
                                                                            </label>
@@ -301,10 +301,10 @@ function Add(props) {
                                                                            ) : null}
                                                                       </div>
                                                                  </Col>
-                                                                 <Col sm={8} className="pb-3 ">
+                                                                 {/* <Col sm={8} className="pb-3 ">
                                                                       <div>
                                                                            <label htmlFor="description" className="mb-2 name">
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      Description <span className="input-error">*</span>
                                                                                 </p>
                                                                            </label>
@@ -327,11 +327,11 @@ function Add(props) {
                                                                                 <div className="input-error text-danger">{errors.description}</div>
                                                                            ) : null}
                                                                       </div>
-                                                                 </Col>
+                                                                 </Col> */}
                                                                  <Col sm={8} className="pb-3 ">
                                                                       <div>
                                                                            <label htmlFor="categoryName" className="mb-2 name">
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      Category <span className="input-error">*</span>
                                                                                 </p>
                                                                            </label>
@@ -378,7 +378,7 @@ function Add(props) {
                                                                  <Col sm={8} className="pb-3 ">
                                                                       <div>
                                                                            <label htmlFor="symbol" className="mb-2 name">
-                                                                                <p>
+                                                                                <p className="m-0">
                                                                                      Symbol <span className="input-error">*</span>
                                                                                 </p>
                                                                            </label>
@@ -406,7 +406,7 @@ function Add(props) {
                                                                       <div>
                                                                            <div>
                                                                                 <label className="name mb-2">
-                                                                                     <p>
+                                                                                     <p className="m-0">
                                                                                           Network images{" "}
                                                                                           <span className="input-error">*</span>
                                                                                      </p>
@@ -478,8 +478,8 @@ function Add(props) {
                                                                                 <div className="input-error text-danger">{errors.networkImageUrl}</div>
                                                                            ) : null}
                                                                       </div>
-                                                                      <div style={{ display: "flex" }} className="my-3">
-                                                                           <div className="mb-4">
+                                                                      <div style={{ display: "flex" }} className="my-3 mt-4">
+                                                                           <div className="">
                                                                                 <button
                                                                                      className="btn btn-primary px-4"
                                                                                      type="submit"
@@ -488,7 +488,7 @@ function Add(props) {
                                                                                      {/* {id ? 'Update' : 'Add'} */} Add
                                                                                 </button>
                                                                            </div>
-                                                                           <div className="mb-4" style={{ marginLeft: "10px" }}>
+                                                                           <div className="" style={{ marginLeft: "10px" }}>
                                                                                 <button
                                                                                      className="btn btn-secondary px-4"
                                                                                      type="submit"

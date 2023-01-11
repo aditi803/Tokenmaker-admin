@@ -110,14 +110,14 @@ function EditView(props) {
             <Form>
               <div className="row ">
                 <div className="col-md-12 justify-content-center align-item-center">
-                  <div className="bg-white pb-3 pt-2">
+                  <div className="bg-white pb-3 pt-5">
                     {/* <p style={{ textAlign: "center" }}>Edit Networks</p> */}
                     <>
                       <Row className="justify-content-center">
                         <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="networkName" className="mb-2 name">
-                              <p>
+                              <p className="m-0">
                                 Network Name{" "}
                                 <span className="input-error">*</span>
                               </p>
@@ -139,7 +139,7 @@ function EditView(props) {
                         <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="chainId" className="mb-2 name">
-                              <p>
+                              <p className="m-0">
                                 Chain ID <span className="input-error">*</span>
                               </p>
                             </label>
@@ -163,7 +163,7 @@ function EditView(props) {
                               htmlFor="blockExplorerUrl"
                               className="mb-2 name"
                             >
-                              <p>
+                              <p className="m-0">
                                 Block Explorer Url{" "}
                                 <span className="input-error">*</span>
                               </p>
@@ -185,7 +185,7 @@ function EditView(props) {
                         <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="rpcUrl" className="mb-2 name">
-                              <p>
+                              <p className="m-0">
                                 RPC Url <span className="input-error">*</span>
                               </p>
                             </label>
@@ -203,10 +203,10 @@ function EditView(props) {
                                                                  ) : null} */}
                           </div>
                         </Col>
-                        <Col sm={8} className="pb-3">
+                        {/* <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="rpcUrl" className="mb-2 name">
-                              <p>
+                              <p className="m-0">
                                 Description <span className="input-error">*</span>
                               </p>
                             </label>
@@ -219,15 +219,12 @@ function EditView(props) {
                               value={getData?.description}
                               onChange={handleChange}
                             />
-                            {/* {errors.rpcUrl && touched.rpcUrl ? (
-                                                                      <div className="input-error">{errors.rpcUrl}</div>
-                                                                 ) : null} */}
                           </div>
-                        </Col>
+                        </Col> */}
                         <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="categoryName" className="mb-2 name">
-                              <p>
+                              <p className="m-0">
                                 Category <span className="input-error">*</span>
                               </p>
                             </label>
@@ -262,10 +259,10 @@ function EditView(props) {
                           </div>
                         </Col>
 
-                        <Col sm={8} className="pb-3 mt-3">
+                        <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="symbol" className="mb-2 name">
-                              <p>
+                              <p className="m-0">
                                 Symbol <span className="input-error">*</span>
                               </p>
                             </label>
@@ -287,7 +284,7 @@ function EditView(props) {
                           <div>
                             <div>
                               <label className="name mb-2">
-                                <p>
+                                <p className="m-0">
                                   Network image{" "}
                                   <span className="input-error">*</span>
                                 </p>
@@ -328,8 +325,8 @@ function EditView(props) {
 
                             </div>
                           </div>
-                          <div style={{ display: "flex" }} className="my-3">
-                            <div className="mb-4">
+                          <div style={{ display: "flex" }} className="mt-4">
+                            <div className="">
                               <Button
                                 className="btn btn-success px-4"
                                 type="submit"
@@ -339,7 +336,7 @@ function EditView(props) {
                                 {/* {id ? 'Update' : 'Add'} */} Update
                               </Button>
                             </div>
-                            <div className="mb-4" style={{ marginLeft: "10px" }}>
+                            <div className="" style={{ marginLeft: "10px" }}>
                               <Button
                                 className="btn btn-secondary px-4"
                                 type="submit"
