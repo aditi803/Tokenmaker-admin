@@ -48,7 +48,7 @@ function Payments(props) {
         setApiFailed(err.message)
       })
   }
- 
+
 
   const onChangeHandler = async e => {
     e.preventDefault()
