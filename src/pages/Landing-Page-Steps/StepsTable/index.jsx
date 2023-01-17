@@ -61,7 +61,7 @@ function CommissionTable(props) {
      //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
      //    })
         setData(
-          list.data.msg.stepDetails.map((val, index) => {
+          list.data.msg.stepDetails.items.map((val, index) => {
                console.log(val,"kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
