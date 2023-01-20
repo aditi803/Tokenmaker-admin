@@ -13,6 +13,10 @@
     outline: 4px solid rgb(41, 116, 214);
   
   }
+  .view-icons{
+    display: flex;
+    justify-content: space-around;
+  }
   .viewNetwork img {
     height: 450px;
     width: 100%;

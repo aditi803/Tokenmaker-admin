@@ -53,6 +53,7 @@ import PrivacyPolicy from "pages/Pages/Privacy Policy"
 import Category from "pages/Networks/Category"
 import Payments from "pages/Settings/Payments"
 import Profile from "pages/Settings/Profile"
+import Users from "pages/Pages/Users/Users"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -74,6 +75,8 @@ const authProtectedRoutes = [
   {path: '/network-edit/:id', component: EditView},
   {path: '/terms-of-use', component: TermsOfUse},
   {path: '/privacy-policy', component: PrivacyPolicy},
+  {path: '/subscribed-users', component: Users},
+
   {path: '/category', component: Category},
   {path: '/payments', component: Payments},
   {path: '/profile-settings', component: Profile},
