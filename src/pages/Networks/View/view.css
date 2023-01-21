@@ -15,7 +15,7 @@
   }
   .view-icons{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
   }
   .viewNetwork img {
     height: 450px;

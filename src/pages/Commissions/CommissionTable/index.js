@@ -98,7 +98,7 @@ function CommissionTable(props) {
         // })
         // console.log(list.data, "fetNetwork----- ")
         setData(
-          list.data.msg.items.map((val, index) => {
+          list.data.msg.map((val, index) => {
             return { ...val, serial: index + 1 }
             // console.log(list.data.msg, "Commission data ")
           })

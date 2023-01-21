@@ -123,7 +123,7 @@ function View(props) {
       },
     })
       .then((res) => {
-toast.success(res?.data?.msg)
+        toast.success(res?.data?.msg)
       })
       .catch((err) => {
         console.log(err, "Toggler error")
@@ -177,7 +177,7 @@ toast.success(res?.data?.msg)
                                 </div>
 
                                 <h6 className="text-center mt-2 fw-bold">
-                                  <div className="view-icons">
+                                  <div className="view-icons px-3 ">
                                     <div>
                                       <Link to={{ pathname: `/network-edit/${net._id}`, state: net }}>
                                         <CIcon
@@ -194,26 +194,25 @@ toast.success(res?.data?.msg)
                                       />
                                     </div>
 
-                                    <div>
-                                      {/* {console.log(net.active, "Active Toggler")} */}
-                                      <CFormSwitch
-                                        // checked={checked}
-                                        // onChange={handleChange}
-                                        // color="primary"
-                                        shape="pill"
-                                        // size="small"
-                                        color={net.active ? 'success' : 'danger'}
-                                        // value={net.active}
-                                        defaultChecked={net.active === "false" ? false : net.active === "true" ? true : false}
-                                        // checked={net.active}
-                                        // inputProps={{ 'aria-label': 'controlled' }}
-                                        // inputProps={net.active}
-                                        onChange={(e) => {
-                                          NetworkToggler(e.target.checked ? "true" : "false", net._id)
-                                        }
-                                        }
-                                      />
-                                    </div>
+                                    {/* {console.log(net.active, "Active Toggler")} */}
+                                    <CFormSwitch
+                                      // checked={checked}
+                                      // onChange={handleChange}
+                                      // color="primary"
+                                      style={{width:"35px", height:"20px"}}
+                                      shape="pill"
+                                      // size="small"
+                                      color={net.active ? 'success' : 'danger'}
+                                      // value={net.active}
+                                      defaultChecked={net.active === "false" ? false : net.active === "true" ? true : false}
+                                      // checked={net.active}
+                                      // inputProps={{ 'aria-label': 'controlled' }}
+                                      // inputProps={net.active}
+                                      onChange={(e) => {
+                                        NetworkToggler(e.target.checked ? "true" : "false", net._id)
+                                      }
+                                      }
+                                    />
                                   </div>
 
 

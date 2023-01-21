@@ -8,6 +8,7 @@ import ApexRadial from "./ApexRadial";
 import PieChart from "./Piechart";
 import useApiStatus from "hooks/useApiStatus";
 import Spinner from "loader";
+import Doughnut from "./doughnutchart";
 
 const MonthlyEarning = () => {
 
@@ -71,33 +72,34 @@ const MonthlyEarning = () => {
       <Card>
         <CardBody>
           <CardTitle className="mb-4">Monthly Earning</CardTitle> */}
-      <Col lg={12} style={{ height: "100%" }}>
-        <Card style={{ height: "100%" }}>
-          <CardTitle className="mb-4" style={{fontSize:"32px", padding:"64px 78px"}}>Commissions</CardTitle>
-          <CardBody>
-            <Row className="justify-content-center">
-              {
-                pieData.map((value, i) => {
+      {/* <Col lg={12} style={{ height: "100%" }}> */}
+      {/* <Card style={{ height: "100%" }}> */}
+      {/* <CardBody> */}
+      <Row className="justify-content-center">
+        <CardTitle className="mb-4" style={{ fontSize: "32px"}}>Commissions</CardTitle>
+        {
+          pieData.map((value, i) => {
 
-                  category.push(value.categoryName)
-                  totalVal.push(value.total)
+            category.push(value.categoryName)
+            totalVal.push(value.total)
 
-                  // return <Col sm={4} key={i}>
-                  //   <div className="text-center">
-                  //     <h5 className="mb-0">{value.total}</h5>
-                  //     <p className="text-muted text-truncate">{value.categoryName}</p>
-                  //   </div>
-                  // </Col>
-                })}
-              <div>
-                <PieChart dataColors='["#454a74", "#f3ba2f", "#8247e5" ]' category={category} totalVal={totalVal} />
-              </div>
+            // return <Col sm={4} key={i}>
+            //   <div className="text-center">
+            //     <h5 className="mb-0">{value.total}</h5>
+            //     <p className="text-muted text-truncate">{value.categoryName}</p>
+            //   </div>
+            // </Col>
+          })}
+        <div>
+          {/* <PieChart dataColors='["#454a74", "#f3ba2f", "#8247e5" ]' category={category} totalVal={totalVal} /> */}
+          <Doughnut dataColors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]'/>
+        </div>
 
-            </Row>
+      </Row>
 
-          </CardBody>
-        </Card>
-      </Col>
+      {/* </CardBody> */}
+      {/* </Card> */}
+      {/* </Col> */}
       {/* </CardBody>
       </Card> */}
     </React.Fragment>

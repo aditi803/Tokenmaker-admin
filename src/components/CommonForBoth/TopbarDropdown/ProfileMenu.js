@@ -15,11 +15,16 @@ import { withRouter, Link } from "react-router-dom";
 import axios from "axios"
 import {toastify} from "react-toastify"
 
+
+import { useContext } from "react";
+import { CommonContext } from "constants/common";
+
 // users
 import user1 from "../../../assets/images/users/admin-girl-image.jpg";
 import useApiStatus from "hooks/useApiStatus";
 
 const ProfileMenu = props => {
+  const {toggle, setToggle} =  useContext(CommonContext);
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
 
@@ -29,43 +34,45 @@ const ProfileMenu = props => {
   const parseData = JSON.parse(userToken)
   const token = parseData.msg.jsonWebtoken
   const [user, setUser] = useState([])
-  const [image, setImage] = useState('')
+  const [image, setImage] =useState({
+    blob: null,
+    src: '',
+  })
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
-  const fetchData = async () => {
-    //     try {
-          changeApiStatus(true)
-    const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
-    await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
-      //       if (userResponse.status === 200) {
-      .then((res) => {
-        console.log(res, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< User response data >>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        const { userImage } = res.data.msg
-                setUser({ username, email })
+    const fetchData = async () => {
+      //     try {
+            changeApiStatus(true)
+      const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
+      await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
+        //       if (userResponse.status === 200) {
+        .then((res) => {
 
-                userImage &&
-                userImage !== null &&
-                  setImage(
-                    `${imageBaseUrl}/${userImage}`
-                  )
-
-                  console.log(userImage, "SNAPCHAT IMAGE")
-                changeApiStatus(false)
-        //       } else {
-        //         throw new Error(userResponse.error)
-        //       }
-      })
-            
-        .catch ((err) => {
-          changeApiStatus(false)
+          const { username, email, userImage } = res.data.msg
+                  setUser({ username, email })
+  
+                  userImage &&
+                  userImage !== null &&
+                    setImage({
+                      src: `${imageBaseUrl}/${userImage}`,
+                    })
+                  changeApiStatus(false)
+          //       } else {
+          //         throw new Error(userResponse.error)
+          //       }
         })
-  }
-
-  useEffect(() => {
-    fetchData()
-    // eslint-disable-next-line 
-  }, [])
+              
+          .catch ((err) => {
+            changeApiStatus(false)
+          })
+    }
+  
+    useEffect(() => {
+      fetchData()
+      // eslint-disable-next-line 
+    }, [toggle]) // pass depo
+  console.log("user-image profilemenu", image)
 
 
 
@@ -96,9 +103,11 @@ const ProfileMenu = props => {
           id="page-header-user-dropdown"
           tag="button"
         >
+
           <img
             className="rounded-circle header-profile-user"
-            src={user1}
+            src={image.src ? image.src : user1}
+            style={{height:"35px", width:"35px", objectFit:"cover"}}
             alt="Header Avatar"
           />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>

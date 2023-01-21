@@ -19,7 +19,10 @@ import axios from "axios"
 import useApiStatus from 'hooks/useApiStatus'
 import Spinner from 'loader'
 
+import { CommonContext } from 'constants/common'
+import { useContext } from 'react'
 const Profile = () => {
+  const {toggle, setToggle} =  useContext(CommonContext);
   //   const result = ReadLocalStorage(UserDataKey)
   //   const db_name = JSON.parse(result).user.databaseName
 
@@ -83,7 +86,6 @@ const Profile = () => {
                 userImage &&
                 userImage !== null &&
                   setImage({
-                    // blob: null,
                     src: `${imageBaseUrl}/${userImage}`,
                   })
                 changeApiStatus(false)
@@ -100,7 +102,7 @@ const Profile = () => {
   useEffect(() => {
     fetchData()
     // eslint-disable-next-line 
-  }, [])
+  }, [])  // use depo
 
 
   function appendData(values) {
@@ -122,6 +124,7 @@ const Profile = () => {
         changeApiStatus(true, '')
         const userSaveResponse = await axios.put("https://tokenmaker-apis.block-brew.com/user/update",formData, { headers: { Authorization: `Bearer ${token}` } })
         if (userSaveResponse.status === 200) {
+          setToggle(!toggle)
           toast.success('Updated Successfully', userSaveResponse.message)
 
           // SetLocalStorage(
@@ -145,6 +148,8 @@ const Profile = () => {
       }
     }
   const uploadRef = useRef(null)
+
+  console.log(image, "USet image index")
 
   return apiStatus.inProgress ? <Spinner /> : (
     <>

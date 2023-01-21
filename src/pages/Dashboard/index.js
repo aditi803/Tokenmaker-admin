@@ -82,7 +82,7 @@ const Dashboard = props => {
   const reports = [
     { title: "Orders", iconClass: "bx-copy-alt", description: "1,235" },
     { title: "Revenue", iconClass: "bx-archive-in", description: "$35, 723" },
-    { 
+    {
       title: "Average Price",
       iconClass: "bx-purchase-tag-alt",
       description: "$16.2",
@@ -106,23 +106,23 @@ const Dashboard = props => {
         const data = res.data;
         const updatedData = []
         data.forEach((obj) => {
-          if(obj._id){
+          if (obj._id) {
             let singleEntry = {};
             let arr = [];
-            for(let i=1 ; i <=12; i++){
-              
-              const hasProp = obj.data.find(({month}) => i === month )
+            for (let i = 1; i <= 12; i++) {
+
+              const hasProp = obj.data.find(({ month }) => i === month)
               // console.log(hasProp, "HasProp>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>");
-              if(!hasProp){
-                arr.push({month: i, totalCommissionFee: 0})
-              }else{
+              if (!hasProp) {
+                arr.push({ month: i, totalCommissionFee: 0 })
+              } else {
                 arr.push(hasProp)
-              } 
+              }
             }
             singleEntry = {
-              data: arr.map(({totalCommissionFee}) => totalCommissionFee)
+              data: arr.map(({ totalCommissionFee }) => totalCommissionFee)
             }
-            
+
             singleEntry = {
               ...singleEntry,
               name: obj.categoryName
@@ -131,7 +131,7 @@ const Dashboard = props => {
           }
         })
 
-        console.log(updatedData,'updatedData')
+        console.log(updatedData, 'updatedData')
 
 
 
@@ -146,11 +146,11 @@ const Dashboard = props => {
 
   useEffect(() => {
     fetchBarData()
-  },[])
+  }, [])
 
   useEffect(() => {
-    
-  console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+    console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     setPeriodData(barData)
     // setPeriodData(chartsData);
     console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -179,15 +179,15 @@ const Dashboard = props => {
           >Dashboard</p>
 
           <Row>
-            <Col xl="4" style={{marginBottom:"25px"}}>
+            <Col xl="4" style={{ marginBottom: "25px" }}>
               {/* <WelcomeComp /> */}
-              <MonthlyEarning />
+              {/* <MonthlyEarning /> */}
             </Col>
-            <Col xl="8">
+            <Col xl="12">
               <Row>
                 {/* Reports Render */}
                 {/* {reports.map((report, key) => ( */}
-                <>         
+                <>
                   <Col md="4">
                     <Card className="mini-stats-wid">
                       <CardBody>
@@ -200,7 +200,7 @@ const Dashboard = props => {
                           </div>
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                             <span className="avatar-title rounded-circle bg-primary">
-                            <i className="cil-dollar"></i>
+                              <i className="cil-dollar"></i>
                               <i
                                 className={
                                   "bx " + "bx-purchase-tag-alt" + " font-size-24"
@@ -213,61 +213,70 @@ const Dashboard = props => {
                     </Card>
                   </Col>
                   <Col md="4">
-                  <Card className="mini-stats-wid">
-                    <CardBody>
-                      <div className="d-flex">
-                        <div className="flex-grow-1">
-                          <p className="text-muted fw-medium">
-                            Monthly Commissions
-                          </p>
-                          <h4 className="mb-0">${data.lastMonth?.toFixed(2)}</h4>
+                    <Card className="mini-stats-wid">
+                      <CardBody>
+                        <div className="d-flex">
+                          <div className="flex-grow-1">
+                            <p className="text-muted fw-medium">
+                              Monthly Commissions
+                            </p>
+                            <h4 className="mb-0">${data.lastMonth?.toFixed(2)}</h4>
+                          </div>
+                          <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                            <span className="avatar-title rounded-circle bg-primary">
+                              <i
+                                className={
+                                  "bx " + "bx-purchase-tag-alt" + " font-size-24"
+                                }
+                              ></i>
+                            </span>
+                          </div>
                         </div>
-                        <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                          <span className="avatar-title rounded-circle bg-primary">
-                            <i
-                              className={
-                                "bx " + "bx-purchase-tag-alt" + " font-size-24"
-                              }
-                            ></i>
-                          </span>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  <Col md="4">
+                    <Card className="mini-stats-wid">
+                      <CardBody>
+                        <div className="d-flex">
+                          <div className="flex-grow-1">
+                            <p className="text-muted fw-medium">
+                              Yearly Commissions
+                            </p>
+                            <h4 className="mb-0">${data.total?.toFixed(2)}</h4>
+                          </div>
+                          <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                            <span className="avatar-title rounded-circle bg-primary">
+                              <i
+                                className={
+                                  "bx " + "bx-purchase-tag-alt" + " font-size-24"
+                                }
+                              ></i>
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-                </Col>
-                <Col md="4">
-                  <Card className="mini-stats-wid">
-                    <CardBody>
-                      <div className="d-flex">
-                        <div className="flex-grow-1">
-                          <p className="text-muted fw-medium">
-                            Yearly Commissions
-                          </p>
-                          <h4 className="mb-0">${data.total?.toFixed(2)}</h4>
-                        </div>
-                        <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                          <span className="avatar-title rounded-circle bg-primary">
-                            <i
-                              className={
-                                "bx " + "bx-purchase-tag-alt" + " font-size-24"
-                              }
-                            ></i>
-                          </span>
-                        </div>
-                      </div>
-                    </CardBody>
-                  </Card>
-                </Col>
+                      </CardBody>
+                    </Card>
+                  </Col>
                 </>
               </Row>
 
-              <Card>
-                <CardBody>
-                  <div className="d-sm-flex flex-wrap">
-                    <h4 className="card-title mb-4">Token Analytics</h4>
-                    <div className="ms-auto">
-                      <ul className="nav nav-pills">
-                        {/* <li className="nav-item">
+              <Row>
+                <Col md="4">
+                  <Card className="h-100">
+                    <CardBody>
+                      <MonthlyEarning />
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col md="8">
+                  <Card className="h-100 mb-0" >
+                    <CardBody>
+                      <div className="d-sm-flex flex-wrap">
+                        <h4 className="card-title mb-4">Token Analytics</h4>
+                        <div className="ms-auto">
+                          <ul className="nav nav-pills">
+                            {/* <li className="nav-item">
                           <Link
                             to="#"
                             className={classNames(
@@ -282,7 +291,7 @@ const Dashboard = props => {
                             Week
                           </Link>{" "}
                         </li> */}
-                        {/* <li className="nav-item">
+                            {/* <li className="nav-item">
                           <Link
                             to="#"
                             className={classNames(
@@ -297,7 +306,7 @@ const Dashboard = props => {
                             Month
                           </Link>
                         </li> */}
-                        {/* <li className="nav-item">
+                            {/* <li className="nav-item">
                           <Link
                             to="#"
                             className={classNames(
@@ -312,13 +321,15 @@ const Dashboard = props => {
                             Year
                           </Link>
                         </li> */}
-                      </ul>
-                    </div>
-                  </div>
-                  {/* <div className="clearfix"></div> */}
-                  <StackedColumnChart periodData={periodData} dataColors='["#f3ba2f", "#454a75", "#8247e5"]' />
-                </CardBody>
-              </Card>
+                          </ul>
+                        </div>
+                      </div>
+                      <StackedColumnChart periodData={periodData} dataColors='["#f3ba2f", "#454a75", "#8247e5"]' />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+
             </Col>
           </Row>
 

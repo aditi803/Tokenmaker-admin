@@ -15,6 +15,9 @@ import VerticalLayout from "./components/VerticalLayout/";
 import HorizontalLayout from "./components/HorizontalLayout/";
 import NonAuthLayout from "./components/NonAuthLayout";
 
+import { CommonProvider } from 'constants/common';
+// import 
+
 // Import scss
 import "./assets/scss/theme.scss";
 
@@ -42,6 +45,9 @@ fakeBackend()
 
 const App = props => {
 
+  // const {toggle, setToggle} =  useContext(Comm*/ikuywaADr      ZXXZKIAonContext);
+
+
   function getLayout() {
     let layoutCls = VerticalLayout;
     switch (props.layout.layoutType) {
@@ -58,31 +64,33 @@ const App = props => {
   const Layout = getLayout();
   return (
     <React.Fragment>
-      <Router>
-        <Switch>
-          {publicRoutes.map((route, idx) => (
-            <Authmiddleware
-              path={route.path}
-              layout={NonAuthLayout}
-              component={route.component}
-              key={idx}
-              isAuthProtected={false}
-              exact
-            />
-          ))}
+      <CommonProvider>
+        <Router>
+          <Switch>
+            {publicRoutes.map((route, idx) => (
+              <Authmiddleware
+                path={route.path}
+                layout={NonAuthLayout}
+                component={route.component}
+                key={idx}
+                isAuthProtected={false}
+                exact
+              />
+            ))}
 
-          {authProtectedRoutes.map((route, idx) => (
-            <Authmiddleware
-              path={route.path}
-              layout={Layout}
-              component={route.component}
-              key={idx}
-              isAuthProtected={true}
-              exact
-            />
-          ))}
-        </Switch>
-      </Router>
+            {authProtectedRoutes.map((route, idx) => (
+              <Authmiddleware
+                path={route.path}
+                layout={Layout}
+                component={route.component}
+                key={idx}
+                isAuthProtected={true}
+                exact
+              />
+            ))}
+          </Switch>
+        </Router>
+      </CommonProvider>
     </React.Fragment>
   );
 };
