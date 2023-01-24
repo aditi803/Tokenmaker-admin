@@ -182,7 +182,7 @@ function Payments(props) {
             <Col lg={12}>
               <Card>
                 <CardBody>
-                  <h2 className="mb-4">Solana</h2>
+                  <h2 className="mb-4">Phantom</h2>
                   <hr></hr>
                   <Form>
                     <Row>

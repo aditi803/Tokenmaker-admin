@@ -196,6 +196,7 @@ function CommissionTable(props) {
                     </Button>
                   </div>
                   <DataTable
+                    style={{overflowY:"none", display:"grid"}}
                     striped
                     columns={columns}
                     data={data}

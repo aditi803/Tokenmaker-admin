@@ -6,7 +6,6 @@ function Spinner() {
   return (
     <div className="loader">
       <ClipLoader
-        // size={20}
         color="#A74AC7"
       />
   </div>

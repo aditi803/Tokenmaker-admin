@@ -11,97 +11,14 @@ import Spinner from "loader";
 import Doughnut from "./doughnutchart";
 
 const MonthlyEarning = () => {
-
-  const [pieData, setPieData] = useState([])
-  // const [category, setCategory] = useState([])
-  // const [totalVal, setTotalVal] = useState([])
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
-    useApiStatus()
-
-  var category = [];
-  var totalVal = [];
-
-  // pieData?.map((value) => {
-  //   category.push(value.categoryName)
-  // });
-
-  const user = localStorage.getItem('authUser')
-  const parseData = JSON.parse(user)
-  const token = parseData.msg.jsonWebtoken;
-
-  const fetchData = () => {
-    changeApiStatus(true)
-    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/monthlydata", { headers: { "Authorization": `Bearer ${token}` } })
-      .then((res) => {
-        setPieData(res.data.msg.dataValues)
-
-        console.log(res.data.msg.dataValues, "<<<<<<<<<<<<<Monthly earning data >>>>>>>>>>>>>>>>>>")
-        changeApiStatus(false)
-
-      })
-      .catch((err) => {
-        console.log(err)
-        changeApiStatus(false)
-
-      })
-  }
-  // pieData.forEach((val) => {
-  //   console.log(1,"");
-  //   category.push(val.categoryName)
-  //   totalVal.push(val.total)
-  // })
-
-  console.log(category, "<<<<<<Monthly Earning category >>>>>>>>>>>>>>>>>>>>>>>")
-  console.log(totalVal, "<<<<<<Monthly Earning category >>>>>>>>>>>>>>>>>>>>>>>")
-
-  useEffect(() => {
-    // setCategory([])
-    // setTotalVal([])
-    category = [];
-    totalVal = [];
-  }, [pieData])
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-
-  return (
+return (
     <React.Fragment>
-      {/* {" "}
-      <Card>
-        <CardBody>
-          <CardTitle className="mb-4">Monthly Earning</CardTitle> */}
-      {/* <Col lg={12} style={{ height: "100%" }}> */}
-      {/* <Card style={{ height: "100%" }}> */}
-      {/* <CardBody> */}
       <Row className="justify-content-center">
-        <CardTitle className="mb-4" style={{ fontSize: "32px"}}>Commissions</CardTitle>
-        {
-          pieData.map((value, i) => {
-
-            category.push(value.categoryName)
-            totalVal.push(value.total)
-
-            // return <Col sm={4} key={i}>
-            //   <div className="text-center">
-            //     <h5 className="mb-0">{value.total}</h5>
-            //     <p className="text-muted text-truncate">{value.categoryName}</p>
-            //   </div>
-            // </Col>
-          })}
+        <CardTitle className="mb-4" style={{ fontSize: "32px" }}>Commissions</CardTitle>
         <div>
-          {/* <PieChart dataColors='["#454a74", "#f3ba2f", "#8247e5" ]' category={category} totalVal={totalVal} /> */}
-          <Doughnut dataColors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]'/>
+          <Doughnut dataColors='["#53cbc8","#e84142", "#2ad3b4","#8a92b2", "#f3ba2f","#8247e5"]' />
         </div>
-
       </Row>
-
-      {/* </CardBody> */}
-      {/* </Card> */}
-      {/* </Col> */}
-      {/* </CardBody>
-      </Card> */}
     </React.Fragment>
   );
 };

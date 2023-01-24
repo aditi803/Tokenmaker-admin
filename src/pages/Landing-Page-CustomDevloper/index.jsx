@@ -192,7 +192,7 @@ function LandingPageCustomDeveloper(props) {
                                                        <div className="row align-items-start justify-content-center">
                                                             <div className="col-md-12">
                                                                  <div className="row">
-                                                                      <div className="col-8 mb-3">
+                                                                      <div className="col-6 mb-3">
                                                                            <label htmlFor="heading">
                                                                                 <strong>Heading:</strong>{' '}
                                                                            </label>
@@ -234,7 +234,7 @@ function LandingPageCustomDeveloper(props) {
                                                                                 )}
                                                                            />
                                                                       </div>
-                                                                      <div className="col-2">
+                                                                      <div className="col-3">
                                                                            <label>
                                                                                 <strong>Heading Background Color:</strong>{' '}
                                                                            </label>
@@ -264,7 +264,7 @@ function LandingPageCustomDeveloper(props) {
                                                             </div>
                                                             <div className="col-md-12">
                                                                  <div className="row">
-                                                                      <div className="col-8 mb-3">
+                                                                      <div className="col-6 mb-3">
                                                                            <label htmlFor="buttonText">
                                                                                 <strong>Button Text:</strong>{' '}
                                                                            </label>
@@ -306,7 +306,7 @@ function LandingPageCustomDeveloper(props) {
                                                                                 )}
                                                                            />
                                                                       </div>
-                                                                      <div className="col-2">
+                                                                      <div className="col-3">
                                                                            <label>
                                                                                 <strong>Button Background Color:</strong>{' '}
                                                                            </label>
@@ -345,15 +345,7 @@ function LandingPageCustomDeveloper(props) {
                                                   </Form>
                                              )}
                                         </Formik>
-                                        {/* <Row>
-                                             <Heading data={data} setData={setData} />
-                                        </Row>
-                                        <Row>
-                                             <ButtonComp data={data} setData={setData} />
-                                        </Row>
-                                        <Row className='row'>
-                                             <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft:"9px", marginTop: '20px' }}>Update</Button>
-                                        </Row> */}
+                                       
                                    </CCardBody>
                               </CCard>
                          </CCardGroup>

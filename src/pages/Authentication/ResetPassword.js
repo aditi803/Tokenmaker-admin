@@ -27,8 +27,7 @@ const ResetPassword = props => {
 
     const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
-  //meta title
-  // document.title="Forget Password | Skote - React Admin & Dashboard Template";
+  
   const {userId, token} = useParams()
   const [loader, setLoader] = useState(true)
   console.log(userId, token, "<<<<<<<<<<<<ID of items >>>>>>>>>>>/>>>>>>>>>>>>>>>>>>>>>>")
@@ -37,7 +36,6 @@ const ResetPassword = props => {
   const dispatch = useDispatch();
 
   const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {

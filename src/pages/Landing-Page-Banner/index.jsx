@@ -24,12 +24,9 @@ import Spinner from 'loader'
 import { toast } from "react-toastify"
 import { BANNER_DETAILS, BANNER_PUT } from 'common/api'
 import useApiStatus from 'hooks/useApiStatus'
-// import Button from 'src/components/common/CommonButton/Button'
 
 const LandingPageBanner = (props) => {
-     //   const result = ReadLocalStorage(UserDataKey)
-     //   const db_name = JSON.parse(result).user.databaseName
-     //   const templateName = JSON.parse(result).templateData
+     
      const [loader, setLoader] = useState(true)
 
      const [data, setData] = useState({
@@ -154,115 +151,6 @@ const LandingPageBanner = (props) => {
           // setLoader(false)
      }, [setData])
 
-     //   const fetchData = async () => {
-     //     try {
-     //       changeApiStatus(true, '')
-     //       const fetchedData = await getHomeIntro()
-     //       if (fetchedData.status === 200) {
-     //         changeApiStatus(false, '')
-     //         const {
-     //           heading,
-     //          content,
-     //           
-     //           headingColor,
-     //           contentColor,
-     //           backgroundImage,
-     //           buttonBackgroundColor,
-     //           buttonText,
-     //           buttonTextColor,
-     //           
-     //         } = fetchedData.data
-     //         setData({
-     //           heading,
-     //          content,
-     //           
-     //           headingColor,
-     //           contentColor,
-     //           backgroundImage,
-     //           buttonBackgroundColor,
-     //           buttonText,
-     //           buttonTextColor,
-     //         })
-     //         bannerImage &&
-     //           bannerImage !== null &&
-     //           setImage({
-     //             ...image,
-     //             // blob: bannerImage,
-     //             src: `${configURl.BaseURLImg}/${db_name}/${bannerImage}`,
-     //           })
-     //         sideImage &&
-     //           sideImage !== null &&
-     //           setIntroSideImage({
-     //             ...introSideImage,
-     //             // blob: bannerImage,
-     //             src: `${configURl.BaseURLImg}/${db_name}/${sideImage}`,
-     //           })
-     //       } else {
-     //         throw new Error(fetchedData.error)
-     //       }
-     //     } catch (err) {
-     //       fireToast('error', err.response ? err.response.data.error : err)
-     //       changeApiStatus(false, err.response ? err.response.data.error : err)
-     //     }
-     //   }
-
-     //   useEffect(() => {
-     //     fetchData()
-     //   }, [])
-
-     //   const deleteSideImg = () => {
-     //     toastConfirm('Are you sure?', `You want to delete this image`)
-     //       .fire()
-     //       .then(async (val) => {
-     //         if (val.isConfirmed) {
-     //           try {
-     //             changeApiStatus(true, '')
-     //             const introSideImgDeleteResponse = await deleteHomeIntroImgs({
-     //               sideImage: 'null',
-     //             })
-     //             if (introSideImgDeleteResponse.status === 200) {
-     //               fireToast('success', 'Side image deleted successfully')
-     //               setIntroSideImage({ src: '' })
-     //               setData({ ...data, sideImage: '' })
-     //               changeApiStatus(false, '')
-     //             } else {
-     //               throw new Error(introSideImgDeleteResponse.error)
-     //             }
-     //           } catch (err) {
-     //             fireToast('error', err.response ? err.response.data.error : err)
-     //             changeApiStatus(false, err.response ? err.response.data.error : err)
-     //           }
-     //         }
-     //       })
-     //   }
-
-     //   const deleteBackgroundImg = () => {
-     //     toastConfirm('Are you sure?', `You want to delete this image`)
-     //       .fire()
-     //       .then(async (val) => {
-     //         if (val.isConfirmed) {
-     //           try {
-     //             changeApiStatus(true, '')
-     //             const introBGDeleteResponse = await deleteHomeIntroImgs({
-     //               bannerImage: 'null',
-     //             })
-     //             if (introBGDeleteResponse.status === 200) {
-     //               fireToast('success', 'Background image deleted successfully')
-     //               setImage({ src: '' })
-     //               setData({ ...data, bannerImage: '' })
-     //               changeApiStatus(false, '')
-     //             } else {
-     //               throw new Error(introBGDeleteResponse.error)
-     //             }
-     //           } catch (err) {
-     //             fireToast('error', err.response ? err.response.data.error : err)
-     //             changeApiStatus(false, err.response ? err.response.data.error : err)
-     //           }
-     //         }
-     //       })
-     //   }
-     // useCoinUpdation(fetchData)
-
      
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
           useApiStatus()
@@ -306,37 +194,7 @@ const LandingPageBanner = (props) => {
                })
           // setLoader(false)
      }
-     //   const onSubmit = async (values) => {
-     //     try {
-     //       changeApiStatus(true, '')
-     //       let introSideImageUpdateResponse
-     //       if (introSideImage.blob) {
-     //         introSideImageUpdateResponse = await updateHomeSideImage({
-     //           sideImage: introSideImage.blob,
-     //         })
-     //         if (introSideImageUpdateResponse.status === 200) {
-     //           // fireToast('success', 'Image Uploaded Successfully')
-     //           // console.log('success')
-     //         } else {
-     //           throw new Error(introSideImageUpdateResponse.error)
-     //         }
-     //       }
-     //       const updateResponse = await updateHomeIntro({
-     //         ...values,
-     //         bannerImage: image.blob,
-     //       })
-     //       if (updateResponse.status === 200) {
-     //         changeApiStatus(false, '')
-     //         fetchData()
-     //         fireToast('success', updateResponse.message)
-     //       } else {
-     //         throw new Error(updateResponse.error)
-     //       }
-     //     } catch (err) {
-     //       fireToast('error', err.response ? err.response.data.error : err)
-     //       changeApiStatus(false, err.response ? err.response.data.error : err)
-     //     }
-     //   }
+   
      const uploadRef = useRef(null)
 
      return apiStatus.inProgress ? <Spinner /> : (
@@ -460,7 +318,7 @@ const LandingPageBanner = (props) => {
                                                                                 ) : null}
                                                                            </div>
                                                                            <div className='col-2'>
-                                                                                <label htmlFor="headingColor">
+                                                                                <label htmlFor="headingColor" style={{fontSize:"13px"}}>
                                                                                      <strong>Button Color:</strong>{' '}
                                                                                 </label>
                                                                                 <Field
@@ -477,7 +335,7 @@ const LandingPageBanner = (props) => {
                                                                                 ) : null}
                                                                            </div>
                                                                            <div className='col-2'>
-                                                                                <label htmlFor="headingColor">
+                                                                                <label htmlFor="headingColor" style={{fontSize:"13px"}}>
                                                                                      <strong>Button Background Color:</strong>{' '}
                                                                                 </label>
                                                                                 <Field
@@ -514,9 +372,9 @@ const LandingPageBanner = (props) => {
                                                                                                onChange={(e) => handleImageChange(e.target.files)}
                                                                                           />
                                                                                           {image.src ? (
-                                                                                               <div className="commonImgs">
+                                                                                               <div className="commonImgs" style={{padding:"40px"}}>
                                                                                                     <img
-                                                                                                         className="banner-img"
+                                                                                                         className="banner-img m-0"
                                                                                                          style={{margin:"45px"}}
                                                                                                          src={image.src}
                                                                                                          alt=""
@@ -592,107 +450,9 @@ const LandingPageBanner = (props) => {
                                                                                           Supported image formats are:&nbsp;jpg, png and jpeg only
                                                                                      </span>
                                                                                 </p>
-                                                                           </div>
-                                                                           {/* {(templateName === 'Crypto eTrade' || templateName === 'ESG') && (
-                            <div className="col-md-6">
-                              <label>
-                                <strong>Side Image : </strong>{' '}
-                              </label>
-                              <div className="text-center">
-                                <div className="mb-3 dragdrop-container">
-                                  <input
-                                    ref={uploadSideRef}
-                                    disabled={apiStatus.inProgress}
-                                    id="sideImgUpload"
-                                    hidden
-                                    accept="image/*"
-                                    type="file"
-                                    onChange={(e) => handleIntroSideImageChange(e.target.files)}
-                                  />
-                                  {introSideImage.src ? (
-                                    <div className="commonImgs">
-                                      <img
-                                        className="banner-img"
-                                        src={introSideImage.src}
-                                        alt=""
-                                        onClick={() => {
-                                          uploadSideRef.current.click()
-                                        }}
-                                      />
-                                      <div className="edit">
-                                        <CButton
-                                          variant="text"
-                                          className="newEditIcon p-2"
-                                          onClick={() => {
-                                            uploadSideRef.current.click()
-                                          }}
-                                        >
-                                          <CIcon icon={cilPencil} customClassName="nav-icon" />
-                                        </CButton>
-                                        {data.sideImage && (
-                                          <CButton
-                                            variant="text"
-                                            className="newDeleteIcon p-2"
-                                            onClick={deleteSideImg}
-                                          >
-                                            <CIcon icon={cilTrash} customClassName="nav-icon" />
-                                          </CButton>
-                                        )}
-                                      </div>
-                                    </div>
-                                  ) : (
-                                    <div className="drag-n-drop-container">
-                                      <div>
-                                        <Dropzone
-                                          accept="image/*"
-                                          multiple={false}
-                                          onDrop={(acceptedFiles) => {
-                                            handleIntroSideImageChange(acceptedFiles)
-                                          }}
-                                        >
-                                          {({ getRootProps, getInputProps, isDragActive }) => (
-                                            <section>
-                                              <div className="drop-area" {...getRootProps()}>
-                                                <img width={60} src={cloud} alt="" />
-                                                <input
-                                                  {...getInputProps()}
-                                                  accept="image/*"
-                                                  multiple={false}
-                                                />
-                                                {isDragActive ? (
-                                                  <div>Drop your image file here</div>
-                                                ) : (
-                                                  <p>
-                                                    Drag n drop image file here, or click to select{' '}
-                                                    <br />
-                                                    <small className="text-center">
-                                                      <strong>Supported files:</strong> jpeg, jpg,
-                                                      png. | Will be resized to: 1920x1080 px.
-                                                    </small>
-                                                  </p>
-                                                )}
-                                              </div>
-                                            </section>
-                                          )}
-                                        </Dropzone>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                              <p className="fw-bold">
-                                Note:
-                                <span className="text-danger mx-2">
-                                  Supported image formats are:&nbsp;jpg, png and jpeg only
-                                </span>
-                              </p>
-                            </div>
-                          )} */}
+                                                                           </div>              
                                                                       </div>
                                                                  </div>
-                                                                 {/* {apiStatus.failed && apiStatus.failMessage ? (
-                        <div className="input-error">{apiStatus.failMessage}</div>
-                      ) : null} */}
                                                                  <div className="col-md-12 border-top pt-4 mt-4">
                                                                       <div className="text-center">
                                                                            <Button type="submit" color="success">

@@ -68,9 +68,6 @@ const StepEdit = props => {
       formattedData = { ...editData, ...value }
     }
 
-    // formData.append()
-
-
     axios
       .put(
         "https://tokenmaker-apis.block-brew.com/step/editstep",

@@ -197,6 +197,8 @@ function QuestionTable(props) {
                     </Button>
                   </div>
                   <DataTable
+                    // style={{overflowY:"none !important",overflowX:"none !important", display:"inherit !important"}}
+                    style={{overflowY:"none !important", display:"unset !important"}}
                     striped
                     columns={columns}
                     data={data}

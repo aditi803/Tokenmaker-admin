@@ -16,7 +16,6 @@ import CIcon from "@coreui/icons-react"
 import Spinner from "loader"
 
 function CommissionTable(props) {
-  // console.log('ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
@@ -35,46 +34,10 @@ function CommissionTable(props) {
 
   const [data, setData] = useState([])
 
-  console.log(data, '>>>>>>>>>>>>>>>>>>>>>>>>>DATA DAT ADITIT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
   const[finalData,setFinaldata] = useState([])
 
 
-  // const fetchData = async (
-  //   pageNumber = 1,
-  //   pageSize = 10,
-  //   exportRequest = "false"
-  // ) => {
-  //   try {
-  //     changeApiStatus(true, "")
-  //     const list = await axios.get(
-  //       "https://tokenmaker-apis.block-brew.com/commission/commissiondetails"
-  //     )
-  //     if (exportRequest === "true") {
-  //       return changeApiStatus(false, "")
-  //     }
-  //     if (list.status === 200) {
-  //       changeApiStatus(false, "")
-  //       setPage({
-  //         ...page,
-  //         totalItems: list.data.totalItems,
-  //         pageSize,
-  //         current: pageNumber,
-  //       })
-  //       console.log(list.data.msg, "fetdataa ------- ")
-
-  //       setData(
-  //         list.data.msg.items.map((val, index) => {
-  //           return { ...val, serial: index + 1 }
-  //           console.log(list.data.msg, "Commission data ")
-  //         })
-  //       )
-  //     } else {
-  //       throw new Error(list.error)
-  //     }
-  //   } catch (err) {
-  //     changeApiStatus(false, err.response.data.error)
-  //   }
-  // }
+  
   const fetchNetworks = async (
     pageNumber = 1,
     pageSize = 10,
@@ -90,35 +53,11 @@ function CommissionTable(props) {
       }
       if (list.status === 200) {
         changeApiStatus(false, "")
-        // setPage({
-        //   ...page,
-        //   totalItems: list.data.totalItems,
-        //   pageSize,
-        //   current: pageNumber,
-        // })
-        // console.log(list.data, "fetNetwork----- ")
         setData(
           list.data.msg.map((val, index) => {
             return { ...val, serial: index + 1 }
-            // console.log(list.data.msg, "Commission data ")
           })
         )
-
-        // let customData = [];
-        // list.data.msg.items.forEach((items) => {
-        //   items.networks.forEach(networks => {
-        //     let data = {...items}
-        //     delete data.networks;
-        //     let networkCopy = {...networks, networkId: networks._id}
-        //     delete networkCopy._id;
-        //     delete networkCopy.createdAt;
-        //     delete networkCopy.updatedAt;
-        //     const fiData = Object.assign(data, networkCopy)
-        //     customData.push(fiData) 
-        //   })
-        // })
-
-        // console.log(customData, 'AD>>>>>>>>>>>>>>ITI')
       } else {
         throw new Error(list.error)
       }
@@ -127,7 +66,6 @@ function CommissionTable(props) {
     }
   }
 
-  // console.log(data,"Commission data ")
   useEffect(() => {
     fetchNetworks(page.current, page.pageSize)
     // fetchData()
@@ -151,20 +89,16 @@ function CommissionTable(props) {
                 },
               }
             )
-            // console.log(list, "list delete handler side ")
             if (list?.status === 200) {
               changeApiStatus(false)
               toast.success("Network deleted successfully")
               fetchNetworks()
             } else {
               toast.error("list is undefined")
-              // throw new Error(DeleteData.error)
             }
           } catch (err) {
-            console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            // setApiFailed(err.msg)
           }
         }
       })
@@ -220,7 +154,6 @@ function CommissionTable(props) {
 
   return (
     <React.Fragment>
-      {/* {console.log(data,"dataa---index comm table")} */}
       <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchNetworks} getData={data}/>
       <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchNetworks} allData={data}/>
       <div className="page-content">

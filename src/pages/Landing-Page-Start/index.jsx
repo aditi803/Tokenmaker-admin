@@ -3,8 +3,6 @@ import { Col, Container, Row, Button } from 'reactstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import Heading from './Heading';
-import ButtonComp from './Button';
 import axios from 'axios';
 import { toast } from "react-toastify"
 import useApiStatus from 'hooks/useApiStatus';
@@ -124,51 +122,6 @@ function LandingPageStart(props) {
           // setLoader(false)
      }
 
-     // const handleChange = (e) => {
-     //      e.preventDefault();
-     //      changeApiStatus(true)
-     //      axios.put('https://tokenmaker-apis.block-brew.com/cms/startsection', {
-     //           buttonText: data.buttonText
-     //           , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading
-     //           , headingColor: data.headingColor,
-     //           backgroundColor: data.backgroundColor
-     //      },
-     //           { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-     //                if (result.data.success === 1) {
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                     toast.success('Updated Successfully');
-     //                }
-     //           }).catch((err) => {
-     //                changeApiStatus(false)
-     //                setApiFailed(err.message)
-     //                toast.error('Cannot Update');
-     //                console.log(err)
-     //           });
-     //      setLoader(false)
-     // }
-
-
-     // useEffect(() => {
-     //      changeApiStatus(true)
-     //      const getData = () => {
-     //           axios.get("https://tokenmaker-apis.block-brew.com/cms/startsectiondetails")
-     //                .then((result) => {
-     //                     setData(result.data.msg);
-     //                     console.log(result.data.msg, "start details");
-     //                     const authUser = JSON.parse(localStorage.getItem('authUser'));
-     //                     setItems(authUser);
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                }).catch(err => {
-     //                     changeApiStatus(false)
-     //                     setApiFailed(err.message)
-     //                })
-
-     //      }
-     //      setLoader(false)
-     //      getData();
-     // }, []);
 
      return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
@@ -192,8 +145,8 @@ function LandingPageStart(props) {
                                                        <div className="row align-items-start justify-content-center">
                                                             <div className="col-md-12">
                                                                  <div className="row">
-                                                                      <div className="col-8 mb-3">
-                                                                           <label htmlFor="heading">
+                                                                      <div className="col-6 mb-3">
+                                                                           <label htmlFor="heading" style={{fontSize:"13px"}}>
                                                                                 <strong>Heading:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -209,7 +162,7 @@ function LandingPageStart(props) {
                                                                            ) : null}
                                                                       </div>
                                                                       <div className="col-2">
-                                                                           <label>
+                                                                           <label  style={{fontSize:"13px"}}>
                                                                                 <strong>Heading Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -234,9 +187,9 @@ function LandingPageStart(props) {
                                                                                 )}
                                                                            />
                                                                       </div>
-                                                                      <div className="col-2">
+                                                                      <div className="col-3">
                                                                            <label>
-                                                                                <strong>Heading Background Color:</strong>{' '}
+                                                                                <strong  style={{fontSize:"13px"}}>Heading Background Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
                                                                                 name="backgroundColor"
@@ -264,8 +217,8 @@ function LandingPageStart(props) {
                                                             </div>
                                                             <div className="col-md-12">
                                                                  <div className="row">
-                                                                      <div className="col-8 mb-3">
-                                                                           <label htmlFor="buttonText">
+                                                                      <div className="col-6 mb-3">
+                                                                           <label htmlFor="buttonText"  style={{fontSize:"13px"}}>
                                                                                 <strong>Button Text:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -281,7 +234,7 @@ function LandingPageStart(props) {
                                                                            ) : null}
                                                                       </div>
                                                                       <div className="col-2">
-                                                                           <label>
+                                                                           <label  style={{fontSize:"13px"}}>
                                                                                 <strong>Button Text Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -306,8 +259,8 @@ function LandingPageStart(props) {
                                                                                 )}
                                                                            />
                                                                       </div>
-                                                                      <div className="col-2">
-                                                                           <label>
+                                                                      <div className="col-3">
+                                                                           <label style={{fontSize:"13px"}}>
                                                                                 <strong>Button Background Color:</strong>{' '}
                                                                            </label>
                                                                            <Field

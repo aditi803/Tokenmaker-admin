@@ -38,7 +38,6 @@ const Login = props => {
   const dispatch = useDispatch();
 
   const validation = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
@@ -50,7 +49,6 @@ const Login = props => {
       password: Yup.string().required("Please Enter Your Password"),
     }),
     onSubmit: (values, { resetForm }) => {
-      // dispatch(https://tokenmaker-apis.block-brew.com/user/login(values, props.history));
       dispatch(loginUser(values, props.history));
       // toast.success("Login Successfully")
       resetForm(values='');
@@ -188,21 +186,6 @@ const Login = props => {
                           <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
                         ) : null}
                       </div>
-
-                      {/* <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="customControlInline"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="customControlInline"
-                        >
-                          Remember me
-                        </label>
-                      </div> */}
-
                       <div className="mt-3 d-grid">
                         <button
                           className="btn btn-primary btn-block"
@@ -213,86 +196,12 @@ const Login = props => {
                       <Link to='/forgot-password'>
                       <p className="pt-2">Forgot Password?</p>
                       </Link> 
-                      </div>
-
-                      {/* <div className="mt-4 text-center"> */}
-                      {/* <h5 className="font-size-14 mb-3">Sign in with</h5> */}
-
-                      {/* <ul className="list-inline">
-                          <li className="list-inline-item">
-                            <FacebookLogin
-                              appId={facebook.APP_ID}
-                              autoLoad={false}
-                              callback={facebookResponse}
-                              render={renderProps => (
-                                <Link
-                                  to="#"
-                                  className="social-list-item bg-primary text-white border-primary"
-                                  onClick={renderProps.onClick}
-                                >
-                                  <i className="mdi mdi-facebook" />
-                                </Link>
-                              )}
-                            />
-                          </li> */}
-                      {/*<li className="list-inline-item">*/}
-                      {/*  <TwitterLogin*/}
-                      {/*    loginUrl={*/}
-                      {/*      "http://localhost:4000/api/v1/auth/twitter"*/}
-                      {/*    }*/}
-                      {/*    onSuccess={this.twitterResponse}*/}
-                      {/*    onFailure={this.onFailure}*/}
-                      {/*    requestTokenUrl={*/}
-                      {/*      "http://localhost:4000/api/v1/auth/twitter/revers"*/}
-                      {/*    }*/}
-                      {/*    showIcon={false}*/}
-                      {/*    tag={"div"}*/}
-                      {/*  >*/}
-                      {/*    <a*/}
-                      {/*      href=""*/}
-                      {/*      className="social-list-item bg-info text-white border-info"*/}
-                      {/*    >*/}
-                      {/*      <i className="mdi mdi-twitter"/>*/}
-                      {/*    </a>*/}
-                      {/*  </TwitterLogin>*/}
-                      {/*</li>*/}
-                      {/* <li className="list-inline-item">
-                            <GoogleLogin
-                              clientId={google.CLIENT_ID}
-                              render={renderProps => (
-                                <Link
-                                  to="#"
-                                  className="social-list-item bg-danger text-white border-danger"
-                                  onClick={renderProps.onClick}
-                                >
-                                  <i className="mdi mdi-google" />
-                                </Link>
-                              )}
-                              onSuccess={googleResponse}
-                              onFailure={() => { }}
-                            />
-                          </li>
-                        </ul>
-                      </div> */}
-
-                      {/* <div className="mt-4 text-center">
-                        <Link to="/forgot-password" className="text-muted">
-                          <i className="mdi mdi-lock me-1" />
-                          Forgot your password?
-                        </Link>
-                      </div> */}
+                      </div>                  
                     </Form>
                   </div>
                 </CardBody>
               </Card>
               <div className="mt-5 text-center">
-                {/* <p>
-                  Don&#39;t have an account ?{" "}
-                  <Link to="/register" className="fw-medium text-primary">
-                    {" "}
-                    Signup now{" "}
-                  </Link>{" "}
-                </p> */}
                 <p>
                   © {new Date().getFullYear()}  Crafted with{" "}
                   <i className="mdi mdi-heart text-danger" /> by <a href="https://blocktechbrew.com" target="_blank" rel="noreferrer" >Blocktech Brew</a>

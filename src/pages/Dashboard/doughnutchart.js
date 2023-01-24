@@ -1,9 +1,49 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import ReactEcharts from "echarts-for-react";
 // import getChartColorsArray from "../../../components/Common/ChartsDynamicColor";
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor"
+import useApiStatus from "hooks/useApiStatus";
+import axios from "axios"
 
-const Doughnut = ({dataColors}) => {
+const Doughnut = ({dataColors, category, totalVal}) => {
+
+  const [pieData, setPieData] = useState([])
+  // const [category, setCategory] = useState([])
+  // const [totalVal, setTotalVal] = useState([])
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    useApiStatus()
+
+
+  // pieData?.map((value) => {
+  //   category.push(value.categoryName)
+  // });
+
+  const user = localStorage.getItem('authUser')
+  const parseData = JSON.parse(user)
+  const token = parseData.msg.jsonWebtoken;
+
+  const fetchData = () => {
+    changeApiStatus(true)
+    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/monthlydata", { headers: { "Authorization": `Bearer ${token}` } })
+      .then((res) => {
+        setPieData(res.data.msg.newArrayOfObj)
+
+        console.log(res.data.msg.newArrayOfObj, "<<<<<<<<<<<<<Monthly earning data >>>>>>>>>>>>>>>>>>")
+        changeApiStatus(false)
+
+      })
+      .catch((err) => {
+        console.log(err)
+        changeApiStatus(false)
+
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  },[])
+
+
   const doughnutEChartColors = getChartColorsArray(dataColors);
 
   const options = {
@@ -47,13 +87,7 @@ const Doughnut = ({dataColors}) => {
             show: false,
           },
         },
-        data: [
-          { value: 335, name: "Laptop" },
-          { value: 310, name: "Tablet" },
-          { value: 234, name: "Mobile" },
-          { value: 135, name: "Others" },
-          { value: 1548, name: "Desktop" },
-        ],
+        data: pieData
       },
     ],
   }

@@ -178,10 +178,6 @@ function CommissionTable(props) {
           <Spinner />
         ) : (
           <Container fluid>
-            {/* <Breadcrumb
-              title={props.t("Landing-Page")}
-              breadcrumbItem={props.t("Commision Table")}
-            /> */}
             <Row>
               <Card>
                 <CardBody>
@@ -199,6 +195,7 @@ function CommissionTable(props) {
                     </Button>
                   </div>
                   <DataTable
+                    style={{overflowY:"none !important", display:"inherit", overflowX:"none !important"}}
                     striped
                     columns={columns}
                     data={data}

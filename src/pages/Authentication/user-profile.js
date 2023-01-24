@@ -3,26 +3,14 @@ import { CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import { Button } from "reactstrap"
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import {toast} from "react-toastify"
-// import { getUserProfile, updateProfileSettings } from 'src/services/userService'
-// import { fireToast } from 'src/common/toast'
-// import { ReadLocalStorage, SetLocalStorage, UserDataKey } from 'src/common/utility'
-// import ChangePassword from './changePassword'
-// import Button from 'src/components/common/CommonButton/Button'
-// import { configURl } from 'src/runtime.config'
-// import SpinnerComponent from 'src/components/spinner'
+import { toast } from "react-toastify"
 import Dropzone from 'react-dropzone'
-// import cloud from '../../../assets/small/cloud-file-download.svg'
-// import cloud from "../../../assets/images/small/cloud-file-download.svg"
 import cloud from "../../assets/images/small/cloud-file-download.svg"
-// import ChangePassword from '../ChangePassword'
 import axios from "axios"
 import useApiStatus from 'hooks/useApiStatus'
 import Spinner from 'loader'
 
 const Profile = () => {
-  //   const result = ReadLocalStorage(UserDataKey)
-  //   const db_name = JSON.parse(result).user.databaseName
 
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
@@ -54,12 +42,6 @@ const Profile = () => {
       .max(20, 'Too Long!')
       .required('Please enter your  name'),
 
-    // lastName: Yup.string()
-    //   .min(4, 'Too Short!')
-    //   .max(20, 'Too Long!')
-    //   .required('Please enter your last name'),
-
-    // phoneNumber: Yup.string().min(4, 'Too Short!').max(20, 'Too Long!').required('required'),
   })
   const [user, setUser] = useState({
     username: '',
@@ -72,30 +54,26 @@ const Profile = () => {
 
   const fetchData = async () => {
     //     try {
-          changeApiStatus(true)
+    changeApiStatus(true)
     const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
     await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
-      //       if (userResponse.status === 200) {
       .then((res) => {
         console.log(res, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< User response data >>>>>>>>>>>>>>>>>>>>>>>>>>>")
         const { username, email, userImage } = res.data.msg
-                setUser({ username, email })
+        setUser({ username, email })
 
-                userImage &&
-                userImage !== null &&
-                  setImage({
-                    // blob: null,
-                    src: `${imageBaseUrl}/${userImage}`,
-                  })
-                changeApiStatus(false)
-        //       } else {
-        //         throw new Error(userResponse.error)
-        //       }
+        userImage &&
+          userImage !== null &&
+          setImage({
+            src: `${imageBaseUrl}/${userImage}`,
+          })
+        changeApiStatus(false)
+
       })
-            
-        .catch ((err) => {
-          changeApiStatus(false)
-        })
+
+      .catch((err) => {
+        changeApiStatus(false)
+      })
   }
 
   useEffect(() => {
@@ -108,43 +86,35 @@ const Profile = () => {
     const formValues = { ...values }
     const formData = new FormData()
     for (const value in formValues) {
-         formData.append(value, formValues[value])
+      formData.append(value, formValues[value])
     }
     return formData
-}
+  }
 
-    const onSubmit = async (values) => {
-      console.log("ONSUMBIT")
-      const formData = appendData({
-        ...values,
-        userImage: image.blob
-   })
-      try {
-        changeApiStatus(true, '')
-        const userSaveResponse = await axios.put("https://tokenmaker-apis.block-brew.com/user/update",formData, { headers: { Authorization: `Bearer ${token}` } })
-        if (userSaveResponse.status === 200) {
-          toast.success('success', userSaveResponse.message)
+  const onSubmit = async (values) => {
+    console.log("ONSUMBIT")
+    const formData = appendData({
+      ...values,
+      userImage: image.blob
+    })
+    try {
+      changeApiStatus(true, '')
+      const userSaveResponse = await axios.put("https://tokenmaker-apis.block-brew.com/user/update", formData, { headers: { Authorization: `Bearer ${token}` } })
+      if (userSaveResponse.status === 200) {
+        toast.success('success', userSaveResponse.message)
 
-          // SetLocalStorage(
-          //   UserDataKey,
-          //   JSON.stringify({
-          //     ...JSON.parse(ReadLocalStorage(UserDataKey)),
-          //     firstName: userSaveResponse.data.firstName,
-          //     lastName: userSaveResponse.data.lastName,
-          //     phoneNumber: userSaveResponse.data.phoneNumber,
-          //   }),
-          // )
-          fetchData()
-          changeApiStatus(false, '')
-          // window.location.reload()
-        } else {
-          throw new Error(userSaveResponse.error)
-        }
-      } catch (err) {
-        toast.error('error', err.response ? err.response.data.error : 'Something went wrong')
-        changeApiStatus(false, err.response ? err.response.data.error : err.message)
+
+        fetchData()
+        changeApiStatus(false, '')
+        // window.location.reload()
+      } else {
+        throw new Error(userSaveResponse.error)
       }
+    } catch (err) {
+      toast.error('error', err.response ? err.response.data.error : 'Something went wrong')
+      changeApiStatus(false, err.response ? err.response.data.error : err.message)
     }
+  }
   const uploadRef = useRef(null)
 
   return apiStatus.inProgress ? <Spinner /> : (
@@ -154,10 +124,6 @@ const Profile = () => {
           <CCard className="col-xl-12 col-lg-12 mx-auto mb-4 rounded shadow-md p-2 mt-5">
             <div className="bg-white p-3 pb-0">
               <h5 className="mb-0">Update User Profile</h5>
-              {/* <p className="mb-2 text-medium-emphasis">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est laboriosam, dolorem hic
-                perspiciatis aspernatur atque.
-              </p> */}
             </div>
             <CCardBody>
               <div className="">
@@ -184,36 +150,8 @@ const Profile = () => {
                               <div className="text-danger">{errors.username}</div>
                             ) : null}
                           </div>
-
-                          <div className="mb-3">
-                            {/* <label htmlFor="wallet_address">Last Name: </label>
-                            <Field
-                              disabled={apiStatus.inProgress}
-                              name="lastName"
-                              placeholder="Enter your last name"
-                              id="lastName"
-                              className="form-control"
-                            /> */}
-                            {/* {errors.lastName && touched.lastName ? (
-                              <div className="text-danger">{errors.lastName}</div>
-                            ) : null} */}
-                          </div>
-                          <div className="mb-3">
-                            {/* <label htmlFor="phoneNumber">Phone Number: </label>
-                            <Field
-                              disabled={apiStatus.inProgress}
-                              name="phoneNumber"
-                              id="phoneNumber"
-                              placeholder="Enter your Phone number"
-                              className="form-control"
-                            /> */}
-                            {/* {errors.phoneNumber && touched.phoneNumber ? (
-                              <div className="text-danger">{errors.phoneNumber}</div>
-                            ) : null} */}
-                          </div>
                           <div className="mb-3">
                             <label htmlFor="email">Email: </label>
-                            {/* <Field disabled name="email" id="email" className="form-control" /> */}
                             <Field disabled name="email" id="email" className="form-control" />
                           </div>
                         </div>
@@ -230,7 +168,7 @@ const Profile = () => {
                                 hidden
                                 accept="image/*"
                                 type="file"
-                              onChange={(e) => handleImageChange(e.target.files)}
+                                onChange={(e) => handleImageChange(e.target.files)}
                               />
                               {image.src ? (
                                 <img

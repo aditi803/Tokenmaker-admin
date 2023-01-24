@@ -27,9 +27,7 @@ const ForgetPasswordPage = props => {
   // document.title="Forget Password | Skote - React Admin & Dashboard Template";
 const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
-  // const user = localStorage.getItem("authUser")
-  // const parseData = JSON.parse(user)
-  // const token = parseData.msg.jsonWebtoken
+  
   const history = useHistory()
 
   const validation = useFormik({

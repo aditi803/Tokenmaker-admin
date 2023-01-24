@@ -64,25 +64,6 @@ function LandingPageSteps(props) {
           fetchData()
           // setLoader(false)
      }, [setData])
-
-     // const handleChange = async (e) => {
-     //      changeApiStatus(true)
-     //      const response = await axios.put('https://tokenmaker-apis.block-brew.com/step/stepdata', {
-     //           heading: css.heading, headingColor: css.headingColor,
-     //      }, { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-     //           if (result.data.success === 1) {
-     //                setApiSuccess()
-     //                changeApiStatus(false)
-     //                toast.success('Updated Successfully');
-     //           }
-     //      }).catch((err) => {
-     //           changeApiStatus(false)
-     //           setApiFailed(err.message)
-     //           toast.error('Already updated');
-     //      });
-     //      setLoader(false)
-     // }
-     // const [items, setItems] = useState([])
      
      const user = localStorage.getItem('authUser')
      const parseData = JSON.parse(user)
@@ -190,13 +171,6 @@ function LandingPageSteps(props) {
                                                   </Form>
                                              )}
                                         </Formik>
-
-                                        {/* <Row>
-                                   <Heading css={css} setCss={setCss} />
-                                   
-                                        <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', marginLeft:"9px", marginTop: '20px' }}>Update</Button>
-                                   
-                              </Row> */}
                                    </CCardBody>
                               </CCard>
                          </CCardGroup>

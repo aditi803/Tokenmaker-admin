@@ -183,15 +183,6 @@ const Register = props => {
                           Register
                         </button>
                       </div>
-
-                      {/* <div className="mt-4 text-center">
-                        <p className="mb-0">
-                          By registering you agree to the Skote{" "}
-                          <Link to="#" className="text-primary">
-                            Terms of Use
-                          </Link>
-                        </p>
-                      </div> */}
                     </Form>
                   </div>
                 </CardBody>

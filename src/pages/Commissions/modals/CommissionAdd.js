@@ -27,7 +27,6 @@ const CommissionAdd = (props) => {
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [network, setNetwork] = useState({ networkName: "", networkCommissionFee: "", networkSymbol: "" })
   const [commissionValue, setCommissionValue] = useState({ free: "", basic: "", custom: "" })
-  // const [items, setItems] = useState([])
 
   const [free, setFree] = useState('')
   const [basic, setBasic] = useState('')
@@ -41,7 +40,6 @@ const CommissionAdd = (props) => {
   const commissionSchema = Yup.object().shape({
     parentNetworkName: Yup.string().required('Enter Parent Network Name'),
     subNetworkName: Yup.string().required('Enter Sub network Name'),
-    // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
     free: Yup.string().required('Enter commission fee for token type free'),
     basic: Yup.string().required('Enter commission fee for token type basic'),
     custom: Yup.string().required('Enter commission fee for token type custom'),
@@ -55,7 +53,6 @@ const CommissionAdd = (props) => {
 
   const checkSubCategory = (val) => {
     return allData?.find(({ subNetworkName }) => {
-      // return networks?.includes(subNetworkName)
       return subNetworkName === val
     })
   }
@@ -66,11 +63,9 @@ const CommissionAdd = (props) => {
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setCategory(res.data.msg.items)
-        console.log(res, "Add data view page")
         changeApiStatus(false)
       })
       .catch(err => {
-        console.log(err)
         changeApiStatus(false)
         setApiFailed(err.message)
       })
@@ -80,16 +75,9 @@ const CommissionAdd = (props) => {
     fetchNetwork()
   }, [setCategory])
 
-  // const data = {
-  //   networkName: network.networkName,
-  //   networkCommissionFee: network.networkCommissionFee,
-  //   networkSymbol: networkStatus.networkSymbol
-  // }
 
   const handleAddNetwork = async (e) => {
-    // e.preventDefault()
-    // console.log("hello add network")
-
+    
     changeApiStatus(true, '')
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
@@ -111,13 +99,11 @@ const CommissionAdd = (props) => {
         },
       ]
     }
-    console.log(tokenData, "Data to be sent in a api");
 
     await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission", 
       tokenData,
      { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
-        console.log(res)
         setApiSuccess()
         changeApiStatus(false)
         toast.success("Network Added Successfully")
@@ -125,11 +111,9 @@ const CommissionAdd = (props) => {
         fetchData()
       })
       .catch((err) => {
-        console.log(err)
         toast.error("Already exisiting network")
         changeApiStatus(false, err.response ? err.response.data.error : err)
         setApiFailed(err.msg)
-        console.log(network, "Network ctahc")
       })
     setLoader(false)
   }
@@ -148,11 +132,6 @@ const CommissionAdd = (props) => {
     }))
 
   }
-
-  // console.log(networks, "Network token tryow k ly hai consoaloe")
-
-
-  console.log(free, "<<<<<<<<<<<<<<<<<<Free avaklue commission add >>>>>>>>>>>");
 
   return (
     <Modal
@@ -175,14 +154,12 @@ const CommissionAdd = (props) => {
         }}
           validationSchema={commissionSchema}
         onSubmit={(values, actions) => {  
-          console.log('aditi noni') 
           handleAddNetwork()
         }}
         >
           {({ values, setValues, setFieldValue, errors, touched }) => (
             <Form>
               <ModalBody>
-                {console.log(values, 'VASLUEDGJHGHFHHGHJGHJGJHGHJGJHGHJGJHGHJGHJ')}
                 <label className="my-2" name="networkName">Parent Network Name</label>
                 <div>
                   <CFormSelect
@@ -233,7 +210,6 @@ const CommissionAdd = (props) => {
                   <option hidden>Select Network</option>
                   {networks[0]?.map((content, i) => {
                     return (
-                      // <div key={i}>
                       <option
                         className="sub-option"
                         key={i}
@@ -260,7 +236,6 @@ const CommissionAdd = (props) => {
                         className="form-control"
                         placeholder="0.05"
                         onChange={e => {
-                          // setFree({ ...free, networkFree: e.target.value })
                           setFree(e.target.value);
                           setFieldValue('free', e.target.value)
                         }}
@@ -284,7 +259,6 @@ const CommissionAdd = (props) => {
                         className="form-control"
                         placeholder="0.05"
                         onChange={e => {
-                          // setFree({ ...free, networkFree: e.target.value })
                           setBasic(e.target.value);
                           setFieldValue('basic', e.target.value)
                         }}
@@ -307,7 +281,6 @@ const CommissionAdd = (props) => {
                         className="form-control"
                         placeholder="0.05"
                         onChange={e => {
-                          // setFree({ ...free, networkFree: e.target.value })
                           setCustom(e.target.value);
                           setFieldValue('custom', e.target.value)
                         }}

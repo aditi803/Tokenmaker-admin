@@ -23,7 +23,6 @@ const CommissionEdit = props => {
   const [editAllData, setEditAllData] = useState();
 
 
-  // console.log(editAllData, 'ADITITTITITITITTITITOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOIi')
 
   useEffect(() => {
     setEditAllData(editData)
@@ -31,7 +30,6 @@ const CommissionEdit = props => {
 
 
   useEffect(() => {
-    // setEditAllData(editData)
     let currentParentNet = editData?.parentNetworkName
     const afterFilter = category.filter((item) => item.categoryName == currentParentNet)
     setNetworks(afterFilter.map((items) => {
@@ -40,7 +38,6 @@ const CommissionEdit = props => {
 
   }, [editData, category])
   
-  // console.log(networks, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>?????????????>>>>>>>>>>>>>>>>>>>OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOPPPPPPPPPP')
 
 
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
@@ -48,9 +45,7 @@ const CommissionEdit = props => {
 
   const authUser = JSON.parse(localStorage.getItem("authUser"))
   const [close, setClose] = useState(true)
-  // const [network, setNetwork] = useState()
-  // const [networkStatus, setNetworkStatus] = useState(editData?.networkSymbol)
-  // const [selected, setSelected] = useState("All")
+
   const [categoryStatus, setCategoryStatus] = useState([])
   
 
@@ -58,7 +53,6 @@ const CommissionEdit = props => {
     setClose(toggle)
   }
 
-  // console.log(editData, "Edit Data")
   
 
   const fetchNetwork = () => {
@@ -67,7 +61,6 @@ const CommissionEdit = props => {
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setCategory(res.data.msg.items)
-        // console.log(res.data.msg.items, '>>>>>>>>>>>>>>>>>CATEFGIHJGHVHVGHVGhjvj')
         changeApiStatus(false)
       })
       .catch(err => {
@@ -75,20 +68,16 @@ const CommissionEdit = props => {
         changeApiStatus(false)
         setApiFailed(err.message)
       })
-    // setLoader(false)
   }
   useEffect(() => {
     fetchNetwork()
   }, [])
 
   const onChangeParentNet = (e) => {
-    // console.log('ONCHANGEONFBVHGFHJKL:LLLLLLLLLL::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
     const currentParentNet = e.target.value
-    // console.log(currentParentNet,"current parent value-------")
     setCategoryStatus(e.target.value)
 
     const afterFilter = category.filter((item) => item.categoryName === currentParentNet)
-    // console.log(afterFilter, "commission edit  after filter----------------------------------------------------------------------")
     setNetworks(afterFilter.map((items) => {
       return items.networks
     }))
@@ -119,37 +108,17 @@ const CommissionEdit = props => {
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
-        // console.log(res, ">>>>>>>>>>>>>")
         toast.success("Updated Successfully")
         handleClose()
         fetchData()
       })
       .catch(err => {
-        // console.log(err, ">>>>>>>>>>>>>>")
         toast.error("Already Updated")
       })
   }
-  // const checking = () => {
-  //   let checked = getData.find((category) => {
-  //     if (category.subNetworkName === editAllData?.subNetworkName) {
-  //       return true
-  //     }
-  //     else {
-  //       return false
-  //     }
-  //   })
-  // }
-
-  // console.log(networks, "networks data commision edit side ")
+  
   const [checkValue, setCheckValue] = useState(false)
-  // const [check, setCheck] = useState(
-  //   checking
-  // )
- 
-
-  // console.log(checked, "Checked value jao ab bta aaaooooooooooooooo")
-
-
+  
   return (
     <Modal
       isOpen={isOpen}
@@ -179,7 +148,6 @@ const CommissionEdit = props => {
                 
                   <option
                     key={i}
-                    // disabled
                     value={content.categoryName}
                   >
                     {content.categoryName}
@@ -218,20 +186,7 @@ const CommissionEdit = props => {
               )
             })}
           </CFormSelect>
-
-          {/* <p className="my-2">Commission Fee</p>
-          <input
-            type="text"
-            className="form-control"
-            placeholder={editAllData?.networkCommissionFee}
-            value={editAllData?.networkCommissionFee}
-            onChange={e => setEditAllData((...prev) => ({
-              ...prev,
-              networkCommissionFee: e.target.value
-            }))}
-          /> */}
           <p className="my-2">Commission Type: <span style={{textDecoration:"underline"}}>{" "}{editAllData?.tokenType}</span></p>
-          {/* <p className="my-2"></p> */}
           <input
             type="text"
             className="form-control"

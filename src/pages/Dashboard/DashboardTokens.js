@@ -7,8 +7,6 @@ import { Button, Card, CardBody } from "reactstrap"
 import { getOrders as onGetOrders } from "store/actions"
 import moment from "moment"
 
-// import EcommerceOrdersModal from "../Ecommerce/EcommerceOrders/EcommerceOrdersModal"
-// import { latestTransaction } from "../../common/data/dashboard"
 import searchicon from "../../assets/images/search-line.svg"
 import calendarremovelines from "../../assets/images/calendar-remove-lines.svg"
 import schedule from "../../assets/images/schedule.svg"
@@ -72,9 +70,7 @@ console.log('dummmy change test')
   const [query, setQuery] = useState("")
 
   const dateFilterChange = (e, picker) => {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>.", picker)
-    console.log(picker.startDate.format("YYYY-MM-DD"), ">>>>>>>>>>>>>>>>.")
-
+    
     const filter = [
       picker.startDate.format("YYYY-MM-DD"),
       picker.endDate.format("YYYY-MM-DD"),
@@ -85,7 +81,6 @@ console.log('dummmy change test')
 
   const [network, setNetwork] = useState()
 
-  console.log(network, "...........NETWORK")
 
   const fetchNetwork = () => {
     changeApiStatus(true)
@@ -94,9 +89,6 @@ console.log('dummmy change test')
       .then(res => {
         setNetwork(res.data.msg.items)
 
-        // setItems(authUser)
-        console.log(res.data.msg.items, "Add data view page")
-        // setItems(authUser)
         changeApiStatus(false)
       })
       .catch(err => {
@@ -139,8 +131,6 @@ console.log('dummmy change test')
         // console.log(time1, "zzzzzzzzzzzzzzzz")
 
         const finalDate = date1 + "-" + time1
-        // console.log(finalDate, "final date")
-
 
         downloadFile(url, `AllTokens${date1}.csv`)
 
@@ -168,22 +158,6 @@ console.log('dummmy change test')
       changeApiStatus(false)
     }
   }
-  // setInProgress(false)
-  // setLoader(false)
-  // calendarremovelines
-  // const [querySearch] = useParams()
-  // useEffect(() => {
-  //   const status = querySearch.get('status')
-  //   if (status) {
-  //     setTimeout(() => {
-  //       setStatus(status)
-  //     }, 200)
-  //     // fetchData(1, page.pageSize, status, dateFilter, query)
-  //   }
-  //   // eslint-disable-next-line
-  // }, [querySearch.get('status')])
-
-  // console.log(data, "Commission data ")
   useEffect(() => {
     fetchNetwork()
   }, [])
@@ -196,7 +170,6 @@ console.log('dummmy change test')
 
   const onQueryChange = e => {
     const value = e.target.value.trim()
-    // console.log(value, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     setQuery(value)
     if (distinctUntilChanged) {
       clearTimeout(distinctUntilChanged)
@@ -222,11 +195,6 @@ console.log('dummmy change test')
       selector: row => row.tokenName + " - " + row.tokenSymbol,
       sortable: true,
     },
-
-    // {
-    //   name: 'Token Symbol',
-    //   selector: (row) => row.tokenSymbol,
-    // },
     {
       name: "Supply Type",
       selector: row => (
@@ -275,165 +243,7 @@ console.log('dummmy change test')
             <div className="row justify-content-between align-items-center px-0">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-lg-0 mt-2 mt-xl-3">
                 <p>Recent Tokens</p>
-                {/* <div className="row align-items-center justify-content-between justify-content-lg-start px-0">
-                  <div className="col-xxl-4 col-xl-5 col-lg-6 col-md-6 col-sm-12 pb-2 pb-md-0 ">
-                    <CCol xs="auto" className="position-relative date_picker">
-                      <CFormLabel
-                        className="visually-hidden"
-                        htmlFor="autoSizingInputGroup"
-                      >
-                        Filter by Date
-                      </CFormLabel>
-                      <CInputGroup style={{ width: "106%" }}>
-                        <DateRangePicker
-                          onApply={dateFilterChange}
-                          onShow={() => setCalendarIsShowing(true)}
-                          onHide={() => setCalendarIsShowing(false)}
-                        >
-                          <input
-                            ref={inputRef}
-                            readOnly
-                            id="file-input"
-                            placeholder="Filter by Date"
-                            className="form-control"
-                            style={{ caretColor: "rgba(0,0,0,0)" }}
-                            value={
-                              dateFilter.length
-                                ? `${StandardPicketDateFormat(
-                                  dateFilter[0]
-                                )} - ${StandardPicketDateFormat(
-                                  dateFilter[1]
-                                )}`
-                                : ""
-                            }
-                          // value={
-                          //   dateFilter.length
-                          //     ? `${dateFilter[0]} - ${dateFilter[1]}`
-                          //     : ''
-                          // }
-                          />
-
-                          
-                        </DateRangePicker>
-                        {console.log(pageData,"pagedata")}
-                        <CInputGroupText>
-                          <img
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              if (!calendarIsShowing && dateFilter.length) {
-                                console.log("DANGER CLOCKEDDD")
-                                setDateFilter([])
-                                fetchData(
-                                  pageData.current,
-                                  pageData.pageSize,
-                                  []
-                                )
-                              }
-                            }}
-                            src={
-                              calendarIsShowing
-                                ? calendarremovelines
-                                : dateFilter.length
-                                  ? calendarremovelines
-                                  : schedule
-                            }
-                            alt=""
-                            width={20}
-                          />
-                        </CInputGroupText>
-                      </CInputGroup>
-                    </CCol>
-                  </div>
-                  <div className="col-xxl-4 col-xl-5 col-lg-6 col-md-6 col-sm-12 pb-2 pb-md-0 ">
-                    <CCol xs="auto">
-                      <CFormLabel
-                        className="visually-hidden"
-                        htmlFor="autoSizingInputGroup"
-                      >
-                        Search 
-                      </CFormLabel>
-                      <CInputGroup>
-                        <CFormInput
-                          id="autoSizingInputGroup"
-                          placeholder="Search Token Name"
-                          type="search"
-                          value={query}
-                          onChange={onQueryChange}
-                        />
-                        <CInputGroupText>
-                          <img
-                            src={searchicon}
-                            alt=""
-                            width={15}
-                            style={{ cursor: "pointer" }}
-                          />
-                        </CInputGroupText>
-                      </CInputGroup>
-                    </CCol>
-                  </div>
-                </div> */}
               </div>
-
-              {/* <div className="col-xxl-6 col-xl-6 col-lg-5 col-md-12 col-sm-12 mt-lg-0 mt-2 mt-xl-3">
-                <div className="d-flex align-items-center justify-content-end">
-                  <div className="col-xxl-5 col-xl-6 col-lg-6 col-md-4 col-sm-6">
-                    <div className="d-flex align-items-center justify-content-end pe-xl-3 pe-2">
-                      <div className="col-md-4 col-sm-3 text-end pe-md-3 pe-1">
-                        Networks
-                      </div>
-                      <div className="col-md-8">
-                        <CFormSelect
-                          className="form-control"
-                          aria-label="Small select example"
-                          onChange={e => setNetworkStatus(e.target.value)}
-                          value={networkStatus}
-                        >
-                          {console.log(networkStatus, "Network status")}
-                          <option hidden>Select Network</option>
-                          <option value={''}>All</option>
-
-                          {network?.map((content, i) => {
-                            return (
-                              <>
-                                <option
-                                  key={i}
-                                  value={content.categoryName}
-                                >
-                                  {content.categoryName}
-                                </option>
-                              </>
-                            )
-                          })}
-                        </CFormSelect>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-3 col-sm-3 text-end text-end">
-                    <CButton
-                      onClick={() =>
-                        fetchData(
-                          pageData.current,
-                          pageData.pageSize,
-                          dateFilter,
-                          query,
-                          "true",
-                          networkStatus,
-                        )
-                      }
-                      color="success"
-                      className="hand text-white px-2 w-100"
-                    >
-                      <img
-                        src={downloadfileicon}
-                        alt=""
-                        width={15}
-                        className="me-2"
-                      />
-                      Export CSV
-                    </CButton>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
