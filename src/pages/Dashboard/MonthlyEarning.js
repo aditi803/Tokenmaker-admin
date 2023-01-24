@@ -14,7 +14,7 @@ const MonthlyEarning = () => {
 return (
     <React.Fragment>
       <Row className="justify-content-center">
-        <CardTitle className="mb-4" style={{ fontSize: "32px" }}>Commissions</CardTitle>
+        <CardTitle className="mb-4" style={{ fontSize: "16px" }}>Commissions</CardTitle>
         <div>
           <Doughnut dataColors='["#53cbc8","#e84142", "#2ad3b4","#8a92b2", "#f3ba2f","#8247e5"]' />
         </div>

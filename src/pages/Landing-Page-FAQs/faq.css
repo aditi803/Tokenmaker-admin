@@ -1,0 +1,19 @@
+.bQdYbR:first-child {
+    width: 70px !important;
+    max-width: 70px;
+    min-width: auto;
+}
+
+.bQdYbR:nth-child(2) {
+    width: 70px !important;
+    max-width: 260px;
+    min-width: auto;
+}
+
+.bQdYbR:nth-child(3) {
+    width: 70px !important;
+    max-width: 403px;
+    min-width: auto;
+}
+
+

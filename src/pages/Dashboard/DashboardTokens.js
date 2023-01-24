@@ -118,9 +118,6 @@ console.log('dummmy change test')
         { headers: { Authorization: `Bearer ${token}` } }
       )
 
-        console.log(list, '>>>>>>>>>>>>>>>>>>>>>>>>ADDDDDDDDDDDDDDDDD')
-
-
       if (exportRequest === "true") {
         const url = URL.createObjectURL(
           new Blob([list.data.msg.csv], { type: "text/csv" })
@@ -128,7 +125,6 @@ console.log('dummmy change test')
 
         const date1 = moment(Date.now()).format("DD-MM-YYYY")
         const time1 = moment(Date).format(('h:mm a'))
-        // console.log(time1, "zzzzzzzzzzzzzzzz")
 
         const finalDate = date1 + "-" + time1
 
@@ -266,7 +262,6 @@ console.log('dummmy change test')
               onChangeRowsPerPage={e =>
                 setPageData({ ...pageData, pageSize: e })
               }
-            //   progressComponent={<Spinner />}
             />
           </CCardBody>
         </CCard>

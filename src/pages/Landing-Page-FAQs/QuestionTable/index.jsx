@@ -16,6 +16,7 @@ import CIcon from "@coreui/icons-react"
 import Spinner from "loader"
 import FaqAdd from "./modals/FaqAdd"
 import FaqEdit from "./modals/FaqEdit"
+// import '../faq.css'
 // import StepAdd from "./modals/StepAdd"
 // import StepEdit from "./modals/StepEdit"
 
@@ -30,7 +31,7 @@ function QuestionTable(props) {
   const [addModal, setAddModal] = useState(false)
   const toggleAddModal = () => setAddModal(!addModal)
 
-  const [edit, setEdit] = useState() 
+  const [edit, setEdit] = useState()
   const [page, setPage] = useState({ current: 1, totalItems: 0, pageSize: 10 })
 
   const [items, setItems] = useState({})
@@ -59,12 +60,12 @@ function QuestionTable(props) {
           pageSize,
           current: pageNumber,
         })
-     //    .then((res) => {
-     //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
-     //    })
+        //    .then((res) => {
+        //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
+        //    })
         setData(
           list.data.msg.faqDetails.items.map((val, index) => {
-               // console.log(val,"kjhgfdxzfghjk")
+            // console.log(val,"kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
         )
@@ -76,7 +77,7 @@ function QuestionTable(props) {
     }
   }
 
-  console.log(data,"kjhgfds")
+  console.log(data, "kjhgfds")
 
 
   useEffect(() => {
@@ -137,10 +138,10 @@ function QuestionTable(props) {
       name: "Answer",
       selector: row => row.answer,
     },
-//     {
-//       name: "Symbol",
-//       selector: row => row.networkSymbol,
-//     },
+    //     {
+    //       name: "Symbol",
+    //       selector: row => row.networkSymbol,
+    //     },
     {
       name: "Actions",
       selector: row => (
@@ -148,7 +149,7 @@ function QuestionTable(props) {
           <CIcon
             icon={cilPencil}
             className="text-warning hand me-2"
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             onClick={() => {
               toggleViewModal()
               setEdit(row);
@@ -157,7 +158,7 @@ function QuestionTable(props) {
           <CIcon
             icon={cilTrash}
             className="text-danger hand"
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             onClick={() => {
               deleteNetwork(row._id)
             }}
@@ -169,8 +170,8 @@ function QuestionTable(props) {
 
   return (
     <React.Fragment>
-       <FaqEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
-      <FaqAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/> 
+      <FaqEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData} />
+      <FaqAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} />
       <div className="py-4">
         {apiStatus.inProgress ? (
           <Spinner />
@@ -191,25 +192,28 @@ function QuestionTable(props) {
                       color="primary"
                       className="mt-1"
                       onClick={toggleAddModal}
-                      style={{backgroundColor:"#34c384", borderColor:"#34c384"}}
+                      style={{ backgroundColor: "#34c384", borderColor: "#34c384" }}
                     >
                       Add
                     </Button>
                   </div>
-                  <DataTable
-                    // style={{overflowY:"none !important",overflowX:"none !important", display:"inherit !important"}}
-                    style={{overflowY:"none !important", display:"unset !important"}}
-                    striped
-                    columns={columns}
-                    data={data}
-                    pageSize={10}
-                    paginationPerPage={10}
-                    paginationServer
-                    paginationTotalRows={page.totalItems}
-                    paginationRowsPerPageOptions={[10, 20]}
-                    onChangePage={e => setPage({ ...page, current: e })}
-                    onChangeRowsPerPage={e => setPage({ ...page, pageSize: e })}
-                  />
+                  <div className='table-responsive'>
+                    <DataTable
+                      // style={{overflowY:"none !important",overflowX:"none !important", display:"inherit !important"}}
+                      style={{ overflowY: "none !important", display: "unset !important" }}
+                      striped
+                      columns={columns}
+                      data={data}
+                      pageSize={10}
+                      paginationPerPage={10}
+                      paginationServer
+                      paginationTotalRows={page.totalItems}
+                      paginationRowsPerPageOptions={[10, 20]}
+                      onChangePage={e => setPage({ ...page, current: e })}
+                      onChangeRowsPerPage={e => setPage({ ...page, pageSize: e })}
+                    />
+                  </div>
+
                 </CardBody>
               </Card>
             </Row>

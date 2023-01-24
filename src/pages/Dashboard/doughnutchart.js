@@ -26,7 +26,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
     changeApiStatus(true)
     axios.get("https://tokenmaker-apis.block-brew.com/dashboard/monthlydata", { headers: { "Authorization": `Bearer ${token}` } })
       .then((res) => {
-        setPieData(res.data.msg.newArrayOfObj)
+        setPieData(res.data.msg.ress)
 
         console.log(res.data.msg.newArrayOfObj, "<<<<<<<<<<<<<Monthly earning data >>>>>>>>>>>>>>>>>>")
         changeApiStatus(false)
