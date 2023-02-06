@@ -34,25 +34,7 @@ function View(props) {
   const [items, setItems] = useState({})
   const [loader, setLoader] = useState(true)
 
-  const fetchStatus = () => {
-    const authUser = JSON.parse(localStorage.getItem("authUser"))
-    axios.get("https://tokenmaker-apis.block-brew.com/network/onlynetworkstatus", {
-      headers: {
-        Authorization: `Bearer ${authUser.msg.jsonWebtoken}`,
-      },
-    })
-      .then((res) => {
-        console.log(res.data.msg, "Toggler status")
-        setActiveToggler(res.data.msg)
-      })
-      .catch((err) => {
-        console.log(err, "toggler error")
-      })
-  }
-
-  useEffect(() => {
-    fetchStatus()
-  })
+  
 
   const getNetworkHanlder = () => {
     changeApiStatus(true)
