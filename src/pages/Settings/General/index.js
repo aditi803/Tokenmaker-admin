@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react"
 import { Col, Container, Row, Button } from "reactstrap"
 import PropTypes from "prop-types"
 import { withTranslation } from "react-i18next"
-import Breadcrumb from "components/Common/Breadcrumb"
-import { SketchPicker } from "react-color"
 import "@vtaits/react-color-picker/dist/index.css"
 import axios from "axios"
 import { Label, Card, CardBody, CardTitle, Input } from "reactstrap"
-import InputMask from "react-input-mask"
-import { header, header_PUT, HEADER } from "common/api"
+import { HEADER } from "common/api"
 import { toast } from "react-toastify"
 import Spinner from "loader"
 import useApiStatus from "hooks/useApiStatus"
@@ -50,15 +47,6 @@ function General(props) {
       })
       setLoader(false)
   }
-
-  // const onChangeHandler = async e => {
-  //   e.preventDefault()
-  //   const { name, value } = e.target
-  //   setHeader({
-  //     ...header,
-  //     [name]: value,
-  //   })
-  // }
 
   const headerUpdate = async (values) => {
     // e.preventDefault()
@@ -105,19 +93,15 @@ function General(props) {
                   <Form>
                     <Card>
                       <CardBody>
-                        {/* <CardTitle className="mb-4">Genesral Settings</CardTitle> */}
                           <Row>
                             <Col lg={6}>
                               <div>
                                 <div className="form-group mb-4">
                                   <Label for="input-date1">Admin Website Title: </Label>
                                   <Field
-                                    // mask="(999) 999-9999"
-                                    // value={header.companyName}
                                     className="form-control input-color"
                                     type='text'
                                     name="adminDocumentTitle"
-                                    // onChange={onChangeHandler}
                                   />
                                   {errors.adminDocumentTitle && touched.adminDocumentTitle ? (
                                     <div className="input-error text-danger">{errors.adminDocumentTitle}</div>
@@ -130,12 +114,9 @@ function General(props) {
                                 <div className="form-group mb-4">
                                   <Label for="input-repeat">Investor Website Name:</Label>
                                   <Field
-                                    // mask="(999) 999-9999"
-                                    // value={header.websiteName}
                                     type='text'
                                     name="investorDocumentTitle"
                                     className="form-control input-color"
-                                    // onChange={onChangeHandler}
                                   />
                                   {errors.investorDocumentTitle && touched.investorDocumentTitle ? (
                                     <div className="input-error text-danger">{errors.investorDocumentTitle}</div>

@@ -13,18 +13,12 @@ import {toast} from "react-toastify"
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-// action
-import { userForgetPassword } from "../../store/actions";
-
 // import images
 import profile from "../../assets/images/profile-img.png";
 import logo from "../../assets/images/btb_logo.png";
-import { SelectionState } from "draft-js";
 
 const ForgetPasswordPage = props => {
 
-  //meta title
-  // document.title="Forget Password | Skote - React Admin & Dashboard Template";
 const [loading, setLoading] = useState(false)
   const dispatch = useDispatch();
   
@@ -52,8 +46,6 @@ const [loading, setLoading] = useState(false)
       }finally{
         setLoading(false)
       }       
-      // dispatch(userForgetPassword(values, props.history));
-
     }
   });
 

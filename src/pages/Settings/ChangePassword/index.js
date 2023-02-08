@@ -2,13 +2,9 @@ import React, { useState } from 'react'
 import { CCard, CCardBody, CCol } from '@coreui/react'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import {Button } from "reactstrap"
+import { Button } from "reactstrap"
 import axios from "axios"
-import {toast} from "react-toastify"
-// import { changePassword } from 'src/services/userService'
-// import { fireToast } from 'src/common/toast'
-// import { RemoveFromLocalStorage, UserDataKey } from 'src/common/utility'
-// import Button from 'src/components/common/CommonButton/Button'
+import { toast } from "react-toastify"
 
 const ChangePassword = () => {
   const SignupSchema = Yup.object().shape({
@@ -37,62 +33,32 @@ const ChangePassword = () => {
       failMessage,
     })
   }
-  
-     const user = localStorage.getItem('authUser')
-     const parseData = JSON.parse(user)
-     const token = parseData.msg.jsonWebtoken;
+
+  const user = localStorage.getItem('authUser')
+  const parseData = JSON.parse(user)
+  const token = parseData.msg.jsonWebtoken;
 
   const onSubmit = (values) => {
-    // e.preventDefault();
     changeApiStatus(true)
-    // console.log(data, "jkhgfds")
-   
+
     axios.post("https://tokenmaker-apis.block-brew.com/user/changepassword",
-         values, { headers: { "Authorization": `Bearer ${token}` } })
-         .then((result) => {
-              // setApiSuccess()
-              changeApiStatus(false)
-              // fetchData()
-              toast.success('Updated Successfully');
-         })
-         .catch((err) => {
-              changeApiStatus(false)
-              // setApiFailed(err.message)
-              toast.error("Already Updated!!")
-              // console.log(err, "Banner error")
-         })
-    // setLoader(false)
-}
-//   const onSubmit = async (values) => {
-//     try {
-//       changeApiStatus(true, '')
-//       const userSaveResponse = await changePassword(values)
-//       if (userSaveResponse.status === 200) {
-//         fireToast('success', userSaveResponse.message)
-//         changeApiStatus(false, '')
-//         setTimeout(() => {
-//           RemoveFromLocalStorage(UserDataKey)
-//           localStorage.clear()
-//           window.location.reload()
-//         }, 15000)
-//       } else {
-//         throw new Error(userSaveResponse.error)
-//       }
-//     } catch (err) {
-//       fireToast('error', err.response ? err.response.data.error : err.message)
-//       changeApiStatus(false, err.response ? err.response.data.error : err.message)
-//     }
-//   }
+      values, { headers: { "Authorization": `Bearer ${token}` } })
+      .then((result) => {
+        changeApiStatus(false)
+        toast.success('Updated Successfully');
+      })
+      .catch((err) => {
+        changeApiStatus(false)
+        toast.error("Already Updated!!")
+      })
+  }
+
   return (
     <>
       <CCol md={12}>
         <CCard className="col-xl-12 col-lg-12 mx-auto mb-4 rounded shadow-md p-2">
           <div className="bg-white p-3 pb-0">
             <h5 className="mb-0">Change Password</h5>
-            {/* <p className="mb-2 text-medium-emphasis">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Est laboriosam, dolorem hic
-              perspiciatis aspernatur atque.
-            </p> */}
           </div>
           <CCardBody>
             <div className="">
@@ -153,14 +119,6 @@ const ChangePassword = () => {
                         Update Password
                       </Button>
                     </div>
-                    {/* <CButton
-                      type="submit"
-                      color="success"
-                      className="text-white px-4"
-                      disabled={apiStatus.inProgress}
-                    >
-                      Update Password
-                    </CButton> */}
                   </Form>
                 )}
               </Formik>

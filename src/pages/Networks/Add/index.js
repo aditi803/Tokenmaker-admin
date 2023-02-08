@@ -123,18 +123,15 @@ function Add(props) {
 
 
      const addNetworkHandler = async (e) => {
-          // console.log("hgello")
-          // e.preventDefault()
           changeApiStatus(true)
           const authUser = JSON.parse(localStorage.getItem("authUser"))
-          console.log('getData. ', getData)
+          // console.log('getData. ', getData)
           const formData = new FormData()
 
           for (const fields in getData) {
                formData.append(fields, getData[fields])
           }
-          // formData.append("categoryName", categoryValue)
-          console.log(formData, "FormData");
+          // console.log(formData, "FormData");
 
           await axios
                .post("https://tokenmaker-apis.block-brew.com/network/newnetwork", formData, {
@@ -153,8 +150,6 @@ function Add(props) {
                })
           setLoader(false)
      }
-
-     // console.log(categoryValue, "Category Value")
 
      return (
           <React.Fragment>
@@ -301,33 +296,6 @@ function Add(props) {
                                                                            ) : null}
                                                                       </div>
                                                                  </Col>
-                                                                 {/* <Col sm={8} className="pb-3 ">
-                                                                      <div>
-                                                                           <label htmlFor="description" className="mb-2 name">
-                                                                                <p className="m-0">
-                                                                                     Description <span className="input-error">*</span>
-                                                                                </p>
-                                                                           </label>
-
-                                                                           <input
-                                                                                type="text"
-                                                                                name="description"
-                                                                                placeholder="Enter description here"
-                                                                                className="form-control"
-                                                                                autoComplete="off"
-                                                                                onChange={e => {
-                                                                                     setGetData({
-                                                                                          ...getData,
-                                                                                          description: e.target.value,
-                                                                                     })
-                                                                                     setFieldValue('description', e.target.value)
-                                                                                }}
-                                                                           />
-                                                                           {errors.description && touched.description ? (
-                                                                                <div className="input-error text-danger">{errors.description}</div>
-                                                                           ) : null}
-                                                                      </div>
-                                                                 </Col> */}
                                                                  <Col sm={8} className="pb-3 ">
                                                                       <div>
                                                                            <label htmlFor="categoryName" className="mb-2 name">
@@ -340,8 +308,6 @@ function Add(props) {
                                                                                 className="form-control"
                                                                                 aria-label="Small select example"
                                                                                 name="categoryName"
-                                                                                // id={selVal}
-                                                                                // defaultValue={editData?.networkSymbol}
                                                                                 value={getData.categoryName}
                                                                                 onChange={e => {
 
@@ -351,12 +317,8 @@ function Add(props) {
                                                                                      })
                                                                                      setFieldValue('categoryName', e.target.value)
                                                                                 }}
-                                                                           // selected = {editData?.networkSymbol}
                                                                            >
                                                                                 <option hidden>Select category</option>
-                                                                                {/* <option>Ethereum</option>
-                                                                                <option>Polygon</option>
-                                                                                <option>BSC</option> */}
                                                                                 {category?.map((content, i) => {
                                                                                      return (
                                                                                           <>
@@ -431,13 +393,11 @@ function Add(props) {
                                                                                                               className="drop-area"
                                                                                                               {...getRootProps()}
                                                                                                          >
-                                                                                                              {/* {getData?.networkImage && ( */}
                                                                                                               <img
                                                                                                                    width={150}
                                                                                                                    src={getData?.networkImage ? getData?.networkImageFile : cloud}
                                                                                                                    alt=""
                                                                                                               />
-                                                                                                              {/* )} */}
                                                                                                               <input
                                                                                                                    {...getInputProps()}
                                                                                                                    accept="image/*"
@@ -483,9 +443,8 @@ function Add(props) {
                                                                                 <button
                                                                                      className="btn btn-primary px-4"
                                                                                      type="submit"
-                                                                                // onClick={addNetworkHandler}
                                                                                 >
-                                                                                     {/* {id ? 'Update' : 'Add'} */} Add
+                                                                                      Add
                                                                                 </button>
                                                                            </div>
                                                                            <div className="" style={{ marginLeft: "10px" }}>
@@ -496,7 +455,7 @@ function Add(props) {
                                                                                           history.push('/view')
                                                                                      }}
                                                                                 >
-                                                                                     {/* {id ? 'Update' : 'Add'} */} Close
+                                                                                     Close
                                                                                 </button>
                                                                            </div>
                                                                       </div>

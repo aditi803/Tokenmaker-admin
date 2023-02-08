@@ -15,7 +15,7 @@ import {toast} from "react-toastify"
 import axios from "axios"
 
 // action
-import { userForgetPassword } from "../../store/actions";
+// import { userForgetPassword } from "../../store/actions";
 
 // import images
 import profile from "../../assets/images/profile-img.png";

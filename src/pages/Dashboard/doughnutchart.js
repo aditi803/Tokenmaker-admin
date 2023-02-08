@@ -8,15 +8,9 @@ import axios from "axios"
 const Doughnut = ({dataColors, category, totalVal}) => {
 
   const [pieData, setPieData] = useState([])
-  // const [category, setCategory] = useState([])
-  // const [totalVal, setTotalVal] = useState([])
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
-
-  // pieData?.map((value) => {
-  //   category.push(value.categoryName)
-  // });
 
   const user = localStorage.getItem('authUser')
   const parseData = JSON.parse(user)

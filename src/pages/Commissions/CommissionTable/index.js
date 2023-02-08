@@ -26,7 +26,7 @@ function CommissionTable(props) {
   const [addModal, setAddModal] = useState(false)
   const toggleAddModal = () => setAddModal(!addModal)
 
-  const [edit, setEdit] = useState() 
+  const [edit, setEdit] = useState()
   const [page, setPage] = useState({ current: 1, totalItems: 0, pageSize: 10 })
 
   const [items, setItems] = useState({})
@@ -34,10 +34,10 @@ function CommissionTable(props) {
 
   const [data, setData] = useState([])
 
-  const[finalData,setFinaldata] = useState([])
+  const [finalData, setFinaldata] = useState([])
 
 
-  
+
   const fetchNetworks = async (
     pageNumber = 1,
     pageSize = 10,
@@ -121,13 +121,13 @@ function CommissionTable(props) {
       selector: row => row.subNetworkName
     },
     {
-          name: "Commission Fee",
-          selector: row => row.networkCommissionFee + " " + row.symbol
-      },
+      name: "Commission Fee",
+      selector: row => row.networkCommissionFee + " " + row.symbol
+    },
     {
-          name: "Token Type",
-          selector: row => row?.tokenType
-      },
+      name: "Token Type",
+      selector: row => row?.tokenType
+    },
     {
       name: "Actions",
       selector: row => (
@@ -145,8 +145,8 @@ function CommissionTable(props) {
             className="text-danger hand"
             onClick={() => {
               deleteNetwork(row._id)
-                        }}
-        />
+            }}
+          />
         </>
       ),
     },
@@ -154,8 +154,8 @@ function CommissionTable(props) {
 
   return (
     <React.Fragment>
-      <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchNetworks} getData={data}/>
-      <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchNetworks} allData={data}/>
+      <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchNetworks} getData={data} />
+      <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchNetworks} allData={data} />
       <div className="page-content">
         {apiStatus.inProgress ? (
           <Spinner />
@@ -175,7 +175,7 @@ function CommissionTable(props) {
                       color="primary"
                       className="mt-1"
                       onClick={toggleAddModal}
-                      style={{backgroundColor:"#2a3042"}}
+                      style={{ backgroundColor: "#2a3042" }}
                     >
                       Add
                     </Button>

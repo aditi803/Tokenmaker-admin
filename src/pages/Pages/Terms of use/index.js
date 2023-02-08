@@ -19,7 +19,7 @@ import axios from "axios"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import InputMask from "react-input-mask"
 import { SketchPicker } from "react-color"
-import {toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 
 //Import Date Picker
 import DatePicker from "react-datepicker"
@@ -72,14 +72,6 @@ const TermsOfUse = () => {
   const editor = useRef(null);
   const [content, setContent] = useState('');
 
-  // const config = useMemo(
-  //   {
-  //     readonly: false, // all options from https://xdsoft.net/jodit/doc/,
-  //     placeholder:  'Start typings...'
-  //   },
-  //   [placeholder]
-  // );
-
   const onChangeHandler = async (e) => {
     e.preventDefault()
     // console.log(e.target.value, "onchange e target side ")
@@ -112,38 +104,36 @@ const TermsOfUse = () => {
   }
 
   const handleDescription = (editorState) => {
-    // console.log(editorState,"editorState onchange fn")
     setTerms({ ...terms, ['content']: editorState })
-}
+  }
 
-const termsUpdate = async () => {
-  // console.log("Hello")
-  changeApiStatus(true)
-  const authUser = JSON.parse(localStorage.getItem("authUser"))
-  await axios
-    .put("https://tokenmaker-apis.block-brew.com/cms/terms", terms, {
-      headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
-    })
-    .then(res => {
-      console.log(res,"Update terms of use")
-      setApiSuccess()
-      changeApiStatus(false)
-      fetchData()
-      toast.success("Updated Successfully")
-    })
-    .catch(err => {
-      changeApiStatus(false)
-      setApiFailed(err.message)
-      toast.error("Cannot update")
-    })
-  setLoader(false)
-}
+  const termsUpdate = async () => {
+    // console.log("Hello")
+    changeApiStatus(true)
+    const authUser = JSON.parse(localStorage.getItem("authUser"))
+    await axios
+      .put("https://tokenmaker-apis.block-brew.com/cms/terms", terms, {
+        headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
+      })
+      .then(res => {
+        console.log(res, "Update terms of use")
+        setApiSuccess()
+        changeApiStatus(false)
+        fetchData()
+        toast.success("Updated Successfully")
+      })
+      .catch(err => {
+        changeApiStatus(false)
+        setApiFailed(err.message)
+        toast.error("Cannot update")
+      })
+    setLoader(false)
+  }
 
-  return apiStatus.inProgress ? <Spinner /> :  (
+  return apiStatus.inProgress ? <Spinner /> : (
     <>
       <div className="page-content">
         <Container fluid>
-          {/* Render Breadcrumbs */}
           <p
             style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
           >Terms of Use</p>
@@ -151,7 +141,6 @@ const termsUpdate = async () => {
             <Col lg="12">
               <Card>
                 <CardBody style={{ display: "flex", justifyContent: "center" }}>
-                  {/* <CardTitle className="mb-4">Create New Task</CardTitle> */}
                   <form className="outer-repeater">
                     <div data-repeater-list="outer-group" className="outer">
                       <div data-repeater-item className="outer">
@@ -186,7 +175,6 @@ const termsUpdate = async () => {
                                     onClick={() => {
                                       setsimple_color2(!simple_color2)
                                     }}
-                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                                     value={terms?.contentColor}
                                     readOnly
                                   />
@@ -195,7 +183,6 @@ const termsUpdate = async () => {
                                       color={terms?.contentColor}
                                       value={simple_color2}
                                       width="160px"
-                                      // onChangeComplete={handleHor}
                                       onChangeComplete={e => {
                                         setTerms(prev => ({
                                           ...prev,
@@ -216,7 +203,6 @@ const termsUpdate = async () => {
                                     onClick={() => {
                                       setsimple_color3(!simple_color3)
                                     }}
-                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                                     value={terms?.titleColor}
                                     readOnly
                                   />
@@ -225,7 +211,6 @@ const termsUpdate = async () => {
                                       color={terms?.titleColor}
                                       value={simple_color3}
                                       width="160px"
-                                      // onChangeComplete={handleHor}
                                       onChangeComplete={e => {
                                         setTerms(prev => ({
                                           ...prev,
@@ -239,72 +224,6 @@ const termsUpdate = async () => {
                             </Col>
                           </Row>
 
-                          {/* <Col lg={6}>
-                            <div>
-                              <div className="form-group mb-4">
-                                <Label for="input-date1">Title Color: </Label>
-                                <Input
-                                  type="text"
-                                  // value={terms?.backgroundColor}
-                                  onClick={() => {
-                                    setsimple_color2(!simple_color2);
-                                  }}
-                                  value={terms?.titleColor}
-                                  readOnly
-                                />
-                                {simple_color2 ? (
-                                <SketchPicker
-                                  color={terms?.titleColor}
-                                  value={simple_color2}
-                                  // onChangeComplete={handleHor}
-                                  width="160px"
-                                // onChangeComplete={handleHor}
-                                onChangeComplete={e => {
-                                  setTerms(prev => ({
-                                    ...prev,
-                                    titleColor: e.hex,
-                                  }))
-                                }}
-                                />
-                                 ) : null}
-                              </div>
-                            </div>
-                          </Col>
-                          <Col lg={6}>
-                            <div className="mt-4 mt-lg-0">
-                              <div className="form-group mb-4">
-                                <Label for="input-repeat">Content Color:</Label>
-                                <Input
-                                  type="text"
-                                  // onClick={() => {
-                                  //   setsimple_color3(!simple_color3)
-                                  // }}
-                                  // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
-                                  // value={terms?.backgroundColor}
-                                  onClick={() => {
-                                    setsimple_color2(!simple_color3);
-                                  }}
-                                  value={terms?.contentColor}
-                                  readOnly
-                                />
-                                {simple_color3 ? (
-                                <SketchPicker
-                                  color={terms?.contentColor}
-                                  // value={simple_color3}
-                                  value={simple_color3}
-                                  width="160px"
-                                // onChangeComplete={handleHor}
-                                onChangeComplete={e => {
-                                  setTerms(prev => ({
-                                    ...prev,
-                                    contentColor: e.hex,
-                                  }))
-                                }}
-                                />
-                                 ) : null}
-                              </div>
-                            </div>
-                          </Col> */}
 
                         </FormGroup>
 
@@ -321,17 +240,8 @@ const termsUpdate = async () => {
                               id="content"
                               rows='5'
                               tabIndex={1} // tabIndex of textarea
-                              // onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
                               onChange={newContent => handleDescription(newContent)}
                             />
-                            {/* <Editor
-                              toolbarClassName="toolbarClassName"
-                              wrapperClassName="wrapperClassName"
-                              editorClassName="editorClassName"
-                              placeholder="Place Your Content Here..."
-                            >
-                              Hello
-                            </Editor> */}
                           </Col>
                         </FormGroup>
 
@@ -341,11 +251,7 @@ const termsUpdate = async () => {
                             <Button
                               color="success"
                               className="inner"
-                            // onClick={() => {
-                            //   handleAddFields()
-
-                            onClick={termsUpdate}
-                            // }}
+                              onClick={termsUpdate}
                             >
                               Update
                             </Button>

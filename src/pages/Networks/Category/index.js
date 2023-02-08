@@ -2,12 +2,8 @@ import React, { useMemo, useState, useEffect } from "react"
 import { Col, Container, Row, Button, Card, CardBody } from "reactstrap"
 import PropTypes from "prop-types"
 import { withTranslation } from "react-i18next"
-import Breadcrumb from "components/Common/Breadcrumb"
 import useApiStatus from "hooks/useApiStatus"
 import { cilPencil, cilTrash } from "@coreui/icons"
-// import "./comissionTable.css"
-// import CategoryEdit from "../modals/CategoryEdit"
-// import CommissionAdd from "../modals/CommissionAdd"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { toastConfirm } from "common/toast"
@@ -108,28 +104,10 @@ function Category(props) {
             console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            // setApiFailed(err.msg)
           }
         }
       })
-    // setLoader(false)
   }
-
-    // const data = [
-    //     {
-    //         id: 1,
-    //         categoryName: 'Ethereum'
-    //     },
-    //     {
-    //         id: 2,
-    //         categoryName: 'Polygon'
-    //     },
-    //     {
-    //         id: 3,
-    //         categoryName: 'BSC'
-    //     },
-
-    // ]
 
   const columns = [
     {

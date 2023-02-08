@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react"
 import { Col, Container, Row, Button } from "reactstrap"
 import PropTypes from "prop-types"
 import { withTranslation } from "react-i18next"
-import Breadcrumb from "components/Common/Breadcrumb"
-import { SketchPicker } from "react-color"
 import "@vtaits/react-color-picker/dist/index.css"
 import axios from "axios"
 import { Form, Label, Card, CardBody, CardTitle, Input } from "reactstrap"
@@ -20,14 +18,7 @@ function Payments(props) {
 
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
-  //   const [simple_color2, setsimple_color2] = useState(0)
-  //   const [simple_color3, setsimple_color3] = useState(0)
-  //   const [colorHor, setcolorHor] = useState("#fffff")
 
-  //   const [loader, setLoader] = useState(true)
-  //   const handleHor = color => {
-  //     setcolorHor(color.hex)
-  //   }
   useEffect(() => {
     changeApiStatus(true)
     // setLoader(false)
@@ -54,7 +45,7 @@ function Payments(props) {
     e.preventDefault()
     // console.log(e.target.value, "onchange e target side ")
     const { name, value } = e.target
-    console.log(payment, "Change payment")
+    // console.log(payment, "Change payment")
     setPayment({
       //   ...payment,
       [name]: value,
@@ -66,7 +57,7 @@ function Payments(props) {
     e.preventDefault()
     // console.log(e.target.value, "onchange e target side ")
     const { name, value } = e.target
-    console.log(solanaPayment, "Change solana payment")
+    // console.log(solanaPayment, "Change solana payment")
     setSolanaPayment({
       [name]: value,
     })
@@ -76,9 +67,8 @@ function Payments(props) {
 
 
     e.preventDefault();
-    // console.log(payment.paymentAddress.length,"<<<<<<<<<<<<PAyment Length>>>>>>>>>>>>>")
-    console.log(payment, "Payment")
-    console.log(solanaPayment, "Solana Payemnt")
+    // console.log(payment, "Payment")
+    // console.log(solanaPayment, "Solana Payemnt")
     if (payment?.metamaskPaymentAddress?.length === 42 && (solanaPayment?.solanaPaymentAddress?.length >= 32 && solanaPayment?.solanaPaymentAddress?.length <= 44)) {
       setError("")
       changeApiStatus(true)
@@ -154,7 +144,6 @@ function Payments(props) {
                           <div className="form-group mb-4">
                             <Label for="input-date1">Your Wallet Address: </Label>
                             <InputMask
-                              // mask="(999) 999-9999"
                               value={payment.metamaskPaymentAddress}
                               className="form-control input-color"
                               name="metamaskPaymentAddress"
@@ -191,7 +180,6 @@ function Payments(props) {
                           <div className="form-group mb-4">
                             <Label for="input-date1">Your Wallet Address: </Label>
                             <InputMask
-                              // mask="(999) 999-9999"
                               value={solanaPayment.solanaPaymentAddress}
                               placeholder="Enter your payment address"
                               className="form-control input-color"

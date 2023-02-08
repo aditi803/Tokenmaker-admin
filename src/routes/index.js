@@ -58,7 +58,7 @@ import Register2 from "../pages/AuthenticationInner/Register2"
 import Recoverpw from "../pages/AuthenticationInner/Recoverpw"
 import Recoverpw2 from "../pages/AuthenticationInner/Recoverpw2"
 import ForgetPwd1 from "../pages/AuthenticationInner/ForgetPassword"
-import ForgetPwd2 from "../pages/AuthenticationInner/ForgetPassword2"
+// import ForgetPwd2 from "../pages/AuthenticationInner/ForgetPassword2"
 import LockScreen from "../pages/AuthenticationInner/auth-lock-screen"
 import LockScreen2 from "../pages/AuthenticationInner/auth-lock-screen-2"
 import ConfirmMail from "../pages/AuthenticationInner/page-confirm-mail"
@@ -350,7 +350,7 @@ const publicRoutes = [
   { path: "/page-recoverpw", component: Recoverpw },
   { path: "/page-recoverpw-2", component: Recoverpw2 },
   { path: "/pages-forgot-pwd", component: ForgetPwd1 },
-  { path: "/auth-recoverpw-2", component: ForgetPwd2 },
+  // { path: "/auth-recoverpw-2", component: ForgetPwd2 },
   { path: "/auth-lock-screen", component: LockScreen },
   { path: "/auth-lock-screen-2", component: LockScreen2 },
   { path: "/page-confirm-mail", component: ConfirmMail },

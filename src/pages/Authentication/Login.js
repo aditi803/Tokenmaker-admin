@@ -15,9 +15,8 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 //Social Media Imports
-import { GoogleLogin } from "react-google-login";
+
 // import TwitterLogin from "react-twitter-auth"
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 // actions
 import { loginUser, socialLogin } from "../../store/actions";
@@ -131,7 +130,6 @@ const Login = props => {
                             alt=""
                             className=""
                             height="16px"
-                            // width="100%"
                           />
                         </span>
                       </div>
@@ -158,7 +156,6 @@ const Login = props => {
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
                           autoComplete="off"
-                          // value={validation.values.email || ""}
                           invalid={
                             validation.touched.email && validation.errors.email ? true : false
                           }
@@ -172,7 +169,6 @@ const Login = props => {
                         <Label className="form-label">Password</Label>
                         <Input
                           name="password"
-                          // value={validation.values.password || ""}
                           type="password"
                           placeholder="Enter Password"
                           onChange={validation.handleChange}

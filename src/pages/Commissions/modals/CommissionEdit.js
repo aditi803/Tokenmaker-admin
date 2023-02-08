@@ -37,7 +37,7 @@ const CommissionEdit = props => {
     }))
 
   }, [editData, category])
-  
+
 
 
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
@@ -47,13 +47,13 @@ const CommissionEdit = props => {
   const [close, setClose] = useState(true)
 
   const [categoryStatus, setCategoryStatus] = useState([])
-  
+
 
   const handleClose = () => {
     setClose(toggle)
   }
 
-  
+
 
   const fetchNetwork = () => {
     changeApiStatus(true)
@@ -116,9 +116,9 @@ const CommissionEdit = props => {
         toast.error("Already Updated")
       })
   }
-  
+
   const [checkValue, setCheckValue] = useState(false)
-  
+
   return (
     <Modal
       isOpen={isOpen}
@@ -145,7 +145,7 @@ const CommissionEdit = props => {
             {category?.map((content, i) => {
               return (
                 <>
-                
+
                   <option
                     key={i}
                     value={content.categoryName}
@@ -174,7 +174,7 @@ const CommissionEdit = props => {
             {networks[0]?.map((content, i) => {
               return (
                 <>
-                {console.log(content, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>CONTENTMMMMMMMMMMMMMMMMMMMMMMMM')}
+                  {console.log(content, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>CONTENTMMMMMMMMMMMMMMMMMMMMMMMM')}
                   <option
                     // disabled
                     key={i}
@@ -186,7 +186,7 @@ const CommissionEdit = props => {
               )
             })}
           </CFormSelect>
-          <p className="my-2">Commission Type: <span style={{textDecoration:"underline"}}>{" "}{editAllData?.tokenType}</span></p>
+          <p className="my-2">Commission Type: <span style={{ textDecoration: "underline" }}>{" "}{editAllData?.tokenType}</span></p>
           <input
             type="text"
             className="form-control"

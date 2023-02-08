@@ -5,7 +5,6 @@ import {
   Col,
   Card,
   CardBody,
-  CardTitle,
   Input,
   FormGroup,
   Label,
@@ -13,7 +12,6 @@ import {
 } from "reactstrap"
 
 // Import Editor
-import { Editor } from "react-draft-wysiwyg"
 import JoditEditor from 'jodit-react';
 import axios from "axios"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
@@ -22,13 +20,9 @@ import { SketchPicker } from "react-color"
 import {toast } from 'react-toastify'
 
 //Import Date Picker
-import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import useApiStatus from "hooks/useApiStatus"
 import Spinner from "loader";
-
-//Import Breadcrumb
-// import Breadcrumbs from "../../components/Common/Breadcrumb"
 
 const PrivacyPolicy = () => {
 
@@ -72,17 +66,8 @@ const PrivacyPolicy = () => {
   const editor = useRef(null);
   const [content, setContent] = useState('');
 
-  // const config = useMemo(
-  //   {
-  //     readonly: false, // all options from https://xdsoft.net/jodit/doc/,
-  //     placeholder:  'Start typings...'
-  //   },
-  //   [placeholder]
-  // );
-
   const onChangeHandler = async (e) => {
     e.preventDefault()
-    // console.log(e.target.value, "onchange e target side ")
     const { name, value } = e.target
     setPolicy({
       ...policy,
@@ -102,7 +87,7 @@ const PrivacyPolicy = () => {
       .get('https://tokenmaker-apis.block-brew.com/cms/privacydetails')
       .then(res => {
         setPolicy(res.data.msg)
-        console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>policy msg")
+        // console.log(res.data.msg, "?>>>>>>>>>>>>>>>>>>policy msg")
         setApiSuccess()
         changeApiStatus(false)
       })
@@ -113,7 +98,6 @@ const PrivacyPolicy = () => {
   }
 
   const handleDescription = (editorState) => {
-    // console.log(editorState,"editorState onchange fn")
     setPolicy({ ...policy, ['content']: editorState })
 }
 
@@ -144,7 +128,6 @@ const policyUpdate = async () => {
     <>
       <div className="page-content">
         <Container fluid>
-          {/* Render Breadcrumbs */}
           <p
             style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
           >policy of Use</p>
@@ -152,7 +135,6 @@ const policyUpdate = async () => {
             <Col lg="12">
               <Card>
                 <CardBody style={{ display: "flex", justifyContent: "center" }}>
-                  {/* <CardTitle className="mb-4">Create New Task</CardTitle> */}
                   <form className="outer-repeater">
                     <div data-repeater-list="outer-group" className="outer">
                       <div data-repeater-item className="outer">
@@ -187,7 +169,6 @@ const policyUpdate = async () => {
                                     onClick={() => {
                                       setsimple_color2(!simple_color2)
                                     }}
-                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                                     value={policy?.contentColor}
                                     readOnly
                                   />
@@ -196,7 +177,6 @@ const policyUpdate = async () => {
                                       color={policy?.contentColor}
                                       value={simple_color2}
                                       width="160px"
-                                      // onChangeComplete={handleHor}
                                       onChangeComplete={e => {
                                         setPolicy(prev => ({
                                           ...prev,
@@ -217,7 +197,6 @@ const policyUpdate = async () => {
                                     onClick={() => {
                                       setsimple_color3(!simple_color3)
                                     }}
-                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                                     value={policy?.titleColor}
                                     readOnly
                                   />
@@ -226,7 +205,6 @@ const policyUpdate = async () => {
                                       color={policy?.titleColor}
                                       value={simple_color3}
                                       width="160px"
-                                      // onChangeComplete={handleHor}
                                       onChangeComplete={e => {
                                         setPolicy(prev => ({
                                           ...prev,
@@ -239,77 +217,7 @@ const policyUpdate = async () => {
                               </div>
                             </Col>
                           </Row>
-
-                          {/* <Col lg={6}>
-                            <div>
-                              <div className="form-group mb-4">
-                                <Label for="input-date1">Title Color: </Label>
-                                <Input
-                                  type="text"
-                                  // value={policy?.backgroundColor}
-                                  onClick={() => {
-                                    setsimple_color2(!simple_color2);
-                                  }}
-                                  value={policy?.titleColor}
-                                  readOnly
-                                />
-                                {simple_color2 ? (
-                                <SketchPicker
-                                  color={policy?.titleColor}
-                                  value={simple_color2}
-                                  // onChangeComplete={handleHor}
-                                  width="160px"
-                                // onChangeComplete={handleHor}
-                                onChangeComplete={e => {
-                                  setpolicy(prev => ({
-                                    ...prev,
-                                    titleColor: e.hex,
-                                  }))
-                                }}
-                                />
-                                 ) : null}
-                              </div>
-                            </div>
-                          </Col>
-                          <Col lg={6}>
-                            <div className="mt-4 mt-lg-0">
-                              <div className="form-group mb-4">
-                                <Label for="input-repeat">Content Color:</Label>
-                                <Input
-                                  type="text"
-                                  // onClick={() => {
-                                  //   setsimple_color3(!simple_color3)
-                                  // }}
-                                  // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
-                                  // value={policy?.backgroundColor}
-                                  onClick={() => {
-                                    setsimple_color2(!simple_color3);
-                                  }}
-                                  value={policy?.contentColor}
-                                  readOnly
-                                />
-                                {simple_color3 ? (
-                                <SketchPicker
-                                  color={policy?.contentColor}
-                                  // value={simple_color3}
-                                  value={simple_color3}
-                                  width="160px"
-                                // onChangeComplete={handleHor}
-                                onChangeComplete={e => {
-                                  setpolicy(prev => ({
-                                    ...prev,
-                                    contentColor: e.hex,
-                                  }))
-                                }}
-                                />
-                                 ) : null}
-                              </div>
-                            </div>
-                          </Col> */}
-
                         </FormGroup>
-
-
                         <FormGroup className="mb-4" row>
                           <Col lg="12">
                             <Label className="col-form-label col-lg-2">
@@ -322,31 +230,16 @@ const policyUpdate = async () => {
                               id="content"
                               rows='5'
                               tabIndex={1} // tabIndex of textarea
-                              // onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
                               onChange={newContent => handleDescription(newContent)}
                             />
-                            {/* <Editor
-                              toolbarClassName="toolbarClassName"
-                              wrapperClassName="wrapperClassName"
-                              editorClassName="editorClassName"
-                              placeholder="Place Your Content Here..."
-                            >
-                              Hello
-                            </Editor> */}
                           </Col>
                         </FormGroup>
-
-
                         <Row>
                           <Col lg="10">
                             <Button
                               color="success"
                               className="inner"
-                            // onClick={() => {
-                            //   handleAddFields()
-
-                            onClick={policyUpdate}
-                            // }}
+                              onClick={policyUpdate}
                             >
                               Update
                             </Button>

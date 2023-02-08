@@ -13,7 +13,7 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios"
-import {toastify} from "react-toastify"
+import { toastify } from "react-toastify"
 
 
 import { useContext } from "react";
@@ -24,7 +24,7 @@ import user1 from "../../../assets/images/users/admin-girl-image.jpg";
 import useApiStatus from "hooks/useApiStatus";
 
 const ProfileMenu = props => {
-  const {toggle, setToggle} =  useContext(CommonContext);
+  const { toggle, setToggle } = useContext(CommonContext);
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
 
@@ -34,44 +34,40 @@ const ProfileMenu = props => {
   const parseData = JSON.parse(userToken)
   const token = parseData.msg.jsonWebtoken
   const [user, setUser] = useState([])
-  const [image, setImage] =useState({
+  const [image, setImage] = useState({
     blob: null,
     src: '',
   })
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
-    const fetchData = async () => {
-      //     try {
-            changeApiStatus(true)
-      const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
-      await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
-        //       if (userResponse.status === 200) {
-        .then((res) => {
+  const fetchData = async () => {
+    //     try {
+    changeApiStatus(true)
+    const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
+    await axios.get("https://tokenmaker-apis.block-brew.com/user/getuser", { headers: { Authorization: `Bearer ${token}` } })
+      //       if (userResponse.status === 200) {
+      .then((res) => {
 
-          const { username, email, userImage } = res.data.msg
-                  setUser({ username, email })
-  
-                  userImage &&
-                  userImage !== null &&
-                    setImage({
-                      src: `${imageBaseUrl}/${userImage}`,
-                    })
-                  changeApiStatus(false)
-          //       } else {
-          //         throw new Error(userResponse.error)
-          //       }
-        })
-              
-          .catch ((err) => {
-            changeApiStatus(false)
+        const { username, email, userImage } = res.data.msg
+        setUser({ username, email })
+
+        userImage &&
+          userImage !== null &&
+          setImage({
+            src: `${imageBaseUrl}/${userImage}`,
           })
-    }
-  
-    useEffect(() => {
-      fetchData()
-      // eslint-disable-next-line 
-    }, [toggle]) // pass depo
+        changeApiStatus(false)
+      })
+      .catch((err) => {
+        changeApiStatus(false)
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+    // eslint-disable-next-line 
+  }, [toggle]) // pass depo
   console.log("user-image profilemenu", image)
 
 
@@ -107,7 +103,7 @@ const ProfileMenu = props => {
           <img
             className="rounded-circle header-profile-user"
             src={image.src ? image.src : user1}
-            style={{height:"35px", width:"35px", objectFit:"cover"}}
+            style={{ height: "35px", width: "35px", objectFit: "cover" }}
             alt="Header Avatar"
           />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
@@ -115,26 +111,12 @@ const ProfileMenu = props => {
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
           <Link to="/profile-settings" >
-          <DropdownItem tag="a" href="/profile">
-            {" "}
-            <i className="bx bx-user font-size-16 align-middle me-1" />
-            {props.t("Profile")}{" "}
-          </DropdownItem>
+            <DropdownItem tag="a" href="/profile">
+              {" "}
+              <i className="bx bx-user font-size-16 align-middle me-1" />
+              {props.t("Profile")}{" "}
+            </DropdownItem>
           </Link>
-          
-          {/* <DropdownItem tag="a" href="/crypto-wallet">
-            <i className="bx bx-wallet font-size-16 align-middle me-1" />
-            {props.t("My Wallet")}
-          </DropdownItem> */}
-          {/* <DropdownItem tag="a" href="#">
-            <span className="badge bg-success float-end">11</span>
-            <i className="bx bx-wrench font-size-16 align-middle me-1" />
-            {props.t("Settings")}
-          </DropdownItem> */}
-          {/* <DropdownItem tag="a" href="auth-lock-screen">
-            <i className="bx bx-lock-open font-size-16 align-middle me-1" />
-            {props.t("Lock screen")}
-          </DropdownItem> */}
           <div className="dropdown-divider" />
           <Link to="/logout" className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />

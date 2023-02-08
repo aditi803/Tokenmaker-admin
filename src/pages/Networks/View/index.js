@@ -3,10 +3,7 @@ import { Col, Container, Row, Button, Card } from "reactstrap"
 import PropTypes from "prop-types"
 import { CCard, CCardBody, CFormSwitch } from "@coreui/react"
 import { withTranslation } from "react-i18next"
-import Breadcrumb from "components/Common/Breadcrumb"
 import { useHistory, Link, useParams } from "react-router-dom"
-import { DeleteSharp, EditOutlined } from "@mui/icons-material"
-// import Breadcrumb from '../../../components/Common/Breadcrumb';
 import "./view.css"
 import axios from "axios"
 import CIcon from "@coreui/icons-react"
@@ -64,6 +61,7 @@ function View(props) {
         if (val.isConfirmed) {
           try {
             changeApiStatus(true, "")
+            
             const authUser = JSON.parse(localStorage.getItem("authUser"))
             const list = await axios.delete(
               `https://tokenmaker-apis.block-brew.com/network/deletenetwork/${networkId}`,
@@ -176,20 +174,11 @@ function View(props) {
                                       />
                                     </div>
 
-                                    {/* {console.log(net.active, "Active Toggler")} */}
                                     <CFormSwitch
-                                      // checked={checked}
-                                      // onChange={handleChange}
-                                      // color="primary"
                                       style={{width:"35px", height:"20px"}}
                                       shape="pill"
-                                      // size="small"
                                       color={net.active ? 'success' : 'danger'}
-                                      // value={net.active}
                                       defaultChecked={net.active === "false" ? false : net.active === "true" ? true : false}
-                                      // checked={net.active}
-                                      // inputProps={{ 'aria-label': 'controlled' }}
-                                      // inputProps={net.active}
                                       onChange={(e) => {
                                         NetworkToggler(e.target.checked ? "true" : "false", net._id)
                                       }
@@ -202,9 +191,6 @@ function View(props) {
                                 <span className="text-center d-block">
                                   (Id: {net.networkKey})
                                 </span>
-                                {/* <span className="text-center d-block mt-2 fs-5 inner-logo">
-                                  {net.description}{" "}
-                                </span> */}
                               </div>
                             </div>
                           ))}
@@ -214,8 +200,6 @@ function View(props) {
                   </div>
                 </div>
               </CCardBody>
-
-              {/* </CCard> */}
             </div>
           </Row>
         </Container>

@@ -64,7 +64,7 @@ function LandingPageSteps(props) {
           fetchData()
           // setLoader(false)
      }, [setData])
-     
+
      const user = localStorage.getItem('authUser')
      const parseData = JSON.parse(user)
      const token = parseData.msg.jsonWebtoken;
@@ -76,7 +76,6 @@ function LandingPageSteps(props) {
           axios.put('https://tokenmaker-apis.block-brew.com/step/stepdata',
                values, { headers: { "Authorization": `Bearer ${token}` } })
                .then((result) => {
-
                     setApiSuccess()
                     changeApiStatus(false)
                     fetchData()

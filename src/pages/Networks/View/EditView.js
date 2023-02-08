@@ -11,8 +11,6 @@ import { toast } from "react-toastify"
 import useApiStatus from "hooks/useApiStatus"
 import axios from "axios"
 import { CFormSelect } from "@coreui/react"
-// import Breadcrumb from '../../../components/Common/Breadcrumb';
-
 function EditView(props) {
   const { id } = useParams()
   console.log(id, "id of edit ")
@@ -131,9 +129,6 @@ function EditView(props) {
                               autoComplete="off"
                               onChange={handleChange}
                             />
-                            {/* {errors.networkName && touched.networkName ? (
-                                                                      <div className="input-error">{errors.networkName}</div>
-                                                                 ) : null} */}
                           </div>
                         </Col>
                         <Col sm={8} className="pb-3">
@@ -152,9 +147,6 @@ function EditView(props) {
                               value={getData?.chainId}
                               onChange={handleChange}
                             />
-                            {/* {errors.chainId && touched.chainId ? (
-                                                                      <div className="input-error">{errors.chainId}</div>
-                                                                 ) : null} */}
                           </div>
                         </Col>
                         <Col sm={8} className="pb-3">
@@ -177,9 +169,6 @@ function EditView(props) {
                               value={getData?.blockExplorerUrl}
                               onChange={handleChange}
                             />
-                            {/* {errors.blockExplorerUrl && touched.blockExplorerUrl ? (
-                                                                      <div className="input-error">{errors.blockExplorerUrl}</div>
-                                                                 ) : null} */}
                           </div>
                         </Col>
                         <Col sm={8} className="pb-3">
@@ -198,29 +187,8 @@ function EditView(props) {
                               value={getData?.rpcUrl}
                               onChange={handleChange}
                             />
-                            {/* {errors.rpcUrl && touched.rpcUrl ? (
-                                                                      <div className="input-error">{errors.rpcUrl}</div>
-                                                                 ) : null} */}
                           </div>
                         </Col>
-                        {/* <Col sm={8} className="pb-3">
-                          <div>
-                            <label htmlFor="rpcUrl" className="mb-2 name">
-                              <p className="m-0">
-                                Description <span className="input-error">*</span>
-                              </p>
-                            </label>
-
-                            <InputMask
-                              name="description"
-                              placeholder="Enter description here"
-                              className="form-control"
-                              autoComplete="off"
-                              value={getData?.description}
-                              onChange={handleChange}
-                            />
-                          </div>
-                        </Col> */}
                         <Col sm={8} className="pb-3">
                           <div>
                             <label htmlFor="categoryName" className="mb-2 name">
@@ -242,7 +210,7 @@ function EditView(props) {
                               {category?.map((content, i) => {
                                 return (
                                   <>
-                                    {console.log(getData.category, '>>>>>>>>>>>>>>>>>>>>>>>>>>HOW COULD YOU')}
+                                    {/* {console.log(getData.category, '>>>>>>>>>>>>>>>>>>>>>>>>>>HOW COULD YOU')} */}
                                     <option
                                       key={i}
                                       value={content.categoryName}
@@ -253,9 +221,6 @@ function EditView(props) {
                                 )
                               })}
                             </CFormSelect>
-                            {/* {errors.rpcUrl && touched.rpcUrl ? (
-                                                                      <div className="input-error">{errors.rpcUrl}</div>
-                                                                 ) : null} */}
                           </div>
                         </Col>
 
@@ -275,9 +240,6 @@ function EditView(props) {
                               value={getData?.symbol}
                               onChange={handleChange}
                             />
-                            {/* {errors.symbol && touched.symbol ? (
-                                                                      <div className="input-error">{errors.symbol}</div>
-                                                                 ) : null} */}
                           </div>
                         </Col>
                         <Col sm={8} className="pb-3">
@@ -293,32 +255,22 @@ function EditView(props) {
                                 <div className="mb-3 dragdrop-container">
 
                                   <input
-                                    // ref={uploadRef}
                                     disabled={useApiStatus.inProgress}
-                                    // id="upload"
                                     name="networkImage"
                                     hidden
                                     accept="image/*"
                                     type="file"
                                     id="networkImage"
                                     onChange={handleChange}
-                                  // onChange={(e) => console.log(e, '>>>>>>>>>>>>>>>>>>>>>>') }
-                                  // onChange={(e) => handleImageChange(e.target.files)}
                                   />
-                                  {/* {image.src ? ( */}
                                   <label htmlFor="networkImage">
                                     <img
                                       className="banner-img"
                                       style={{ width: "200px", height: "120px", marginTop: "65px" }}
                                       src={image ? image.src : imageBaseUrl + getData?.networkImage}
                                       alt=""
-                                    // onClick={() => {
-                                    //      uploadRef.current.click()
-                                    // }}
                                     />
                                   </label>
-                                  {/* ) : ( */}
-
                                 </div>
 
                               </div>
@@ -331,9 +283,8 @@ function EditView(props) {
                                 className="btn btn-success px-4"
                                 type="submit"
                                 onClick={updateNetworkHandler}
-                              // style={{ marginTop: "10px" }}
                               >
-                                {/* {id ? 'Update' : 'Add'} */} Update
+                                Update
                               </Button>
                             </div>
                             <div className="" style={{ marginLeft: "10px" }}>
@@ -343,9 +294,8 @@ function EditView(props) {
                                 onClick={() => {
                                   history.push('/view')
                                 }}
-                              // style={{ marginTop: "10px" }}
                               >
-                                {/* {id ? 'Update' : 'Add'} */} Close
+                                Close
                               </Button>
                             </div>
                           </div>

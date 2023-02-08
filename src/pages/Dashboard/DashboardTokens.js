@@ -1,25 +1,12 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import PropTypes from "prop-types"
 import { withRouter } from "react-router-dom"
-import { isEmpty } from "lodash"
 
 import { Button, Card, CardBody } from "reactstrap"
-import { getOrders as onGetOrders } from "store/actions"
 import moment from "moment"
 
-import searchicon from "../../assets/images/search-line.svg"
-import calendarremovelines from "../../assets/images/calendar-remove-lines.svg"
-import schedule from "../../assets/images/schedule.svg"
-import downloadfileicon from "../../assets/images/download-file.svg"
-import DateRangePicker from "react-bootstrap-daterangepicker"
 import {
   CCol,
-  CButton,
-  CFormSelect,
-  CInputGroupText,
-  CFormInput,
-  CInputGroup,
-  CFormLabel,
   CCard,
   CCardBody,
   CCardGroup,
@@ -31,7 +18,6 @@ import Spinner from "loader"
 import DataTable from "react-data-table-component"
 import {
   fullDateFormat,
-  StandardPicketDateFormat,
 } from "components/Common/utility"
 
 import "bootstrap-daterangepicker/daterangepicker.css"

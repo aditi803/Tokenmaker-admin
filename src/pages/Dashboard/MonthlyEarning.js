@@ -4,8 +4,7 @@ import { Row, Col, Card, CardBody, CardTitle } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios"
 
-import ApexRadial from "./ApexRadial";
-import PieChart from "./Piechart";
+
 import useApiStatus from "hooks/useApiStatus";
 import Spinner from "loader";
 import Doughnut from "./doughnutchart";

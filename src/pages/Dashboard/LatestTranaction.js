@@ -7,8 +7,6 @@ import { Button, Card, CardBody } from "reactstrap"
 import { getOrders as onGetOrders } from "store/actions"
 import moment from "moment"
 
-// import EcommerceOrdersModal from "../Ecommerce/EcommerceOrders/EcommerceOrdersModal"
-// import { latestTransaction } from "../../common/data/dashboard"
 import searchicon from "../../assets/images/search-line.svg"
 import calendarremovelines from "../../assets/images/calendar-remove-lines.svg"
 import schedule from "../../assets/images/schedule.svg"
@@ -26,7 +24,6 @@ import {
   CCardBody,
   CCardGroup,
 } from "@coreui/react"
-import { useParams } from "react-router-dom"
 import axios from "axios"
 import useApiStatus from "hooks/useApiStatus"
 import Spinner from "loader"

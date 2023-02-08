@@ -87,9 +87,6 @@ const LatestTranaction = () => {
           pageSize,
           current: pageNumber,
         })
-        //    .then((res) => {
-        //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
-        //    })
         setData(
           list.data.msg.items.map((val, index) => {
             console.log(val, "kjhgfdxzfghjk")
@@ -141,11 +138,9 @@ const LatestTranaction = () => {
             console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
-            // setApiFailed(err.msg)
           }
         }
       })
-    // setLoader(false)
   }
 
   const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
@@ -172,7 +167,6 @@ const LatestTranaction = () => {
     <>
       <div className="page-content">
         <Container fluid>
-          {/* Render Breadcrumbs */}
           <p
             style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
           >Subscribed Users</p>
