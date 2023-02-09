@@ -22,9 +22,9 @@ const StepEdit = props => {
     url: ''
   })
 
-  console.log(stepImages, '>>>>>>>>>>>>>>>>>>>>CONSOLE')
+  // console.log(stepImages, '>>>>>>>>>>>>>>>>>>>>CONSOLE')
 
-  console.log(editData, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EDIT DATAATTATATATA")
+  // console.log(editData, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EDIT DATAATTATATATA")
 
   const authUser = JSON.parse(localStorage.getItem("authUser"))
 
@@ -50,10 +50,10 @@ const StepEdit = props => {
     // setValue2(editData?.content)
   }, [editData])
 
-  console.log(value, "value step ")
+  // console.log(value, "value step ")
 
   const handleUpdate = async () => {
-    console.log('ADTITI')
+    // console.log('ADTITI')
     const formData = new FormData();
     
     let formattedData;
@@ -76,15 +76,15 @@ const StepEdit = props => {
       )
       .then(res => {
         // console.log(res, ">>>>>>>>>>>>>")
-        console.log(value, "value step then")
+        // console.log(value, "value step then")
         toast.success("Updated Successfully")
         handleClose()
         fetchData()
       })
       .catch(err => {
         // console.log(err, ">>>>>>>>>>>>>>")
-        console.log(editData, "edit data catch")
-        console.log(value, "value step catch")
+        // console.log(editData, "edit data catch")
+        // console.log(value, "value step catch")
         toast.error("Already Updated")
       })
   }
@@ -104,7 +104,6 @@ const StepEdit = props => {
       <div className="modal-content">
         <ModalHeader toggle={toggle}>Update Step</ModalHeader>
         <ModalBody>
-          {/* <p>{`${editData?.networkSymbol} ${editData?.networkName}`}</p> */}
           <Label>Title</Label>
           <InputMask
             className="form-control input-color "
@@ -118,8 +117,6 @@ const StepEdit = props => {
           <Label className="mt-2">Content</Label>
           <textarea
             className="form-control input-color "
-            // type="text-area"
-            // placeholder={value2}
             value={value?.content}
             onChange={e => setValue(prev => ({ ...prev, content: e.target.value }))}
           >

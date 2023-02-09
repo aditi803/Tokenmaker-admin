@@ -4,15 +4,14 @@ import { Container, Row, Button } from 'reactstrap'
 import QuestionTable from './QuestionTable'
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { withTranslation } from 'react-i18next';
-// import Heading from './Heading';
-// import Content from './Content';
+
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Spinner from 'loader';
 import useApiStatus from 'hooks/useApiStatus';
 import { FAQS_UPDATE, FAQS } from 'common/api';
-import InputMask from "react-input-mask"
-import InputColor from 'react-input-color';
+// import InputMask from "react-input-mask"
+// import InputColor from 'react-input-color';
 import { CCard, CCardBody, CCardGroup, CFormInput } from '@coreui/react'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
@@ -68,7 +67,7 @@ function LandingPageFAQs(props) {
                          contentColor
                     })
                     // setData(result.data.msg);
-                    console.log(result.data.msg, "Banner details");
+                    // console.log(result.data.msg, "Banner details");
                     const authUser = JSON.parse(localStorage.getItem('authUser'));
                     setItems(authUser);
                     setApiSuccess()
@@ -94,7 +93,7 @@ function LandingPageFAQs(props) {
      const onSubmit = (values) => {
           // e.preventDefault();
           changeApiStatus(true)
-          console.log(data, "jkhgfds")
+          // console.log(data, "jkhgfds")
           axios.put(FAQS_UPDATE,
                values, { headers: { "Authorization": `Bearer ${token}` } })
                .then((result) => {
@@ -107,54 +106,12 @@ function LandingPageFAQs(props) {
                })
                .catch((err) => {
                     changeApiStatus(false)
-                    // setApiFailed(err.message)
                     toast.error("Already Updated!!")
                     console.log(err, "Banner error")
                })
           // setLoader(false)
      }
-
-     // const handleChange = (e) => {
-     //      changeApiStatus(true)
-     //      e.preventDefault();
-     //      axios.put(FAQS_UPDATE, {
-     //           heading: css.heading, headingColor: css.headingColor,
-     //           contentColor: css.contentColor, content: css.content
-     //      },
-     //           { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-     //                if (result.data.success === 1) {
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                     toast.success("Updated Successfully")
-     //                }
-     //           }).catch((err) => {
-     //                changeApiStatus(false)
-     //                setApiFailed(err.message)
-     //                toast.error('Already Updated');
-     //           });
-     //      setLoader(false)
-     // }
-     const [loader, setLoader] = useState(true)
-     // useEffect(() => {
-     //      changeApiStatus(true)
-     //      const getData = () => {
-     //           axios.get(FAQS)
-     //                .then((result) => {
-     //                     setData(result.data.msg.faqDetails.items);
-     //                     setCss(result.data.msg.faqData);
-     //                     const authUser = JSON.parse(localStorage.getItem('authUser'));
-     //                     setItems(authUser);
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                }).catch(err => {
-     //                     changeApiStatus(false)
-     //                     setApiFailed(err.message)
-     //                })
-
-     //      }
-     //      setLoader(false)
-     //      getData();
-     // }, []);
+    
      return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">

@@ -38,14 +38,12 @@ const StepAdd = (props) => {
   const stepAddSchema = Yup.object().shape({
     title: Yup.string().required('Enter title'),
     content: Yup.string().required('Enter content'),
-    // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
   })
 
   const handleAddNetwork = async (e) => {
     changeApiStatus(true, '')
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
-    // e.preventDefault()
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('content', data.content);
@@ -136,7 +134,6 @@ const StepAdd = (props) => {
                   Close
                 </Button>
                 <Button type="submit" color="success">
-                  {/* <Button type="button" color="success" onClick={toggle}> */}
                   Save Changes
                 </Button>
               </ModalFooter>

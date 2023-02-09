@@ -2,12 +2,9 @@ import React, { useMemo, useState, useEffect } from "react"
 import { Col, Container, Row, Button, Card, CardBody } from "reactstrap"
 import PropTypes from "prop-types"
 import { withTranslation } from "react-i18next"
-import Breadcrumb from "components/Common/Breadcrumb"
 import useApiStatus from "hooks/useApiStatus"
 import { cilPencil, cilTrash } from "@coreui/icons"
-// import "./comissionTable.css"
-// import CommissionEdit from "../modals/CommissionEdit"
-// import CommissionAdd from "../modals/CommissionAdd"
+
 import axios from "axios"
 import { toast } from "react-toastify"
 import { toastConfirm } from "common/toast"
@@ -16,9 +13,7 @@ import CIcon from "@coreui/icons-react"
 import Spinner from "loader"
 import FaqAdd from "./modals/FaqAdd"
 import FaqEdit from "./modals/FaqEdit"
-// import '../faq.css'
-// import StepAdd from "./modals/StepAdd"
-// import StepEdit from "./modals/StepEdit"
+
 
 function QuestionTable(props) {
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
@@ -60,12 +55,8 @@ function QuestionTable(props) {
           pageSize,
           current: pageNumber,
         })
-        //    .then((res) => {
-        //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
-        //    })
         setData(
           list.data.msg.faqDetails.items.map((val, index) => {
-            // console.log(val,"kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
         )
@@ -77,7 +68,7 @@ function QuestionTable(props) {
     }
   }
 
-  console.log(data, "kjhgfds")
+  // console.log(data, "kjhgfds")
 
 
   useEffect(() => {
@@ -102,7 +93,7 @@ function QuestionTable(props) {
                 },
               }
             )
-            console.log(list, "list delete handler side ")
+            // console.log(list, "list delete handler side ")
             if (list?.status === 200) {
               // setApiSuccess()
               changeApiStatus(false)
@@ -112,7 +103,7 @@ function QuestionTable(props) {
               toast.error("list is undefined")
             }
           } catch (err) {
-            console.log(err, "err delete handler side ")
+            // console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
             // setApiFailed(err.msg)
@@ -138,10 +129,6 @@ function QuestionTable(props) {
       name: "Answer",
       selector: row => row.answer,
     },
-    //     {
-    //       name: "Symbol",
-    //       selector: row => row.networkSymbol,
-    //     },
     {
       name: "Actions",
       selector: row => (
@@ -177,17 +164,13 @@ function QuestionTable(props) {
           <Spinner />
         ) : (
           <Container fluid>
-            {/* <Breadcrumb
-              title={props.t("Landing-Page")}
-              breadcrumbItem={props.t("Commision Table")}
-            /> */}
             <Row>
               <Card>
                 <CardBody>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <div className="mb-4 h4 card-title">Faqs Data</div>
+                    <div className="mb-4 h4 card-title">FAQs Data</div>
                     <Button
                       color="primary"
                       className="mt-1"
@@ -199,7 +182,6 @@ function QuestionTable(props) {
                   </div>
                   <div className='table-responsive'>
                     <DataTable
-                      // style={{overflowY:"none !important",overflowX:"none !important", display:"inherit !important"}}
                       style={{ overflowY: "none !important", display: "unset !important" }}
                       striped
                       columns={columns}

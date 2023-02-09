@@ -4,19 +4,9 @@ import {
   Container,
   Row,
   Col,
-  Button,
   Card,
   CardBody,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Table,
 } from "reactstrap";
-import { Link } from "react-router-dom";
-
-import classNames from "classnames";
 
 //import Charts
 import StackedColumnChart from "./StackedColumnChart";
@@ -24,19 +14,9 @@ import StackedColumnChart from "./StackedColumnChart";
 //import action
 import { getChartsData as onGetChartsData } from "../../store/actions";
 
-import modalimage1 from "../../assets/images/product/img-7.png";
-import modalimage2 from "../../assets/images/product/img-4.png";
-
 // Pages Components
-import WelcomeComp from "./WelcomeComp";
 import MonthlyEarning from "./MonthlyEarning";
-// import SocialSource from "./SocialSource";
-// import ActivityComp from "./ActivityComp";
-// import TopCities from "./TopCities";
-import LatestTranaction from "./LatestTranaction";
 
-//Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb";
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -131,10 +111,7 @@ const Dashboard = props => {
           }
         })
 
-        console.log(updatedData, 'updatedData')
-
-
-
+        // console.log(updatedData, 'updatedData')
         setBarData(updatedData)
         changeApiStatus(false)
       })
@@ -150,10 +127,10 @@ const Dashboard = props => {
 
   useEffect(() => {
 
-    console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    // console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     setPeriodData(barData)
     // setPeriodData(chartsData);
-    console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    // console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   }, [barData]);
 
   const onChangeChartPeriod = pType => {
@@ -180,11 +157,11 @@ const Dashboard = props => {
 
           <Row>
             <Col xl="4" style={{ marginBottom: "25px" }}>
-            
+
             </Col>
             <Col xl="12">
               <Row>
-               
+
                 <>
                   <Col md="4">
                     <Card className="mini-stats-wid">
@@ -288,12 +265,11 @@ const Dashboard = props => {
 
           <Row>
             <DashboardTokens />
-            
+
           </Row>
 
           <Row>
             <Col lg="12">
-              {/* <LatestTranaction /> */}
             </Col>
           </Row>
         </Container>

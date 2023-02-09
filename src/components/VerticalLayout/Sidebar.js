@@ -43,7 +43,7 @@ const Sidebar = props => {
         <div className="navbar-brand-box" style={{ marginTop: "10px" }}>
           <Link to="/" className="logo logo-light">  
             <span className="logo-lg" style={{ objectFit: "contain" }}>
-              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : logoLightPng} alt="" style={{ width: "162px", height: "inherit", marginRight: "31px" }} />
+              <img src={logos ? `${imageBaseUrl}${logos.adminLogoImage}` : ""} alt="" style={{ width: "162px", height: "inherit", marginRight: "31px" }} />
             </span>
           </Link>
         </div>

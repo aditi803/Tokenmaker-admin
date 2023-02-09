@@ -20,7 +20,7 @@ import { useContext } from "react";
 import { CommonContext } from "constants/common";
 
 // users
-import user1 from "../../../assets/images/users/admin-girl-image.jpg";
+import user1 from "../../../assets/images/users/userTokenMaker.png";
 import useApiStatus from "hooks/useApiStatus";
 
 const ProfileMenu = props => {
@@ -102,7 +102,7 @@ const ProfileMenu = props => {
 
           <img
             className="rounded-circle header-profile-user"
-            src={image.src ? image.src : user1}
+            src={image.src ? image.src : user1 }
             style={{ height: "35px", width: "35px", objectFit: "cover" }}
             alt="Header Avatar"
           />

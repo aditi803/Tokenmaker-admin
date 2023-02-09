@@ -12,8 +12,6 @@ import {
 import axios from 'axios';
 import useApiStatus from "hooks/useApiStatus";
 import { toast } from 'react-toastify'
-import { InputMask } from "react-input-mask"
-import Spinner from "loader";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup'
 
@@ -37,7 +35,6 @@ const FaqAdd = (props) => {
   const faqAddSchema = Yup.object().shape({
     question: Yup.string().required('Enter question'),
     answer: Yup.string().required('Enter answer'),
-    // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
   })
 
   const handleAddNetwork = async (e) => {
@@ -121,7 +118,6 @@ const FaqAdd = (props) => {
                   Close
                 </Button>
                 <Button type="submit" color="success">
-                  {/* <Button type="button" color="success" onClick={toggle}> */}
                   Save Changes
                 </Button>
               </ModalFooter>

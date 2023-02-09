@@ -59,12 +59,10 @@ function CommissionTable(props) {
           pageSize,
           current: pageNumber,
         })
-     //    .then((res) => {
-     //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
-     //    })
+    
         setData(
           list.data.msg.featureDetails.items.map((val, index) => {
-               console.log(val,"kjhgfdxzfghjk")
+              //  console.log(val,"kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
         )
@@ -98,7 +96,7 @@ function CommissionTable(props) {
                 },
               }
             )
-            console.log(list, "list delete handler side ")
+            // console.log(list, "list delete handler side ")
             if (list?.status === 200) {
               // setApiSuccess()
               changeApiStatus(false)
@@ -108,7 +106,7 @@ function CommissionTable(props) {
               toast.error("list is undefined")
             }
           } catch (err) {
-            console.log(err, "err delete handler side ")
+            // console.log(err, "err delete handler side ")
             toast.error("error", err.response ? err.response.data.error : err)
             changeApiStatus(false, err.response ? err.response.data.error : err)
             // setApiFailed(err.msg)
@@ -175,10 +173,6 @@ function CommissionTable(props) {
           <Spinner />
         ) : (
           <Container fluid>
-            {/* <Breadcrumb
-              title={props.t("Landing-Page")}
-              breadcrumbItem={props.t("Commision Table")}
-            /> */}
             <Row>
               <Card>
                 <CardBody>

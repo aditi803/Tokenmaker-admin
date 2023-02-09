@@ -33,7 +33,6 @@ function ButtonComp(props) {
                          onClick={() => {
                               setsimple_color3(!simple_color3)
                          }}
-                         // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                          value={data.buttonColor}
                          readOnly
                     />

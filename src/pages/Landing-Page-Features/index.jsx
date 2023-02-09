@@ -19,24 +19,6 @@ function LandingPageFeatures(props) {
      const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
      const [loader, setLoader] = useState(true)
 
-     // const handleChange = (e) => {
-     //      changeApiStatus(true)
-     //      axios.put('https://tokenmaker-apis.block-brew.com/feature/feature',
-     //           { heading: css.heading, headingColor: css.headingColor, },
-     //           { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-     //                if (result.data.success === 1) {
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                     toast.success('Updated Successfully');
-     //                }
-     //           }).catch((err) => {
-     //                changeApiStatus(false)
-     //                setApiFailed(err.message)
-     //                toast.error('Already Updated!!');
-     //           });
-
-     //      console.log(data);
-     // }
      const [data, setData] = useState({
           heading: "",
           headingColor: "",
@@ -215,10 +197,6 @@ function LandingPageFeatures(props) {
                                                   </Form>
                                              )}
                                         </Formik>
-                                        {/* <Row>
-                                             <Heading css={css} setCss={setCss} />
-                                             <Button className='btn btn-success ' onClick={handleChange} style={{ width: '200px', marginLeft: "9px", marginTop: '20px' }}>Update</Button>
-                                        </Row> */}
                                    </CCardBody>
                               </CCard>
                          </CCardGroup>

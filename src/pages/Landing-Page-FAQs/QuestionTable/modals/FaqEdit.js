@@ -21,11 +21,7 @@ const FaqEdit = props => {
 
     const authUser = JSON.parse(localStorage.getItem("authUser"))
 
-    // console.log(editData, ">>>>>>>>>>>>>>>>>")
-    console.log(authUser, ">>>>>>>>>>>>>>>>>")
-
     const [value, setValue] = useState()
-    // const [value2, setValue2] = useState(editData?.answer)
     const [close, setClose] = useState(true)
     const handleClose = () => {
         setClose(toggle)
@@ -38,13 +34,11 @@ const FaqEdit = props => {
             answer: editData?.answer,
             _id: editData?._id
         }))
-        // setValue2(editData?.content)
     }, [editData])
 
     const faqEditSchema = Yup.object().shape({
         question: Yup.string().required('Enter question'),
         answer: Yup.string().required('Enter answer'),
-        // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
     })
 
     const handleUpdate = async (values) => {
@@ -98,8 +92,6 @@ const FaqEdit = props => {
                                     type="text"
                                     name='question'
                                     placeholder="Enter question"
-                                // value={value?.question}
-                                // onChange={e => setValue(prev => ({ ...prev, question: e.target.value }))}
                                 />
                                 {errors.question && touched.question ? (
                                     <div className="input-error text-danger">{errors.question}</div>
@@ -109,16 +101,12 @@ const FaqEdit = props => {
                                     type="text"
                                     name='answer'
                                     placeholder="Enter answer"
-                                    // value={value?.question}
-                                    // onChange={e => setValue(prev => ({ ...prev, question: e.target.value }))}
                                     render={({ field, form, meta }) => (
                                         <>
                                             <textarea
                                                 {...field}
                                                 rows={3}
                                                 className="form-control input-color "
-
-
                                             />
 
                                             {meta.error && meta.touched ? (

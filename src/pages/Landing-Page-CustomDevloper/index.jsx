@@ -80,7 +80,7 @@ function LandingPageCustomDeveloper(props) {
                          buttonBackgroundColor
                     })
                     // setData(result.data.msg);
-                    console.log(result.data.msg, "Banner details");
+                    // console.log(result.data.msg, "Banner details");
                     const authUser = JSON.parse(localStorage.getItem('authUser'));
                     setItems(authUser);
                     setApiSuccess()
@@ -103,32 +103,10 @@ function LandingPageCustomDeveloper(props) {
      const parseData = JSON.parse(user)
      const token = parseData.msg.jsonWebtoken;
 
-     // const [loader, setLoader] = useState(true)
-     // useEffect(() => {
-     //      changeApiStatus(true)
-     //      const getData = () => {
-     //           axios.get(CUSTOM_DETAILS)
-     //                .then((result) => {
-     //                     setData(result.data.msg);
-     //                     // console.log(result.data.msg);
-     //                     const authUser = JSON.parse(localStorage.getItem('authUser'));
-     //                     setItems(authUser);
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                }).catch(err => {
-     //                     changeApiStatus(false)
-     //                     setApiFailed(err.message)
-     //                })
-
-     //      }
-     //      setLoader(false)
-     //      getData();
-
-     // }, []);
      const onSubmit = (values) => {
           // e.preventDefault();
           changeApiStatus(true)
-          console.log(data, "jkhgfds")
+          // console.log(data, "jkhgfds")
           axios.put(CUSTOM_PUT,
                values, { headers: { "Authorization": `Bearer ${token}` } })
                .then((result) => {
@@ -148,28 +126,6 @@ function LandingPageCustomDeveloper(props) {
           // setLoader(false)
      }
 
-
-     // const handleChange = (e) => {
-     //      e.preventDefault();
-     //      changeApiStatus(true)
-     //      axios.put(CUSTOM_PUT, {
-     //           buttonText: data.buttonText
-     //           , buttonColor: data.buttonColor, buttonBackgroundColor: data.buttonBackgroundColor, heading: data.heading, headingColor: data.headingColor,
-     //           backgroundColor: data.backgroundColor
-     //      },
-     //           { headers: { "Authorization": `Bearer ${items.msg.jsonWebtoken}` } }).then((result) => {
-     //                if (result.data.success === 1) {
-     //                     setApiSuccess()
-     //                     changeApiStatus(false)
-     //                     toast.success('Updated Successfully');
-     //                }
-     //           }).catch((err) => {
-     //                changeApiStatus(false)
-     //                setApiFailed(err.message)
-     //                toast.error('Already Updated');
-     //           });
-     //      setLoader(false)
-     // }
      return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
@@ -269,7 +225,6 @@ function LandingPageCustomDeveloper(props) {
                                                                                 <strong>Button Text:</strong>{' '}
                                                                            </label>
                                                                            <Field
-                                                                                // disabled={apiStatus.inProgress}
                                                                                 name="buttonText"
                                                                                 placeholder="Enter button text"
                                                                                 id="buttonText"
@@ -297,7 +252,6 @@ function LandingPageCustomDeveloper(props) {
                                                                                                id="exampleColorInput"
                                                                                                defaultValue="#563d7c"
                                                                                                title="Choose your color"
-                                                                                          // style={{ width: '100%' }}
                                                                                           />
                                                                                           {meta.error && meta.touched ? (
                                                                                                <div className="text-danger">{meta.error}</div>
@@ -323,7 +277,6 @@ function LandingPageCustomDeveloper(props) {
                                                                                                id="exampleColorInput"
                                                                                                defaultValue="#563d7c"
                                                                                                title="Choose your color"
-                                                                                          // style={{ width: '100%' }}
                                                                                           />
                                                                                           {meta.error && meta.touched ? (
                                                                                                <div className="text-danger">{meta.error}</div>

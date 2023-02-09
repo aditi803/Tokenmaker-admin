@@ -1,6 +1,5 @@
 import React,{useState, useEffect} from "react";
 import ReactEcharts from "echarts-for-react";
-// import getChartColorsArray from "../../../components/Common/ChartsDynamicColor";
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor"
 import useApiStatus from "hooks/useApiStatus";
 import axios from "axios"
@@ -22,7 +21,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
       .then((res) => {
         setPieData(res.data.msg.ress)
 
-        console.log(res.data.msg.newArrayOfObj, "<<<<<<<<<<<<<Monthly earning data >>>>>>>>>>>>>>>>>>")
+        // console.log(res.data.msg.newArrayOfObj, "<<<<<<<<<<<<<Monthly earning data >>>>>>>>>>>>>>>>>>")
         changeApiStatus(false)
 
       })

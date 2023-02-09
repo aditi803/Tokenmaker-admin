@@ -30,10 +30,8 @@ function Footer(props) {
     websiteName: Yup.string().required('Enter website name'),
     contentColor: Yup.string().required('Choose color'),
     backgroundColor: Yup.string().required('Choose color'),
-    // answer: Yup.string().required('Enter answer'),
     adminCopyrightText: Yup.string().required('Enter admin copyright text'),
     investorCopyrightText: Yup.string().required('Enter investor copyright text'),
-    // networkCommissionFee: Yup.string().required('Enter Network Commission Fee'),
   })
 
   const [loader, setLoader] = useState(true)
@@ -62,15 +60,6 @@ function Footer(props) {
       })
       setLoader(false)
   }
-
-  // const onChangeHandler = async e => {
-  //   e.preventDefault()
-  //   const { name, value } = e.target
-  //   setFooter({
-  //     ...footer,
-  //     [name]: value,
-  //   })
-  // }
 
   const footerUpdate = async (values) => {
     // e.preventDefault()
@@ -129,12 +118,9 @@ function Footer(props) {
                                 <div className="form-group mb-4">
                                   <Label for="input-date1">Company Name: </Label>
                                   <Field
-                                    // mask="(999) 999-9999"
-                                    // value={footer.companyName}
                                     className="form-control input-color"
                                     type='text'
                                     name="companyName"
-                                    // onChange={onChangeHandler}
                                   />
                                   {errors.companyName && touched.companyName ? (
                                     <div className="input-error text-danger">{errors.companyName}</div>
@@ -147,12 +133,9 @@ function Footer(props) {
                                 <div className="form-group mb-4">
                                   <Label for="input-repeat">Website Name:</Label>
                                   <Field
-                                    // mask="(999) 999-9999"
-                                    // value={footer.websiteName}
                                     type='text'
                                     name="websiteName"
                                     className="form-control input-color"
-                                    // onChange={onChangeHandler}
                                   />
                                   {errors.websiteName && touched.websiteName ? (
                                     <div className="input-error text-danger">{errors.websiteName}</div>
@@ -172,7 +155,6 @@ function Footer(props) {
                                     onClick={() => {
                                       setsimple_color2(!simple_color2)
                                     }}
-                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                                     value={footer?.contentColor}
                                     readOnly
                                   />
@@ -181,7 +163,6 @@ function Footer(props) {
                                       color={footer?.contentColor}
                                       value={simple_color2}
                                       width="160px"
-                                      // onChangeComplete={handleHor}
                                       onChangeComplete={e => {
                                         setFooter(prev => ({
                                           ...prev,
@@ -202,7 +183,6 @@ function Footer(props) {
                                     onClick={() => {
                                       setsimple_color3(!simple_color3)
                                     }}
-                                    // onChange={(e) => console.log(e , '>>>>>>>>>>>>>>>>>>>')}
                                     value={footer?.backgroundColor}
                                     readOnly
                                   />
@@ -211,7 +191,6 @@ function Footer(props) {
                                       color={footer?.backgroundColor}
                                       value={simple_color3}
                                       width="160px"
-                                      // onChangeComplete={handleHor}
                                       onChangeComplete={e => {
                                         setFooter(prev => ({
                                           ...prev,
@@ -230,11 +209,8 @@ function Footer(props) {
                                 <div className="form-group mb-4">
                                   <Label for="input-date1">Admin Copyright: </Label>
                                   <Field
-                                    // mask="(999) 999-9999"
-                                    // value={footer.adminCopyrightText}
                                     className="form-control input-color"
                                     name="adminCopyrightText"
-                                    // onChange={onChangeHandler}
                                     type='text'
                                   />
                                 </div>
@@ -248,11 +224,8 @@ function Footer(props) {
                                 <div className="form-group mb-4">
                                   <Label for="input-repeat">Investor Copyright:</Label>
                                   <Field
-                                    // mask="(999) 999-9999"
-                                    // value={footer.investorCopyrightText}
                                     name="investorCopyrightText"
                                     className="form-control input-color"
-                                    // onChange={onChangeHandler}
                                     type='text'
                                   />
                                   {errors.investorCopyrightText && touched.investorCopyrightText ? (

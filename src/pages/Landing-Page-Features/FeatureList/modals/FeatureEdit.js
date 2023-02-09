@@ -23,8 +23,8 @@ const FeatureEdit = props => {
     })
     const authUser = JSON.parse(localStorage.getItem("authUser"))
 
-    
-    console.log(authUser, ">>>>>>>>>>>>>>>>>")
+
+    // console.log(authUser, ">>>>>>>>>>>>>>>>>")
     const [close, setClose] = useState(true)
     const handleClose = () => {
         setClose(toggle)
@@ -32,7 +32,6 @@ const FeatureEdit = props => {
 
     const [value, setValue] = useState()
     const imageBaseUrl = "https://tokenmaker-apis.block-brew.com/images/"
-    // const [value2, setValue2] = useState(editData?.content)
 
     useEffect(() => {
         setValue(prev => ({
@@ -48,16 +47,16 @@ const FeatureEdit = props => {
 
         const formData = new FormData()
         let formattedData;
-        if(featureImages.blob){
+        if (featureImages.blob) {
             delete value.featureImage
-            for(let variable in value ){
+            for (let variable in value) {
                 formData.append(variable, value[variable])
             }
             formData.append('featureImage', featureImages.blob)
             formattedData = formData
         }
-        else{
-            formattedData = {...editData, ...value}
+        else {
+            formattedData = { ...editData, ...value }
         }
 
         axios
@@ -67,14 +66,13 @@ const FeatureEdit = props => {
                 { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
             )
             .then(res => {
-                // console.log(res, ">>>>>>>>>>>>>")
                 handleClose()
                 fetchData()
                 toast.success("Updated Successfully")
             })
             .catch(err => {
                 // console.log(err, ">>>>>>>>>>>>>>")
-                console.log(err, "Edit error")
+                // console.log(err, "Edit error")
                 // toast.error("Already Updated")
             })
     }
@@ -92,7 +90,6 @@ const FeatureEdit = props => {
             <div className="modal-content">
                 <ModalHeader toggle={toggle}>Update Feature</ModalHeader>
                 <ModalBody>
-                    {/* <p>{`${editData?.networkSymbol} ${editData?.networkName}`}</p> */}
                     <Label>Title</Label>
                     <InputMask
                         className="form-control input-color "
@@ -104,8 +101,6 @@ const FeatureEdit = props => {
                     <Label className="mt-2">Content</Label>
                     <textarea
                         className="form-control input-color "
-                        // type="text-area"
-                        // placeholder={value2}
                         value={value?.content}
                         onChange={e => setValue(prev => ({ ...prev, content: e.target.value }))}
                     ></textarea>
@@ -116,10 +111,10 @@ const FeatureEdit = props => {
                         hidden
                         id="edit-image"
                         onChange={(e) => {
-                           setFeatureImages({
-                            blob: e.target.files[0],
-                            url: window.URL.createObjectURL(e.target.files[0])
-                           })
+                            setFeatureImages({
+                                blob: e.target.files[0],
+                                url: window.URL.createObjectURL(e.target.files[0])
+                            })
                         }}
                     />
                     <label id="edit-image" htmlFor="edit-image">

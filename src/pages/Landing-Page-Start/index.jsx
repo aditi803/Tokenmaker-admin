@@ -146,7 +146,7 @@ function LandingPageStart(props) {
                                                             <div className="col-md-12">
                                                                  <div className="row">
                                                                       <div className="col-6 mb-3">
-                                                                           <label htmlFor="heading" style={{fontSize:"13px"}}>
+                                                                           <label htmlFor="heading" style={{ fontSize: "13px" }}>
                                                                                 <strong>Heading:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -162,7 +162,7 @@ function LandingPageStart(props) {
                                                                            ) : null}
                                                                       </div>
                                                                       <div className="col-2">
-                                                                           <label  style={{fontSize:"13px"}}>
+                                                                           <label style={{ fontSize: "13px" }}>
                                                                                 <strong>Heading Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -189,7 +189,7 @@ function LandingPageStart(props) {
                                                                       </div>
                                                                       <div className="col-3">
                                                                            <label>
-                                                                                <strong  style={{fontSize:"13px"}}>Heading Background Color:</strong>{' '}
+                                                                                <strong style={{ fontSize: "13px" }}>Heading Background Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
                                                                                 name="backgroundColor"
@@ -218,11 +218,10 @@ function LandingPageStart(props) {
                                                             <div className="col-md-12">
                                                                  <div className="row">
                                                                       <div className="col-6 mb-3">
-                                                                           <label htmlFor="buttonText"  style={{fontSize:"13px"}}>
+                                                                           <label htmlFor="buttonText" style={{ fontSize: "13px" }}>
                                                                                 <strong>Button Text:</strong>{' '}
                                                                            </label>
                                                                            <Field
-                                                                                // disabled={apiStatus.inProgress}
                                                                                 name="buttonText"
                                                                                 placeholder="Enter button text"
                                                                                 id="buttonText"
@@ -234,7 +233,7 @@ function LandingPageStart(props) {
                                                                            ) : null}
                                                                       </div>
                                                                       <div className="col-2">
-                                                                           <label  style={{fontSize:"13px"}}>
+                                                                           <label style={{ fontSize: "13px" }}>
                                                                                 <strong>Button Text Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -260,7 +259,7 @@ function LandingPageStart(props) {
                                                                            />
                                                                       </div>
                                                                       <div className="col-3">
-                                                                           <label style={{fontSize:"13px"}}>
+                                                                           <label style={{ fontSize: "13px" }}>
                                                                                 <strong>Button Background Color:</strong>{' '}
                                                                            </label>
                                                                            <Field
@@ -298,11 +297,6 @@ function LandingPageStart(props) {
                                                   </Form>
                                              )}
                                         </Formik>
-                                        {/* <Row>
-                                             <Heading data={data} setData={setData} />
-                                             <ButtonComp data={data} setData={setData} />
-                                             <Button className='btn btn-success' onClick={handleChange} style={{ width: '200px', marginLeft: "9px", marginTop: '10px' }}>Update</Button>
-                                        </Row> */}
                                    </CCardBody>
                               </CCard>
                          </CCardGroup>

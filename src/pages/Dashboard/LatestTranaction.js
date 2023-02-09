@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useMemo, useRef } from "react"
 import PropTypes from "prop-types"
 import { withRouter } from "react-router-dom"
-import { isEmpty } from "lodash"
 
 import { Button, Card, CardBody } from "reactstrap"
-import { getOrders as onGetOrders } from "store/actions"
 import moment from "moment"
 
 import searchicon from "../../assets/images/search-line.svg"
@@ -52,7 +50,6 @@ const LatestTranaction = () => {
 
   const [loader, setLoader] = useState(true)
 
-console.log('dummmy change test')
 
   const [data, setData] = useState([])
   const [pageData, setPageData] = useState({
@@ -69,20 +66,19 @@ console.log('dummmy change test')
   const [query, setQuery] = useState("")
 
   const dateFilterChange = (e, picker) => {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>.", picker)
-    console.log(picker.startDate.format("YYYY-MM-DD"), ">>>>>>>>>>>>>>>>.")
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>.", picker)
+    // console.log(picker.startDate.format("YYYY-MM-DD"), ">>>>>>>>>>>>>>>>.")
 
     const filter = [
       picker.startDate.format("YYYY-MM-DD"),
       picker.endDate.format("YYYY-MM-DD"),
     ]
     setDateFilter(filter)
-    fetchData(pageData.current, pageData.pageSize , filter, query)
+    fetchData(pageData.current, pageData.pageSize, filter, query)
   }
 
   const [network, setNetwork] = useState()
 
-  console.log(network, "...........NETWORK")
 
   const fetchNetwork = () => {
     changeApiStatus(true)
@@ -91,9 +87,6 @@ console.log('dummmy change test')
       .then(res => {
         setNetwork(res.data.msg.items)
 
-        // setItems(authUser)
-        console.log(res.data.msg.items, "Add data view page")
-        // setItems(authUser)
         changeApiStatus(false)
       })
       .catch(err => {
@@ -117,15 +110,11 @@ console.log('dummmy change test')
       const [startDate, endDate] =
         dateFilter.length === 0 ? ["", ""] : dateFilter
 
-        console.log(limit,page,"limit and page")
+      // console.log(limit,page,"limit and page")
       const list = await axios.get(
         `https://tokenmaker-apis.block-brew.com/token/alltokens?pageSize=${limit}&pageNumber=${page}&toDate=${endDate}&fromDate=${startDate}&filter=${query}&exportRequest=${exportRequest}&networkName=${networkStatus}`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
-
-        console.log(list, '>>>>>>>>>>>>>>>>>>>>>>>>ADDDDDDDDDDDDDDDDD')
-
-
       if (exportRequest === "true") {
         const url = URL.createObjectURL(
           new Blob([list.data.msg.csv], { type: "text/csv" })
@@ -133,10 +122,8 @@ console.log('dummmy change test')
 
         const date1 = moment(Date.now()).format("DD-MM-YYYY")
         const time1 = moment(Date).format(('h:mm a'))
-        // console.log(time1, "zzzzzzzzzzzzzzzz")
 
         const finalDate = date1 + "-" + time1
-        // console.log(finalDate, "final date")
 
 
         downloadFile(url, `AllTokens${date1}.csv`)
@@ -165,22 +152,7 @@ console.log('dummmy change test')
       changeApiStatus(false)
     }
   }
-  // setInProgress(false)
-  // setLoader(false)
-  // calendarremovelines
-  // const [querySearch] = useParams()
-  // useEffect(() => {
-  //   const status = querySearch.get('status')
-  //   if (status) {
-  //     setTimeout(() => {
-  //       setStatus(status)
-  //     }, 200)
-  //     // fetchData(1, page.pageSize, status, dateFilter, query)
-  //   }
-  //   // eslint-disable-next-line
-  // }, [querySearch.get('status')])
 
-  // console.log(data, "Commission data ")
   useEffect(() => {
     fetchNetwork()
   }, [])
@@ -193,7 +165,6 @@ console.log('dummmy change test')
 
   const onQueryChange = e => {
     const value = e.target.value.trim()
-    // console.log(value, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     setQuery(value)
     if (distinctUntilChanged) {
       clearTimeout(distinctUntilChanged)
@@ -227,7 +198,7 @@ console.log('dummmy change test')
     {
       name: "Supply Type",
       selector: row => (
-        row.supplyType[0].toUpperCase()+ row.supplyType.slice(1)
+        row.supplyType[0].toUpperCase() + row.supplyType.slice(1)
       ),
     },
     {
@@ -302,16 +273,10 @@ console.log('dummmy change test')
                                 )}`
                                 : ""
                             }
-                          // value={
-                          //   dateFilter.length
-                          //     ? `${dateFilter[0]} - ${dateFilter[1]}`
-                          //     : ''
-                          // }
-                          />
 
-                          
+                          />
                         </DateRangePicker>
-                        {console.log(pageData,"pagedata")}
+                        {console.log(pageData, "pagedata")}
                         <CInputGroupText>
                           <img
                             style={{ cursor: "pointer" }}
@@ -346,7 +311,7 @@ console.log('dummmy change test')
                         className="visually-hidden"
                         htmlFor="autoSizingInputGroup"
                       >
-                        Search 
+                        Search
                       </CFormLabel>
                       <CInputGroup>
                         <CFormInput
@@ -400,10 +365,6 @@ console.log('dummmy change test')
                               </>
                             )
                           })}
-                          {/* <option value="">All</option>
-                          <option value="success">Completed</option>
-                          <option value="rejected">Failed</option>
-                          <option value="pending">Pending</option> */}
                         </CFormSelect>
                       </div>
                     </div>
