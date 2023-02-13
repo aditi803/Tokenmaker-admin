@@ -12,7 +12,8 @@ import axios from 'axios';
 import useApiStatus from "hooks/useApiStatus";
 import { toast } from 'react-toastify'
 import Spinner from "loader";
-import { CFormSelect } from "@coreui/react";
+import { CFormInput, CFormSelect } from "@coreui/react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
 
 
@@ -30,10 +31,14 @@ const CategoryEdit = (props) => {
     setClose(toggle)
   }
 
+  console.log(editData, "Edit=Data")
 
   const [value, setValue] = useState(editData?.categoryName)
+  const [colorValue, setColorValue] = useState(editData?.color)
   useEffect(() => {
     setValue(editData?.categoryName)
+    setColorValue(editData?.color)
+    // console.log(editData, "COLOR TTT")
   }, [editData])
 
   const handleUpdate = async () => {
@@ -41,7 +46,7 @@ const CategoryEdit = (props) => {
     axios
       .put(
         "https://tokenmaker-apis.block-brew.com/category/categoryupdate",
-        { ...editData, categoryName: value },
+        { ...editData, categoryName: value , color: colorValue},
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
@@ -55,7 +60,11 @@ const CategoryEdit = (props) => {
         toast.error("Already Updated")
       })
   }
+  console.log(value, "value")
 
+
+
+console.log(colorValue, "ColorValue" )
   return (
     <Modal
       isOpen={isOpen}
@@ -67,7 +76,7 @@ const CategoryEdit = (props) => {
       toggle={toggle}
     >
       <div className="modal-content">
-        <ModalHeader toggle={toggle}>Add Custom Section</ModalHeader>
+        <ModalHeader toggle={toggle}>Edit Custom Section</ModalHeader>
         <ModalBody>
           <input
             type='text'
@@ -78,6 +87,31 @@ const CategoryEdit = (props) => {
               setValue(e.target.value)
             }}
           />
+          <div className='col-6 mt-1'>
+            <label htmlFor="categoryColor" style={{ fontSize: "13px" }}>
+              <strong>Category Color:</strong>{' '}
+            </label>
+
+            {/* <CFormInput
+
+              // style={{ width: '100%' }}
+              value={colorValue}
+              onChange={(e) => {
+                setColorValue(e.target.value)
+              }}
+              type="color"
+              id="exampleColorInput"
+              title="Choose your color"
+            /> */}
+            <input 
+             type='color'
+             className="form-control form-control-color"
+             value={colorValue}
+             onChange = {(e) => setColorValue(e.target.value)}
+             />
+
+
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button type="button" color="secondary" onClick={toggle}>

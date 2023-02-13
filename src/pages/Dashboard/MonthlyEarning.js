@@ -15,7 +15,8 @@ return (
       <Row className="justify-content-center">
         <CardTitle className="mb-4" style={{ fontSize: "16px" }}>Commissions</CardTitle>
         <div>
-          <Doughnut dataColors='["#53cbc8","#e84142", "#2ad3b4","#8a92b2", "#f3ba2f","#8247e5"]' />
+          {/* <Doughnut dataColors='["#e84142", "#2ad3b4","#8a92b2", "#f3ba2f","#8247e5"]' /> */}
+          <Doughnut dataColors='["#e84142", "#f3ba2f", "#35d07f","#62688f","#13b5ec","#e9f58f","#3f7fff","#e1137b","#8247e5","15ebac"]' />
         </div>
       </Row>
     </React.Fragment>

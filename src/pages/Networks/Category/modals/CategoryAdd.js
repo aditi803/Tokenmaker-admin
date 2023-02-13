@@ -21,7 +21,7 @@ const CategoryAdd = (props) => {
   const { isOpen, toggle, fetchData } = props
   const [loader, setLoader] = useState(false)
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
-  const [category, setCategory] = useState({ categoryName: "" })
+  const [category, setCategory] = useState({ categoryName: "",categoryColor: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
   const [networks, setNetworks] = useState()
@@ -34,7 +34,7 @@ const CategoryAdd = (props) => {
     categoryName: Yup.string().required('Enter category name'),
   })
 
-  
+
 
   const handleAddNetwork = async (e) => {
     // e.preventDefault()
@@ -44,7 +44,7 @@ const CategoryAdd = (props) => {
     console.log(category, "Network bhar")
 
     await axios.post("https://tokenmaker-apis.block-brew.com/category/newcategory", {
-      categoryName: category.categoryName,
+      categoryName: category.categoryName, color: category.categoryColor
 
     }, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
@@ -102,6 +102,27 @@ const CategoryAdd = (props) => {
                 {errors?.categoryName && touched.categoryName ? (
                   <div className="input-error text-danger">{errors.categoryName}</div>
                 ) : null}
+                <div className='col-6 mt-1'>
+                  <label htmlFor="categoryColor" style={{ fontSize: "13px" }}>
+                    <strong>Category Color:</strong>{' '}
+                  </label>
+                  <Field
+                    // disabled={apiStatus.inProgress}
+                    name="categoryColor"
+                    placeholder="Enter Category Color"
+                    id="categoryColor"
+                    type="color"
+                    className="form-control form-control-color mb-2"
+                  // style={{ width: '100%' }}
+                  onChange={(e) =>{
+                    setCategory({...category, categoryColor: e.target.value})
+                    setFieldValue('categoryColor', e.target.value)
+                  }}
+                  />
+                  {errors.categoryColor && touched.categoryColor ? (
+                    <div className="input-error">{errors.categoryColor}</div>
+                  ) : null}
+                </div>
               </ModalBody>
 
               <ModalFooter>

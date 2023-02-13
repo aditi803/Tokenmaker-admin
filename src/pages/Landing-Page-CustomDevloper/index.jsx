@@ -70,7 +70,7 @@ function LandingPageCustomDeveloper(props) {
                          buttonText,
                          buttonColor,
                          buttonBackgroundColor
-                    } = result.data.msg
+                    } = result.data.msg.customData
                     setData({
                          heading,
                          headingColor,
@@ -80,7 +80,7 @@ function LandingPageCustomDeveloper(props) {
                          buttonBackgroundColor
                     })
                     // setData(result.data.msg);
-                    // console.log(result.data.msg, "Banner details");
+                    // console.log(result.data.msg, "Custom details");
                     const authUser = JSON.parse(localStorage.getItem('authUser'));
                     setItems(authUser);
                     setApiSuccess()

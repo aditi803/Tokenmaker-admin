@@ -121,6 +121,20 @@ function Category(props) {
       selector: row => row.categoryName,
     },
     {
+      name: "Category Color",
+      selector: row => (
+        <div
+          style={{
+            backgroundColor: row.color ? row.color : '#000000',
+            height: '25px',
+            width: '50px',
+            borderRadius: '4px',
+            border: '1px solid #000000',
+          }}
+        ></div>
+      ),
+    },
+    {
       name: "Actions",
       selector: row => (
         <>
