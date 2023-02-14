@@ -78,12 +78,14 @@ const Dashboard = props => {
   const [periodData, setPeriodData] = useState([]);
   const [periodType, setPeriodType] = useState("yearly");
   const [barData, setBarData] = useState([])
+  const [dataColor, setDataColor] = useState([])
 
   const fetchBarData = () => {
     changeApiStatus(true)
     axios.get("https://tokenmaker-apis.block-brew.com/dashboard/checkdata", { headers: { "Authorization": `Bearer ${token}` } })
       .then((res) => {
-        const data = res.data;
+        const data = res.data.aggregated2;
+        setDataColor(res.data.finalArray)
         const updatedData = []
         data.forEach((obj) => {
           if (obj._id) {

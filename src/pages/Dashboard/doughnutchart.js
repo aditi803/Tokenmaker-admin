@@ -7,6 +7,7 @@ import axios from "axios"
 const Doughnut = ({dataColors, category, totalVal}) => {
 
   const [pieData, setPieData] = useState([])
+  const [dataColor, setDataColor] = useState([])
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
@@ -20,8 +21,8 @@ const Doughnut = ({dataColors, category, totalVal}) => {
     axios.get("https://tokenmaker-apis.block-brew.com/dashboard/monthlydata", { headers: { "Authorization": `Bearer ${token}` } })
       .then((res) => {
         setPieData(res.data.msg.ress)
-
-        // console.log(res.data.msg.newArrayOfObj, "<<<<<<<<<<<<<Monthly earning data >>>>>>>>>>>>>>>>>>")
+        setDataColor(res.data.msg.finalArray)
+        console.log(res.data.msg.finalArray, "finalArray data")
         changeApiStatus(false)
 
       })
@@ -32,12 +33,15 @@ const Doughnut = ({dataColors, category, totalVal}) => {
       })
   }
 
+  console.log(pieData, "pieData")
+  console.log(JSON.stringify(dataColor), "datacolor")
+
   useEffect(() => {
     fetchData()
   },[])
 
 
-  const doughnutEChartColors = getChartColorsArray(dataColors);
+  const doughnutEChartColors = getChartColorsArray(JSON.stringify(dataColor));
 
   const options = {
     toolbox: {
@@ -50,7 +54,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
     legend: {
       orient: "vertical",
       x: "left",
-      data: ["Laptop", "Tablet", "Mobile", "Others", "Desktop"],
+      data: ["Avalanche", "Solana", "Polygon", "Moon River", "Iotex", "Heco", "Fuse", "Fantom", "Ethereum","Celo","Binance Smart Chain"],
       textStyle: {
         color: ["#8791af"],
       },

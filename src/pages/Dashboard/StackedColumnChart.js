@@ -1,11 +1,39 @@
-import React from "react"
+import React,{useState, useEffect} from "react"
 import PropTypes from 'prop-types';
 import ReactApexChart from "react-apexcharts"
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor";
+import useApiStatus from "hooks/useApiStatus";
+import axios from "axios"
 
 const StackedColumnChart = ({ dataColors, periodData }) => {
   console.log("Period data", periodData)
-  const stackedColumnChartColors = getChartColorsArray(dataColors);
+  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+  useApiStatus()
+
+  const [dataColor, setDataColor] = useState([])
+  const user = localStorage.getItem('authUser')
+  const parseData = JSON.parse(user)
+  const token = parseData.msg.jsonWebtoken;
+
+  const fetchBarData = () => {
+    changeApiStatus(true)
+    axios.get("https://tokenmaker-apis.block-brew.com/dashboard/checkdata", { headers: { "Authorization": `Bearer ${token}` } })
+      .then((res) => {
+        setDataColor(res.data.finalArray)
+        
+        changeApiStatus(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        changeApiStatus(false)
+      })
+  }
+
+  useEffect(() => {
+    fetchBarData()
+  }, [])
+
+  const stackedColumnChartColors = getChartColorsArray(JSON.stringify(dataColor));
   const options = {
     chart: {
       stacked: !0,
