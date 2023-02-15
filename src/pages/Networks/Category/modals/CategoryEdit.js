@@ -46,7 +46,7 @@ const CategoryEdit = (props) => {
     axios
       .put(
         "https://tokenmaker-apis.block-brew.com/category/categoryupdate",
-        { ...editData, categoryName: value , color: colorValue},
+        { ...editData, categoryName: value, color: colorValue },
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
@@ -60,11 +60,11 @@ const CategoryEdit = (props) => {
         toast.error("Already Updated")
       })
   }
-  console.log(value, "value")
+  // console.log(value, "value")
 
 
 
-console.log(colorValue, "ColorValue" )
+  // console.log(colorValue, "ColorValue" )
   return (
     <Modal
       isOpen={isOpen}
@@ -91,26 +91,12 @@ console.log(colorValue, "ColorValue" )
             <label htmlFor="categoryColor" style={{ fontSize: "13px" }}>
               <strong>Category Color:</strong>{' '}
             </label>
-
-            {/* <CFormInput
-
-              // style={{ width: '100%' }}
+            <input
+              type='color'
+              className="form-control form-control-color"
               value={colorValue}
-              onChange={(e) => {
-                setColorValue(e.target.value)
-              }}
-              type="color"
-              id="exampleColorInput"
-              title="Choose your color"
-            /> */}
-            <input 
-             type='color'
-             className="form-control form-control-color"
-             value={colorValue}
-             onChange = {(e) => setColorValue(e.target.value)}
-             />
-
-
+              onChange={(e) => setColorValue(e.target.value)}
+            />
           </div>
         </ModalBody>
         <ModalFooter>

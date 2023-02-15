@@ -128,11 +128,7 @@ const Dashboard = props => {
   }, [])
 
   useEffect(() => {
-
-    // console.log(barData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Bar data charts>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     setPeriodData(barData)
-    // setPeriodData(chartsData);
-    // console.log(chartsData, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Charts data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   }, [barData]);
 
   const onChangeChartPeriod = pType => {
@@ -239,14 +235,14 @@ const Dashboard = props => {
               </Row>
 
               <Row>
-                <Col md="4">
+                <Col md="5">
                   <Card className="h-100">
                     <CardBody>
                       <MonthlyEarning />
                     </CardBody>
                   </Card>
                 </Col>
-                <Col md="8">
+                <Col md="7">
                   <Card className="h-100 mb-0" >
                     <CardBody>
                       <div className="d-sm-flex flex-wrap">

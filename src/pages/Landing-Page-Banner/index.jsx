@@ -126,7 +126,7 @@ const LandingPageBanner = (props) => {
                          buttonText,
                          buttonTextColor,
                     })
-                    setImage({
+                    backgroundImage!==null && setImage({
                          ...image,
                          // blob: bannerImage,
                          src: `https://tokenmaker-apis.block-brew.com/images/${backgroundImage}`,
@@ -171,7 +171,7 @@ const LandingPageBanner = (props) => {
      const onSubmit = (values) => {
           // e.preventDefault();
           changeApiStatus(true)
-          console.log(data, "jkhgfds")
+          // console.log(data, "jkhgfds")
           const formData = appendData({
                ...values,
                backgroundImage: image.blob
@@ -194,6 +194,20 @@ const LandingPageBanner = (props) => {
                })
           // setLoader(false)
      }
+
+     const deleteBackgroundImg = () => {
+          axios.delete("https://tokenmaker-apis.block-brew.com/cms/deletebannerImage",{ headers: { "Authorization": `Bearer ${token}` } })
+          .then((res => {
+               console.log(res, "Delete api res")
+               toast.success("Deleted successfully")
+               fetchData()
+          }))
+          .catch((err) =>{
+               console.log(err, "delete  image error")
+               toast.success("Unable to delete")
+          })
+     }
+
    
      const uploadRef = useRef(null)
 
@@ -396,7 +410,7 @@ const LandingPageBanner = (props) => {
                                                                                                               <CButton
                                                                                                                    variant="text"
                                                                                                                    className="newDeleteIcon p-2"
-                                                                                                              //   onClick={deleteBackgroundImg}
+                                                                                                                   onClick={deleteBackgroundImg}
                                                                                                               >
                                                                                                                    <CIcon icon={cilTrash} customClassName="nav-icon" />
                                                                                                               </CButton>

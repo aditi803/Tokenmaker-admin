@@ -8,6 +8,8 @@ const Doughnut = ({dataColors, category, totalVal}) => {
 
   const [pieData, setPieData] = useState([])
   const [dataColor, setDataColor] = useState([])
+  const [data, setData] = useState([])
+  
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
     useApiStatus()
 
@@ -21,7 +23,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
     axios.get("https://tokenmaker-apis.block-brew.com/dashboard/monthlydata", { headers: { "Authorization": `Bearer ${token}` } })
       .then((res) => {
         setPieData(res.data.msg.ress)
-        setDataColor(res.data.msg.finalArray)
+        setData(res.data.msg.colors.items)
         console.log(res.data.msg.finalArray, "finalArray data")
         changeApiStatus(false)
 
@@ -33,7 +35,19 @@ const Doughnut = ({dataColors, category, totalVal}) => {
       })
   }
 
-  console.log(pieData, "pieData")
+  let colorarr = []
+  let categoryNameArr = []
+
+  data.map(({color, categoryName}) => {
+    colorarr.push(color)
+    categoryNameArr.push(categoryName)
+  })
+
+
+  console.log(pieData, "pieData >>>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+  console.log(colorarr, "colorarr >>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  console.log(categoryNameArr, "colorarr >>>>>>>>>>>>>>>>>>>>>>>>>>>")
   console.log(JSON.stringify(dataColor), "datacolor")
 
   useEffect(() => {
@@ -41,7 +55,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
   },[])
 
 
-  const doughnutEChartColors = getChartColorsArray(JSON.stringify(dataColor));
+  const doughnutEChartColors = getChartColorsArray(JSON.stringify(colorarr));
 
   const options = {
     toolbox: {
@@ -54,7 +68,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
     legend: {
       orient: "vertical",
       x: "left",
-      data: ["Avalanche", "Solana", "Polygon", "Moon River", "Iotex", "Heco", "Fuse", "Fantom", "Ethereum","Celo","Binance Smart Chain"],
+      data: categoryNameArr,
       textStyle: {
         color: ["#8791af"],
       },

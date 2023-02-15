@@ -6,21 +6,24 @@ import useApiStatus from "hooks/useApiStatus";
 import axios from "axios"
 
 const StackedColumnChart = ({ dataColors, periodData }) => {
-  console.log("Period data", periodData)
+  // console.log("Period data", periodData)
   const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
   useApiStatus()
+  const [data, setData] = useState([])
 
   const [dataColor, setDataColor] = useState([])
   const user = localStorage.getItem('authUser')
   const parseData = JSON.parse(user)
   const token = parseData.msg.jsonWebtoken;
 
+
   const fetchBarData = () => {
     changeApiStatus(true)
     axios.get("https://tokenmaker-apis.block-brew.com/dashboard/checkdata", { headers: { "Authorization": `Bearer ${token}` } })
       .then((res) => {
-        setDataColor(res.data.finalArray)
-        
+        // setDataColor(res.data.finalArray)
+        setData(res.data.colors.items)
+        console.log(res.data.colors.items, "Items on bar charts")
         changeApiStatus(false)
       })
       .catch((err) => {
@@ -33,7 +36,19 @@ const StackedColumnChart = ({ dataColors, periodData }) => {
     fetchBarData()
   }, [])
 
-  const stackedColumnChartColors = getChartColorsArray(JSON.stringify(dataColor));
+  var colorarr = []
+
+  data.map(({color}) => {
+    colorarr.push(color)
+  })
+
+  console.log(colorarr, "colorarr")
+
+
+
+  // const stackedColumnChartColors = getChartColorsArray(JSON.stringify(dataColor));
+  const stackedColumnChartColors = getChartColorsArray(JSON.stringify(colorarr));
+
   const options = {
     chart: {
       stacked: !0,

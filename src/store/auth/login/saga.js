@@ -43,7 +43,7 @@ function* loginUser({ payload: { user, history } }) {
       });
       if (response.success == 1) {
         // yield put(loginSuccess(response))
-        toast("Successfully Login");
+        // toast("Successfully Login");
         console.log(response);       
       }
    
