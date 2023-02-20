@@ -37,8 +37,9 @@ function Add(props) {
      const networkAddSchema = Yup.object().shape({
           networkName: Yup.string().required('Enter category name'),
           blockExplorerUrl: Yup.string().required('Enter block explorer url'),
-          chainId: Yup.number().required('Enter chain id '),
           rpcUrl: Yup.string().required('Enter rpc url'),
+          // chainId: Yup.string().required('Enter chain id '),
+          chainId: Yup.string().matches(/^[0-9]+$/, "Only number allowed").required('Enter chain id'),
           // description: Yup.string().required('Enter description here'),
           categoryName: Yup.string().required('Choose category'),
           symbol: Yup.string().required('Enter symbol'),
@@ -68,15 +69,6 @@ function Add(props) {
                networkImageFile: window.URL.createObjectURL(file),
           }))
           setFieldValue("networkImageUrl", window.URL.createObjectURL(file))
-
-          //     files.map(file =>
-          //       Object.assign(file, {
-          //         preview: URL.createObjectURL(file),
-          //         formattedSize: formatBytes(file.size),
-          //       })
-          //     )
-
-          //     setselectedFiles(files)
      }
 
      const dropZoneStyle = {
@@ -89,15 +81,7 @@ function Add(props) {
           padding: "40px 0 "
      }
 
-     // function formatBytes(bytes, decimals = 2) {
-     //      if (bytes === 0) return "0 Bytes"
-     //      const k = 1024
-     //      const dm = decimals < 0 ? 0 : decimals
-     //      const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-
-     //      const i = Math.floor(Math.log(bytes) / Math.log(k))
-     //      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
-     // }
+   
 
      const [category, setCategory] = useState([])
 
@@ -106,12 +90,15 @@ function Add(props) {
      }, [setCategory])
 
      const fetchCategoryData = () => {
+          changeApiStatus(true)
           axios.get("https://tokenmaker-apis.block-brew.com/category/categorys")
                .then((res) => {
                     setCategory(res.data.msg.items)
                     console.log(res)
+                    changeApiStatus(false)
                })
                .catch((err) => {
+                    changeApiStatus(false)
                     console.log(err)
                })
      }
@@ -138,10 +125,12 @@ function Add(props) {
                     headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` },
                })
                .then(res => {
-                    setApiSuccess()
+                    // setApiSuccess()
+
                     changeApiStatus(false)
-                    toast.success("Network Added Successfully")
                     history.push('/view')
+                    toast.success("Network Added Successfully")
+
                })
                .catch(err => {
                     changeApiStatus(false)
@@ -151,7 +140,7 @@ function Add(props) {
           setLoader(false)
      }
 
-     return (
+     return apiStatus.inProgress ? <Spinner /> : (
           <React.Fragment>
                <div className="page-content">
                     <p

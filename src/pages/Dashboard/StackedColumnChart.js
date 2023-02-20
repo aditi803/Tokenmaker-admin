@@ -99,21 +99,6 @@ const StackedColumnChart = ({ dataColors, periodData }) => {
     }
   }
 
-
-  const series = [
-    {
-      name: "Series A",
-      data: [0, 150, 60, 180, 90, 75, 30],
-    },
-    {
-      name: "Series B",
-      data: [0, 45, 150, 36, 60, 240, 30],
-    },
-    {
-      name: "Series C",
-      data: [0, 15, 195, 21, 360, 120, 30],
-    },
-  ]
   
   return (
     <React.Fragment>

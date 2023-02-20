@@ -24,7 +24,7 @@ const Doughnut = ({dataColors, category, totalVal}) => {
       .then((res) => {
         setPieData(res.data.msg.ress)
         setData(res.data.msg.colors.items)
-        console.log(res.data.msg.finalArray, "finalArray data")
+        console.log(res.data, "finalArray data chart pie")
         changeApiStatus(false)
 
       })
@@ -56,6 +56,9 @@ const Doughnut = ({dataColors, category, totalVal}) => {
 
 
   const doughnutEChartColors = getChartColorsArray(JSON.stringify(colorarr));
+
+  console.log(doughnutEChartColors,"doughnutEChartColors============")
+
 
   const options = {
     toolbox: {

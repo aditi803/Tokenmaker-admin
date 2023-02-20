@@ -94,6 +94,7 @@ function CommissionTable(props) {
               toast.success("Network deleted successfully")
               fetchNetworks()
             } else {
+              changeApiStatus(false)
               toast.error("list is undefined")
             }
           } catch (err) {
@@ -152,51 +153,52 @@ function CommissionTable(props) {
     },
   ]
 
-  return (
+  return apiStatus.inProgress ? (
+    <Spinner />
+  ) : (
     <React.Fragment>
-      <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchNetworks} getData={data} />
-      <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchNetworks} allData={data} />
+
       <div className="page-content">
-        {apiStatus.inProgress ? (
-          <Spinner />
-        ) : (
-          <Container fluid>
-            <p
-              style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
-            >Commission Table</p>
-            <Row>
-              <Card>
-                <CardBody>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+        
+        <Container fluid>
+          <CommissionEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchNetworks} getData={data} changeApiStatus={changeApiStatus} />
+          <CommissionAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchNetworks} allData={data} changeApiStatus={changeApiStatus} />
+          <p
+            style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
+          >Commission Table</p>
+          <Row>
+            <Card>
+              <CardBody>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="mb-4 h4 card-title">Latest Transaction</div>
+                  <Button
+                    color="primary"
+                    className="mt-1"
+                    onClick={toggleAddModal}
+                    style={{ backgroundColor: "#2a3042" }}
                   >
-                    <div className="mb-4 h4 card-title">Latest Transaction</div>
-                    <Button
-                      color="primary"
-                      className="mt-1"
-                      onClick={toggleAddModal}
-                      style={{ backgroundColor: "#2a3042" }}
-                    >
-                      Add
-                    </Button>
-                  </div>
-                  <DataTable
-                    striped
-                    columns={columns}
-                    data={data}
-                    pageSize={10}
-                    paginationPerPage={10}
-                    paginationServer
-                    paginationTotalRows={page.totalItems}
-                    paginationRowsPerPageOptions={[10, 20]}
-                    onChangePage={e => setPage({ ...page, current: e })}
-                    onChangeRowsPerPage={e => setPage({ ...page, pageSize: e })}
-                  />
-                </CardBody>
-              </Card>
-            </Row>
-          </Container>
-        )}
+                    Add
+                  </Button>
+                </div>
+                <DataTable
+                  striped
+                  columns={columns}
+                  data={data}
+                  pageSize={10}
+                  paginationPerPage={10}
+                  paginationServer
+                  paginationTotalRows={page.totalItems}
+                  paginationRowsPerPageOptions={[10, 20]}
+                  onChangePage={e => setPage({ ...page, current: e })}
+                  onChangeRowsPerPage={e => setPage({ ...page, pageSize: e })}
+                />
+              </CardBody>
+            </Card>
+          </Row>
+        </Container>
+
       </div>
     </React.Fragment>
   )

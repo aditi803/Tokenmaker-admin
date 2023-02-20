@@ -166,8 +166,8 @@ function CommissionTable(props) {
 
   return (
     <React.Fragment>
-       <FeatureEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
-      <FeatureAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/> 
+       <FeatureEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}  changeApiStatus={changeApiStatus} />
+      <FeatureAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} changeApiStatus={changeApiStatus} /> 
       <div className="py-4">
         {apiStatus.inProgress ? (
           <Spinner />

@@ -16,7 +16,9 @@ import { toast } from 'react-toastify'
 import useApiStatus from "hooks/useApiStatus"
 
 const CommissionEdit = props => {
-  const { isOpen, toggle, editData, fetchData, getData } = props
+  const { isOpen, toggle, editData, fetchData, getData, changeApiStatus } = props
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+
   const [category, setCategory] = useState([])
   const [networks, setNetworks] = useState([])
 
@@ -40,8 +42,8 @@ const CommissionEdit = props => {
 
 
 
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
-    useApiStatus()
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } =
+    // useApiStatus()
 
   const authUser = JSON.parse(localStorage.getItem("authUser"))
   const [close, setClose] = useState(true)
@@ -53,19 +55,17 @@ const CommissionEdit = props => {
     setClose(toggle)
   }
 
-
-
-  const fetchNetwork = () => {
-    changeApiStatus(true)
+const fetchNetwork = () => {
+    // changeApiStatus(true)
     axios
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setCategory(res.data.msg.items)
-        changeApiStatus(false)
+        // changeApiStatus(false)
       })
       .catch(err => {
         console.log(err)
-        changeApiStatus(false)
+        // changeApiStatus(false)
         setApiFailed(err.message)
       })
   }
@@ -101,6 +101,8 @@ const CommissionEdit = props => {
   }
 
   const handleUpdate = async () => {
+    handleClose()
+    changeApiStatus(true)
     axios
       .put(
         "https://tokenmaker-apis.block-brew.com/commission/commission",
@@ -108,11 +110,13 @@ const CommissionEdit = props => {
         { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } }
       )
       .then(res => {
+        changeApiStatus(false)
         toast.success("Updated Successfully")
         handleClose()
         fetchData()
       })
       .catch(err => {
+        changeApiStatus(false)
         toast.error("Already Updated")
       })
   }
@@ -174,7 +178,7 @@ const CommissionEdit = props => {
             {networks[0]?.map((content, i) => {
               return (
                 <>
-                  {console.log(content, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>CONTENTMMMMMMMMMMMMMMMMMMMMMMMM')}
+                  {/* {console.log(content, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>CONTENTMMMMMMMMMMMMMMMMMMMMMMMM')} */}
                   <option
                     // disabled
                     key={i}
@@ -214,6 +218,7 @@ const CommissionEdit = props => {
 export default CommissionEdit
 
 CommissionEdit.propTypes = {
+  changeApiStatus: PropTypes.func,
   toggle: PropTypes.func,
   isOpen: PropTypes.bool,
 }

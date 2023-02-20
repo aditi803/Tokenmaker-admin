@@ -19,9 +19,9 @@ import * as Yup from 'yup'
 
 
 const StepAdd = (props) => {
-  const { isOpen, toggle, fetchData } = props
+  const { isOpen, toggle, fetchData, changeApiStatus } = props
   const [loader, setLoader] = useState(false)
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [network, setNetwork] = useState({ title: "", content: "", stepImage: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
@@ -41,7 +41,8 @@ const StepAdd = (props) => {
   })
 
   const handleAddNetwork = async (e) => {
-    changeApiStatus(true, '')
+    handleClose()
+    changeApiStatus(true)
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
     const formData = new FormData();
@@ -52,8 +53,8 @@ const StepAdd = (props) => {
 
     await axios.post("https://tokenmaker-apis.block-brew.com/step/newstep", formData, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
-        console.log(res)
-        setApiSuccess()
+        // console.log(res)
+        // setApiSuccess()
         changeApiStatus(false)
         toast.success("Network Added Successfully")
         handleClose()
@@ -62,7 +63,7 @@ const StepAdd = (props) => {
       .catch((err) => {
         console.log(err)
         toast.error('error', err.response ? err.response.data.error : err)
-        changeApiStatus(false, err.response ? err.response.data.error : err)
+        changeApiStatus(false)
         setApiFailed(err.msg)
       })
     setLoader(false)
@@ -147,6 +148,7 @@ const StepAdd = (props) => {
 
 StepAdd.propTypes = {
   toggle: PropTypes.func,
+  changeApiStatus: PropTypes.func,
   isOpen: PropTypes.bool,
 }
 

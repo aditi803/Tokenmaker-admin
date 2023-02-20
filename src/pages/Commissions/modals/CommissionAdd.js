@@ -21,9 +21,9 @@ import * as Yup from 'yup'
 
 
 const CommissionAdd = (props) => {
-  const { isOpen, toggle, fetchData, allData } = props
+  const { isOpen, toggle, fetchData, allData, changeApiStatus } = props
   const [loader, setLoader] = useState(false)
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [network, setNetwork] = useState({ networkName: "", networkCommissionFee: "", networkSymbol: "" })
   const [commissionValue, setCommissionValue] = useState({ free: "", basic: "", custom: "" })
 
@@ -57,15 +57,15 @@ const CommissionAdd = (props) => {
   }
 
   const fetchNetwork = () => {
-    changeApiStatus(true)
+    // changeApiStatus(true)
     axios
       .get("https://tokenmaker-apis.block-brew.com/network/networkdetails")
       .then(res => {
         setCategory(res.data.msg.items)
-        changeApiStatus(false)
+        // changeApiStatus(false)
       })
       .catch(err => {
-        changeApiStatus(false)
+        // changeApiStatus(false)
         setApiFailed(err.message)
       })
     // setLoader(false)
@@ -76,7 +76,7 @@ const CommissionAdd = (props) => {
 
 
   const handleAddNetwork = async (e) => {
-    
+    handleClose()
     changeApiStatus(true, '')
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
@@ -99,11 +99,11 @@ const CommissionAdd = (props) => {
       ]
     }
 
-    await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission", 
+    await axios.post("https://tokenmaker-apis.block-brew.com/commission/networkcommission",
       tokenData,
-     { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
+      { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
-        setApiSuccess()
+        // setApiSuccess()
         changeApiStatus(false)
         toast.success("Network Added Successfully")
         handleClose()
@@ -111,6 +111,7 @@ const CommissionAdd = (props) => {
       })
       .catch((err) => {
         toast.error("Already exisiting network")
+        console.log(err, "network commission error")
         changeApiStatus(false, err.response ? err.response.data.error : err)
         setApiFailed(err.msg)
       })
@@ -152,9 +153,9 @@ const CommissionAdd = (props) => {
           custom: '',
         }}
           validationSchema={commissionSchema}
-        onSubmit={(values, actions) => {  
-          handleAddNetwork()
-        }}
+          onSubmit={(values, actions) => {
+            handleAddNetwork()
+          }}
         >
           {({ values, setValues, setFieldValue, errors, touched }) => (
             <Form>
@@ -242,8 +243,8 @@ const CommissionAdd = (props) => {
                       />
                     </Col>
                     {errors.free && touched.free ? (
-                    <div className="input-error text-danger">{errors.free}</div>
-                  ) : null}
+                      <div className="input-error text-danger">{errors.free}</div>
+                    ) : null}
                   </Row>
                 </div>
                 <div>
@@ -265,8 +266,8 @@ const CommissionAdd = (props) => {
                       />
                     </Col>
                     {errors.basic && touched.basic ? (
-                    <div className="input-error text-danger">{errors.basic}</div>
-                  ) : null}
+                      <div className="input-error text-danger">{errors.basic}</div>
+                    ) : null}
                   </Row>
                 </div>
                 <div>
@@ -287,8 +288,8 @@ const CommissionAdd = (props) => {
                       />
                     </Col>
                     {errors.custom && touched.custom ? (
-                    <div className="input-error text-danger">{errors.custom}</div>
-                  ) : null}
+                      <div className="input-error text-danger">{errors.custom}</div>
+                    ) : null}
                   </Row>
 
                 </div>
@@ -312,6 +313,7 @@ const CommissionAdd = (props) => {
 CommissionAdd.propTypes = {
   toggle: PropTypes.func,
   isOpen: PropTypes.bool,
+  changeApiStatus: PropTypes.func,
 }
 
 export default CommissionAdd

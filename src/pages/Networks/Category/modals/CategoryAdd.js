@@ -18,9 +18,9 @@ import * as Yup from 'yup'
 
 
 const CategoryAdd = (props) => {
-  const { isOpen, toggle, fetchData } = props
+  const { isOpen, toggle, fetchData,changeApiStatus, setAddModal } = props
   const [loader, setLoader] = useState(false)
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [category, setCategory] = useState({ categoryName: "",categoryColor: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
@@ -32,6 +32,7 @@ const CategoryAdd = (props) => {
 
   const categorySchema = Yup.object().shape({
     categoryName: Yup.string().required('Enter category name'),
+    categoryColor: Yup.string().required("Choose category color")
   })
 
 
@@ -49,7 +50,7 @@ const CategoryAdd = (props) => {
     }, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
-        setApiSuccess()
+        // setApiSuccess()
         changeApiStatus(false)
         toast.success("Category Added Successfully")
         handleClose()
@@ -57,9 +58,12 @@ const CategoryAdd = (props) => {
       })
       .catch((err) => {
         console.log(err)
-        toast.error('error', err.response ? err.response.data.error : err)
+        handleClose()
+
+        // setAddModal(false)
+        toast.error('Already exisiting category')
         changeApiStatus(false, err.response ? err.response.data.error : err)
-        setApiFailed(err.msg)
+        // setApiFailed(err.msg)
         console.log(category, "Network ctahc")
       })
     setLoader(false)
@@ -80,6 +84,7 @@ const CategoryAdd = (props) => {
 
         <Formik initialValues={{
           categoryName: '',
+          categoryColor:''
         }}
           validationSchema={categorySchema}
           onSubmit={(values, actions) => {
@@ -120,7 +125,7 @@ const CategoryAdd = (props) => {
                   }}
                   />
                   {errors.categoryColor && touched.categoryColor ? (
-                    <div className="input-error">{errors.categoryColor}</div>
+                    <div className="input-error text-danger">{errors.categoryColor}</div>
                   ) : null}
                 </div>
               </ModalBody>
@@ -144,6 +149,7 @@ const CategoryAdd = (props) => {
 CategoryAdd.propTypes = {
   toggle: PropTypes.func,
   isOpen: PropTypes.bool,
+  changeApiStatus:PropTypes.func,
 }
 
 export default CategoryAdd

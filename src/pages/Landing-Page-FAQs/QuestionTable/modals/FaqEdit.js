@@ -17,7 +17,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup'
 
 const FaqEdit = props => {
-    const { isOpen, toggle, editData, fetchData } = props
+    const { isOpen, toggle, editData, fetchData, changeApiStatus } = props
 
     const authUser = JSON.parse(localStorage.getItem("authUser"))
 
@@ -42,6 +42,8 @@ const FaqEdit = props => {
     })
 
     const handleUpdate = async (values) => {
+        handleClose()
+        changeApiStatus(true)
         axios
             .put(
                 "https://tokenmaker-apis.block-brew.com/faq/editfaq",
@@ -50,11 +52,13 @@ const FaqEdit = props => {
             )
             .then(res => {
                 // console.log(res, ">>>>>>>>>>>>>")
+                changeApiStatus(false)
                 toast.success("Updated Successfully")
                 handleClose()
                 fetchData()
             })
             .catch(err => {
+                changeApiStatus(false)
                 // console.log(err, ">>>>>>>>>>>>>>")
                 toast.error("Already Updated")
             })
@@ -135,6 +139,8 @@ const FaqEdit = props => {
 
 FaqEdit.propTypes = {
     toggle: PropTypes.func,
+    changeApiStatus: PropTypes.func,
+
     isOpen: PropTypes.bool,
 }
 

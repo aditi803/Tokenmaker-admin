@@ -15,7 +15,7 @@ import InputMask from "react-input-mask"
 import { toast } from "react-toastify"
 
 const StepEdit = props => {
-  const { isOpen, toggle, editData, fetchData } = props
+  const { isOpen, toggle, editData, fetchData, changeApiStatus } = props
 
   const [stepImages, setStepImages] = useState({
     blob: null,
@@ -53,6 +53,9 @@ const StepEdit = props => {
   // console.log(value, "value step ")
 
   const handleUpdate = async () => {
+
+    handleClose()
+    changeApiStatus(true)
     // console.log('ADTITI')
     const formData = new FormData();
     
@@ -77,14 +80,14 @@ const StepEdit = props => {
       .then(res => {
         // console.log(res, ">>>>>>>>>>>>>")
         // console.log(value, "value step then")
+        changeApiStatus(false)
         toast.success("Updated Successfully")
         handleClose()
         fetchData()
       })
       .catch(err => {
-        // console.log(err, ">>>>>>>>>>>>>>")
-        // console.log(editData, "edit data catch")
-        // console.log(value, "value step catch")
+
+        changeApiStatus(false)
         toast.error("Already Updated")
       })
   }

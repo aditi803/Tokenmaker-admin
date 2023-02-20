@@ -24,7 +24,7 @@ function Category(props) {
   const [addModal, setAddModal] = useState(false)
   const toggleAddModal = () => setAddModal(!addModal)
 
-  const [edit, setEdit] = useState() 
+  const [edit, setEdit] = useState()
   const [pageData, setPageData] = useState({ current: 1, totalItems: 0, pageSize: 10 })
 
   const [items, setItems] = useState({})
@@ -32,7 +32,7 @@ function Category(props) {
 
   const [data, setData] = useState([])
 
-  
+
 
   const fetchData = async (
     page = 1,
@@ -49,7 +49,7 @@ function Category(props) {
       }
       if (list.status === 200) {
         changeApiStatus(false, "")
-        console.log(list,"Category list")
+        console.log(list, "Category list")
 
         setPageData({
           ...pageData,
@@ -160,13 +160,14 @@ function Category(props) {
 
   return (
     <React.Fragment>
-      <CategoryEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
-      <CategoryAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData}/>
+
       <div className="page-content">
         {apiStatus.inProgress ? (
           <Spinner />
         ) : (
           <Container fluid>
+            <CategoryEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData} changeApiStatus={changeApiStatus} />
+            <CategoryAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} changeApiStatus={changeApiStatus} />
             <p
               style={{ color: "#2a3042", fontWeight: 500, fontSize: "17px" }}
             >Add Category</p>
@@ -181,7 +182,7 @@ function Category(props) {
                       color="primary"
                       className="mt-1"
                       onClick={toggleAddModal}
-                      style={{backgroundColor:"#2a3042"}}
+                      style={{ backgroundColor: "#2a3042" }}
                     >
                       Add
                     </Button>
@@ -204,7 +205,7 @@ function Category(props) {
               </Card>
             </Row>
           </Container>
-         )} 
+        )}
       </div>
     </React.Fragment>
   )

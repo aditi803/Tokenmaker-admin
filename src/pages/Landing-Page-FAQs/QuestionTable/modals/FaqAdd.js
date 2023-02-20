@@ -17,9 +17,9 @@ import * as Yup from 'yup'
 
 
 const FaqAdd = (props) => {
-  const { isOpen, toggle, fetchData } = props
+  const { isOpen, toggle, fetchData, changeApiStatus } = props
   const [loader, setLoader] = useState(false)
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [network, setNetwork] = useState({ question: "", answer: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
@@ -38,14 +38,15 @@ const FaqAdd = (props) => {
   })
 
   const handleAddNetwork = async (e) => {
-    changeApiStatus(true, '')
+    handleClose()
+    changeApiStatus(true)
     const authUser = JSON.parse(localStorage.getItem('authUser'));
 
     // e.preventDefault()
     await axios.post("https://tokenmaker-apis.block-brew.com/faq/newfaq", data, { headers: { Authorization: `Bearer ${authUser.msg.jsonWebtoken}` } })
       .then((res) => {
         console.log(res)
-        setApiSuccess()
+        // setApiSuccess()
         changeApiStatus(false)
         toast.success("Network Added Successfully")
         handleClose()
@@ -131,6 +132,7 @@ const FaqAdd = (props) => {
 
 FaqAdd.propTypes = {
   toggle: PropTypes.func,
+  changeApiStatus: PropTypes.func,
   isOpen: PropTypes.bool,
 }
 

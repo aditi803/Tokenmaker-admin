@@ -15,7 +15,7 @@ import InputMask from 'react-input-mask'
 import { toast } from "react-toastify"
 
 const FeatureEdit = props => {
-    const { isOpen, toggle, editData, fetchData } = props
+    const { isOpen, toggle, editData, fetchData, changeApiStatus } = props
 
     const [featureImages, setFeatureImages] = useState({
         blob: null,
@@ -44,7 +44,8 @@ const FeatureEdit = props => {
     }, [editData])
 
     const handleUpdate = async () => {
-
+        handleClose()
+        changeApiStatus(true)
         const formData = new FormData()
         let formattedData;
         if (featureImages.blob) {
@@ -67,6 +68,7 @@ const FeatureEdit = props => {
             )
             .then(res => {
                 handleClose()
+                changeApiStatus(false)
                 fetchData()
                 toast.success("Updated Successfully")
             })
@@ -74,6 +76,7 @@ const FeatureEdit = props => {
                 // console.log(err, ">>>>>>>>>>>>>>")
                 // console.log(err, "Edit error")
                 // toast.error("Already Updated")
+                changeApiStatus(false)
             })
     }
 
@@ -136,6 +139,8 @@ const FeatureEdit = props => {
 
 FeatureEdit.propTypes = {
     toggle: PropTypes.func,
+    changeApiStatus: PropTypes.func,
+
     isOpen: PropTypes.bool,
 }
 

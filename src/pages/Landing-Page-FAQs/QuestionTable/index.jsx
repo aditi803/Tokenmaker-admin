@@ -157,8 +157,8 @@ function QuestionTable(props) {
 
   return (
     <React.Fragment>
-      <FaqEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData} />
-      <FaqAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} />
+      <FaqEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData} changeApiStatus={changeApiStatus}/>
+      <FaqAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} changeApiStatus={changeApiStatus}/>
       <div className="py-4">
         {apiStatus.inProgress ? (
           <Spinner />

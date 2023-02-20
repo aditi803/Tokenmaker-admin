@@ -18,10 +18,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 
 
 const CategoryEdit = (props) => {
-  const { isOpen, toggle, fetchData, editData } = props
+  const { isOpen, toggle, fetchData, editData, changeApiStatus } = props
 
   const [loader, setLoader] = useState(false)
-  const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
+  // const { apiStatus, setApiSuccess, setApiFailed, changeApiStatus } = useApiStatus()
   const [network, setNetwork] = useState({ networkName: "", networkCommissionFee: "", networkSymbol: "" })
   const [items, setItems] = useState([])
   const [close, setClose] = useState(true)
@@ -42,6 +42,7 @@ const CategoryEdit = (props) => {
   }, [editData])
 
   const handleUpdate = async () => {
+    changeApiStatus(true)
     const authUser = JSON.parse(localStorage.getItem('authUser'));
     axios
       .put(
@@ -51,13 +52,16 @@ const CategoryEdit = (props) => {
       )
       .then(res => {
         // console.log(res, ">>>>>>>>>>>>>")
+        changeApiStatus(false)
         toast.success("Updated Successfully")
         handleClose()
         fetchData()
       })
       .catch(err => {
         // console.log(err, ">>>>>>>>>>>>>>")
+        handleClose()
         toast.error("Already Updated")
+        changeApiStatus(false)
       })
   }
   // console.log(value, "value")

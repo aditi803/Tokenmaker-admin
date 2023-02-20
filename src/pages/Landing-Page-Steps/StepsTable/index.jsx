@@ -25,7 +25,7 @@ function CommissionTable(props) {
   const [addModal, setAddModal] = useState(false)
   const toggleAddModal = () => setAddModal(!addModal)
 
-  const [edit, setEdit] = useState() 
+  const [edit, setEdit] = useState()
   const [page, setPage] = useState({ current: 1, totalItems: 0, pageSize: 10 })
 
   const [items, setItems] = useState({})
@@ -54,12 +54,12 @@ function CommissionTable(props) {
           pageSize,
           current: pageNumber,
         })
-     //    .then((res) => {
-     //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
-     //    })
+        //    .then((res) => {
+        //      console.log(res.stepDetails,"jkhgfdghjkl;;jhg")
+        //    })
         setData(
           list.data.msg.stepDetails.items.map((val, index) => {
-               console.log(val,"kjhgfdxzfghjk")
+            console.log(val, "kjhgfdxzfghjk")
             return { ...val, serial: index + 1 }
           })
         )
@@ -71,7 +71,7 @@ function CommissionTable(props) {
     }
   }
 
-  console.log(data,"kjhgfds")
+  console.log(data, "kjhgfds")
 
 
   useEffect(() => {
@@ -128,16 +128,16 @@ function CommissionTable(props) {
       name: "Title",
       selector: row => row.title,
     },
-    
+
 
     {
       name: "Content",
       selector: row => row.content,
     },
     {
-      name:"Image",
+      name: "Image",
       selector: row => {
-        return <img src={imageBaseUrl + row.stepImage} style={{height:"32px"}}/>
+        return <img src={imageBaseUrl + row.stepImage} style={{ height: "32px" }} />
       },
     },
     {
@@ -146,7 +146,7 @@ function CommissionTable(props) {
         <>
           <CIcon
             icon={cilPencil}
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             className="text-warning hand me-2"
             onClick={() => {
               toggleViewModal()
@@ -155,7 +155,7 @@ function CommissionTable(props) {
           />
           <CIcon
             icon={cilTrash}
-            style={{cursor:"pointer"}}
+            style={{ cursor: "pointer" }}
             className="text-danger hand"
             onClick={() => {
               deleteNetwork(row._id)
@@ -168,13 +168,14 @@ function CommissionTable(props) {
 
   return (
     <React.Fragment>
-       <StepEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData}/>
-      <StepAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} /> 
+      <StepEdit isOpen={modal1} toggle={toggleViewModal} editData={edit} fetchData={fetchData} changeApiStatus={changeApiStatus} />
+      <StepAdd isOpen={addModal} toggle={toggleAddModal} fetchData={fetchData} changeApiStatus={changeApiStatus} />
       <div className="py-4">
         {apiStatus.inProgress ? (
           <Spinner />
         ) : (
           <Container fluid>
+
             <Row>
               <Card>
                 <CardBody>
@@ -186,13 +187,13 @@ function CommissionTable(props) {
                       color="primary"
                       className="mt-1"
                       onClick={toggleAddModal}
-                      style={{backgroundColor:"#34c384", borderColor:"#34c384"}}
+                      style={{ backgroundColor: "#34c384", borderColor: "#34c384" }}
                     >
                       Add
                     </Button>
                   </div>
                   <DataTable
-                    style={{overflowY:"none !important", display:"inherit", overflowX:"none !important"}}
+                    style={{ overflowY: "none !important", display: "inherit", overflowX: "none !important" }}
                     striped
                     columns={columns}
                     data={data}
@@ -210,7 +211,7 @@ function CommissionTable(props) {
           </Container>
         )}
       </div>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
 
