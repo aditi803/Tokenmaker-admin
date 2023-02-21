@@ -177,6 +177,7 @@ function Add(props) {
                                                                                 <p className="m-0">
                                                                                      Network Name{" "}
                                                                                      <span className="input-error">*</span>
+
                                                                                 </p>
                                                                            </label>
 
